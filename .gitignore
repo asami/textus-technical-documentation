@@ -1,5 +1,6 @@
 # Hidden files are local by default. Force-add only those intentionally shared.
 .*
+!.gitmodules
 
 # Generated build products and local command-session evidence
 target/

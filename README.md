@@ -7,6 +7,11 @@ Technical documentation distributed as a Textus Document Component.
 - SmartDox is the source-of-truth format for multilingual, multi-format publication.
 - Canonical releases are intended to include Web/MCP-consumable documentation and distributable PDF artifacts.
 
+## 文書執筆ルール
+
+技術文書の共通ルールはai-directiveの `core/technical-writing.md` を正本とします。
+[このリポジトリでの参照方法と適用範囲](docs/ai/repository-agent-guide.md)を確認してから、Core・各言語のDocument・SmartDoxを編集します。
+
 ## ガイドの入口
 
 - **技術ガイド**では、モデルがTextus/CNCFの実行へどうつながるか、各機構が何を担うかを説明します。まず[全体像](src/main/smartdox/technical-guide/overview/textus-cncf-overview.dox/README.md)から読めます。
