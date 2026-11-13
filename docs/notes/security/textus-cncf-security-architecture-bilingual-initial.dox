@@ -1,0 +1,189 @@
+Textus/CNCF Security Architecture — Technical Guide｜Textus/CNCF セキュリティ・アーキテクチャ技術ガイド
+===================================================================================
+
+# HEAD
+
+status=draft
+published_at=2026-10-24
+document=textus-cncf-security-architecture
+
+## SUMMARY
+
+<span lang="en">Initial edition of the Textus/CNCF security architecture technical guide. This guide explains how Component boundaries, models, execution constraints, and inspectable distribution artifacts work together.</span><span lang="ja">Textus/CNCFのセキュリティ・アーキテクチャを解説する技術ガイドの初版。Componentの境界、モデル、実行時の制約、検査可能な配布物を組み合わせる仕組みを説明する。</span>
+
+# Security as a First-Class Architectural Concern｜アーキテクチャの第一級要素としてのセキュリティ
+
+<span lang="en">Textus/CNCF treats security as a first-class concern at the architectural stage, when system structure, authority, trust boundaries, execution boundaries, distribution units, and operational practices are determined. It does not treat security as a feature to be added after application implementation.</span><span lang="ja">Textus/CNCFでは、セキュリティをアプリケーション実装の後から追加する機能として扱わない。セキュリティは、システムの構造、権限、信頼境界、実行境界、配布単位、運用方式を決めるアーキテクチャ段階からの第一級要素である。</span>
+
+<span lang="en">Authentication, WAFs, vulnerability assessment, encryption, and review are all important. On their own, however, they do not determine the system's fundamental ability to restrict what a compromised process can access, how far faulty code can affect the system, or what an AI can execute after making an incorrect decision.</span><span lang="ja">認証、WAF、脆弱性検査、暗号化、レビューはいずれも重要である。しかし、それらだけでは「侵害された処理が何にアクセスできるか」「誤ったコードがどこまで影響できるか」「AIが誤判断したとき何を実行できるか」というシステムの基本的な強度は決まらない。</span>
+
+<span lang="en">Textus/CNCF distinguishes malicious attacks, software defects, operational mistakes, and AI misjudgments as different causes, while addressing them through a common architectural concern: attempts to cross an authority boundary.</span><span lang="ja">Textus/CNCFは、悪意ある攻撃、ソフトウェアの欠陥、運用ミス、AIによる誤判断を異なる原因として区別しつつ、それらが同じauthority boundaryを越えようとする問題として統一的に扱う。</span>
+
+<span lang="en">Four concepts form the core of this approach.</span><span lang="ja">中核となる考え方は次の四つである。</span>
+
+- <span lang="en">CBD: partition authority and blast radius at Component boundaries.</span><span lang="ja">CBD: authorityとblast radiusをComponent境界で分割する。</span>
+- <span lang="en">Model Driven: model authority and constraints, and project them into safe structures.</span><span lang="ja">Model Driven: authorityと制約をモデル化し、安全な構造へ投影する。</span>
+- <span lang="en">Safety Sandbox: enforce granted authority and resource limits at runtime.</span><span lang="ja">Safety Sandbox: 実行時に与えられたauthorityとresource limitを強制する。</span>
+- <span lang="en">CAR: fix generated boundaries in inspectable, immutable artifacts.</span><span lang="ja">CAR: 生成された境界を検査可能なimmutable artifactへ固定する。</span>
+
+<span lang="en">These concepts are combined with Tier Architecture, Capability/Guard, ExecutionContext, Function First, AuthHandle, immutable runtimes, lint/review/admission, and observability.</span><span lang="ja">これらにTier Architecture、Capability/Guard、ExecutionContext、Function First、AuthHandle、immutable runtime、lint/review/admission、observabilityを組み合わせる。</span>
+
+# Security-oriented Component-Based Development｜セキュリティを重視したコンポーネント指向開発
+
+<span lang="en">The value of component-based development (CBD) extends beyond reuse and modularity. Textus/CNCF uses a Component as a unit for partitioning authority.</span><span lang="ja">CBDの価値を再利用性やモジュール性だけに限定しない。Textus/CNCFではComponentをauthorityを分割する単位として利用する。</span>
+
+<span lang="en">A Component declares its exposed Operations, required external facilities, available Capabilities, Component dependencies, and persistence boundaries. Compromising one Component must not, by itself, grant authority over unrelated Domains, DataStores, filesystems, processes, or networks.</span><span lang="ja">Componentは公開するOperation、必要とする外部機能、利用可能なCapability、依存Component、永続化境界を明示する。あるComponentが侵害されても、それだけを理由に無関係なDomain、DataStore、filesystem、process、networkへのauthorityを取得してはならない。</span>
+
+<span lang="en">Components collaborate through explicit Provided/Required contracts. Direct access to another Component's internal implementation is not the normal path. Dependencies themselves are subject to review, lint, and admission.</span><span lang="ja">Component間連携は明示されたProvided/Required契約を通る。内部実装へ直接到達することを通常経路にしない。依存関係そのものがreview/lint/admissionの対象になる。</span>
+
+<span lang="en">Security does not depend on assuming that compromise can never occur. Component boundaries limit available authority and control the blast radius even when a compromise, bug, or operational mistake occurs.</span><span lang="ja">Securityの目的は「侵害が絶対に起こらない」と仮定することではない。侵害、バグ、誤操作が発生しても、利用可能なauthorityをComponent境界で限定し、blast radiusを制御する。</span>
+
+# Security-oriented Model-Driven Development｜セキュリティを重視したモデル駆動開発
+
+<span lang="en">CML retains the semantics of Service/Operation, input/output, statefulness, exposure, Capability, and related properties in models above implementation code. Security-relevant properties are not left solely to conventions that developers must remember to implement in each handler.</span><span lang="ja">CMLではService/Operation、input/output、statefulness、exposure、Capability等の意味を実装コードより上位のモデルとして保持する。セキュリティ上重要な性質を、開発者が個々のhandlerで思い出して実装する規約だけにしない。</span>
+
+<span lang="en">Model semantics are projected into Scala/CNCF Containers, lightweight TypeScript Functions, API contracts, CAR metadata, deployment constraints, and other representations.</span><span lang="ja">モデルからScala/CNCF Container、軽量なTypeScript Function、API contract、CAR metadata、deployment constraint等へ意味を投影する。</span>
+
+<span lang="en">Rather than relying solely on instructions to avoid dangerous APIs, the approach prioritizes omitting unnecessary authority and primitives from normal generated artifacts in the first place.</span><span lang="ja">安全性を「危険なAPIを使わないよう注意する」だけで実現せず、通常の生成物には不要なauthorityやprimitiveを最初から持たせないことを優先する。</span>
+
+<span lang="en">In the Application Tier, a complete CNCF Container implementation is generated from ordinary CML Operations. Only function-eligible Operations are additionally projected into TypeScript Functions. The Function implementation remains small and does not require a Domain DB, CAR Runtime, or arbitrary filesystem access. Differences between AWS, Google Cloud, and Local/Test environments are confined to thin adapters.</span><span lang="ja">Application Tierでは通常のCML Operationから完全なCNCF Container実装を生成し、function-eligibleなOperationだけを追加でTypeScript Functionへ投影する。Function側はDomain DB、CAR Runtime、任意filesystem等を必要としない小さな実装とし、AWS、Google Cloud、Local/Testの差分は薄いadapterへ閉じ込める。</span>
+
+# Safety Sandbox — Security and AI Safety｜Safety Sandbox：セキュリティとAIの安全性
+
+<span lang="en">Safety Sandbox is not limited to malicious code. It also covers execution subjects whose bugs, operational mistakes, AI-generated code, or autonomous AI misjudgments may cause unauthorized resource actions.</span><span lang="ja">Safety Sandboxは悪意あるコードだけを対象にしない。バグ、誤操作、AI生成コード、自律的AIの誤判断も、許可されていないresource actionを起こし得る実行主体として扱う。</span>
+
+<span lang="en">ExecutionContext, SandboxContext, Capability, ExecutionLimits, and related mechanisms restrict authority over filesystems, networks, processes, HTTP, DataStores, and external services, as well as the resources that execution may consume.</span><span lang="ja">ExecutionContext、SandboxContext、Capability、ExecutionLimits等により、filesystem、network、process、HTTP、DataStore、外部serviceへのauthorityと消費可能resourceを制限する。</span>
+
+<span lang="en">Prompts and Skills provide behavioral guidance to AI; they are not technical authority boundaries. The architecture therefore makes actions outside granted authority unavailable, rather than relying solely on instructions not to perform dangerous operations.</span><span lang="ja">AIへのpromptやSkillはbehavioral guidanceであり、technical authority boundaryではない。AIに「危険な操作をしない」と指示することだけに依存せず、与えられていないauthorityは実行できない構造を作る。</span>
+
+<span lang="en">A hard limit is an upper bound that an execution subject cannot exceed. A soft limit can be adjusted within that bound by an authorized ExecutionContext. Authority and resource consumption are treated as separate concepts.</span><span lang="ja">hard limitは実行主体が越えられない上限であり、soft limitは許可されたExecutionContextによって範囲内で調整できる。authorityとresource consumptionを別概念として扱う。</span>
+
+# Three-Tier Trust Architecture｜三層の信頼アーキテクチャ
+
+<span lang="en">Textus/CNCF separates the responsibilities of the UI, Application, and Domain tiers.</span><span lang="ja">Textus/CNCFはUI/Application/Domainの責務を分離する。</span>
+
+<span lang="en">The Application Tier follows Function First wherever possible, keeping externally reachable implementations small. Application processing that cannot be realized as a Function falls back to a complete CNCF Container realization.</span><span lang="ja">Application Tierは可能な限りFunction Firstとし、外部から到達する実装を小さくする。Function化できないApplication処理は完全なCNCF Container realizationへfallbackする。</span>
+
+<span lang="en">The Domain Tier owns business rules, invariants, and authoritative mutations. Application Functions are not allowed to access DataStores directly.</span><span lang="ja">Domain Tierはbusiness rule、invariant、authoritative mutationを所有し、Application FunctionからDataStoreへ直接アクセスさせない。</span>
+
+# Application Function as a Security and Availability Boundary｜セキュリティと可用性の境界としてのApplication Function
+
+<span lang="en">Cloud Functions serve not only as a scale-out mechanism but also as a security and availability boundary that separates high-volume or malicious external traffic from the Domain Tier.</span><span lang="ja">Cloud Functionは単なるscale-out手段ではない。外部の大量・不正なtrafficをDomain Tierから隔離するsecurity/availability boundaryとして利用する。</span>
+
+<span lang="en">Following cloud-edge controls, WAFs, rate limits, and similar measures, Functions perform inexpensive checks on request size and schema, together with pre-admission checks for obviously invalid or expired credentials.</span><span lang="ja">Cloud edge、WAF、rate limit等に続き、Functionではrequest size/schema等の安価な検査、credentialの明白な不正・期限切れ等のpre-admissionを行う。</span>
+
+<span lang="en">A Function's autoscaling capability is not equivalent to the capacity of the Domain or User Management. Admission control and backpressure toward downstream services prevent attack traffic from being directly amplified into expensive database or Domain processing.</span><span lang="ja">Functionのautoscaling能力をDomain/User Managementのcapacityと同一視しない。downstreamへのadmission/backpressureを持ち、攻撃trafficが高コストなDB/Domain処理へ直接増幅されないようにする。</span>
+
+# Authentication, User Management and AuthHandle｜認証、ユーザー管理、AuthHandle
+
+<span lang="en">The current Textus design centralizes User Management. Instead of converting external credentials such as OAuth/OIDC credentials into a complete SecurityContext, an Application Function asks the central User Management Domain to resolve them.</span><span lang="ja">現時点のTextusではUser Managementを一元化する。OAuth/OIDC等の外部credentialをApplication Functionが完全なSecurityContextへ変換するのではなく、中央User Management Domainへ解決を依頼する。</span>
+
+<span lang="en">User Management returns an opaque AuthHandle referencing authenticated security state. An AuthHandle is not a UserId, an OAuth token, a role or capability list, or a serialized ExecutionContext. Application Functions do not interpret or modify its contents to create authority.</span><span lang="ja">User Managementは認証済みsecurity stateへのopaqueなAuthHandleを返す。AuthHandleはUserId、OAuth token、role/capability list、serialized ExecutionContextではない。Application Functionはその内容を解釈・編集してauthorityを生成しない。</span>
+
+<span lang="en">A Function may maintain a bounded TTL cache from credential fingerprints to AuthHandles in instance memory. The cache is disposable and is not assumed to be shared across instances. The standard configuration does not introduce an external shared cache such as Redis; it uses Function instance caches and the User Management Domain's own memory and caches.</span><span lang="ja">Functionはcredential fingerprintからAuthHandleへのbounded TTL cacheをinstance memoryに持てる。cacheは消失可能でinstance間共有を前提としない。標準構成ではRedis等の外部shared cacheを置かず、Function instance cacheとUser Management Domain自身のmemory/cacheを利用する。</span>
+
+<span lang="en">When one Application Operation coordinates multiple Domains, it can pass the same valid AuthHandle to each Domain Function API. Each Domain ingress resolves the AuthHandle, constructs the SecurityContext and ExecutionContext needed by that Domain, evaluates Capability/Guard, and invokes the normal Operation.</span><span lang="ja">一つのApplication Operationが複数Domainを束ねる場合、同じ有効なAuthHandleを各Domain Function APIへ渡せる。各Domain ingressはAuthHandleを解決し、そのDomainで必要なSecurityContext/ExecutionContextを構築し、Capability/Guardを評価して通常のOperationを呼び出す。</span>
+
+<span lang="en">Authentication and user identity are resolved system-wide; authorization is determined locally within each Domain.</span><span lang="ja">Authentication/User identityはsystem-wideに解決し、AuthorizationはDomain-localに決定する。</span>
+
+# Capability, Guard and ExecutionContext｜Capability、Guard、ExecutionContext
+
+<span lang="en">Authentication establishes who the subject is. Authorization determines what is permitted.</span><span lang="ja">Authenticationは「誰であるか」を確立する。Authorizationは「何を許すか」を決定する。</span>
+
+<span lang="en">CNCF treats a Capability as a representation of admitted authority. Guards and policies evaluate the subject, Operation, Entity or resource, relations, environment, and other relevant factors. RBAC, ACL/DAC, ABAC, and ReBAC are patterns and information sources that can support this evaluation.</span><span lang="ja">CNCFではCapabilityをadmitted authorityの表現として扱い、Guard/policyがsubject、Operation、Entity/resource、relation、environment等を評価する。RBAC、ACL/DAC、ABAC、ReBACはこの評価に利用できるパターン/情報源である。</span>
+
+<span lang="en">ExecutionContext propagates execution prerequisites as runtime-controlled context. These include not only SecurityContext but also sandbox settings, resource limits, and observability. Business handlers do not normally pass authority information manually as individual parameters.</span><span lang="ja">ExecutionContextはSecurityContextだけでなく、sandbox、resource limit、observability等の実行前提をruntime-controlled contextとして伝播する。business handlerが個別parameterとしてauthority情報を手作業で持ち回ることを通常方式にしない。</span>
+
+# Safe-by-Construction Application Security｜構造によって安全性を確保するアプリケーション開発
+
+<span lang="en">For SQL injection, XSS, CSRF, mass assignment, and related threats, normal execution paths are designed to be safe by construction, rather than relying solely on lint to detect problems.</span><span lang="ja">SQL injection、XSS、CSRF、mass assignment等は、lintだけで発見するのではなく通常経路をsafe-by-constructionにする。</span>
+
+<span lang="en">Typed Repository/DataStore APIs, output-context-aware renderers, HTTP mutations based on Operation semantics, and declared input models reduce the need for ordinary application code to manipulate dangerous primitives directly.</span><span lang="ja">typed Repository/DataStore API、output-context aware renderer、Operation semanticsに基づくHTTP mutation、declared input model等によって、一般的なapplication codeが危険なprimitiveを直接扱う必要を減らす。</span>
+
+<span lang="en">When raw SQL, raw HTML, or direct filesystem, network, or process access is necessary, it is made identifiable as an Explicit Escape Hatch and subjected to lint and review.</span><span lang="ja">raw SQL、raw HTML、direct filesystem/network/process等が必要な場合はExplicit Escape Hatchとして識別可能にし、lint/review対象にする。</span>
+
+# Sensitive Information｜機微情報の取扱い
+
+<span lang="en">Credentials, Secrets, Sensitive Identities, and Sensitive Personal Data are not treated as ordinary Strings or domain values.</span><span lang="ja">Credential、Secret、Sensitive Identity、Sensitive Personal Dataを普通のStringやdomain valueと同一視しない。</span>
+
+<span lang="en">High-value secrets and interactions that an external provider can safely own are delegated to that provider where possible, including the UI. Textus Domains retain the References, Assertions, and Results they need, rather than the provider's secrets themselves.</span><span lang="ja">外部providerが安全に所有できるhigh-value secretやinteractionは、可能ならUIを含めproviderへ委譲する。Textus Domainはprovider secretそのものではなく、必要なReference/Assertion/Resultを保持する。</span>
+
+<span lang="en">External identities are mapped to internal Textus Subject/User IDs. Provider-specific identities are not propagated without restriction into ordinary Domains.</span><span lang="ja">外部identityはTextus内部Subject/User IDへmappingし、通常Domainへprovider-specific identityを無制限に伝播させない。</span>
+
+# Immutable Domain Runtime and Availability｜不変のDomain実行環境と可用性
+
+<span lang="en">The Domain Tier can use one Active instance and n Standby instances as its basic high-availability profile. Standby instances serve ordinary traffic as read-only query or cache servers while remaining ready for promotion to Active.</span><span lang="ja">Domain Tierは1 Active + n Standbyを基本HA profileとできる。Standbyは待機するだけでなくread-only query/cache serverとして通常trafficを処理し、Activeへpromotion可能な状態を維持する。</span>
+
+<span lang="en">Runtime artifacts are immutable and undergo regular rotation or replacement. Daily rotation continuously exercises recovery paths during normal operation, including standby readiness, switching, draining, and cache reconstruction.</span><span lang="ja">runtime artifactはimmutableとし、定期的なrotation/replacementを行う。daily rotationによりstandby readiness、switch、drain、cache reconstruction等のrecovery pathを通常運用で継続的にexerciseできる。</span>
+
+<span lang="en">The priority is to limit authority and contain, revoke, replace, and recover when an anomaly occurs, rather than continually attempting to prove that a running instance remains clean through complex, custom hash mechanisms.</span><span lang="ja">動作中instanceが永続的にcleanであることを複雑な独自hash machineryで証明し続けるより、authorityを限定し、異常時にはcontain/revoke/replace/recoverすることを優先する。</span>
+
+# CAR as a Security Harness｜セキュリティ・ハーネスとしてのCAR
+
+<span lang="en">A Component's abstract boundaries are embodied in a CAR as a concrete, immutable distribution artifact.</span><span lang="ja">Componentの抽象的な境界はCARとして具体的なimmutable distribution artifactへ落とし込まれる。</span>
+
+<span lang="en">A CAR can aggregate inspectable information such as Component identity, Operations, dependencies, Capabilities, implementation artifacts, Subcomponents, and documentation.</span><span lang="ja">CARにはComponent identity、Operation、dependency、Capability、implementation artifact、Subcomponent、documentation等の検査可能な情報を集約できる。</span>
+
+<span lang="en">This makes architectural rules subject to CAR lint, admission, CBD Review, AI review, and other checks. The distribution artifact itself is inspected, rather than relying on an abstract expectation that it should be correct because it is a Component.</span><span lang="ja">これによりarchitecture ruleをCAR lint、admission、CBD Review、AI review等の対象にできる。「Componentとして正しいはず」という抽象的な期待ではなく、配布物そのものを検査する。</span>
+
+# Lint, Review and Admission｜Lint、レビュー、受入れ判定
+
+<span lang="en">Deterministically detectable violations are handled by CAR lint and similar checks; semantic and design issues are handled by CBD Review. Not every concern is forced into a large rule set or an AI prompt.</span><span lang="ja">deterministicに検出できる違反はCAR lint等で検出し、意味的・設計的な問題はCBD Reviewで扱う。すべてを巨大なrule setやAI promptへ押し込まない。</span>
+
+<span lang="en">A successful build, a successful AI review, or the existence of an artifact does not independently grant runtime authority. Required contracts and evidence are checked at the admission boundary.</span><span lang="ja">build成功、AI review成功、artifact存在のいずれも単独ではruntime authorityを与えない。admission boundaryで必要な契約とevidenceを確認する。</span>
+
+# Secure Development in the AI Era｜AI時代のセキュアな開発
+
+<span lang="en">AI-generated code is not assumed to be either safer or more dangerous than human-written code. Authorship is not assurance.</span><span lang="ja">AIが生成したコードを、人間が書いたコードより安全とも危険とも仮定しない。authorはassuranceではない。</span>
+
+<span lang="en">sm-workflow manages the development process and the progression of evidence, while CAR lint and CBD Review form an external feedback loop. An AI's own belief that its output is safe is not sufficient security evidence.</span><span lang="ja">sm-workflowは開発工程とevidence progressionを管理し、CAR lint/CBD Reviewが外部feedback loopを形成する。AI自身の「安全だと思う」という判断だけをsecurity evidenceにしない。</span>
+
+<span lang="en">Excessive AI-generated defensive code can itself create quality and safety problems. Instead of adding custom hash comparisons, double reads, or large rollback and integrity mechanisms just in case, the design selects the minimum mechanisms needed for explicit threat models and authority boundaries.</span><span lang="ja">AIが防御的コードを過剰生成すること自体も品質・安全性問題になり得る。独自hash比較、二度読み、巨大rollback/integrity machinery等を「念のため」に増やすのではなく、明示されたthreat modelとauthority boundaryに対応する最小限のmechanismを選択する。</span>
+
+<span lang="en">Human-in-the-loop decision-making is retained for high-authority operations, exceptions, and important admission or release decisions.</span><span lang="ja">Human-in-the-loopは高authority操作、例外、重要なadmission/release判断に残す。</span>
+
+# Observability, Containment and Recovery｜可観測性、封じ込め、復旧
+
+<span lang="en">Security architecture extends beyond prevention. Security-relevant evidence from Operations, authorization, runtimes, subsystems, and infrastructure is observed through the normal OTLP path and made available for diagnosis through facilities such as the Control Center.</span><span lang="ja">Security architectureは予防だけで終わらない。Operation、authorization、runtime、subsystem、infrastructureのsecurity-relevant evidenceを通常のOTLP経路で観測し、Control Center等から診断可能にする。</span>
+
+<span lang="en">Credentials, tokens, and unnecessary personal information are not copied into logs or traces.</span><span lang="ja">credential/token/不要な個人情報をlog/traceへ複製しない。</span>
+
+<span lang="en">During an incident, the priority is to revoke authority as needed, isolate traffic, replace immutable instances, and recover from authoritative persistent state, rather than attempting to prove that any given running instance is clean.</span><span lang="ja">incident時には、任意のrunning instanceがcleanであることを証明しようとするより、必要なauthority revocation、traffic isolation、immutable instance replacement、authoritative persistent stateからのrecoveryを優先する。</span>
+
+# Security Lifecycle｜セキュリティのライフサイクル
+
+<span lang="en">The Textus/CNCF Security Harness conceptually forms the following lifecycle.</span><span lang="ja">Textus/CNCFのSecurity Harnessは概念的に次のlifecycleを構成する。</span>
+
+1. <span lang="en">Prevent: safe-by-construction paths, Function First, and delegation of sensitive interactions.</span><span lang="ja">Prevent — safe-by-construction、Function First、sensitive interaction delegation。</span>
+2. <span lang="en">Constrain: CBD, Capability, Sandbox, and least authority.</span><span lang="ja">Constrain — CBD、Capability、Sandbox、least authority。</span>
+3. <span lang="en">Verify: models, CAR, lint, review, and admission.</span><span lang="ja">Verify — Model、CAR、lint、review、admission。</span>
+4. <span lang="en">Observe: OTLP, runtime and security evidence, and the Control Center.</span><span lang="ja">Observe — OTLP、runtime/security evidence、Control Center。</span>
+5. <span lang="en">Contain: trust boundaries, blast-radius control, rate limits and admission, and authority revocation.</span><span lang="ja">Contain — trust boundary、blast radius、rate/admission、authority revocation。</span>
+6. <span lang="en">Recover: Active/Standby configurations, immutable replacement, and reconstruction from persistent state.</span><span lang="ja">Recover — Active/Standby、immutable replacement、persistent stateからの再構築。</span>
+
+# Initial Security Control Matrix｜初版のセキュリティ対策一覧
+
+| <span lang="en">Threat / failure</span><span lang="ja">脅威・障害</span> | <span lang="en">Primary architectural response</span><span lang="ja">主なアーキテクチャ上の対策</span> |
+| --- | --- |
+| <span lang="en">Unauthorized Domain access</span><span lang="ja">Domainへの不正アクセス</span> | <span lang="en">AuthHandle, ExecutionContext, Capability/Guard</span><span lang="ja">AuthHandle、ExecutionContext、Capability/Guard</span> |
+| <span lang="en">Public Function compromise</span><span lang="ja">公開Functionの侵害</span> | <span lang="en">minimal Function authority, no direct User/Domain DB authority</span><span lang="ja">Functionの権限の最小化、User/Domain DBへの直接アクセス権限を与えない構成</span> |
+| <span lang="en">DDoS / overload</span><span lang="ja">DDoS・過負荷</span> | <span lang="en">cloud edge/WAF, Function pre-admission, bounded downstream concurrency</span><span lang="ja">クラウド・エッジ／WAF、Functionでの事前受入れ検査、下流への同時実行数の制限</span> |
+| <span lang="en">SQL injection</span><span lang="ja">SQLインジェクション</span> | <span lang="en">typed DataStore/Repository path, explicit raw-SQL escape hatch</span><span lang="ja">型付きDataStore/Repository経路、明示されたraw SQLの例外経路</span> |
+| <span lang="en">XSS / CSRF / mass assignment</span><span lang="ja">XSS・CSRF・マスアサインメント</span> | <span lang="en">safe renderer, Operation semantics, declared input binding</span><span lang="ja">安全なレンダラー、Operationの意味論、宣言された入力へのバインディング</span> |
+| <span lang="en">Filesystem/process/network misuse</span><span lang="ja">ファイルシステム・プロセス・ネットワークの不正利用</span> | <span lang="en">Safety Sandbox and explicit authority</span><span lang="ja">Safety Sandboxと明示的な権限</span> |
+| <span lang="en">Credential/secret exposure</span><span lang="ja">Credential・Secretの漏洩</span> | <span lang="en">sensitive-information model, provider delegation, redacted observability</span><span lang="ja">機微情報モデル、外部プロバイダーへの委譲、機微情報を除外した観測</span> |
+| <span lang="en">Compromised runtime</span><span lang="ja">実行環境の侵害</span> | <span lang="en">least authority, isolation, immutable replacement</span><span lang="ja">最小権限、隔離、不変の実行環境への交換</span> |
+| <span lang="en">Broken standby/recovery path</span><span lang="ja">待機系・復旧経路の不備</span> | <span lang="en">regular Active/Standby rotation and cache/read traffic</span><span lang="ja">定期的なActive/Standbyの交代と、キャッシュ・読取りトラフィックの処理</span> |
+| <span lang="en">Supply-chain/generated-code defect</span><span lang="ja">サプライチェーン・生成コードの欠陥</span> | <span lang="en">CAR, lint, CBD Review, admission</span><span lang="ja">CAR、lint、CBD Review、受入れ判定</span> |
+| <span lang="en">AI misjudgment/runaway tool use</span><span lang="ja">AIの誤判断・ツール利用の暴走</span> | <span lang="en">Safety Sandbox, bounded authority, Human-in-the-loop</span><span lang="ja">Safety Sandbox、制限された権限、人間による判断への介入</span> |
+| <span lang="en">Excessive defensive machinery</span><span lang="ja">過剰な防御機構</span> | <span lang="en">threat-model-driven review, lint/review feedback, replace-not-prove-clean</span><span lang="ja">脅威モデルに基づくレビュー、lint/reviewのフィードバック、無侵害の証明より交換を優先する方針</span> |
+
+# Conclusion｜まとめ
+
+<span lang="en">The Textus/CNCF Security Architecture does not aim to add a large number of security checks.</span><span lang="ja">Textus/CNCFのSecurity Architectureは、security checkを大量に追加することを目的としない。</span>
+
+<span lang="en">CBD partitions authority; model-driven development makes that authority and its constraints explicit; Safety Sandbox enforces them at runtime; and CAR fixes them in inspectable artifacts. Function First, AuthHandle, Capability/Guard, immutable runtimes, lint/review/admission, and observability/recovery are arranged around this core.</span><span lang="ja">CBDでauthorityを分割し、Model Driven Developmentでそのauthorityと制約を明示し、Safety Sandboxで実行時に強制し、CARで検査可能なartifactへ固定する。その周囲にFunction First、AuthHandle、Capability/Guard、immutable runtime、lint/review/admission、observability/recoveryを配置する。</span>
+
+<span lang="en">The architecture does not assume that implementers, operators, or AI will always be correct. It limits available authority and blast radius even when errors or compromises occur, and supports detection, isolation, replacement, and recovery.</span><span lang="ja">重要なのは、実装者、運用者、AIのいずれかが常に正しいと仮定することではない。誤りや侵害が発生しても、利用可能なauthorityとblast radiusをアーキテクチャによって限定し、検出、隔離、交換、復旧できるシステムを構成することである。</span>
+
+<span lang="en">This living technical guide will be updated whenever new Security Harness mechanisms are designed and implemented in Textus/CNCF.</span><span lang="ja">この文書はliving technical guideとして、Textus/CNCFで新しいSecurity Harnessが設計・実装されるたびに更新する。</span>

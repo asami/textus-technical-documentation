@@ -1,0 +1,32 @@
+{
+  "schema": "cozy.document-project.v2",
+  "id": "textus-cncf-security-architecture",
+  "workflow": {
+    "schema": "cozy.document-workflow.v2",
+    "id": "document-production"
+  },
+  "profile": "standard",
+  "language": "ja",
+  "workspace": {
+    "kind": "directory"
+  },
+  "contentCore": "content/core.yaml",
+  "activeOptionalWorkProducts": [],
+  "semanticScope": {
+    "id": "textus-cncf-security-architecture",
+    "localeVariants": [
+      {
+        "project": "textus-cncf-security-architecture",
+        "language": "ja",
+        "contentCore": "textus-cncf-security-architecture",
+        "workProducts": []
+      },
+      {
+        "project": "textus-cncf-security-architecture",
+        "language": "en",
+        "contentCore": "textus-cncf-security-architecture",
+        "workProducts": []
+      }
+    ]
+  }
+}

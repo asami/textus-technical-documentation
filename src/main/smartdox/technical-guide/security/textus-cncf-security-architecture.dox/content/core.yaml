@@ -1,0 +1,3123 @@
+{
+  "schema": "cozy.content-core.logic-tree.v1",
+  "id": "textus-cncf-security-architecture",
+  "root": {
+    "id": "textus-cncf-security-architecture",
+    "semanticRole": "explanation",
+    "claims": [
+      "textus-cncf-security-architecture-claim-1",
+      "textus-cncf-security-architecture-claim-rationale-1",
+      "textus-cncf-security-architecture-claim-rationale-2",
+      "textus-cncf-security-architecture-claim-rationale-3",
+      "textus-cncf-security-architecture-claim-rationale-4",
+      "textus-cncf-security-architecture-claim-architecture-foundation",
+      "textus-cncf-security-architecture-claim-abstract-2",
+      "textus-cncf-security-architecture-claim-abstract-3"
+    ],
+    "structure": {
+      "pattern": "dependency-map",
+      "nodes": [
+        {
+          "id": "textus-cncf-security-architecture-node-framework-security-goal",
+          "role": "dependent"
+        },
+        {
+          "id": "textus-cncf-security-architecture-node-standard-path",
+          "role": "dependency"
+        },
+        {
+          "id": "textus-cncf-security-architecture-node-protection-coverage",
+          "role": "dependency"
+        },
+        {
+          "id": "textus-cncf-security-architecture-node-operational-continuity",
+          "role": "dependency"
+        },
+        {
+          "id": "textus-cncf-security-architecture-node-adoption-scope",
+          "role": "dependency"
+        },
+        {
+          "id": "textus-cncf-security-architecture-node-architecture-foundation",
+          "role": "dependency"
+        }
+      ],
+      "relations": [
+        {
+          "id": "textus-cncf-security-architecture-relation-rationale-1",
+          "relationType": "depends-on",
+          "from": "textus-cncf-security-architecture-node-framework-security-goal",
+          "to": "textus-cncf-security-architecture-node-standard-path"
+        },
+        {
+          "id": "textus-cncf-security-architecture-relation-rationale-2",
+          "relationType": "depends-on",
+          "from": "textus-cncf-security-architecture-node-framework-security-goal",
+          "to": "textus-cncf-security-architecture-node-protection-coverage"
+        },
+        {
+          "id": "textus-cncf-security-architecture-relation-rationale-3",
+          "relationType": "depends-on",
+          "from": "textus-cncf-security-architecture-node-framework-security-goal",
+          "to": "textus-cncf-security-architecture-node-operational-continuity"
+        },
+        {
+          "id": "textus-cncf-security-architecture-relation-rationale-4",
+          "relationType": "depends-on",
+          "from": "textus-cncf-security-architecture-node-framework-security-goal",
+          "to": "textus-cncf-security-architecture-node-adoption-scope"
+        },
+        {
+          "id": "textus-cncf-security-architecture-relation-architecture-foundation",
+          "relationType": "depends-on",
+          "from": "textus-cncf-security-architecture-node-framework-security-goal",
+          "to": "textus-cncf-security-architecture-node-architecture-foundation"
+        }
+      ]
+    },
+    "flow": {
+      "id": "textus-cncf-security-architecture-flow",
+      "transitions": [
+        {
+          "id": "textus-cncf-security-architecture-transition-introduction",
+          "relationType": "next",
+          "fromStepId": "simplemodeling-textus-introduction",
+          "toStepId": "security-foundations"
+        },
+        {
+          "id": "textus-cncf-security-architecture-transition-1",
+          "relationType": "next",
+          "fromStepId": "security-foundations",
+          "toStepId": "standard-development-path"
+        },
+        {
+          "id": "textus-cncf-security-architecture-transition-composition-standard-development-path-to-distribution-trust",
+          "relationType": "next",
+          "fromStepId": "standard-development-path",
+          "toStepId": "distribution-trust"
+        },
+        {
+          "id": "textus-cncf-security-architecture-transition-composition-distribution-trust-to-security-coverage",
+          "relationType": "next",
+          "fromStepId": "distribution-trust",
+          "toStepId": "security-coverage"
+        },
+        {
+          "id": "textus-cncf-security-architecture-transition-3",
+          "relationType": "next",
+          "fromStepId": "security-coverage",
+          "toStepId": "operations-and-recovery"
+        },
+        {
+          "id": "textus-cncf-security-architecture-transition-4",
+          "relationType": "next",
+          "fromStepId": "operations-and-recovery",
+          "toStepId": "delivery-and-responsibility"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "simplemodeling-textus-introduction",
+        "semanticRole": "explanation",
+        "claims": [
+          "simplemodeling-textus-introduction-claim-1",
+          "simplemodeling-textus-introduction-claim-2",
+          "simplemodeling-textus-introduction-claim-security-position"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "simplemodeling-textus-introduction-node-1",
+              "role": "step"
+            },
+            {
+              "id": "simplemodeling-textus-introduction-node-2",
+              "role": "step"
+            },
+            {
+              "id": "simplemodeling-textus-introduction-node-security-position",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "simplemodeling-textus-introduction-relation-1",
+              "relationType": "next",
+              "from": "simplemodeling-textus-introduction-node-1",
+              "to": "simplemodeling-textus-introduction-node-2"
+            },
+            {
+              "id": "simplemodeling-textus-introduction-relation-security-position",
+              "relationType": "next",
+              "from": "simplemodeling-textus-introduction-node-2",
+              "to": "simplemodeling-textus-introduction-node-security-position"
+            }
+          ]
+        },
+        "flow": {
+          "id": "simplemodeling-textus-introduction-flow",
+          "transitions": [
+            {
+              "id": "simplemodeling-textus-introduction-transition-1",
+              "relationType": "next",
+              "fromStepId": "simplemodeling-overview",
+              "toStepId": "cml-cozy-execution"
+            },
+            {
+              "id": "simplemodeling-textus-introduction-transition-2",
+              "relationType": "next",
+              "fromStepId": "cml-cozy-execution",
+              "toStepId": "textus-overview"
+            },
+            {
+              "id": "simplemodeling-textus-introduction-transition-3",
+              "relationType": "next",
+              "fromStepId": "textus-overview",
+              "toStepId": "overall-architecture"
+            },
+            {
+              "id": "simplemodeling-textus-introduction-transition-4",
+              "relationType": "next",
+              "fromStepId": "overall-architecture",
+              "toStepId": "security-position"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "simplemodeling-overview",
+            "semanticRole": "explanation",
+            "claims": [
+              "simplemodeling-overview-claim-1",
+              "simplemodeling-overview-claim-2",
+              "simplemodeling-overview-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "simplemodeling-overview-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "simplemodeling-overview-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "simplemodeling-overview-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "simplemodeling-overview-relation-1",
+                  "relationType": "next",
+                  "from": "simplemodeling-overview-node-1",
+                  "to": "simplemodeling-overview-node-2"
+                },
+                {
+                  "id": "simplemodeling-overview-relation-2",
+                  "relationType": "next",
+                  "from": "simplemodeling-overview-node-2",
+                  "to": "simplemodeling-overview-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "simplemodeling-overview-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "cml-cozy-execution",
+            "semanticRole": "explanation",
+            "claims": [
+              "cml-cozy-execution-claim-1",
+              "cml-cozy-execution-claim-2",
+              "cml-cozy-execution-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "cml-cozy-execution-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "cml-cozy-execution-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "cml-cozy-execution-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "cml-cozy-execution-relation-1",
+                  "relationType": "next",
+                  "from": "cml-cozy-execution-node-1",
+                  "to": "cml-cozy-execution-node-2"
+                },
+                {
+                  "id": "cml-cozy-execution-relation-2",
+                  "relationType": "next",
+                  "from": "cml-cozy-execution-node-2",
+                  "to": "cml-cozy-execution-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "cml-cozy-execution-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "textus-overview",
+            "semanticRole": "explanation",
+            "claims": [
+              "textus-overview-claim-1",
+              "textus-overview-claim-2",
+              "textus-overview-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "textus-overview-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "textus-overview-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "textus-overview-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "textus-overview-relation-1",
+                  "relationType": "next",
+                  "from": "textus-overview-node-1",
+                  "to": "textus-overview-node-2"
+                },
+                {
+                  "id": "textus-overview-relation-2",
+                  "relationType": "next",
+                  "from": "textus-overview-node-2",
+                  "to": "textus-overview-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "textus-overview-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "overall-architecture",
+            "semanticRole": "explanation",
+            "claims": [
+              "overall-architecture-claim-1",
+              "overall-architecture-claim-2",
+              "overall-architecture-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "overall-architecture-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "overall-architecture-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "overall-architecture-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "overall-architecture-relation-1",
+                  "relationType": "next",
+                  "from": "overall-architecture-node-1",
+                  "to": "overall-architecture-node-2"
+                },
+                {
+                  "id": "overall-architecture-relation-2",
+                  "relationType": "next",
+                  "from": "overall-architecture-node-2",
+                  "to": "overall-architecture-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "overall-architecture-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "security-position",
+            "semanticRole": "explanation",
+            "claims": [
+              "security-position-claim-1",
+              "security-position-claim-2",
+              "security-position-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "security-position-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "security-position-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "security-position-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "security-position-relation-1",
+                  "relationType": "next",
+                  "from": "security-position-node-1",
+                  "to": "security-position-node-2"
+                },
+                {
+                  "id": "security-position-relation-2",
+                  "relationType": "next",
+                  "from": "security-position-node-2",
+                  "to": "security-position-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "security-position-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "security-foundations",
+        "semanticRole": "explanation",
+        "claims": [
+          "security-foundations-claim-argument-1",
+          "security-foundations-claim-argument-2",
+          "security-foundations-claim-baseline-refinement-hardening"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "security-foundations-node-argument-1",
+              "role": "step"
+            },
+            {
+              "id": "security-foundations-node-argument-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "security-foundations-relation-argument-1",
+              "relationType": "next",
+              "from": "security-foundations-node-argument-1",
+              "to": "security-foundations-node-argument-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "security-foundations-flow",
+          "transitions": [
+            {
+              "id": "security-foundations-transition-1",
+              "relationType": "next",
+              "fromStepId": "full-set-scope",
+              "toStepId": "developer-security-contract"
+            },
+            {
+              "id": "security-foundations-transition-2",
+              "relationType": "next",
+              "fromStepId": "developer-security-contract",
+              "toStepId": "purpose"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "full-set-scope",
+            "semanticRole": "explanation",
+            "claims": [
+              "full-set-scope-claim-argument-1",
+              "full-set-scope-claim-argument-2",
+              "full-set-scope-claim-argument-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "full-set-scope-node-argument-1",
+                  "role": "step"
+                },
+                {
+                  "id": "full-set-scope-node-argument-2",
+                  "role": "step"
+                },
+                {
+                  "id": "full-set-scope-node-argument-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "full-set-scope-relation-argument-1",
+                  "relationType": "next",
+                  "from": "full-set-scope-node-argument-1",
+                  "to": "full-set-scope-node-argument-2"
+                },
+                {
+                  "id": "full-set-scope-relation-argument-2",
+                  "relationType": "next",
+                  "from": "full-set-scope-node-argument-2",
+                  "to": "full-set-scope-node-argument-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "full-set-scope-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "developer-security-contract",
+            "semanticRole": "explanation",
+            "claims": [
+              "developer-security-contract-claim-argument-1",
+              "developer-security-contract-claim-argument-2",
+              "developer-security-contract-claim-argument-3",
+              "developer-security-contract-claim-cml-standard-security"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "developer-security-contract-node-argument-1",
+                  "role": "step"
+                },
+                {
+                  "id": "developer-security-contract-node-argument-2",
+                  "role": "step"
+                },
+                {
+                  "id": "developer-security-contract-node-argument-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "developer-security-contract-relation-argument-1",
+                  "relationType": "next",
+                  "from": "developer-security-contract-node-argument-1",
+                  "to": "developer-security-contract-node-argument-2"
+                },
+                {
+                  "id": "developer-security-contract-relation-argument-2",
+                  "relationType": "next",
+                  "from": "developer-security-contract-node-argument-2",
+                  "to": "developer-security-contract-node-argument-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "developer-security-contract-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "purpose",
+            "semanticRole": "explanation",
+            "claims": [
+              "purpose-claim-1",
+              "purpose-claim-3",
+              "purpose-claim-cooperation-1"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "purpose-explanation-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "purpose-explanation-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "purpose-explanation-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "purpose-explanation-relation-1",
+                  "relationType": "next",
+                  "from": "purpose-explanation-node-1",
+                  "to": "purpose-explanation-node-2"
+                },
+                {
+                  "id": "purpose-explanation-relation-2",
+                  "relationType": "next",
+                  "from": "purpose-explanation-node-2",
+                  "to": "purpose-explanation-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "purpose-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "standard-development-path",
+        "semanticRole": "explanation",
+        "claims": [
+          "standard-development-path-claim-argument-1",
+          "standard-development-path-claim-argument-2",
+          "standard-development-path-claim-argument-3"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "standard-development-path-node-argument-1",
+              "role": "step"
+            },
+            {
+              "id": "standard-development-path-node-argument-2",
+              "role": "step"
+            },
+            {
+              "id": "standard-development-path-node-argument-3",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "standard-development-path-relation-argument-1",
+              "relationType": "next",
+              "from": "standard-development-path-node-argument-1",
+              "to": "standard-development-path-node-argument-2"
+            },
+            {
+              "id": "standard-development-path-relation-argument-2",
+              "relationType": "next",
+              "from": "standard-development-path-node-argument-2",
+              "to": "standard-development-path-node-argument-3"
+            }
+          ]
+        },
+        "flow": {
+          "id": "standard-development-path-flow",
+          "transitions": [
+            {
+              "id": "standard-development-path-transition-1",
+              "relationType": "next",
+              "fromStepId": "cbd",
+              "toStepId": "model-driven"
+            },
+            {
+              "id": "standard-development-path-transition-composition-model-driven-to-component-security-boundaries",
+              "relationType": "next",
+              "fromStepId": "model-driven",
+              "toStepId": "component-security-boundaries"
+            },
+            {
+              "id": "standard-development-path-transition-composition-component-security-boundaries-to-car",
+              "relationType": "next",
+              "fromStepId": "component-security-boundaries",
+              "toStepId": "car"
+            },
+            {
+              "id": "standard-development-path-transition-3",
+              "relationType": "next",
+              "fromStepId": "car",
+              "toStepId": "lint-admission"
+            },
+            {
+              "id": "standard-development-path-transition-4",
+              "relationType": "next",
+              "fromStepId": "lint-admission",
+              "toStepId": "function-packaging"
+            },
+            {
+              "id": "standard-development-path-transition-5",
+              "relationType": "next",
+              "fromStepId": "function-packaging",
+              "toStepId": "local-testing"
+            },
+            {
+              "id": "standard-development-path-transition-6",
+              "relationType": "next",
+              "fromStepId": "local-testing",
+              "toStepId": "ai-development"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "cbd",
+            "semanticRole": "explanation",
+            "claims": [
+              "cbd-claim-foundation",
+              "cbd-claim-2",
+              "cbd-claim-3",
+              "cbd-claim-cooperation-1"
+            ],
+            "structure": {
+              "pattern": "dependency-map",
+              "nodes": [
+                {
+                  "id": "cbd-explanation-node-foundation",
+                  "role": "dependency"
+                },
+                {
+                  "id": "cbd-explanation-node-1",
+                  "role": "dependency"
+                },
+                {
+                  "id": "cbd-explanation-node-2",
+                  "role": "dependency"
+                },
+                {
+                  "id": "cbd-explanation-node-3",
+                  "role": "dependent"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "cbd-composition-relation-1",
+                  "relationType": "depends-on",
+                  "from": "cbd-explanation-node-3",
+                  "to": "cbd-explanation-node-foundation"
+                },
+                {
+                  "id": "cbd-composition-relation-2",
+                  "relationType": "depends-on",
+                  "from": "cbd-explanation-node-3",
+                  "to": "cbd-explanation-node-1"
+                },
+                {
+                  "id": "cbd-composition-relation-3",
+                  "relationType": "depends-on",
+                  "from": "cbd-explanation-node-3",
+                  "to": "cbd-explanation-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "cbd-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "model-driven",
+            "semanticRole": "explanation",
+            "claims": [
+              "model-driven-claim-foundation",
+              "model-driven-claim-1",
+              "model-driven-claim-2",
+              "model-driven-claim-3",
+              "model-driven-claim-cooperation-1"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "model-driven-explanation-node-foundation",
+                  "role": "step"
+                },
+                {
+                  "id": "model-driven-explanation-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "model-driven-explanation-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "model-driven-explanation-node-3",
+                  "role": "step"
+                },
+                {
+                  "id": "model-driven-explanation-node-4",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "model-driven-explanation-relation-foundation",
+                  "relationType": "next",
+                  "from": "model-driven-explanation-node-foundation",
+                  "to": "model-driven-explanation-node-1"
+                },
+                {
+                  "id": "model-driven-explanation-relation-1",
+                  "relationType": "next",
+                  "from": "model-driven-explanation-node-1",
+                  "to": "model-driven-explanation-node-2"
+                },
+                {
+                  "id": "model-driven-explanation-relation-2",
+                  "relationType": "next",
+                  "from": "model-driven-explanation-node-2",
+                  "to": "model-driven-explanation-node-3"
+                },
+                {
+                  "id": "model-driven-explanation-relation-3",
+                  "relationType": "next",
+                  "from": "model-driven-explanation-node-3",
+                  "to": "model-driven-explanation-node-4"
+                }
+              ]
+            },
+            "flow": {
+              "id": "model-driven-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "component-security-boundaries",
+            "semanticRole": "explanation",
+            "claims": [
+              "component-security-boundaries-claim-1",
+              "component-security-boundaries-claim-2",
+              "component-security-boundaries-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "component-security-boundaries-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "component-security-boundaries-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "component-security-boundaries-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "component-security-boundaries-relation-1",
+                  "relationType": "next",
+                  "from": "component-security-boundaries-node-1",
+                  "to": "component-security-boundaries-node-2"
+                },
+                {
+                  "id": "component-security-boundaries-relation-2",
+                  "relationType": "next",
+                  "from": "component-security-boundaries-node-2",
+                  "to": "component-security-boundaries-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "component-security-boundaries-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "car",
+            "semanticRole": "explanation",
+            "claims": [
+              "car-claim-3",
+              "car-claim-1",
+              "car-claim-2",
+              "car-claim-cooperation-1"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "car-explanation-node-3",
+                  "role": "step"
+                },
+                {
+                  "id": "car-explanation-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "car-explanation-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "car-explanation-node-4",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "car-explanation-relation-1",
+                  "relationType": "next",
+                  "from": "car-explanation-node-3",
+                  "to": "car-explanation-node-1"
+                },
+                {
+                  "id": "car-explanation-relation-2",
+                  "relationType": "next",
+                  "from": "car-explanation-node-1",
+                  "to": "car-explanation-node-2"
+                },
+                {
+                  "id": "car-explanation-relation-3",
+                  "relationType": "next",
+                  "from": "car-explanation-node-2",
+                  "to": "car-explanation-node-4"
+                }
+              ]
+            },
+            "flow": {
+              "id": "car-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "lint-admission",
+            "semanticRole": "explanation",
+            "claims": [
+              "lint-admission-claim-1",
+              "lint-admission-claim-3",
+              "lint-admission-claim-cooperation-1"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "lint-admission-explanation-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "lint-admission-explanation-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "lint-admission-explanation-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "lint-admission-explanation-relation-1",
+                  "relationType": "next",
+                  "from": "lint-admission-explanation-node-1",
+                  "to": "lint-admission-explanation-node-2"
+                },
+                {
+                  "id": "lint-admission-explanation-relation-2",
+                  "relationType": "next",
+                  "from": "lint-admission-explanation-node-2",
+                  "to": "lint-admission-explanation-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "lint-admission-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "function-packaging",
+            "semanticRole": "explanation",
+            "claims": [
+              "function-packaging-claim-cooperation-1",
+              "function-packaging-claim-1",
+              "function-packaging-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "function-packaging-explanation-node-3",
+                  "role": "step"
+                },
+                {
+                  "id": "function-packaging-explanation-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "function-packaging-explanation-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "function-packaging-explanation-relation-1",
+                  "relationType": "next",
+                  "from": "function-packaging-explanation-node-3",
+                  "to": "function-packaging-explanation-node-1"
+                },
+                {
+                  "id": "function-packaging-explanation-relation-2",
+                  "relationType": "next",
+                  "from": "function-packaging-explanation-node-1",
+                  "to": "function-packaging-explanation-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "function-packaging-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "local-testing",
+            "semanticRole": "explanation",
+            "claims": [
+              "local-testing-claim-3",
+              "local-testing-claim-1",
+              "local-testing-claim-2",
+              "local-testing-claim-cooperation-1"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "local-testing-explanation-node-3",
+                  "role": "step"
+                },
+                {
+                  "id": "local-testing-explanation-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "local-testing-explanation-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "local-testing-explanation-node-4",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "local-testing-explanation-relation-1",
+                  "relationType": "next",
+                  "from": "local-testing-explanation-node-3",
+                  "to": "local-testing-explanation-node-1"
+                },
+                {
+                  "id": "local-testing-explanation-relation-2",
+                  "relationType": "next",
+                  "from": "local-testing-explanation-node-1",
+                  "to": "local-testing-explanation-node-2"
+                },
+                {
+                  "id": "local-testing-explanation-relation-3",
+                  "relationType": "next",
+                  "from": "local-testing-explanation-node-2",
+                  "to": "local-testing-explanation-node-4"
+                }
+              ]
+            },
+            "flow": {
+              "id": "local-testing-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ai-development",
+            "semanticRole": "explanation",
+            "claims": [
+              "ai-development-claim-cooperation-1",
+              "ai-development-claim-2",
+              "ai-development-claim-4",
+              "ai-development-claim-1"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ai-development-explanation-node-4",
+                  "role": "step"
+                },
+                {
+                  "id": "ai-development-explanation-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "ai-development-explanation-node-3",
+                  "role": "step"
+                },
+                {
+                  "id": "ai-development-explanation-node-1",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ai-development-explanation-relation-1",
+                  "relationType": "next",
+                  "from": "ai-development-explanation-node-4",
+                  "to": "ai-development-explanation-node-2"
+                },
+                {
+                  "id": "ai-development-explanation-relation-2",
+                  "relationType": "next",
+                  "from": "ai-development-explanation-node-2",
+                  "to": "ai-development-explanation-node-3"
+                },
+                {
+                  "id": "ai-development-explanation-relation-3",
+                  "relationType": "next",
+                  "from": "ai-development-explanation-node-3",
+                  "to": "ai-development-explanation-node-1"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ai-development-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "distribution-trust",
+        "semanticRole": "explanation",
+        "claims": [
+          "distribution-trust-claim-argument-1",
+          "distribution-trust-claim-argument-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "distribution-trust-node-argument-1",
+              "role": "step"
+            },
+            {
+              "id": "distribution-trust-node-argument-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "distribution-trust-relation-argument-1",
+              "relationType": "next",
+              "from": "distribution-trust-node-argument-1",
+              "to": "distribution-trust-node-argument-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "distribution-trust-flow",
+          "transitions": [
+            {
+              "id": "distribution-trust-transition-1",
+              "relationType": "next",
+              "fromStepId": "repository-signature",
+              "toStepId": "component-repository"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "repository-signature",
+            "semanticRole": "explanation",
+            "claims": [
+              "repository-signature-claim-expanded-1",
+              "repository-signature-claim-expanded-2",
+              "repository-signature-claim-expanded-3",
+              "repository-signature-claim-expanded-4"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "repository-signature-expanded-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "repository-signature-expanded-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "repository-signature-expanded-node-3",
+                  "role": "step"
+                },
+                {
+                  "id": "repository-signature-expanded-node-4",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "repository-signature-expanded-relation-1",
+                  "relationType": "next",
+                  "from": "repository-signature-expanded-node-1",
+                  "to": "repository-signature-expanded-node-2"
+                },
+                {
+                  "id": "repository-signature-expanded-relation-2",
+                  "relationType": "next",
+                  "from": "repository-signature-expanded-node-2",
+                  "to": "repository-signature-expanded-node-3"
+                },
+                {
+                  "id": "repository-signature-expanded-relation-3",
+                  "relationType": "next",
+                  "from": "repository-signature-expanded-node-3",
+                  "to": "repository-signature-expanded-node-4"
+                }
+              ]
+            },
+            "flow": {
+              "id": "repository-signature-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "component-repository",
+            "semanticRole": "explanation",
+            "claims": [
+              "component-repository-claim-expanded-1",
+              "component-repository-claim-expanded-2",
+              "component-repository-claim-expanded-3",
+              "component-repository-claim-expanded-4"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "component-repository-expanded-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "component-repository-expanded-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "component-repository-expanded-node-3",
+                  "role": "step"
+                },
+                {
+                  "id": "component-repository-expanded-node-4",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "component-repository-expanded-relation-1",
+                  "relationType": "next",
+                  "from": "component-repository-expanded-node-1",
+                  "to": "component-repository-expanded-node-2"
+                },
+                {
+                  "id": "component-repository-expanded-relation-2",
+                  "relationType": "next",
+                  "from": "component-repository-expanded-node-2",
+                  "to": "component-repository-expanded-node-3"
+                },
+                {
+                  "id": "component-repository-expanded-relation-3",
+                  "relationType": "next",
+                  "from": "component-repository-expanded-node-3",
+                  "to": "component-repository-expanded-node-4"
+                }
+              ]
+            },
+            "flow": {
+              "id": "component-repository-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "security-coverage",
+        "semanticRole": "explanation",
+        "claims": [
+          "security-coverage-claim-argument-1",
+          "security-coverage-claim-argument-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "security-coverage-node-argument-1",
+              "role": "step"
+            },
+            {
+              "id": "security-coverage-node-argument-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "security-coverage-relation-argument-1",
+              "relationType": "next",
+              "from": "security-coverage-node-argument-1",
+              "to": "security-coverage-node-argument-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "security-coverage-flow",
+          "transitions": [
+            {
+              "id": "security-coverage-transition-1",
+              "relationType": "next",
+              "fromStepId": "control-matrix",
+              "toStepId": "application-boundary"
+            },
+            {
+              "id": "security-coverage-transition-2",
+              "relationType": "next",
+              "fromStepId": "application-boundary",
+              "toStepId": "identity-and-authorization"
+            },
+            {
+              "id": "security-coverage-transition-3",
+              "relationType": "next",
+              "fromStepId": "identity-and-authorization",
+              "toStepId": "safe-application-paths"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "control-matrix",
+            "semanticRole": "explanation",
+            "claims": [
+              "control-matrix-claim-explanation",
+              "control-matrix-claim-mapping-1",
+              "control-matrix-claim-mapping-2",
+              "control-matrix-claim-mapping-3",
+              "control-matrix-claim-mapping-4",
+              "control-matrix-claim-mapping-5",
+              "control-matrix-claim-mapping-6",
+              "control-matrix-claim-mapping-7",
+              "control-matrix-claim-mapping-8",
+              "control-matrix-claim-mapping-9",
+              "control-matrix-claim-mapping-10",
+              "control-matrix-claim-mapping-11",
+              "control-matrix-claim-mapping-12"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "control-matrix-explanation-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "control-matrix-explanation-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "control-matrix-explanation-relation-1",
+                  "relationType": "next",
+                  "from": "control-matrix-explanation-node-1",
+                  "to": "control-matrix-explanation-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "control-matrix-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "application-boundary",
+            "semanticRole": "explanation",
+            "claims": [
+              "application-boundary-claim-problem",
+              "application-boundary-claim-combination",
+              "application-boundary-claim-effect",
+              "application-boundary-claim-boundary"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "application-boundary-explanation-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "application-boundary-explanation-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "application-boundary-explanation-node-3",
+                  "role": "step"
+                },
+                {
+                  "id": "application-boundary-explanation-node-4",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "application-boundary-explanation-relation-1",
+                  "relationType": "next",
+                  "from": "application-boundary-explanation-node-1",
+                  "to": "application-boundary-explanation-node-2"
+                },
+                {
+                  "id": "application-boundary-explanation-relation-2",
+                  "relationType": "next",
+                  "from": "application-boundary-explanation-node-2",
+                  "to": "application-boundary-explanation-node-3"
+                },
+                {
+                  "id": "application-boundary-explanation-relation-3",
+                  "relationType": "next",
+                  "from": "application-boundary-explanation-node-3",
+                  "to": "application-boundary-explanation-node-4"
+                }
+              ]
+            },
+            "flow": {
+              "id": "application-boundary-flow",
+              "transitions": [
+                {
+                  "id": "application-boundary-transition-1",
+                  "relationType": "next",
+                  "fromStepId": "tiers",
+                  "toStepId": "function-realization"
+                },
+                {
+                  "id": "application-boundary-transition-2",
+                  "relationType": "next",
+                  "fromStepId": "function-realization",
+                  "toStepId": "traffic-admission"
+                }
+              ]
+            },
+            "steps": [
+              {
+                "id": "tiers",
+                "semanticRole": "explanation",
+                "claims": [
+                  "tiers-claim-term-definition",
+                  "tiers-claim-cooperation-1",
+                  "tiers-claim-1",
+                  "tiers-claim-3",
+                  "tiers-claim-layered-protection",
+                  "tiers-claim-cloud-function-first"
+                ],
+                "structure": {
+                  "pattern": "dependency-map",
+                  "nodes": [
+                    {
+                      "id": "tiers-node-term-definition",
+                      "role": "dependency"
+                    },
+                    {
+                      "id": "tiers-explanation-node-3",
+                      "role": "dependency"
+                    },
+                    {
+                      "id": "tiers-explanation-node-1",
+                      "role": "dependency"
+                    },
+                    {
+                      "id": "tiers-explanation-node-2",
+                      "role": "dependency"
+                    },
+                    {
+                      "id": "tiers-node-layered-protection",
+                      "role": "dependent"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "tiers-depends-on-tiers-node-term-definition",
+                      "relationType": "depends-on",
+                      "from": "tiers-node-layered-protection",
+                      "to": "tiers-node-term-definition"
+                    },
+                    {
+                      "id": "tiers-depends-on-tiers-explanation-node-3",
+                      "relationType": "depends-on",
+                      "from": "tiers-node-layered-protection",
+                      "to": "tiers-explanation-node-3"
+                    },
+                    {
+                      "id": "tiers-depends-on-tiers-explanation-node-1",
+                      "relationType": "depends-on",
+                      "from": "tiers-node-layered-protection",
+                      "to": "tiers-explanation-node-1"
+                    },
+                    {
+                      "id": "tiers-depends-on-tiers-explanation-node-2",
+                      "relationType": "depends-on",
+                      "from": "tiers-node-layered-protection",
+                      "to": "tiers-explanation-node-2"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "tiers-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "function-realization",
+                "semanticRole": "explanation",
+                "claims": [
+                  "function-realization-claim-term-definition",
+                  "function-realization-claim-cooperation-1",
+                  "function-realization-claim-1",
+                  "function-realization-claim-2",
+                  "function-realization-claim-ephemeral-execution"
+                ],
+                "structure": {
+                  "pattern": "sequence",
+                  "nodes": [
+                    {
+                      "id": "function-realization-node-term-definition",
+                      "role": "step"
+                    },
+                    {
+                      "id": "function-realization-explanation-node-3",
+                      "role": "step"
+                    },
+                    {
+                      "id": "function-realization-explanation-node-1",
+                      "role": "step"
+                    },
+                    {
+                      "id": "function-realization-explanation-node-2",
+                      "role": "step"
+                    },
+                    {
+                      "id": "function-realization-node-ephemeral-execution",
+                      "role": "step"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "function-realization-relation-term-definition",
+                      "relationType": "next",
+                      "from": "function-realization-node-term-definition",
+                      "to": "function-realization-explanation-node-3"
+                    },
+                    {
+                      "id": "function-realization-explanation-relation-1",
+                      "relationType": "next",
+                      "from": "function-realization-explanation-node-3",
+                      "to": "function-realization-explanation-node-1"
+                    },
+                    {
+                      "id": "function-realization-explanation-relation-2",
+                      "relationType": "next",
+                      "from": "function-realization-explanation-node-1",
+                      "to": "function-realization-explanation-node-2"
+                    },
+                    {
+                      "id": "function-realization-relation-ephemeral-execution",
+                      "relationType": "next",
+                      "from": "function-realization-explanation-node-2",
+                      "to": "function-realization-node-ephemeral-execution"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "function-realization-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "traffic-admission",
+                "semanticRole": "explanation",
+                "claims": [
+                  "traffic-admission-claim-4",
+                  "traffic-admission-claim-cooperation-1",
+                  "traffic-admission-claim-cooperation-2"
+                ],
+                "structure": {
+                  "pattern": "sequence",
+                  "nodes": [
+                    {
+                      "id": "traffic-admission-explanation-node-1",
+                      "role": "step"
+                    },
+                    {
+                      "id": "traffic-admission-explanation-node-2",
+                      "role": "step"
+                    },
+                    {
+                      "id": "traffic-admission-explanation-node-3",
+                      "role": "step"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "traffic-admission-explanation-relation-1",
+                      "relationType": "next",
+                      "from": "traffic-admission-explanation-node-1",
+                      "to": "traffic-admission-explanation-node-2"
+                    },
+                    {
+                      "id": "traffic-admission-explanation-relation-2",
+                      "relationType": "next",
+                      "from": "traffic-admission-explanation-node-2",
+                      "to": "traffic-admission-explanation-node-3"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "traffic-admission-flow",
+                  "transitions": []
+                },
+                "steps": []
+              }
+            ]
+          },
+          {
+            "id": "identity-and-authorization",
+            "semanticRole": "explanation",
+            "claims": [
+              "identity-and-authorization-claim-problem",
+              "identity-and-authorization-claim-combination",
+              "identity-and-authorization-claim-effect",
+              "identity-and-authorization-claim-boundary"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "identity-and-authorization-explanation-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "identity-and-authorization-explanation-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "identity-and-authorization-explanation-node-3",
+                  "role": "step"
+                },
+                {
+                  "id": "identity-and-authorization-explanation-node-4",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "identity-and-authorization-explanation-relation-1",
+                  "relationType": "next",
+                  "from": "identity-and-authorization-explanation-node-1",
+                  "to": "identity-and-authorization-explanation-node-2"
+                },
+                {
+                  "id": "identity-and-authorization-explanation-relation-2",
+                  "relationType": "next",
+                  "from": "identity-and-authorization-explanation-node-2",
+                  "to": "identity-and-authorization-explanation-node-3"
+                },
+                {
+                  "id": "identity-and-authorization-explanation-relation-3",
+                  "relationType": "next",
+                  "from": "identity-and-authorization-explanation-node-3",
+                  "to": "identity-and-authorization-explanation-node-4"
+                }
+              ]
+            },
+            "flow": {
+              "id": "identity-and-authorization-flow",
+              "transitions": [
+                {
+                  "id": "identity-and-authorization-transition-composition-shared-security-mechanisms-to-authentication-subjects",
+                  "relationType": "next",
+                  "fromStepId": "shared-security-mechanisms",
+                  "toStepId": "authentication-subjects"
+                },
+                {
+                  "id": "identity-and-authorization-flow-authentication-subjects-to-auth-handle",
+                  "relationType": "next",
+                  "fromStepId": "authentication-subjects",
+                  "toStepId": "auth-handle"
+                },
+                {
+                  "id": "identity-and-authorization-transition-refined-auth-handle-to-domain-ingress",
+                  "relationType": "next",
+                  "fromStepId": "auth-handle",
+                  "toStepId": "domain-ingress"
+                },
+                {
+                  "id": "identity-and-authorization-transition-refined-domain-ingress-to-simple-entity-security-foundation",
+                  "relationType": "next",
+                  "fromStepId": "domain-ingress",
+                  "toStepId": "simple-entity-security-foundation"
+                },
+                {
+                  "id": "identity-and-authorization-transition-refined-simple-entity-security-foundation-to-authorization-decision",
+                  "relationType": "next",
+                  "fromStepId": "simple-entity-security-foundation",
+                  "toStepId": "authorization-decision"
+                },
+                {
+                  "id": "identity-and-authorization-transition-refined-authorization-decision-to-authorization-configuration",
+                  "relationType": "next",
+                  "fromStepId": "authorization-decision",
+                  "toStepId": "authorization-configuration"
+                },
+                {
+                  "id": "identity-and-authorization-transition-refined-authorization-configuration-to-operation-authorization",
+                  "relationType": "next",
+                  "fromStepId": "authorization-configuration",
+                  "toStepId": "operation-authorization"
+                },
+                {
+                  "id": "identity-and-authorization-flow-operation-authorization-to-entity-authorization",
+                  "relationType": "next",
+                  "fromStepId": "operation-authorization",
+                  "toStepId": "entity-authorization"
+                },
+                {
+                  "id": "identity-and-authorization-transition-refined-entity-authorization-to-capability-context",
+                  "relationType": "next",
+                  "fromStepId": "entity-authorization",
+                  "toStepId": "capability-context"
+                },
+                {
+                  "id": "identity-and-authorization-flow-capability-context-to-sandbox",
+                  "relationType": "next",
+                  "fromStepId": "capability-context",
+                  "toStepId": "sandbox"
+                },
+                {
+                  "id": "identity-and-authorization-flow-sandbox-to-auth-cache",
+                  "relationType": "next",
+                  "fromStepId": "sandbox",
+                  "toStepId": "auth-cache"
+                }
+              ]
+            },
+            "steps": [
+              {
+                "id": "shared-security-mechanisms",
+                "semanticRole": "explanation",
+                "claims": [
+                  "shared-security-mechanisms-claim-1",
+                  "shared-security-mechanisms-claim-2",
+                  "shared-security-mechanisms-claim-3"
+                ],
+                "structure": {
+                  "pattern": "sequence",
+                  "nodes": [
+                    {
+                      "id": "shared-security-mechanisms-node-1",
+                      "role": "step"
+                    },
+                    {
+                      "id": "shared-security-mechanisms-node-2",
+                      "role": "step"
+                    },
+                    {
+                      "id": "shared-security-mechanisms-node-3",
+                      "role": "step"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "shared-security-mechanisms-relation-1",
+                      "relationType": "next",
+                      "from": "shared-security-mechanisms-node-1",
+                      "to": "shared-security-mechanisms-node-2"
+                    },
+                    {
+                      "id": "shared-security-mechanisms-relation-2",
+                      "relationType": "next",
+                      "from": "shared-security-mechanisms-node-2",
+                      "to": "shared-security-mechanisms-node-3"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "shared-security-mechanisms-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "authentication-subjects",
+                "semanticRole": "explanation",
+                "claims": [
+                  "authentication-subjects-claim-expanded-4",
+                  "authentication-subjects-claim-expanded-1",
+                  "authentication-subjects-claim-expanded-2",
+                  "authentication-subjects-claim-expanded-3"
+                ],
+                "structure": {
+                  "pattern": "sequence",
+                  "nodes": [
+                    {
+                      "id": "authentication-subjects-expanded-node-1",
+                      "role": "step"
+                    },
+                    {
+                      "id": "authentication-subjects-expanded-node-2",
+                      "role": "step"
+                    },
+                    {
+                      "id": "authentication-subjects-expanded-node-3",
+                      "role": "step"
+                    },
+                    {
+                      "id": "authentication-subjects-expanded-node-4",
+                      "role": "step"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "authentication-subjects-relation-ordered-1",
+                      "relationType": "next",
+                      "from": "authentication-subjects-expanded-node-1",
+                      "to": "authentication-subjects-expanded-node-2"
+                    },
+                    {
+                      "id": "authentication-subjects-relation-ordered-2",
+                      "relationType": "next",
+                      "from": "authentication-subjects-expanded-node-2",
+                      "to": "authentication-subjects-expanded-node-3"
+                    },
+                    {
+                      "id": "authentication-subjects-relation-ordered-3",
+                      "relationType": "next",
+                      "from": "authentication-subjects-expanded-node-3",
+                      "to": "authentication-subjects-expanded-node-4"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "authentication-subjects-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "auth-handle",
+                "semanticRole": "explanation",
+                "claims": [
+                  "auth-handle-claim-expanded-1",
+                  "auth-handle-claim-expanded-2",
+                  "auth-handle-claim-expanded-3"
+                ],
+                "structure": {
+                  "pattern": "sequence",
+                  "nodes": [
+                    {
+                      "id": "auth-handle-expanded-node-1",
+                      "role": "step"
+                    },
+                    {
+                      "id": "auth-handle-expanded-node-2",
+                      "role": "step"
+                    },
+                    {
+                      "id": "auth-handle-expanded-node-3",
+                      "role": "step"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "auth-handle-expanded-relation-1",
+                      "relationType": "next",
+                      "from": "auth-handle-expanded-node-1",
+                      "to": "auth-handle-expanded-node-2"
+                    },
+                    {
+                      "id": "auth-handle-expanded-relation-2",
+                      "relationType": "next",
+                      "from": "auth-handle-expanded-node-2",
+                      "to": "auth-handle-expanded-node-3"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "auth-handle-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "domain-ingress",
+                "semanticRole": "explanation",
+                "claims": [
+                  "domain-ingress-claim-expanded-1",
+                  "domain-ingress-claim-expanded-2"
+                ],
+                "structure": {
+                  "pattern": "sequence",
+                  "nodes": [
+                    {
+                      "id": "domain-ingress-expanded-node-1",
+                      "role": "step"
+                    },
+                    {
+                      "id": "domain-ingress-expanded-node-2",
+                      "role": "step"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "domain-ingress-expanded-relation-1",
+                      "relationType": "next",
+                      "from": "domain-ingress-expanded-node-1",
+                      "to": "domain-ingress-expanded-node-2"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "domain-ingress-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "simple-entity-security-foundation",
+                "semanticRole": "explanation",
+                "claims": [
+                  "simple-entity-security-foundation-claim-1",
+                  "simple-entity-security-foundation-claim-2",
+                  "simple-entity-security-foundation-claim-3",
+                  "simple-entity-security-foundation-claim-4",
+                  "simple-entity-security-foundation-claim-unix-permission-baseline"
+                ],
+                "structure": {
+                  "pattern": "sequence",
+                  "nodes": [
+                    {
+                      "id": "simple-entity-security-foundation-node-1",
+                      "role": "step"
+                    },
+                    {
+                      "id": "simple-entity-security-foundation-node-2",
+                      "role": "step"
+                    },
+                    {
+                      "id": "simple-entity-security-foundation-node-3",
+                      "role": "step"
+                    },
+                    {
+                      "id": "simple-entity-security-foundation-node-4",
+                      "role": "step"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "simple-entity-security-foundation-relation-1",
+                      "relationType": "next",
+                      "from": "simple-entity-security-foundation-node-1",
+                      "to": "simple-entity-security-foundation-node-2"
+                    },
+                    {
+                      "id": "simple-entity-security-foundation-relation-2",
+                      "relationType": "next",
+                      "from": "simple-entity-security-foundation-node-2",
+                      "to": "simple-entity-security-foundation-node-3"
+                    },
+                    {
+                      "id": "simple-entity-security-foundation-relation-3",
+                      "relationType": "next",
+                      "from": "simple-entity-security-foundation-node-3",
+                      "to": "simple-entity-security-foundation-node-4"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "simple-entity-security-foundation-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "authorization-decision",
+                "semanticRole": "explanation",
+                "claims": [
+                  "authorization-decision-claim-expanded-1",
+                  "authorization-decision-claim-expanded-2",
+                  "authorization-decision-claim-expanded-3",
+                  "authorization-decision-claim-expanded-4",
+                  "authorization-decision-claim-privilege-baseline",
+                  "authorization-decision-claim-privilege-entity-access",
+                  "authorization-decision-claim-privilege-rollout"
+                ],
+                "structure": {
+                  "pattern": "sequence",
+                  "nodes": [
+                    {
+                      "id": "authorization-decision-expanded-node-1",
+                      "role": "step"
+                    },
+                    {
+                      "id": "authorization-decision-expanded-node-2",
+                      "role": "step"
+                    },
+                    {
+                      "id": "authorization-decision-expanded-node-3",
+                      "role": "step"
+                    },
+                    {
+                      "id": "authorization-decision-expanded-node-4",
+                      "role": "step"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "authorization-decision-expanded-relation-1",
+                      "relationType": "next",
+                      "from": "authorization-decision-expanded-node-1",
+                      "to": "authorization-decision-expanded-node-2"
+                    },
+                    {
+                      "id": "authorization-decision-expanded-relation-2",
+                      "relationType": "next",
+                      "from": "authorization-decision-expanded-node-2",
+                      "to": "authorization-decision-expanded-node-3"
+                    },
+                    {
+                      "id": "authorization-decision-expanded-relation-3",
+                      "relationType": "next",
+                      "from": "authorization-decision-expanded-node-3",
+                      "to": "authorization-decision-expanded-node-4"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "authorization-decision-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "authorization-configuration",
+                "semanticRole": "explanation",
+                "claims": [
+                  "authorization-configuration-claim-1",
+                  "authorization-configuration-claim-2",
+                  "authorization-configuration-claim-3",
+                  "authorization-configuration-claim-4"
+                ],
+                "structure": {
+                  "pattern": "sequence",
+                  "nodes": [
+                    {
+                      "id": "authorization-configuration-node-1",
+                      "role": "step"
+                    },
+                    {
+                      "id": "authorization-configuration-node-2",
+                      "role": "step"
+                    },
+                    {
+                      "id": "authorization-configuration-node-3",
+                      "role": "step"
+                    },
+                    {
+                      "id": "authorization-configuration-node-4",
+                      "role": "step"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "authorization-configuration-relation-1",
+                      "relationType": "next",
+                      "from": "authorization-configuration-node-1",
+                      "to": "authorization-configuration-node-2"
+                    },
+                    {
+                      "id": "authorization-configuration-relation-2",
+                      "relationType": "next",
+                      "from": "authorization-configuration-node-2",
+                      "to": "authorization-configuration-node-3"
+                    },
+                    {
+                      "id": "authorization-configuration-relation-3",
+                      "relationType": "next",
+                      "from": "authorization-configuration-node-3",
+                      "to": "authorization-configuration-node-4"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "authorization-configuration-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "operation-authorization",
+                "semanticRole": "explanation",
+                "claims": [
+                  "operation-authorization-claim-expanded-1",
+                  "operation-authorization-claim-expanded-2",
+                  "operation-authorization-claim-expanded-3"
+                ],
+                "structure": {
+                  "pattern": "sequence",
+                  "nodes": [
+                    {
+                      "id": "operation-authorization-expanded-node-1",
+                      "role": "step"
+                    },
+                    {
+                      "id": "operation-authorization-expanded-node-2",
+                      "role": "step"
+                    },
+                    {
+                      "id": "operation-authorization-expanded-node-3",
+                      "role": "step"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "operation-authorization-expanded-relation-1",
+                      "relationType": "next",
+                      "from": "operation-authorization-expanded-node-1",
+                      "to": "operation-authorization-expanded-node-2"
+                    },
+                    {
+                      "id": "operation-authorization-expanded-relation-2",
+                      "relationType": "next",
+                      "from": "operation-authorization-expanded-node-2",
+                      "to": "operation-authorization-expanded-node-3"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "operation-authorization-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "entity-authorization",
+                "semanticRole": "explanation",
+                "claims": [
+                  "entity-authorization-claim-expanded-1",
+                  "entity-authorization-claim-expanded-2",
+                  "entity-authorization-claim-expanded-3",
+                  "entity-authorization-claim-expanded-4"
+                ],
+                "structure": {
+                  "pattern": "sequence",
+                  "nodes": [
+                    {
+                      "id": "entity-authorization-expanded-node-1",
+                      "role": "step"
+                    },
+                    {
+                      "id": "entity-authorization-expanded-node-2",
+                      "role": "step"
+                    },
+                    {
+                      "id": "entity-authorization-expanded-node-3",
+                      "role": "step"
+                    },
+                    {
+                      "id": "entity-authorization-expanded-node-4",
+                      "role": "step"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "entity-authorization-expanded-relation-1",
+                      "relationType": "next",
+                      "from": "entity-authorization-expanded-node-1",
+                      "to": "entity-authorization-expanded-node-2"
+                    },
+                    {
+                      "id": "entity-authorization-expanded-relation-2",
+                      "relationType": "next",
+                      "from": "entity-authorization-expanded-node-2",
+                      "to": "entity-authorization-expanded-node-3"
+                    },
+                    {
+                      "id": "entity-authorization-expanded-relation-3",
+                      "relationType": "next",
+                      "from": "entity-authorization-expanded-node-3",
+                      "to": "entity-authorization-expanded-node-4"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "entity-authorization-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "capability-context",
+                "semanticRole": "explanation",
+                "claims": [
+                  "capability-context-claim-expanded-2",
+                  "capability-context-claim-expanded-1"
+                ],
+                "structure": {
+                  "pattern": "sequence",
+                  "nodes": [
+                    {
+                      "id": "capability-context-expanded-node-2",
+                      "role": "step"
+                    },
+                    {
+                      "id": "capability-context-expanded-node-1",
+                      "role": "step"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "capability-context-expanded-relation-1",
+                      "relationType": "next",
+                      "from": "capability-context-expanded-node-2",
+                      "to": "capability-context-expanded-node-1"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "capability-context-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "sandbox",
+                "semanticRole": "explanation",
+                "claims": [
+                  "sandbox-claim-1",
+                  "sandbox-claim-2",
+                  "sandbox-claim-3",
+                  "sandbox-claim-4",
+                  "sandbox-claim-cooperation-1"
+                ],
+                "structure": {
+                  "pattern": "sequence",
+                  "nodes": [
+                    {
+                      "id": "sandbox-explanation-node-1",
+                      "role": "step"
+                    },
+                    {
+                      "id": "sandbox-explanation-node-2",
+                      "role": "step"
+                    },
+                    {
+                      "id": "sandbox-explanation-node-3",
+                      "role": "step"
+                    },
+                    {
+                      "id": "sandbox-explanation-node-4",
+                      "role": "step"
+                    },
+                    {
+                      "id": "sandbox-explanation-node-5",
+                      "role": "step"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "sandbox-explanation-relation-1",
+                      "relationType": "next",
+                      "from": "sandbox-explanation-node-1",
+                      "to": "sandbox-explanation-node-2"
+                    },
+                    {
+                      "id": "sandbox-explanation-relation-2",
+                      "relationType": "next",
+                      "from": "sandbox-explanation-node-2",
+                      "to": "sandbox-explanation-node-3"
+                    },
+                    {
+                      "id": "sandbox-explanation-relation-3",
+                      "relationType": "next",
+                      "from": "sandbox-explanation-node-3",
+                      "to": "sandbox-explanation-node-4"
+                    },
+                    {
+                      "id": "sandbox-explanation-relation-4",
+                      "relationType": "next",
+                      "from": "sandbox-explanation-node-4",
+                      "to": "sandbox-explanation-node-5"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "sandbox-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "auth-cache",
+                "semanticRole": "explanation",
+                "claims": [
+                  "auth-cache-claim-cooperation-1",
+                  "auth-cache-claim-1",
+                  "auth-cache-claim-2",
+                  "auth-cache-claim-3"
+                ],
+                "structure": {
+                  "pattern": "sequence",
+                  "nodes": [
+                    {
+                      "id": "auth-cache-explanation-node-4",
+                      "role": "step"
+                    },
+                    {
+                      "id": "auth-cache-explanation-node-1",
+                      "role": "step"
+                    },
+                    {
+                      "id": "auth-cache-explanation-node-2",
+                      "role": "step"
+                    },
+                    {
+                      "id": "auth-cache-explanation-node-3",
+                      "role": "step"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "auth-cache-explanation-relation-1",
+                      "relationType": "next",
+                      "from": "auth-cache-explanation-node-4",
+                      "to": "auth-cache-explanation-node-1"
+                    },
+                    {
+                      "id": "auth-cache-explanation-relation-2",
+                      "relationType": "next",
+                      "from": "auth-cache-explanation-node-1",
+                      "to": "auth-cache-explanation-node-2"
+                    },
+                    {
+                      "id": "auth-cache-explanation-relation-3",
+                      "relationType": "next",
+                      "from": "auth-cache-explanation-node-2",
+                      "to": "auth-cache-explanation-node-3"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "auth-cache-flow",
+                  "transitions": []
+                },
+                "steps": []
+              }
+            ]
+          },
+          {
+            "id": "safe-application-paths",
+            "semanticRole": "explanation",
+            "claims": [
+              "safe-application-paths-claim-problem",
+              "safe-application-paths-claim-combination",
+              "safe-application-paths-claim-effect",
+              "safe-application-paths-claim-boundary"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "safe-application-paths-explanation-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "safe-application-paths-explanation-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "safe-application-paths-explanation-node-3",
+                  "role": "step"
+                },
+                {
+                  "id": "safe-application-paths-explanation-node-4",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "safe-application-paths-explanation-relation-1",
+                  "relationType": "next",
+                  "from": "safe-application-paths-explanation-node-1",
+                  "to": "safe-application-paths-explanation-node-2"
+                },
+                {
+                  "id": "safe-application-paths-explanation-relation-2",
+                  "relationType": "next",
+                  "from": "safe-application-paths-explanation-node-2",
+                  "to": "safe-application-paths-explanation-node-3"
+                },
+                {
+                  "id": "safe-application-paths-explanation-relation-3",
+                  "relationType": "next",
+                  "from": "safe-application-paths-explanation-node-3",
+                  "to": "safe-application-paths-explanation-node-4"
+                }
+              ]
+            },
+            "flow": {
+              "id": "safe-application-paths-flow",
+              "transitions": [
+                {
+                  "id": "safe-application-paths-transition-1",
+                  "relationType": "next",
+                  "fromStepId": "safe-by-construction",
+                  "toStepId": "sensitive-information"
+                }
+              ]
+            },
+            "steps": [
+              {
+                "id": "safe-by-construction",
+                "semanticRole": "explanation",
+                "claims": [
+                  "safe-by-construction-claim-2",
+                  "safe-by-construction-claim-3",
+                  "safe-by-construction-claim-4",
+                  "safe-by-construction-claim-cooperation-1"
+                ],
+                "structure": {
+                  "pattern": "sequence",
+                  "nodes": [
+                    {
+                      "id": "safe-by-construction-explanation-node-1",
+                      "role": "step"
+                    },
+                    {
+                      "id": "safe-by-construction-explanation-node-2",
+                      "role": "step"
+                    },
+                    {
+                      "id": "safe-by-construction-explanation-node-3",
+                      "role": "step"
+                    },
+                    {
+                      "id": "safe-by-construction-explanation-node-4",
+                      "role": "step"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "safe-by-construction-explanation-relation-1",
+                      "relationType": "next",
+                      "from": "safe-by-construction-explanation-node-1",
+                      "to": "safe-by-construction-explanation-node-2"
+                    },
+                    {
+                      "id": "safe-by-construction-explanation-relation-2",
+                      "relationType": "next",
+                      "from": "safe-by-construction-explanation-node-2",
+                      "to": "safe-by-construction-explanation-node-3"
+                    },
+                    {
+                      "id": "safe-by-construction-explanation-relation-3",
+                      "relationType": "next",
+                      "from": "safe-by-construction-explanation-node-3",
+                      "to": "safe-by-construction-explanation-node-4"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "safe-by-construction-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "sensitive-information",
+                "semanticRole": "explanation",
+                "claims": [
+                  "sensitive-information-claim-4",
+                  "sensitive-information-claim-cooperation-1",
+                  "sensitive-information-claim-cooperation-2"
+                ],
+                "structure": {
+                  "pattern": "sequence",
+                  "nodes": [
+                    {
+                      "id": "sensitive-information-explanation-node-1",
+                      "role": "step"
+                    },
+                    {
+                      "id": "sensitive-information-explanation-node-2",
+                      "role": "step"
+                    },
+                    {
+                      "id": "sensitive-information-explanation-node-3",
+                      "role": "step"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "sensitive-information-explanation-relation-1",
+                      "relationType": "next",
+                      "from": "sensitive-information-explanation-node-1",
+                      "to": "sensitive-information-explanation-node-2"
+                    },
+                    {
+                      "id": "sensitive-information-explanation-relation-2",
+                      "relationType": "next",
+                      "from": "sensitive-information-explanation-node-2",
+                      "to": "sensitive-information-explanation-node-3"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "sensitive-information-flow",
+                  "transitions": []
+                },
+                "steps": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "operations-and-recovery",
+        "semanticRole": "explanation",
+        "claims": [
+          "operations-and-recovery-claim-problem",
+          "operations-and-recovery-claim-combination",
+          "operations-and-recovery-claim-effect",
+          "operations-and-recovery-claim-boundary"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "operations-and-recovery-explanation-node-1",
+              "role": "step"
+            },
+            {
+              "id": "operations-and-recovery-explanation-node-2",
+              "role": "step"
+            },
+            {
+              "id": "operations-and-recovery-explanation-node-3",
+              "role": "step"
+            },
+            {
+              "id": "operations-and-recovery-explanation-node-4",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "operations-and-recovery-explanation-relation-1",
+              "relationType": "next",
+              "from": "operations-and-recovery-explanation-node-1",
+              "to": "operations-and-recovery-explanation-node-2"
+            },
+            {
+              "id": "operations-and-recovery-explanation-relation-2",
+              "relationType": "next",
+              "from": "operations-and-recovery-explanation-node-2",
+              "to": "operations-and-recovery-explanation-node-3"
+            },
+            {
+              "id": "operations-and-recovery-explanation-relation-3",
+              "relationType": "next",
+              "from": "operations-and-recovery-explanation-node-3",
+              "to": "operations-and-recovery-explanation-node-4"
+            }
+          ]
+        },
+        "flow": {
+          "id": "operations-and-recovery-flow",
+          "transitions": [
+            {
+              "id": "operations-and-recovery-transition-1",
+              "relationType": "next",
+              "fromStepId": "observability",
+              "toStepId": "immutable-runtime"
+            },
+            {
+              "id": "operations-and-recovery-transition-2",
+              "relationType": "next",
+              "fromStepId": "immutable-runtime",
+              "toStepId": "runtime-rotation"
+            },
+            {
+              "id": "operations-and-recovery-transition-3",
+              "relationType": "next",
+              "fromStepId": "runtime-rotation",
+              "toStepId": "replace-not-prove-clean"
+            },
+            {
+              "id": "operations-and-recovery-transition-lifecycle",
+              "relationType": "next",
+              "fromStepId": "replace-not-prove-clean",
+              "toStepId": "lifecycle"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "observability",
+            "semanticRole": "explanation",
+            "claims": [
+              "observability-claim-cooperation-1",
+              "observability-claim-1",
+              "observability-claim-2",
+              "observability-claim-audit-collection",
+              "observability-claim-audit-use",
+              "observability-claim-distinct-diagnostic-audit-lifecycles"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "observability-explanation-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "observability-node-audit-collection",
+                  "role": "step"
+                },
+                {
+                  "id": "observability-node-audit-use",
+                  "role": "step"
+                },
+                {
+                  "id": "observability-explanation-node-3",
+                  "role": "step"
+                },
+                {
+                  "id": "observability-explanation-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "observability-relation-audit-1",
+                  "relationType": "next",
+                  "from": "observability-explanation-node-1",
+                  "to": "observability-node-audit-collection"
+                },
+                {
+                  "id": "observability-relation-audit-2",
+                  "relationType": "next",
+                  "from": "observability-node-audit-collection",
+                  "to": "observability-node-audit-use"
+                },
+                {
+                  "id": "observability-relation-audit-3",
+                  "relationType": "next",
+                  "from": "observability-node-audit-use",
+                  "to": "observability-explanation-node-3"
+                },
+                {
+                  "id": "observability-relation-audit-4",
+                  "relationType": "next",
+                  "from": "observability-explanation-node-3",
+                  "to": "observability-explanation-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "observability-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "immutable-runtime",
+            "semanticRole": "explanation",
+            "claims": [
+              "immutable-runtime-claim-cooperation-1",
+              "immutable-runtime-claim-1",
+              "immutable-runtime-claim-cooperation-2",
+              "immutable-runtime-claim-lifetime-control",
+              "immutable-runtime-claim-lifecycle-concepts",
+              "immutable-runtime-claim-persistence-boundaries",
+              "immutable-runtime-claim-replacement-limits",
+              "immutable-runtime-claim-performance-security-balance"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "immutable-runtime-explanation-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "immutable-runtime-explanation-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "immutable-runtime-explanation-node-3",
+                  "role": "step"
+                },
+                {
+                  "id": "immutable-runtime-node-lifetime-control",
+                  "role": "step"
+                },
+                {
+                  "id": "immutable-runtime-node-lifecycle-concepts",
+                  "role": "step"
+                },
+                {
+                  "id": "immutable-runtime-node-persistence-boundaries",
+                  "role": "step"
+                },
+                {
+                  "id": "immutable-runtime-node-replacement-limits",
+                  "role": "step"
+                },
+                {
+                  "id": "immutable-runtime-node-performance-security-balance",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "immutable-runtime-explanation-relation-1",
+                  "relationType": "next",
+                  "from": "immutable-runtime-explanation-node-2",
+                  "to": "immutable-runtime-explanation-node-1"
+                },
+                {
+                  "id": "immutable-runtime-explanation-relation-2",
+                  "relationType": "next",
+                  "from": "immutable-runtime-explanation-node-1",
+                  "to": "immutable-runtime-explanation-node-3"
+                },
+                {
+                  "id": "immutable-runtime-relation-lifetime-control",
+                  "relationType": "next",
+                  "from": "immutable-runtime-explanation-node-3",
+                  "to": "immutable-runtime-node-lifetime-control"
+                },
+                {
+                  "id": "immutable-runtime-relation-lifecycle-concepts",
+                  "relationType": "next",
+                  "from": "immutable-runtime-node-lifetime-control",
+                  "to": "immutable-runtime-node-lifecycle-concepts"
+                },
+                {
+                  "id": "immutable-runtime-relation-persistence-boundaries",
+                  "relationType": "next",
+                  "from": "immutable-runtime-node-lifecycle-concepts",
+                  "to": "immutable-runtime-node-persistence-boundaries"
+                },
+                {
+                  "id": "immutable-runtime-relation-replacement-limits",
+                  "relationType": "next",
+                  "from": "immutable-runtime-node-persistence-boundaries",
+                  "to": "immutable-runtime-node-replacement-limits"
+                },
+                {
+                  "id": "immutable-runtime-relation-performance-security-balance",
+                  "relationType": "next",
+                  "from": "immutable-runtime-node-replacement-limits",
+                  "to": "immutable-runtime-node-performance-security-balance"
+                }
+              ]
+            },
+            "flow": {
+              "id": "immutable-runtime-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "runtime-rotation",
+            "semanticRole": "explanation",
+            "claims": [
+              "runtime-rotation-claim-1",
+              "runtime-rotation-claim-2",
+              "runtime-rotation-claim-cooperation-1"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "runtime-rotation-explanation-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "runtime-rotation-explanation-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "runtime-rotation-explanation-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "runtime-rotation-explanation-relation-1",
+                  "relationType": "next",
+                  "from": "runtime-rotation-explanation-node-1",
+                  "to": "runtime-rotation-explanation-node-2"
+                },
+                {
+                  "id": "runtime-rotation-explanation-relation-2",
+                  "relationType": "next",
+                  "from": "runtime-rotation-explanation-node-2",
+                  "to": "runtime-rotation-explanation-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "runtime-rotation-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "replace-not-prove-clean",
+            "semanticRole": "explanation",
+            "claims": [
+              "replace-not-prove-clean-claim-2",
+              "replace-not-prove-clean-claim-cooperation-1",
+              "replace-not-prove-clean-claim-cooperation-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "replace-not-prove-clean-explanation-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "replace-not-prove-clean-explanation-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "replace-not-prove-clean-explanation-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "replace-not-prove-clean-explanation-relation-1",
+                  "relationType": "next",
+                  "from": "replace-not-prove-clean-explanation-node-1",
+                  "to": "replace-not-prove-clean-explanation-node-2"
+                },
+                {
+                  "id": "replace-not-prove-clean-explanation-relation-2",
+                  "relationType": "next",
+                  "from": "replace-not-prove-clean-explanation-node-2",
+                  "to": "replace-not-prove-clean-explanation-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "replace-not-prove-clean-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "lifecycle",
+            "semanticRole": "explanation",
+            "claims": [
+              "lifecycle-claim-1",
+              "lifecycle-claim-2",
+              "lifecycle-claim-3",
+              "lifecycle-claim-4",
+              "lifecycle-claim-5",
+              "lifecycle-claim-6",
+              "lifecycle-claim-7",
+              "lifecycle-claim-cooperation-1"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "lifecycle-explanation-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "lifecycle-explanation-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "lifecycle-explanation-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "lifecycle-explanation-relation-1",
+                  "relationType": "next",
+                  "from": "lifecycle-explanation-node-1",
+                  "to": "lifecycle-explanation-node-2"
+                },
+                {
+                  "id": "lifecycle-explanation-relation-2",
+                  "relationType": "next",
+                  "from": "lifecycle-explanation-node-2",
+                  "to": "lifecycle-explanation-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "lifecycle-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "delivery-and-responsibility",
+        "semanticRole": "explanation",
+        "claims": [
+          "delivery-and-responsibility-claim-argument-1",
+          "delivery-and-responsibility-claim-argument-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "delivery-and-responsibility-node-argument-1",
+              "role": "step"
+            },
+            {
+              "id": "delivery-and-responsibility-node-argument-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "delivery-and-responsibility-relation-argument-1",
+              "relationType": "next",
+              "from": "delivery-and-responsibility-node-argument-1",
+              "to": "delivery-and-responsibility-node-argument-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "delivery-and-responsibility-flow",
+          "transitions": [
+            {
+              "id": "delivery-and-responsibility-transition-1",
+              "relationType": "next",
+              "fromStepId": "provided-scope",
+              "toStepId": "configuration-boundary"
+            },
+            {
+              "id": "delivery-transition-to-security-patterns",
+              "relationType": "next",
+              "fromStepId": "configuration-boundary",
+              "toStepId": "security-operation-patterns"
+            },
+            {
+              "id": "delivery-transition-from-security-patterns",
+              "relationType": "next",
+              "fromStepId": "security-operation-patterns",
+              "toStepId": "conclusion"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "provided-scope",
+            "semanticRole": "explanation",
+            "claims": [
+              "provided-scope-claim-argument-1",
+              "provided-scope-claim-argument-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "provided-scope-node-argument-1",
+                  "role": "step"
+                },
+                {
+                  "id": "provided-scope-node-argument-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "provided-scope-relation-argument-1",
+                  "relationType": "next",
+                  "from": "provided-scope-node-argument-1",
+                  "to": "provided-scope-node-argument-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "provided-scope-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "configuration-boundary",
+            "semanticRole": "explanation",
+            "claims": [
+              "configuration-boundary-claim-argument-1",
+              "configuration-boundary-claim-argument-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "configuration-boundary-node-argument-1",
+                  "role": "step"
+                },
+                {
+                  "id": "configuration-boundary-node-argument-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "configuration-boundary-relation-argument-1",
+                  "relationType": "next",
+                  "from": "configuration-boundary-node-argument-1",
+                  "to": "configuration-boundary-node-argument-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "configuration-boundary-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "security-operation-patterns",
+            "semanticRole": "explanation",
+            "claims": [
+              "security-operation-patterns-claim-1",
+              "security-operation-patterns-claim-2",
+              "security-operation-patterns-claim-3",
+              "security-operation-patterns-claim-4"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "security-operation-patterns-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "security-operation-patterns-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "security-operation-patterns-node-3",
+                  "role": "step"
+                },
+                {
+                  "id": "security-operation-patterns-node-4",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "security-operation-patterns-relation-1",
+                  "relationType": "next",
+                  "from": "security-operation-patterns-node-1",
+                  "to": "security-operation-patterns-node-2"
+                },
+                {
+                  "id": "security-operation-patterns-relation-2",
+                  "relationType": "next",
+                  "from": "security-operation-patterns-node-2",
+                  "to": "security-operation-patterns-node-3"
+                },
+                {
+                  "id": "security-operation-patterns-relation-3",
+                  "relationType": "next",
+                  "from": "security-operation-patterns-node-3",
+                  "to": "security-operation-patterns-node-4"
+                }
+              ]
+            },
+            "flow": {
+              "id": "security-operation-patterns-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "conclusion",
+            "semanticRole": "explanation",
+            "claims": [
+              "conclusion-claim-argument-1",
+              "conclusion-claim-argument-2",
+              "conclusion-claim-usable-defaults-guided-hardening"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "conclusion-node-argument-1",
+                  "role": "step"
+                },
+                {
+                  "id": "conclusion-node-argument-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "conclusion-relation-argument-1",
+                  "relationType": "next",
+                  "from": "conclusion-node-argument-1",
+                  "to": "conclusion-node-argument-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "conclusion-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      }
+    ]
+  }
+}
