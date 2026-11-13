@@ -1,0 +1,590 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-knowledge-modeling-document-ja",
+  "core": {
+    "id": "textus-cncf-knowledge-modeling"
+  },
+  "locale": "ja",
+  "document": {
+    "title": "BoKからドメイン・モデルを設計する",
+    "sections": [
+      {
+        "id": "textus-cncf-knowledge-modeling-section",
+        "heading": "BoKからドメイン・モデルを設計する",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-knowledge-modeling"
+          ],
+          "claims": [
+            "textus-cncf-knowledge-modeling-claim-1"
+          ],
+          "nodes": [
+            "textus-cncf-knowledge-modeling-node-1",
+            "textus-cncf-knowledge-modeling-node-2"
+          ],
+          "relations": [
+            "textus-cncf-knowledge-modeling-relation-1"
+          ],
+          "flows": [
+            "textus-cncf-knowledge-modeling-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "textus-cncf-knowledge-modeling-paragraph-1",
+            "kind": "paragraph",
+            "text": "業務知識をソフトウェアの設計へ使うには、用語の意味と、その意味を実現するモデルの対応を保持する必要があります。本書は、BoKとプロジェクト固有の知識から文芸モデル、CML、Cozyによる具体化へ進む設計経路を説明します。Entityを実行時に知識として提供する経路は、別のガイドで扱います。",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-knowledge-modeling"
+              ],
+              "claims": [
+                "textus-cncf-knowledge-modeling-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-knowledge-modeling-node-1",
+                "textus-cncf-knowledge-modeling-node-2"
+              ],
+              "relations": [
+                "textus-cncf-knowledge-modeling-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-knowledge-modeling-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "textus-cncf-knowledge-modeling-context-section",
+            "heading": "共通知識と業務の文脈を対応付ける",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-knowledge-modeling-context"
+              ],
+              "claims": [
+                "textus-cncf-knowledge-modeling-context-claim-1",
+                "textus-cncf-knowledge-modeling-context-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-knowledge-modeling-context-node-1",
+                "textus-cncf-knowledge-modeling-context-node-2"
+              ],
+              "relations": [
+                "textus-cncf-knowledge-modeling-context-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-knowledge-modeling-context-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-knowledge-modeling-context-paragraph-1",
+                "kind": "paragraph",
+                "text": "BoKは、用語、概念、技術上の知識を共有する基礎になります。プロジェクトでは、対象業務、要求、制約、採用した判断を加えます。共通の定義と業務固有の定義を識別子・出典・適用範囲で区別すると、同じ語を異なる意味で使う場面を確認できます。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-context"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-context-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-context-node-1",
+                    "textus-cncf-knowledge-modeling-context-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-context-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-context-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-knowledge-modeling-context-paragraph-2",
+                "kind": "paragraph",
+                "text": "用語の一致だけでモデル要素を決めません。たとえば「書籍」が作品、版、手元の一冊のどれを意味するかによって、識別と属性の置き場所が変わります。用語の対象と区別する理由を文章と実例で確認し、その判断をモデルへの対応として残します。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-context"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-context-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-context-node-1",
+                    "textus-cncf-knowledge-modeling-context-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-context-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-context-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-knowledge-modeling-model-section",
+            "heading": "文芸モデルからEntity・値・規則を定める",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-knowledge-modeling-model"
+              ],
+              "claims": [
+                "textus-cncf-knowledge-modeling-model-claim-1",
+                "textus-cncf-knowledge-modeling-model-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-knowledge-modeling-model-node-1",
+                "textus-cncf-knowledge-modeling-model-node-2"
+              ],
+              "relations": [
+                "textus-cncf-knowledge-modeling-model-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-knowledge-modeling-model-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-knowledge-modeling-model-paragraph-1",
+                "kind": "paragraph",
+                "text": "文芸モデルに業務の背景、要求、用語の定義、実例と判断理由を記述し、CMLで構造・型・関係・規則を形式化します。継続して識別する対象はEntity、値として扱うものはValueやDatatype、振る舞いはOperationや状態機械などへ分担します。BoKの各用語を一律にEntityへ変換する方式ではありません。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-model"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-model-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-model-node-1",
+                    "textus-cncf-knowledge-modeling-model-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-model-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-model-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-knowledge-modeling-model-paragraph-2",
+                "kind": "paragraph",
+                "text": "書籍の例では、管理する版と所蔵する一冊を分け、ISBNが識別する対象と適用条件を定めます。タイトルや識別子の型、対象同士の関係、変更する公開操作を同じ文脈で決めます。要求された区別を型と関係へ表すことで、実装時に意味を推測し直す範囲を減らします。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-model"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-model-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-model-node-1",
+                    "textus-cncf-knowledge-modeling-model-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-model-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-model-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-knowledge-modeling-projection-section",
+            "heading": "Cozyで意味を型と接続構造へ引き継ぐ",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-knowledge-modeling-projection"
+              ],
+              "claims": [
+                "textus-cncf-knowledge-modeling-projection-claim-1",
+                "textus-cncf-knowledge-modeling-projection-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-knowledge-modeling-projection-node-1",
+                "textus-cncf-knowledge-modeling-projection-node-2"
+              ],
+              "relations": [
+                "textus-cncf-knowledge-modeling-projection-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-knowledge-modeling-projection-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-knowledge-modeling-projection-paragraph-1",
+                "kind": "paragraph",
+                "text": "CozyはCMLを解析し、受理した型・制約・Operationの契約を、型付きコード、スキーマ、実行定義や接続構造へ具体化します。Textus／CNCFはその定義と登録された処理を利用します。業務固有の計算や外部接続は、生成された型と公開契約の中で補完します。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-projection"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-projection-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-projection-node-1",
+                    "textus-cncf-knowledge-modeling-projection-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-projection-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-projection-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-knowledge-modeling-projection-paragraph-2",
+                "kind": "paragraph",
+                "text": "CozyのTerminologyメタデータ仕様は、用語参照、モデル要素、ラベル、出典、参照の範囲を区別して保持します。同じ名前であることから参照や同義関係を推測するものではありません。この明示的な対応と生成契約を使うことで、どの業務上の定義がどの型・操作へつながるかを確認できます。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-projection"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-projection-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-projection-node-1",
+                    "textus-cncf-knowledge-modeling-projection-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-projection-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-projection-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-knowledge-modeling-mapping-table",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-projection"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-projection-claim-1",
+                    "textus-cncf-knowledge-modeling-projection-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-projection-node-1",
+                    "textus-cncf-knowledge-modeling-projection-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-projection-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-projection-flow"
+                  ]
+                },
+                "caption": "知識と実装の対応",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "担当"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "保持するもの"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "次の段階との接続"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "textus-cncf-knowledge-modeling-mapping-row-1",
+                    "cells": [
+                      "BoK・業務知識",
+                      "意味・出典・適用範囲",
+                      "文芸モデルの根拠"
+                    ]
+                  },
+                  {
+                    "id": "textus-cncf-knowledge-modeling-mapping-row-2",
+                    "cells": [
+                      "文芸モデル・CML",
+                      "判断理由・型・関係・規則",
+                      "Cozyへ渡す明示的な契約"
+                    ]
+                  },
+                  {
+                    "id": "textus-cncf-knowledge-modeling-mapping-row-3",
+                    "cells": [
+                      "Cozy",
+                      "モデルに対応する型と接続",
+                      "生成物と補完処理の境界"
+                    ]
+                  },
+                  {
+                    "id": "textus-cncf-knowledge-modeling-mapping-row-4",
+                    "cells": [
+                      "Textus／CNCF",
+                      "公開操作と実行時の規則",
+                      "モデルに基づく業務処理"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-knowledge-modeling-change-section",
+            "heading": "変更を元の知識とモデルへ戻す",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-knowledge-modeling-change"
+              ],
+              "claims": [
+                "textus-cncf-knowledge-modeling-change-claim-1",
+                "textus-cncf-knowledge-modeling-change-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-knowledge-modeling-change-node-1",
+                "textus-cncf-knowledge-modeling-change-node-2"
+              ],
+              "relations": [
+                "textus-cncf-knowledge-modeling-change-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-knowledge-modeling-change-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-knowledge-modeling-change-paragraph-1",
+                "kind": "paragraph",
+                "text": "変更時は、用語の意味、適用する業務、規則のどこが変わったかを先に定めます。関連する文芸モデルとCMLを更新し、生成物と補完処理への影響を確認します。機械的検査は参照・型・形式化した条件を確認し、人間のレビューは業務上の区別や規則の妥当性を判断します。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-change"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-change-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-change-node-1",
+                    "textus-cncf-knowledge-modeling-change-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-change-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-change-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-knowledge-modeling-change-paragraph-2",
+                "kind": "paragraph",
+                "text": "AIは共有された用語と受理したモデルを根拠に設計・実装を補助できます。対応漏れや不整合を対象の文書・モデルへ結び付けて返す検査と組み合わせると、修正する範囲を絞れます。知識の提示だけでなく、その知識と成果物の対応を保つ仕組みが知識ハーネスになります。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-change"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-change-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-change-node-1",
+                    "textus-cncf-knowledge-modeling-change-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-change-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-change-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-knowledge-modeling-boundary-section",
+            "heading": "設計する知識と実行時に提供する知識を分ける",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-knowledge-modeling-boundary"
+              ],
+              "claims": [
+                "textus-cncf-knowledge-modeling-boundary-claim-1",
+                "textus-cncf-knowledge-modeling-boundary-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-knowledge-modeling-boundary-node-1",
+                "textus-cncf-knowledge-modeling-boundary-node-2"
+              ],
+              "relations": [
+                "textus-cncf-knowledge-modeling-boundary-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-knowledge-modeling-boundary-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-knowledge-modeling-boundary-paragraph-1",
+                "kind": "paragraph",
+                "text": "本書の成果は、知識を根拠として設計されたモデルと、その対応関係です。実行時の個々の書籍データをInformationやRDF等へ接続する仕組みは、「Entityを知識として扱う」ガイドで説明します。モデル定義と業務データを分けた上で識別子と対応をつなぎ、設計時の意味を実行時にも利用します。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-boundary"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-boundary-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-boundary-node-1",
+                    "textus-cncf-knowledge-modeling-boundary-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-boundary-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-boundary-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-knowledge-modeling-boundary-paragraph-2",
+                "kind": "paragraph",
+                "text": "TerminologyメタデータとCMLの生成契約には仕様があります。一方、任意のBoKを読み込んで適切なEntityを自動設計し、知識提供まで一括して完了する機能を本書は前提としません。利用する用語管理、対応検査、生成、実行の範囲をプロジェクトで確認し、小さな業務例で接続を確かめます。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-boundary"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-boundary-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-boundary-node-1",
+                    "textus-cncf-knowledge-modeling-boundary-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-boundary-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-boundary-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-knowledge-modeling-conclusion-section",
+            "heading": "まとめ",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-knowledge-modeling-conclusion"
+              ],
+              "claims": [
+                "textus-cncf-knowledge-modeling-conclusion-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-knowledge-modeling-conclusion-node-1",
+                "textus-cncf-knowledge-modeling-conclusion-node-2"
+              ],
+              "relations": [
+                "textus-cncf-knowledge-modeling-conclusion-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-knowledge-modeling-conclusion-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-knowledge-modeling-conclusion-paragraph-1",
+                "kind": "paragraph",
+                "text": "BoKと業務知識を文芸モデルとCMLへ対応付け、Cozyの生成とTextus／CNCFの実行契約へ引き継ぐことで、設計の意味を実装でも利用できます。用語・モデル・生成物の対応を保つことが、再利用と変更を支え、AIの判断と修正を適切な範囲へ導きます。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-conclusion"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-conclusion-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-conclusion-node-1",
+                    "textus-cncf-knowledge-modeling-conclusion-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-conclusion-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-conclusion-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-knowledge-modeling-sources-section",
+            "heading": "参照資料と関連ガイド",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-knowledge-modeling-sources"
+              ],
+              "claims": [
+                "textus-cncf-knowledge-modeling-sources-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-knowledge-modeling-sources-node-1",
+                "textus-cncf-knowledge-modeling-sources-node-2"
+              ],
+              "relations": [
+                "textus-cncf-knowledge-modeling-sources-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-knowledge-modeling-sources-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-knowledge-modeling-sources-paragraph-1",
+                "kind": "paragraph",
+                "text": "内部仕様：cozy/docs/spec/cml-terminology-metadata.md、cml-value-datatype-contract.md。関連ガイド：DDD、CMLモデリング、Textus／CNCF全体像、および「Entityを知識として扱う」。本書は2026-11-03に確認した仕様と設計方針に基づく初稿です。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-sources"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-sources-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-sources-node-1",
+                    "textus-cncf-knowledge-modeling-sources-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-sources-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-sources-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  }
+}

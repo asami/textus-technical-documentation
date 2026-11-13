@@ -1,0 +1,73 @@
+Using Entities as Knowledge｜Entityを知識として扱う
+================================================================================
+
+# HEAD
+
+status=draft
+published_at=2026-11-03
+document=textus-cncf-entity-knowledge
+
+## SUMMARY
+
+<span lang="ja">Entityのモデルとインスタンスを知識としてMCPで公開し、インスタンスをRDFやembeddingによる検索対象にします。インスタンス検索はMCPとAPIの両経路から、個別の検索コードを書かずにデフォルトで利用できます。本書は、モデル・生成・実行基盤がこの機能を提供する仕組みと、意味・出典・参照権限の対応を説明します。</span><span lang="en">Entity models and instances are exposed as knowledge through MCP, while instances can be searched using RDF and embeddings. Instance search is available by default through both MCP and APIs without writing custom search code. This guide explains how models, generation and runtime support provide these capabilities while preserving meaning, provenance and access permissions.</span>
+
+# Distinguishing Model Meaning from Business Records｜モデルの意味と個々の業務データを分ける
+
+<span lang="ja">Entityのモデル定義は型、属性、関係、操作と規則を表し、インスタンスはそのモデルに従う個々の業務対象と状態を表します。両方を知識としてMCPで公開します。モデル定義を参照することで、AIはインスタンス検索の条件や、取得した属性・関係の意味を理解できます。</span><span lang="en">An Entity model defines types, attributes, relationships, operations and rules; its instances represent individual business subjects and states. Both are exposed as knowledge through MCP. Model definitions help AI understand instance-search conditions and the meanings of returned attributes and relationships.</span>
+
+<span lang="ja">たとえば書籍のモデル定義と、一つの版の書誌情報、手元の一冊の状態は異なる情報です。名前が同じであることや検索結果が似ていることだけで同一視せず、型と識別子、明示した関係を使って対応付けます。</span><span lang="en">A book model definition, bibliographic information for one edition, and the state of a physical copy are different information. Matching names or similar search results do not make them identical; types, identifiers and declared relationships establish their mappings.</span>
+
+# Connecting to the Generated Information Model｜生成されたInformationモデルへ接続する
+
+<span lang="ja">CNCFのInformationモデルはsrc/main/cozy/information.cmlを正本とし、Cozyを含む生成経路から得られるEntity・Value・入出力型とcodecを利用する契約です。InformationSpaceは生成されたInformationを使ってライフサイクルと永続化を扱います。別の手書きInformationモデルを作って意味を重複管理しない構成です。</span><span lang="en">The CNCF Information contract uses src/main/cozy/information.cml as its canonical source and consumes generated Entity, Value, input/output types and codecs through the generation toolchain including Cozy. InformationSpace orchestrates lifecycle and persistence around that generated Information rather than maintaining a second handwritten model.</span>
+
+<span lang="ja">業務Entityのインスタンスを知識として扱う際は、モデルで定めた属性・関係と、対象の識別・出典を対応付けます。標準の公開・検索はモデルと実行基盤の機能を通して提供されるため、EntityごとにMCP用とAPI用の検索処理を別々に実装する必要はありません。Informationの生成契約は、情報を扱う共通の型と実行処理を支えます。</span><span lang="en">Using business Entity instances as knowledge relates modeled attributes and relationships to subject identity and provenance. Standard exposure and search are provided through model and runtime capabilities, so developers do not implement separate MCP and API search handlers for each Entity. The generated Information contract supports shared information types and runtime processing.</span>
+
+# Preserving Identity and Relationships in Knowledge Representations｜識別と関係を保って知識表現へ展開する
+
+<span lang="ja">InformationをRDF等へ展開する経路では、業務の型と関係を知識側の概念・関係へ明示的に対応付けます。CNCFのInformation仕様では、EntityId、RDFの主語、外部識別子、知識ノードの識別子を別々に扱います。対応表を持つことで、業務上の同一性を別の識別子で置き換えずに表現を増やせます。</span><span lang="en">Projection into RDF or another knowledge representation explicitly maps business types and relationships to knowledge concepts and relations. The Information specification distinguishes EntityId, RDF subjects, external identifiers and knowledge-node identities. Explicit mappings add representations without replacing business identity.</span>
+
+<span lang="ja">検索の対象はEntityのインスタンスです。RDFは明示した関係や条件に基づく検索を、embeddingは意味的な類似性に基づく検索を支えます。検索結果には元のインスタンスとモデル定義への対応を保持し、出典や版・時点も確認できるようにします。モデルのMCP公開と、インスタンスを対象とする検索は役割を区別します。</span><span lang="en">The search targets are Entity instances. RDF supports searches based on declared relationships and conditions; embeddings support searches based on semantic similarity. Results retain mappings to source instances and model definitions, with provenance and revision or time information. Exposing models through MCP and searching instances have distinct roles.</span>
+
+<span lang="ja">知識経路で保つ対応</span><span lang="en">Mappings Preserved across the Knowledge Path</span>
+
+| <span lang="ja">段階</span><span lang="en">Stage</span> | <span lang="ja">役割</span><span lang="en">Role</span> | <span lang="ja">保持する対応</span><span lang="en">Mapping to Preserve</span> |
+| --- | --- | --- |
+| <span lang="ja">Entityのインスタンス</span><span lang="en">Entity instances</span> | <span lang="ja">業務対象と状態を管理</span><span lang="en">Manage business subjects and state</span> | <span lang="ja">モデル・対象の識別・版</span><span lang="en">Model, subject identity and revision</span> |
+| <span lang="ja">Information</span><span lang="en">Information</span> | <span lang="ja">情報とその根拠を扱う</span><span lang="en">Handle information and its evidence</span> | <span lang="ja">業務対象・原資料・ライフサイクル</span><span lang="en">Business subjects, sources and lifecycle</span> |
+| <span lang="ja">RDF・embedding</span><span lang="en">RDF and embeddings</span> | <span lang="ja">インスタンスの関係・条件検索と類似検索</span><span lang="en">Relationship/condition and similarity search over instances</span> | <span lang="ja">識別子の対応・出典・更新状態</span><span lang="en">Identity mappings, provenance and freshness</span> |
+| <span lang="ja">MCP・API</span><span lang="en">MCP and APIs</span> | <span lang="ja">AIとアプリケーションに標準検索を提供</span><span lang="en">Provide standard search to AI and applications</span> | <span lang="ja">モデルの意味・参照権限・取得時点</span><span lang="en">Model meaning, read permissions and retrieval time</span> |
+
+# Searching through MCP and APIs without Custom Code｜MCPとAPIからコードを書かずに検索する
+
+<span lang="ja">インスタンス検索にはMCPとAPIの二つの利用経路があります。MCPはAI・AIエージェントからの利用を、APIはUI・アプリケーション・外部システムからの利用を支えます。どちらも標準機能としてデフォルトで提供され、アプリケーションごとに検索処理をコーディングする必要はありません。</span><span lang="en">Instance search has two access routes: MCP and APIs. MCP supports AI and agent consumers; APIs support UIs, applications and external systems. Both are provided by default as standard capabilities without requiring application-specific search code.</span>
+
+<span lang="ja">MCPとAPIは検索への接点であり、RDFとembeddingは背後で用いる検索の仕組みです。MCP経由でもAPI経由でも、モデルに基づく標準の検索機能を利用します。RDFをAPI専用、embeddingをMCP専用とするような対応ではありません。</span><span lang="en">MCP and APIs are access interfaces, whereas RDF and embeddings are underlying search mechanisms. Both routes use standard model-based search capabilities. RDF is not reserved for APIs, nor are embeddings reserved for MCP.</span>
+
+<span lang="ja">たとえば、AIはMCPで書籍モデルの属性や関係を参照し、条件や意味の近さから書籍のインスタンスを検索できます。画面や外部システムはAPIから同じ検索機能を利用します。モデルに基づく検索を共用することで、利用経路ごとに業務の意味を定義し直す負担を減らします。</span><span lang="en">For example, AI can inspect a book model’s attributes and relationships through MCP, then search book instances by conditions or semantic similarity. Screens and external systems use the same search capabilities through APIs. Sharing model-based search reduces repeated definitions of business meaning for each access route.</span>
+
+# Preserving Access Conditions and Context through MCP and APIs｜MCPとAPIで参照権限と文脈を保持する
+
+<span lang="ja">MCPとAPIのどちらから検索する場合も、要求主体が参照できる範囲でインスタンスを提供します。結果の対象・出典・適用範囲・版や時点を保持し、知識の複製や検索索引にも参照条件を対応付けます。デフォルトで検索機能が提供されることは、すべての情報が無条件に公開されることを意味しません。</span><span lang="en">Both MCP and API searches return instances within the requesting principal’s permitted scope. Results preserve subjects, provenance, applicability and revisions or times, with access conditions carried into knowledge copies and indexes. Providing search by default does not make all information unconditionally public.</span>
+
+<span lang="ja">知識の取得は業務状態を変更する権限にはなりません。AIが変更を提案した場合は、公開Operationと通常の認可・更新経路へ接続します。知識提供の文脈を明確にする仕組みと実行時の制御を組み合わせることで、判断の支援と不適切な操作の抑制を分担できます。</span><span lang="en">Retrieving knowledge does not grant authority to mutate business state. Proposed changes use public Operations and normal authorization and mutation paths. Contextual knowledge delivery and runtime controls jointly support decisions while constraining inappropriate operations.</span>
+
+# Relating Changes and Inconsistencies to Their Sources｜変更と不整合を元の対象へ結び付ける
+
+<span lang="ja">書誌情報を修正した場合は、元のEntityとInformation、知識表現、検索結果のどこが旧版かを識別できるようにします。再抽出・再投影の条件、失敗時に提供する状態、利用者が確認する必要のある相違を定めます。モデルの変更とデータの更新を区別することで、影響する対応と再生成の範囲を絞れます。</span><span lang="en">When bibliographic information changes, identify stale versions across the source Entity, Information, knowledge representations and search results. Define re-extraction and projection conditions, behavior on failure, and differences requiring review. Distinguishing model changes from data updates narrows affected mappings and regeneration.</span>
+
+<span lang="ja">対応切れ、版の不一致、根拠のない同一視などを検査し、問題を元の対象と関係へ結び付けて返すことが、知識ハーネスのフィードバックになります。形式化した整合条件は機械的に検査し、内容の意味や業務上の妥当性は原資料と人間の判断へ戻して確認します。</span><span lang="en">Checks for broken mappings, revision mismatches and unsupported identity assumptions provide knowledge-harness feedback by locating the affected subjects and relationships. Formal consistency conditions can be checked mechanically; semantic meaning and business validity require source material and human judgment.</span>
+
+# Using Standard Exposure and Search from Model Definitions｜モデルの定義から標準の公開・検索を利用する
+
+<span lang="ja">通常の開発では、CMLでEntityを定義し、Cozyによる生成とTextus／CNCFの実行経路を利用します。モデルとインスタンスのMCP公開、MCP・APIを通じたインスタンス検索は基本機能として提供され、開発者が個別の公開・検索コードを書く必要はありません。業務上の属性・関係・規則と参照権限をモデルや設定へ記述し、標準機能を利用します。</span><span lang="en">Normal development defines Entities in CML and uses Cozy generation and Textus/CNCF execution. MCP exposure of models and instances and instance search through MCP and APIs are basic capabilities; developers need not write custom exposure or search code. Business attributes, relationships, rules and access permissions are supplied through models and configuration.</span>
+
+<span lang="ja">「BoKからドメイン・モデルを設計する」ガイドが設計の根拠を扱い、本書はそのモデルに基づく情報の利用を扱います。Knowledge Lake、Knowledge Workbench、SIE、BoKなど個別部品の設定・用途は、それぞれのガイドで具体化します。最初は一つの対象と操作で、出典と識別、更新、権限、検索結果の対応を確かめます。</span><span lang="en">Designing Domain Models from a BoK covers design foundations; this guide covers using information based on those models. Individual guides specify configuration and uses of Knowledge Lake, Knowledge Workbench, SIE and BoK components. Start with one subject and operation to check source and identity mappings, updates, permissions and search results.</span>
+
+# Conclusion｜まとめ
+
+<span lang="ja">モデルの定義と実行基盤を組み合わせることで、EntityのモデルとインスタンスをMCPで公開し、インスタンスをMCP・APIの両経路から検索できます。RDFとembeddingによる検索を標準機能として利用できるため、AIとアプリケーションのために検索処理を個別実装する負担が減ります。モデルの意味と参照条件を検索結果へ引き継ぐことが、適切な知識利用を支えます。</span><span lang="en">Model definitions and runtime support expose Entity models and instances through MCP and make instances searchable through both MCP and APIs. Standard RDF and embedding search reduces custom implementation for AI and application consumers. Preserving model meaning and access conditions in results supports appropriate knowledge use.</span>
+
+# Sources｜参照資料
+
+<span lang="ja">内部仕様：cloud-native-component-framework/docs/spec/information-canonical-model.md。構想資料：simplemodeling-org/docs/journal/2026/10/2026-10-16-cncf-series-runtime-ddd-knowledge-ai-harness.mdのEntityからInformation／Knowledgeへの節、および2026-11-03-knowledge-harness-design-runtime.md。本書は2026-11-03に確認した仕様と構想に基づく初稿です。</span><span lang="en">Internal specification: cloud-native-component-framework/docs/spec/information-canonical-model.md. Design sources: the Entity-to-Information/Knowledge section of simplemodeling-org/docs/journal/2026/10/2026-10-16-cncf-series-runtime-ddd-knowledge-ai-harness.md and the journal 2026-11-03-knowledge-harness-design-runtime.md. This initial manuscript is based on specifications and design directions inspected on 2026-11-03.</span>

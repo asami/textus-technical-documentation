@@ -1,0 +1,32 @@
+{
+  "schema": "cozy.document-project.v2",
+  "id": "textus-cncf-knowledge-modeling",
+  "workflow": {
+    "schema": "cozy.document-workflow.v2",
+    "id": "document-production"
+  },
+  "profile": "standard",
+  "language": "ja",
+  "workspace": {
+    "kind": "directory"
+  },
+  "contentCore": "content/core.yaml",
+  "activeOptionalWorkProducts": [],
+  "semanticScope": {
+    "id": "textus-cncf-knowledge-modeling",
+    "localeVariants": [
+      {
+        "project": "textus-cncf-knowledge-modeling",
+        "language": "ja",
+        "contentCore": "textus-cncf-knowledge-modeling",
+        "workProducts": []
+      },
+      {
+        "project": "textus-cncf-knowledge-modeling",
+        "language": "en",
+        "contentCore": "textus-cncf-knowledge-modeling",
+        "workProducts": []
+      }
+    ]
+  }
+}

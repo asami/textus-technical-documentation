@@ -1,0 +1,758 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-entity-knowledge-document-ja",
+  "core": {
+    "id": "textus-cncf-entity-knowledge"
+  },
+  "locale": "ja",
+  "document": {
+    "title": "Entityを知識として扱う",
+    "sections": [
+      {
+        "id": "textus-cncf-entity-knowledge-section",
+        "heading": "Entityを知識として扱う",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-entity-knowledge"
+          ],
+          "claims": [
+            "textus-cncf-entity-knowledge-claim-1"
+          ],
+          "nodes": [
+            "textus-cncf-entity-knowledge-node-1",
+            "textus-cncf-entity-knowledge-node-2"
+          ],
+          "relations": [
+            "textus-cncf-entity-knowledge-relation-1"
+          ],
+          "flows": [
+            "textus-cncf-entity-knowledge-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "textus-cncf-entity-knowledge-paragraph-1",
+            "kind": "paragraph",
+            "text": "Entityのモデルとインスタンスを知識としてMCPで公開し、インスタンスをRDFやembeddingによる検索対象にします。インスタンス検索はMCPとAPIの両経路から、個別の検索コードを書かずにデフォルトで利用できます。本書は、モデル・生成・実行基盤がこの機能を提供する仕組みと、意味・出典・参照権限の対応を説明します。",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-node-1",
+                "textus-cncf-entity-knowledge-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "textus-cncf-entity-knowledge-meaning-section",
+            "heading": "モデルの意味と個々の業務データを分ける",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge-meaning"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-meaning-claim-1",
+                "textus-cncf-entity-knowledge-meaning-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-meaning-node-1",
+                "textus-cncf-entity-knowledge-meaning-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-meaning-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-meaning-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-entity-knowledge-meaning-paragraph-1",
+                "kind": "paragraph",
+                "text": "Entityのモデル定義は型、属性、関係、操作と規則を表し、インスタンスはそのモデルに従う個々の業務対象と状態を表します。両方を知識としてMCPで公開します。モデル定義を参照することで、AIはインスタンス検索の条件や、取得した属性・関係の意味を理解できます。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-meaning"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-meaning-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-meaning-node-1",
+                    "textus-cncf-entity-knowledge-meaning-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-meaning-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-meaning-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-entity-knowledge-meaning-paragraph-2",
+                "kind": "paragraph",
+                "text": "たとえば書籍のモデル定義と、一つの版の書誌情報、手元の一冊の状態は異なる情報です。名前が同じであることや検索結果が似ていることだけで同一視せず、型と識別子、明示した関係を使って対応付けます。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-meaning"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-meaning-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-meaning-node-1",
+                    "textus-cncf-entity-knowledge-meaning-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-meaning-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-meaning-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-entity-knowledge-information-section",
+            "heading": "生成されたInformationモデルへ接続する",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge-information"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-information-claim-1",
+                "textus-cncf-entity-knowledge-information-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-information-node-1",
+                "textus-cncf-entity-knowledge-information-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-information-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-information-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-entity-knowledge-information-paragraph-1",
+                "kind": "paragraph",
+                "text": "CNCFのInformationモデルはsrc/main/cozy/information.cmlを正本とし、Cozyを含む生成経路から得られるEntity・Value・入出力型とcodecを利用する契約です。InformationSpaceは生成されたInformationを使ってライフサイクルと永続化を扱います。別の手書きInformationモデルを作って意味を重複管理しない構成です。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-information"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-information-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-information-node-1",
+                    "textus-cncf-entity-knowledge-information-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-information-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-information-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-entity-knowledge-information-paragraph-2",
+                "kind": "paragraph",
+                "text": "業務Entityのインスタンスを知識として扱う際は、モデルで定めた属性・関係と、対象の識別・出典を対応付けます。標準の公開・検索はモデルと実行基盤の機能を通して提供されるため、EntityごとにMCP用とAPI用の検索処理を別々に実装する必要はありません。Informationの生成契約は、情報を扱う共通の型と実行処理を支えます。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-information"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-information-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-information-node-1",
+                    "textus-cncf-entity-knowledge-information-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-information-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-information-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-entity-knowledge-representation-section",
+            "heading": "識別と関係を保って知識表現へ展開する",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge-representation"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-representation-claim-1",
+                "textus-cncf-entity-knowledge-representation-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-representation-node-1",
+                "textus-cncf-entity-knowledge-representation-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-representation-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-representation-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-entity-knowledge-representation-paragraph-1",
+                "kind": "paragraph",
+                "text": "InformationをRDF等へ展開する経路では、業務の型と関係を知識側の概念・関係へ明示的に対応付けます。CNCFのInformation仕様では、EntityId、RDFの主語、外部識別子、知識ノードの識別子を別々に扱います。対応表を持つことで、業務上の同一性を別の識別子で置き換えずに表現を増やせます。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-representation"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-representation-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-representation-node-1",
+                    "textus-cncf-entity-knowledge-representation-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-representation-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-representation-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-entity-knowledge-representation-paragraph-2",
+                "kind": "paragraph",
+                "text": "検索の対象はEntityのインスタンスです。RDFは明示した関係や条件に基づく検索を、embeddingは意味的な類似性に基づく検索を支えます。検索結果には元のインスタンスとモデル定義への対応を保持し、出典や版・時点も確認できるようにします。モデルのMCP公開と、インスタンスを対象とする検索は役割を区別します。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-representation"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-representation-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-representation-node-1",
+                    "textus-cncf-entity-knowledge-representation-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-representation-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-representation-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-entity-knowledge-mapping-table",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-representation"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-representation-claim-1",
+                    "textus-cncf-entity-knowledge-representation-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-representation-node-1",
+                    "textus-cncf-entity-knowledge-representation-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-representation-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-representation-flow"
+                  ]
+                },
+                "caption": "知識経路で保つ対応",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "段階"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "役割"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "保持する対応"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "textus-cncf-entity-knowledge-mapping-row-1",
+                    "cells": [
+                      "Entityのインスタンス",
+                      "業務対象と状態を管理",
+                      "モデル・対象の識別・版"
+                    ]
+                  },
+                  {
+                    "id": "textus-cncf-entity-knowledge-mapping-row-2",
+                    "cells": [
+                      "Information",
+                      "情報とその根拠を扱う",
+                      "業務対象・原資料・ライフサイクル"
+                    ]
+                  },
+                  {
+                    "id": "textus-cncf-entity-knowledge-mapping-row-3",
+                    "cells": [
+                      "RDF・embedding",
+                      "インスタンスの関係・条件検索と類似検索",
+                      "識別子の対応・出典・更新状態"
+                    ]
+                  },
+                  {
+                    "id": "textus-cncf-entity-knowledge-mapping-row-4",
+                    "cells": [
+                      "MCP・API",
+                      "AIとアプリケーションに標準検索を提供",
+                      "モデルの意味・参照権限・取得時点"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-entity-knowledge-search-routes-section",
+            "heading": "MCPとAPIからコードを書かずに検索する",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge-search-routes"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-search-routes-claim-1",
+                "textus-cncf-entity-knowledge-search-routes-claim-2",
+                "textus-cncf-entity-knowledge-search-routes-claim-3"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-search-routes-node-1",
+                "textus-cncf-entity-knowledge-search-routes-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-search-routes-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-search-routes-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-entity-knowledge-search-routes-paragraph-1",
+                "kind": "paragraph",
+                "text": "インスタンス検索にはMCPとAPIの二つの利用経路があります。MCPはAI・AIエージェントからの利用を、APIはUI・アプリケーション・外部システムからの利用を支えます。どちらも標準機能としてデフォルトで提供され、アプリケーションごとに検索処理をコーディングする必要はありません。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-search-routes"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-search-routes-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-search-routes-node-1",
+                    "textus-cncf-entity-knowledge-search-routes-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-search-routes-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-search-routes-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-entity-knowledge-search-routes-paragraph-2",
+                "kind": "paragraph",
+                "text": "MCPとAPIは検索への接点であり、RDFとembeddingは背後で用いる検索の仕組みです。MCP経由でもAPI経由でも、モデルに基づく標準の検索機能を利用します。RDFをAPI専用、embeddingをMCP専用とするような対応ではありません。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-search-routes"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-search-routes-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-search-routes-node-1",
+                    "textus-cncf-entity-knowledge-search-routes-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-search-routes-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-search-routes-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-entity-knowledge-search-routes-paragraph-3",
+                "kind": "paragraph",
+                "text": "たとえば、AIはMCPで書籍モデルの属性や関係を参照し、条件や意味の近さから書籍のインスタンスを検索できます。画面や外部システムはAPIから同じ検索機能を利用します。モデルに基づく検索を共用することで、利用経路ごとに業務の意味を定義し直す負担を減らします。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-search-routes"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-search-routes-claim-3"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-search-routes-node-1",
+                    "textus-cncf-entity-knowledge-search-routes-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-search-routes-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-search-routes-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-entity-knowledge-access-section",
+            "heading": "MCPとAPIで参照権限と文脈を保持する",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge-access"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-access-claim-1",
+                "textus-cncf-entity-knowledge-access-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-access-node-1",
+                "textus-cncf-entity-knowledge-access-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-access-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-access-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-entity-knowledge-access-paragraph-1",
+                "kind": "paragraph",
+                "text": "MCPとAPIのどちらから検索する場合も、要求主体が参照できる範囲でインスタンスを提供します。結果の対象・出典・適用範囲・版や時点を保持し、知識の複製や検索索引にも参照条件を対応付けます。デフォルトで検索機能が提供されることは、すべての情報が無条件に公開されることを意味しません。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-access"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-access-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-access-node-1",
+                    "textus-cncf-entity-knowledge-access-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-access-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-access-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-entity-knowledge-access-paragraph-2",
+                "kind": "paragraph",
+                "text": "知識の取得は業務状態を変更する権限にはなりません。AIが変更を提案した場合は、公開Operationと通常の認可・更新経路へ接続します。知識提供の文脈を明確にする仕組みと実行時の制御を組み合わせることで、判断の支援と不適切な操作の抑制を分担できます。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-access"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-access-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-access-node-1",
+                    "textus-cncf-entity-knowledge-access-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-access-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-access-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-entity-knowledge-operation-section",
+            "heading": "変更と不整合を元の対象へ結び付ける",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge-operation"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-operation-claim-1",
+                "textus-cncf-entity-knowledge-operation-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-operation-node-1",
+                "textus-cncf-entity-knowledge-operation-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-operation-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-operation-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-entity-knowledge-operation-paragraph-1",
+                "kind": "paragraph",
+                "text": "書誌情報を修正した場合は、元のEntityとInformation、知識表現、検索結果のどこが旧版かを識別できるようにします。再抽出・再投影の条件、失敗時に提供する状態、利用者が確認する必要のある相違を定めます。モデルの変更とデータの更新を区別することで、影響する対応と再生成の範囲を絞れます。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-operation"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-operation-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-operation-node-1",
+                    "textus-cncf-entity-knowledge-operation-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-operation-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-operation-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-entity-knowledge-operation-paragraph-2",
+                "kind": "paragraph",
+                "text": "対応切れ、版の不一致、根拠のない同一視などを検査し、問題を元の対象と関係へ結び付けて返すことが、知識ハーネスのフィードバックになります。形式化した整合条件は機械的に検査し、内容の意味や業務上の妥当性は原資料と人間の判断へ戻して確認します。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-operation"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-operation-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-operation-node-1",
+                    "textus-cncf-entity-knowledge-operation-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-operation-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-operation-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-entity-knowledge-scope-section",
+            "heading": "モデルの定義から標準の公開・検索を利用する",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge-scope"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-scope-claim-1",
+                "textus-cncf-entity-knowledge-scope-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-scope-node-1",
+                "textus-cncf-entity-knowledge-scope-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-scope-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-scope-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-entity-knowledge-scope-paragraph-1",
+                "kind": "paragraph",
+                "text": "通常の開発では、CMLでEntityを定義し、Cozyによる生成とTextus／CNCFの実行経路を利用します。モデルとインスタンスのMCP公開、MCP・APIを通じたインスタンス検索は基本機能として提供され、開発者が個別の公開・検索コードを書く必要はありません。業務上の属性・関係・規則と参照権限をモデルや設定へ記述し、標準機能を利用します。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-scope"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-scope-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-scope-node-1",
+                    "textus-cncf-entity-knowledge-scope-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-scope-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-scope-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-entity-knowledge-scope-paragraph-2",
+                "kind": "paragraph",
+                "text": "「BoKからドメイン・モデルを設計する」ガイドが設計の根拠を扱い、本書はそのモデルに基づく情報の利用を扱います。Knowledge Lake、Knowledge Workbench、SIE、BoKなど個別部品の設定・用途は、それぞれのガイドで具体化します。最初は一つの対象と操作で、出典と識別、更新、権限、検索結果の対応を確かめます。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-scope"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-scope-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-scope-node-1",
+                    "textus-cncf-entity-knowledge-scope-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-scope-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-scope-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-entity-knowledge-conclusion-section",
+            "heading": "まとめ",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge-conclusion"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-conclusion-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-conclusion-node-1",
+                "textus-cncf-entity-knowledge-conclusion-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-conclusion-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-conclusion-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-entity-knowledge-conclusion-paragraph-1",
+                "kind": "paragraph",
+                "text": "モデルの定義と実行基盤を組み合わせることで、EntityのモデルとインスタンスをMCPで公開し、インスタンスをMCP・APIの両経路から検索できます。RDFとembeddingによる検索を標準機能として利用できるため、AIとアプリケーションのために検索処理を個別実装する負担が減ります。モデルの意味と参照条件を検索結果へ引き継ぐことが、適切な知識利用を支えます。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-conclusion"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-conclusion-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-conclusion-node-1",
+                    "textus-cncf-entity-knowledge-conclusion-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-conclusion-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-conclusion-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-entity-knowledge-sources-section",
+            "heading": "参照資料",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge-sources"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-sources-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-sources-node-1",
+                "textus-cncf-entity-knowledge-sources-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-sources-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-sources-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-entity-knowledge-sources-paragraph-1",
+                "kind": "paragraph",
+                "text": "内部仕様：cloud-native-component-framework/docs/spec/information-canonical-model.md。構想資料：simplemodeling-org/docs/journal/2026/10/2026-10-16-cncf-series-runtime-ddd-knowledge-ai-harness.mdのEntityからInformation／Knowledgeへの節、および2026-11-03-knowledge-harness-design-runtime.md。本書は2026-11-03に確認した仕様と構想に基づく初稿です。",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-sources"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-sources-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-sources-node-1",
+                    "textus-cncf-entity-knowledge-sources-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-sources-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-sources-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  }
+}

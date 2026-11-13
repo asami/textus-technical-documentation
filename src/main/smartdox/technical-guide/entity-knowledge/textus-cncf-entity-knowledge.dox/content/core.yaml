@@ -1,0 +1,392 @@
+{
+  "schema": "cozy.content-core.logic-tree.v1",
+  "id": "textus-cncf-entity-knowledge",
+  "root": {
+    "id": "textus-cncf-entity-knowledge",
+    "semanticRole": "explanation",
+    "claims": [
+      "textus-cncf-entity-knowledge-claim-1"
+    ],
+    "structure": {
+      "pattern": "sequence",
+      "nodes": [
+        {
+          "id": "textus-cncf-entity-knowledge-node-1",
+          "role": "step"
+        },
+        {
+          "id": "textus-cncf-entity-knowledge-node-2",
+          "role": "step"
+        }
+      ],
+      "relations": [
+        {
+          "id": "textus-cncf-entity-knowledge-relation-1",
+          "relationType": "next",
+          "from": "textus-cncf-entity-knowledge-node-1",
+          "to": "textus-cncf-entity-knowledge-node-2"
+        }
+      ]
+    },
+    "flow": {
+      "id": "textus-cncf-entity-knowledge-flow",
+      "transitions": [
+        {
+          "id": "textus-cncf-entity-knowledge-transition-1",
+          "relationType": "next",
+          "fromStepId": "textus-cncf-entity-knowledge-meaning",
+          "toStepId": "textus-cncf-entity-knowledge-information"
+        },
+        {
+          "id": "textus-cncf-entity-knowledge-transition-2",
+          "relationType": "next",
+          "fromStepId": "textus-cncf-entity-knowledge-information",
+          "toStepId": "textus-cncf-entity-knowledge-representation"
+        },
+        {
+          "id": "textus-cncf-entity-knowledge-transition-3",
+          "relationType": "next",
+          "fromStepId": "textus-cncf-entity-knowledge-representation",
+          "toStepId": "textus-cncf-entity-knowledge-search-routes"
+        },
+        {
+          "id": "textus-cncf-entity-knowledge-search-routes-transition",
+          "relationType": "next",
+          "fromStepId": "textus-cncf-entity-knowledge-search-routes",
+          "toStepId": "textus-cncf-entity-knowledge-access"
+        },
+        {
+          "id": "textus-cncf-entity-knowledge-transition-4",
+          "relationType": "next",
+          "fromStepId": "textus-cncf-entity-knowledge-access",
+          "toStepId": "textus-cncf-entity-knowledge-operation"
+        },
+        {
+          "id": "textus-cncf-entity-knowledge-transition-5",
+          "relationType": "next",
+          "fromStepId": "textus-cncf-entity-knowledge-operation",
+          "toStepId": "textus-cncf-entity-knowledge-scope"
+        },
+        {
+          "id": "textus-cncf-entity-knowledge-transition-6",
+          "relationType": "next",
+          "fromStepId": "textus-cncf-entity-knowledge-scope",
+          "toStepId": "textus-cncf-entity-knowledge-conclusion"
+        },
+        {
+          "id": "textus-cncf-entity-knowledge-transition-7",
+          "relationType": "next",
+          "fromStepId": "textus-cncf-entity-knowledge-conclusion",
+          "toStepId": "textus-cncf-entity-knowledge-sources"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "textus-cncf-entity-knowledge-meaning",
+        "semanticRole": "explanation",
+        "claims": [
+          "textus-cncf-entity-knowledge-meaning-claim-1",
+          "textus-cncf-entity-knowledge-meaning-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "textus-cncf-entity-knowledge-meaning-node-1",
+              "role": "step"
+            },
+            {
+              "id": "textus-cncf-entity-knowledge-meaning-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "textus-cncf-entity-knowledge-meaning-relation-1",
+              "relationType": "next",
+              "from": "textus-cncf-entity-knowledge-meaning-node-1",
+              "to": "textus-cncf-entity-knowledge-meaning-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "textus-cncf-entity-knowledge-meaning-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "textus-cncf-entity-knowledge-information",
+        "semanticRole": "explanation",
+        "claims": [
+          "textus-cncf-entity-knowledge-information-claim-1",
+          "textus-cncf-entity-knowledge-information-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "textus-cncf-entity-knowledge-information-node-1",
+              "role": "step"
+            },
+            {
+              "id": "textus-cncf-entity-knowledge-information-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "textus-cncf-entity-knowledge-information-relation-1",
+              "relationType": "next",
+              "from": "textus-cncf-entity-knowledge-information-node-1",
+              "to": "textus-cncf-entity-knowledge-information-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "textus-cncf-entity-knowledge-information-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "textus-cncf-entity-knowledge-representation",
+        "semanticRole": "explanation",
+        "claims": [
+          "textus-cncf-entity-knowledge-representation-claim-1",
+          "textus-cncf-entity-knowledge-representation-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "textus-cncf-entity-knowledge-representation-node-1",
+              "role": "step"
+            },
+            {
+              "id": "textus-cncf-entity-knowledge-representation-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "textus-cncf-entity-knowledge-representation-relation-1",
+              "relationType": "next",
+              "from": "textus-cncf-entity-knowledge-representation-node-1",
+              "to": "textus-cncf-entity-knowledge-representation-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "textus-cncf-entity-knowledge-representation-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "textus-cncf-entity-knowledge-search-routes",
+        "semanticRole": "explanation",
+        "claims": [
+          "textus-cncf-entity-knowledge-search-routes-claim-1",
+          "textus-cncf-entity-knowledge-search-routes-claim-2",
+          "textus-cncf-entity-knowledge-search-routes-claim-3"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "textus-cncf-entity-knowledge-search-routes-node-1",
+              "role": "step"
+            },
+            {
+              "id": "textus-cncf-entity-knowledge-search-routes-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "textus-cncf-entity-knowledge-search-routes-relation-1",
+              "relationType": "next",
+              "from": "textus-cncf-entity-knowledge-search-routes-node-1",
+              "to": "textus-cncf-entity-knowledge-search-routes-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "textus-cncf-entity-knowledge-search-routes-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "textus-cncf-entity-knowledge-access",
+        "semanticRole": "explanation",
+        "claims": [
+          "textus-cncf-entity-knowledge-access-claim-1",
+          "textus-cncf-entity-knowledge-access-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "textus-cncf-entity-knowledge-access-node-1",
+              "role": "step"
+            },
+            {
+              "id": "textus-cncf-entity-knowledge-access-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "textus-cncf-entity-knowledge-access-relation-1",
+              "relationType": "next",
+              "from": "textus-cncf-entity-knowledge-access-node-1",
+              "to": "textus-cncf-entity-knowledge-access-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "textus-cncf-entity-knowledge-access-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "textus-cncf-entity-knowledge-operation",
+        "semanticRole": "explanation",
+        "claims": [
+          "textus-cncf-entity-knowledge-operation-claim-1",
+          "textus-cncf-entity-knowledge-operation-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "textus-cncf-entity-knowledge-operation-node-1",
+              "role": "step"
+            },
+            {
+              "id": "textus-cncf-entity-knowledge-operation-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "textus-cncf-entity-knowledge-operation-relation-1",
+              "relationType": "next",
+              "from": "textus-cncf-entity-knowledge-operation-node-1",
+              "to": "textus-cncf-entity-knowledge-operation-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "textus-cncf-entity-knowledge-operation-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "textus-cncf-entity-knowledge-scope",
+        "semanticRole": "explanation",
+        "claims": [
+          "textus-cncf-entity-knowledge-scope-claim-1",
+          "textus-cncf-entity-knowledge-scope-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "textus-cncf-entity-knowledge-scope-node-1",
+              "role": "step"
+            },
+            {
+              "id": "textus-cncf-entity-knowledge-scope-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "textus-cncf-entity-knowledge-scope-relation-1",
+              "relationType": "next",
+              "from": "textus-cncf-entity-knowledge-scope-node-1",
+              "to": "textus-cncf-entity-knowledge-scope-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "textus-cncf-entity-knowledge-scope-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "textus-cncf-entity-knowledge-conclusion",
+        "semanticRole": "explanation",
+        "claims": [
+          "textus-cncf-entity-knowledge-conclusion-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "textus-cncf-entity-knowledge-conclusion-node-1",
+              "role": "step"
+            },
+            {
+              "id": "textus-cncf-entity-knowledge-conclusion-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "textus-cncf-entity-knowledge-conclusion-relation-1",
+              "relationType": "next",
+              "from": "textus-cncf-entity-knowledge-conclusion-node-1",
+              "to": "textus-cncf-entity-knowledge-conclusion-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "textus-cncf-entity-knowledge-conclusion-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "textus-cncf-entity-knowledge-sources",
+        "semanticRole": "explanation",
+        "claims": [
+          "textus-cncf-entity-knowledge-sources-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "textus-cncf-entity-knowledge-sources-node-1",
+              "role": "step"
+            },
+            {
+              "id": "textus-cncf-entity-knowledge-sources-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "textus-cncf-entity-knowledge-sources-relation-1",
+              "relationType": "next",
+              "from": "textus-cncf-entity-knowledge-sources-node-1",
+              "to": "textus-cncf-entity-knowledge-sources-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "textus-cncf-entity-knowledge-sources-flow",
+          "transitions": []
+        },
+        "steps": []
+      }
+    ]
+  }
+}

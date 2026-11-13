@@ -1,0 +1,32 @@
+{
+  "schema": "cozy.document-project.v2",
+  "id": "textus-cncf-entity-knowledge",
+  "workflow": {
+    "schema": "cozy.document-workflow.v2",
+    "id": "document-production"
+  },
+  "profile": "standard",
+  "language": "ja",
+  "workspace": {
+    "kind": "directory"
+  },
+  "contentCore": "content/core.yaml",
+  "activeOptionalWorkProducts": [],
+  "semanticScope": {
+    "id": "textus-cncf-entity-knowledge",
+    "localeVariants": [
+      {
+        "project": "textus-cncf-entity-knowledge",
+        "language": "ja",
+        "contentCore": "textus-cncf-entity-knowledge",
+        "workProducts": []
+      },
+      {
+        "project": "textus-cncf-entity-knowledge",
+        "language": "en",
+        "contentCore": "textus-cncf-entity-knowledge",
+        "workProducts": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,590 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-knowledge-modeling-document-en",
+  "core": {
+    "id": "textus-cncf-knowledge-modeling"
+  },
+  "locale": "en",
+  "document": {
+    "title": "Designing Domain Models from a BoK",
+    "sections": [
+      {
+        "id": "textus-cncf-knowledge-modeling-section",
+        "heading": "Designing Domain Models from a BoK",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-knowledge-modeling"
+          ],
+          "claims": [
+            "textus-cncf-knowledge-modeling-claim-1"
+          ],
+          "nodes": [
+            "textus-cncf-knowledge-modeling-node-1",
+            "textus-cncf-knowledge-modeling-node-2"
+          ],
+          "relations": [
+            "textus-cncf-knowledge-modeling-relation-1"
+          ],
+          "flows": [
+            "textus-cncf-knowledge-modeling-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "textus-cncf-knowledge-modeling-paragraph-1",
+            "kind": "paragraph",
+            "text": "Using business knowledge in software design requires explicit relationships between term meanings and the models that realize them. This guide follows the design path from a BoK and project knowledge through literate models and CML to Cozy projection. A separate guide covers using Entities as knowledge at runtime.",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-knowledge-modeling"
+              ],
+              "claims": [
+                "textus-cncf-knowledge-modeling-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-knowledge-modeling-node-1",
+                "textus-cncf-knowledge-modeling-node-2"
+              ],
+              "relations": [
+                "textus-cncf-knowledge-modeling-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-knowledge-modeling-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "textus-cncf-knowledge-modeling-context-section",
+            "heading": "Relating Shared Knowledge to Business Context",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-knowledge-modeling-context"
+              ],
+              "claims": [
+                "textus-cncf-knowledge-modeling-context-claim-1",
+                "textus-cncf-knowledge-modeling-context-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-knowledge-modeling-context-node-1",
+                "textus-cncf-knowledge-modeling-context-node-2"
+              ],
+              "relations": [
+                "textus-cncf-knowledge-modeling-context-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-knowledge-modeling-context-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-knowledge-modeling-context-paragraph-1",
+                "kind": "paragraph",
+                "text": "A BoK provides shared terms, concepts and technical knowledge. A project adds its business context, requirements, constraints and design decisions. Identifiers, sources and scopes distinguish shared definitions from project-specific definitions and expose cases where the same word has different meanings.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-context"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-context-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-context-node-1",
+                    "textus-cncf-knowledge-modeling-context-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-context-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-context-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-knowledge-modeling-context-paragraph-2",
+                "kind": "paragraph",
+                "text": "Matching names alone does not determine model elements. For example, a book may mean a work, an edition or a physical copy; each interpretation changes identity and attribute ownership. Prose and examples establish the intended subject and distinctions, and the decision is retained as a model mapping.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-context"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-context-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-context-node-1",
+                    "textus-cncf-knowledge-modeling-context-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-context-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-context-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-knowledge-modeling-model-section",
+            "heading": "Defining Entities, Values and Rules through Literate Models",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-knowledge-modeling-model"
+              ],
+              "claims": [
+                "textus-cncf-knowledge-modeling-model-claim-1",
+                "textus-cncf-knowledge-modeling-model-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-knowledge-modeling-model-node-1",
+                "textus-cncf-knowledge-modeling-model-node-2"
+              ],
+              "relations": [
+                "textus-cncf-knowledge-modeling-model-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-knowledge-modeling-model-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-knowledge-modeling-model-paragraph-1",
+                "kind": "paragraph",
+                "text": "Literate models retain context, requirements, term definitions, examples and rationale; CML formalizes structure, types, relationships and rules. Subjects requiring persistent identity become Entities, values become Values or Datatypes, and behavior uses Operations or state machines. BoK terms are not uniformly converted into Entities.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-model"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-model-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-model-node-1",
+                    "textus-cncf-knowledge-modeling-model-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-model-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-model-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-knowledge-modeling-model-paragraph-2",
+                "kind": "paragraph",
+                "text": "In the book example, distinguish a managed edition from a held copy and specify what an ISBN identifies and under which conditions. Define title and identifier types, relationships and public mutation operations in the same context. Types and relationships preserve required distinctions and reduce repeated interpretation during implementation.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-model"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-model-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-model-node-1",
+                    "textus-cncf-knowledge-modeling-model-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-model-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-model-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-knowledge-modeling-projection-section",
+            "heading": "Carrying Meaning into Types and Connections with Cozy",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-knowledge-modeling-projection"
+              ],
+              "claims": [
+                "textus-cncf-knowledge-modeling-projection-claim-1",
+                "textus-cncf-knowledge-modeling-projection-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-knowledge-modeling-projection-node-1",
+                "textus-cncf-knowledge-modeling-projection-node-2"
+              ],
+              "relations": [
+                "textus-cncf-knowledge-modeling-projection-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-knowledge-modeling-projection-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-knowledge-modeling-projection-paragraph-1",
+                "kind": "paragraph",
+                "text": "Cozy parses CML and projects admitted types, constraints and Operation contracts into typed code, schemas, runtime definitions and connections. Textus/CNCF consumes those definitions and registered behavior. Business-specific calculations and external integration supplement generated types and public contracts.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-projection"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-projection-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-projection-node-1",
+                    "textus-cncf-knowledge-modeling-projection-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-projection-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-projection-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-knowledge-modeling-projection-paragraph-2",
+                "kind": "paragraph",
+                "text": "Cozy terminology metadata distinguishes term references, model elements, labels, attribution and reference boundaries. It does not infer references or synonyms from matching names. Explicit mappings and generation contracts allow a business definition to be traced to its types and operations.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-projection"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-projection-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-projection-node-1",
+                    "textus-cncf-knowledge-modeling-projection-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-projection-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-projection-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-knowledge-modeling-mapping-table",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-projection"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-projection-claim-1",
+                    "textus-cncf-knowledge-modeling-projection-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-projection-node-1",
+                    "textus-cncf-knowledge-modeling-projection-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-projection-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-projection-flow"
+                  ]
+                },
+                "caption": "Knowledge-to-Implementation Mapping",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Responsibility"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "What Is Preserved"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "Connection to the Next Stage"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "textus-cncf-knowledge-modeling-mapping-row-1",
+                    "cells": [
+                      "BoK and business knowledge",
+                      "Meaning, source and scope",
+                      "Basis for the literate model"
+                    ]
+                  },
+                  {
+                    "id": "textus-cncf-knowledge-modeling-mapping-row-2",
+                    "cells": [
+                      "Literate model and CML",
+                      "Rationale, types, relationships and rules",
+                      "Explicit contracts supplied to Cozy"
+                    ]
+                  },
+                  {
+                    "id": "textus-cncf-knowledge-modeling-mapping-row-3",
+                    "cells": [
+                      "Cozy",
+                      "Types and connections corresponding to models",
+                      "Boundary between generated and supplementary behavior"
+                    ]
+                  },
+                  {
+                    "id": "textus-cncf-knowledge-modeling-mapping-row-4",
+                    "cells": [
+                      "Textus/CNCF",
+                      "Public operations and runtime rules",
+                      "Model-based business execution"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-knowledge-modeling-change-section",
+            "heading": "Relating Changes Back to Knowledge and Models",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-knowledge-modeling-change"
+              ],
+              "claims": [
+                "textus-cncf-knowledge-modeling-change-claim-1",
+                "textus-cncf-knowledge-modeling-change-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-knowledge-modeling-change-node-1",
+                "textus-cncf-knowledge-modeling-change-node-2"
+              ],
+              "relations": [
+                "textus-cncf-knowledge-modeling-change-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-knowledge-modeling-change-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-knowledge-modeling-change-paragraph-1",
+                "kind": "paragraph",
+                "text": "A change first identifies which meaning, business scope or rule has changed. Update the related literate model and CML, then inspect generated artifacts and supplementary behavior. Mechanical checks examine references, types and formalized conditions; human review judges business distinctions and rule validity.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-change"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-change-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-change-node-1",
+                    "textus-cncf-knowledge-modeling-change-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-change-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-change-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-knowledge-modeling-change-paragraph-2",
+                "kind": "paragraph",
+                "text": "AI can assist design and implementation using shared terms and admitted models. Checks that relate missing or inconsistent mappings back to specific documents and models narrow the correction scope. A knowledge harness combines useful knowledge with mechanisms that preserve its relationship to work products.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-change"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-change-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-change-node-1",
+                    "textus-cncf-knowledge-modeling-change-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-change-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-change-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-knowledge-modeling-boundary-section",
+            "heading": "Separating Design Knowledge from Runtime Knowledge",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-knowledge-modeling-boundary"
+              ],
+              "claims": [
+                "textus-cncf-knowledge-modeling-boundary-claim-1",
+                "textus-cncf-knowledge-modeling-boundary-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-knowledge-modeling-boundary-node-1",
+                "textus-cncf-knowledge-modeling-boundary-node-2"
+              ],
+              "relations": [
+                "textus-cncf-knowledge-modeling-boundary-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-knowledge-modeling-boundary-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-knowledge-modeling-boundary-paragraph-1",
+                "kind": "paragraph",
+                "text": "The outcome of this guide is a knowledge-informed model and its explicit mappings. The companion guide, Using Entities as Knowledge, describes connecting individual runtime book records to Information and representations such as RDF. Model definitions and business data remain distinct while identifiers and mappings connect their meanings.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-boundary"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-boundary-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-boundary-node-1",
+                    "textus-cncf-knowledge-modeling-boundary-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-boundary-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-boundary-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-knowledge-modeling-boundary-paragraph-2",
+                "kind": "paragraph",
+                "text": "Terminology metadata and CML generation have specified contracts. This guide does not assume a universal facility that reads any BoK, designs suitable Entities and completes knowledge delivery automatically. Confirm the selected terminology management, mapping checks, generation and runtime support, then exercise their connection with a small business example.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-boundary"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-boundary-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-boundary-node-1",
+                    "textus-cncf-knowledge-modeling-boundary-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-boundary-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-boundary-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-knowledge-modeling-conclusion-section",
+            "heading": "Conclusion",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-knowledge-modeling-conclusion"
+              ],
+              "claims": [
+                "textus-cncf-knowledge-modeling-conclusion-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-knowledge-modeling-conclusion-node-1",
+                "textus-cncf-knowledge-modeling-conclusion-node-2"
+              ],
+              "relations": [
+                "textus-cncf-knowledge-modeling-conclusion-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-knowledge-modeling-conclusion-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-knowledge-modeling-conclusion-paragraph-1",
+                "kind": "paragraph",
+                "text": "Relating a BoK and business knowledge to literate models and CML carries design meaning into Cozy generation and Textus/CNCF execution contracts. Maintaining relationships among terms, models and generated artifacts supports reuse and change while guiding AI decisions and corrections.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-conclusion"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-conclusion-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-conclusion-node-1",
+                    "textus-cncf-knowledge-modeling-conclusion-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-conclusion-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-conclusion-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-knowledge-modeling-sources-section",
+            "heading": "Sources and Related Guides",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-knowledge-modeling-sources"
+              ],
+              "claims": [
+                "textus-cncf-knowledge-modeling-sources-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-knowledge-modeling-sources-node-1",
+                "textus-cncf-knowledge-modeling-sources-node-2"
+              ],
+              "relations": [
+                "textus-cncf-knowledge-modeling-sources-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-knowledge-modeling-sources-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-knowledge-modeling-sources-paragraph-1",
+                "kind": "paragraph",
+                "text": "Internal specifications: cozy/docs/spec/cml-terminology-metadata.md and cml-value-datatype-contract.md. Related guides: DDD, CML Modeling, Textus/CNCF Overview, and Using Entities as Knowledge. This initial manuscript is based on specifications and design directions inspected on 2026-11-03.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-knowledge-modeling-sources"
+                  ],
+                  "claims": [
+                    "textus-cncf-knowledge-modeling-sources-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-knowledge-modeling-sources-node-1",
+                    "textus-cncf-knowledge-modeling-sources-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-knowledge-modeling-sources-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-knowledge-modeling-sources-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  }
+}

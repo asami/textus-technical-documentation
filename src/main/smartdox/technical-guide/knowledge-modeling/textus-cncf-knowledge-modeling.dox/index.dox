@@ -1,0 +1,59 @@
+Designing Domain Models from a BoK｜BoKからドメイン・モデルを設計する
+================================================================================
+
+# HEAD
+
+status=draft
+published_at=2026-11-03
+document=textus-cncf-knowledge-modeling
+
+## SUMMARY
+
+<span lang="ja">業務知識をソフトウェアの設計へ使うには、用語の意味と、その意味を実現するモデルの対応を保持する必要があります。本書は、BoKとプロジェクト固有の知識から文芸モデル、CML、Cozyによる具体化へ進む設計経路を説明します。Entityを実行時に知識として提供する経路は、別のガイドで扱います。</span><span lang="en">Using business knowledge in software design requires explicit relationships between term meanings and the models that realize them. This guide follows the design path from a BoK and project knowledge through literate models and CML to Cozy projection. A separate guide covers using Entities as knowledge at runtime.</span>
+
+# Relating Shared Knowledge to Business Context｜共通知識と業務の文脈を対応付ける
+
+<span lang="ja">BoKは、用語、概念、技術上の知識を共有する基礎になります。プロジェクトでは、対象業務、要求、制約、採用した判断を加えます。共通の定義と業務固有の定義を識別子・出典・適用範囲で区別すると、同じ語を異なる意味で使う場面を確認できます。</span><span lang="en">A BoK provides shared terms, concepts and technical knowledge. A project adds its business context, requirements, constraints and design decisions. Identifiers, sources and scopes distinguish shared definitions from project-specific definitions and expose cases where the same word has different meanings.</span>
+
+<span lang="ja">用語の一致だけでモデル要素を決めません。たとえば「書籍」が作品、版、手元の一冊のどれを意味するかによって、識別と属性の置き場所が変わります。用語の対象と区別する理由を文章と実例で確認し、その判断をモデルへの対応として残します。</span><span lang="en">Matching names alone does not determine model elements. For example, a book may mean a work, an edition or a physical copy; each interpretation changes identity and attribute ownership. Prose and examples establish the intended subject and distinctions, and the decision is retained as a model mapping.</span>
+
+# Defining Entities, Values and Rules through Literate Models｜文芸モデルからEntity・値・規則を定める
+
+<span lang="ja">文芸モデルに業務の背景、要求、用語の定義、実例と判断理由を記述し、CMLで構造・型・関係・規則を形式化します。継続して識別する対象はEntity、値として扱うものはValueやDatatype、振る舞いはOperationや状態機械などへ分担します。BoKの各用語を一律にEntityへ変換する方式ではありません。</span><span lang="en">Literate models retain context, requirements, term definitions, examples and rationale; CML formalizes structure, types, relationships and rules. Subjects requiring persistent identity become Entities, values become Values or Datatypes, and behavior uses Operations or state machines. BoK terms are not uniformly converted into Entities.</span>
+
+<span lang="ja">書籍の例では、管理する版と所蔵する一冊を分け、ISBNが識別する対象と適用条件を定めます。タイトルや識別子の型、対象同士の関係、変更する公開操作を同じ文脈で決めます。要求された区別を型と関係へ表すことで、実装時に意味を推測し直す範囲を減らします。</span><span lang="en">In the book example, distinguish a managed edition from a held copy and specify what an ISBN identifies and under which conditions. Define title and identifier types, relationships and public mutation operations in the same context. Types and relationships preserve required distinctions and reduce repeated interpretation during implementation.</span>
+
+# Carrying Meaning into Types and Connections with Cozy｜Cozyで意味を型と接続構造へ引き継ぐ
+
+<span lang="ja">CozyはCMLを解析し、受理した型・制約・Operationの契約を、型付きコード、スキーマ、実行定義や接続構造へ具体化します。Textus／CNCFはその定義と登録された処理を利用します。業務固有の計算や外部接続は、生成された型と公開契約の中で補完します。</span><span lang="en">Cozy parses CML and projects admitted types, constraints and Operation contracts into typed code, schemas, runtime definitions and connections. Textus/CNCF consumes those definitions and registered behavior. Business-specific calculations and external integration supplement generated types and public contracts.</span>
+
+<span lang="ja">CozyのTerminologyメタデータ仕様は、用語参照、モデル要素、ラベル、出典、参照の範囲を区別して保持します。同じ名前であることから参照や同義関係を推測するものではありません。この明示的な対応と生成契約を使うことで、どの業務上の定義がどの型・操作へつながるかを確認できます。</span><span lang="en">Cozy terminology metadata distinguishes term references, model elements, labels, attribution and reference boundaries. It does not infer references or synonyms from matching names. Explicit mappings and generation contracts allow a business definition to be traced to its types and operations.</span>
+
+<span lang="ja">知識と実装の対応</span><span lang="en">Knowledge-to-Implementation Mapping</span>
+
+| <span lang="ja">担当</span><span lang="en">Responsibility</span> | <span lang="ja">保持するもの</span><span lang="en">What Is Preserved</span> | <span lang="ja">次の段階との接続</span><span lang="en">Connection to the Next Stage</span> |
+| --- | --- | --- |
+| <span lang="ja">BoK・業務知識</span><span lang="en">BoK and business knowledge</span> | <span lang="ja">意味・出典・適用範囲</span><span lang="en">Meaning, source and scope</span> | <span lang="ja">文芸モデルの根拠</span><span lang="en">Basis for the literate model</span> |
+| <span lang="ja">文芸モデル・CML</span><span lang="en">Literate model and CML</span> | <span lang="ja">判断理由・型・関係・規則</span><span lang="en">Rationale, types, relationships and rules</span> | <span lang="ja">Cozyへ渡す明示的な契約</span><span lang="en">Explicit contracts supplied to Cozy</span> |
+| <span lang="ja">Cozy</span><span lang="en">Cozy</span> | <span lang="ja">モデルに対応する型と接続</span><span lang="en">Types and connections corresponding to models</span> | <span lang="ja">生成物と補完処理の境界</span><span lang="en">Boundary between generated and supplementary behavior</span> |
+| <span lang="ja">Textus／CNCF</span><span lang="en">Textus/CNCF</span> | <span lang="ja">公開操作と実行時の規則</span><span lang="en">Public operations and runtime rules</span> | <span lang="ja">モデルに基づく業務処理</span><span lang="en">Model-based business execution</span> |
+
+# Relating Changes Back to Knowledge and Models｜変更を元の知識とモデルへ戻す
+
+<span lang="ja">変更時は、用語の意味、適用する業務、規則のどこが変わったかを先に定めます。関連する文芸モデルとCMLを更新し、生成物と補完処理への影響を確認します。機械的検査は参照・型・形式化した条件を確認し、人間のレビューは業務上の区別や規則の妥当性を判断します。</span><span lang="en">A change first identifies which meaning, business scope or rule has changed. Update the related literate model and CML, then inspect generated artifacts and supplementary behavior. Mechanical checks examine references, types and formalized conditions; human review judges business distinctions and rule validity.</span>
+
+<span lang="ja">AIは共有された用語と受理したモデルを根拠に設計・実装を補助できます。対応漏れや不整合を対象の文書・モデルへ結び付けて返す検査と組み合わせると、修正する範囲を絞れます。知識の提示だけでなく、その知識と成果物の対応を保つ仕組みが知識ハーネスになります。</span><span lang="en">AI can assist design and implementation using shared terms and admitted models. Checks that relate missing or inconsistent mappings back to specific documents and models narrow the correction scope. A knowledge harness combines useful knowledge with mechanisms that preserve its relationship to work products.</span>
+
+# Separating Design Knowledge from Runtime Knowledge｜設計する知識と実行時に提供する知識を分ける
+
+<span lang="ja">本書の成果は、知識を根拠として設計されたモデルと、その対応関係です。実行時の個々の書籍データをInformationやRDF等へ接続する仕組みは、「Entityを知識として扱う」ガイドで説明します。モデル定義と業務データを分けた上で識別子と対応をつなぎ、設計時の意味を実行時にも利用します。</span><span lang="en">The outcome of this guide is a knowledge-informed model and its explicit mappings. The companion guide, Using Entities as Knowledge, describes connecting individual runtime book records to Information and representations such as RDF. Model definitions and business data remain distinct while identifiers and mappings connect their meanings.</span>
+
+<span lang="ja">TerminologyメタデータとCMLの生成契約には仕様があります。一方、任意のBoKを読み込んで適切なEntityを自動設計し、知識提供まで一括して完了する機能を本書は前提としません。利用する用語管理、対応検査、生成、実行の範囲をプロジェクトで確認し、小さな業務例で接続を確かめます。</span><span lang="en">Terminology metadata and CML generation have specified contracts. This guide does not assume a universal facility that reads any BoK, designs suitable Entities and completes knowledge delivery automatically. Confirm the selected terminology management, mapping checks, generation and runtime support, then exercise their connection with a small business example.</span>
+
+# Conclusion｜まとめ
+
+<span lang="ja">BoKと業務知識を文芸モデルとCMLへ対応付け、Cozyの生成とTextus／CNCFの実行契約へ引き継ぐことで、設計の意味を実装でも利用できます。用語・モデル・生成物の対応を保つことが、再利用と変更を支え、AIの判断と修正を適切な範囲へ導きます。</span><span lang="en">Relating a BoK and business knowledge to literate models and CML carries design meaning into Cozy generation and Textus/CNCF execution contracts. Maintaining relationships among terms, models and generated artifacts supports reuse and change while guiding AI decisions and corrections.</span>
+
+# Sources and Related Guides｜参照資料と関連ガイド
+
+<span lang="ja">内部仕様：cozy/docs/spec/cml-terminology-metadata.md、cml-value-datatype-contract.md。関連ガイド：DDD、CMLモデリング、Textus／CNCF全体像、および「Entityを知識として扱う」。本書は2026-11-03に確認した仕様と設計方針に基づく初稿です。</span><span lang="en">Internal specifications: cozy/docs/spec/cml-terminology-metadata.md and cml-value-datatype-contract.md. Related guides: DDD, CML Modeling, Textus/CNCF Overview, and Using Entities as Knowledge. This initial manuscript is based on specifications and design directions inspected on 2026-11-03.</span>

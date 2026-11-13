@@ -1,0 +1,758 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-entity-knowledge-document-en",
+  "core": {
+    "id": "textus-cncf-entity-knowledge"
+  },
+  "locale": "en",
+  "document": {
+    "title": "Using Entities as Knowledge",
+    "sections": [
+      {
+        "id": "textus-cncf-entity-knowledge-section",
+        "heading": "Using Entities as Knowledge",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-entity-knowledge"
+          ],
+          "claims": [
+            "textus-cncf-entity-knowledge-claim-1"
+          ],
+          "nodes": [
+            "textus-cncf-entity-knowledge-node-1",
+            "textus-cncf-entity-knowledge-node-2"
+          ],
+          "relations": [
+            "textus-cncf-entity-knowledge-relation-1"
+          ],
+          "flows": [
+            "textus-cncf-entity-knowledge-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "textus-cncf-entity-knowledge-paragraph-1",
+            "kind": "paragraph",
+            "text": "Entity models and instances are exposed as knowledge through MCP, while instances can be searched using RDF and embeddings. Instance search is available by default through both MCP and APIs without writing custom search code. This guide explains how models, generation and runtime support provide these capabilities while preserving meaning, provenance and access permissions.",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-node-1",
+                "textus-cncf-entity-knowledge-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "textus-cncf-entity-knowledge-meaning-section",
+            "heading": "Distinguishing Model Meaning from Business Records",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge-meaning"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-meaning-claim-1",
+                "textus-cncf-entity-knowledge-meaning-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-meaning-node-1",
+                "textus-cncf-entity-knowledge-meaning-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-meaning-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-meaning-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-entity-knowledge-meaning-paragraph-1",
+                "kind": "paragraph",
+                "text": "An Entity model defines types, attributes, relationships, operations and rules; its instances represent individual business subjects and states. Both are exposed as knowledge through MCP. Model definitions help AI understand instance-search conditions and the meanings of returned attributes and relationships.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-meaning"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-meaning-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-meaning-node-1",
+                    "textus-cncf-entity-knowledge-meaning-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-meaning-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-meaning-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-entity-knowledge-meaning-paragraph-2",
+                "kind": "paragraph",
+                "text": "A book model definition, bibliographic information for one edition, and the state of a physical copy are different information. Matching names or similar search results do not make them identical; types, identifiers and declared relationships establish their mappings.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-meaning"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-meaning-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-meaning-node-1",
+                    "textus-cncf-entity-knowledge-meaning-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-meaning-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-meaning-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-entity-knowledge-information-section",
+            "heading": "Connecting to the Generated Information Model",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge-information"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-information-claim-1",
+                "textus-cncf-entity-knowledge-information-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-information-node-1",
+                "textus-cncf-entity-knowledge-information-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-information-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-information-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-entity-knowledge-information-paragraph-1",
+                "kind": "paragraph",
+                "text": "The CNCF Information contract uses src/main/cozy/information.cml as its canonical source and consumes generated Entity, Value, input/output types and codecs through the generation toolchain including Cozy. InformationSpace orchestrates lifecycle and persistence around that generated Information rather than maintaining a second handwritten model.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-information"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-information-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-information-node-1",
+                    "textus-cncf-entity-knowledge-information-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-information-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-information-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-entity-knowledge-information-paragraph-2",
+                "kind": "paragraph",
+                "text": "Using business Entity instances as knowledge relates modeled attributes and relationships to subject identity and provenance. Standard exposure and search are provided through model and runtime capabilities, so developers do not implement separate MCP and API search handlers for each Entity. The generated Information contract supports shared information types and runtime processing.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-information"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-information-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-information-node-1",
+                    "textus-cncf-entity-knowledge-information-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-information-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-information-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-entity-knowledge-representation-section",
+            "heading": "Preserving Identity and Relationships in Knowledge Representations",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge-representation"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-representation-claim-1",
+                "textus-cncf-entity-knowledge-representation-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-representation-node-1",
+                "textus-cncf-entity-knowledge-representation-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-representation-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-representation-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-entity-knowledge-representation-paragraph-1",
+                "kind": "paragraph",
+                "text": "Projection into RDF or another knowledge representation explicitly maps business types and relationships to knowledge concepts and relations. The Information specification distinguishes EntityId, RDF subjects, external identifiers and knowledge-node identities. Explicit mappings add representations without replacing business identity.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-representation"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-representation-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-representation-node-1",
+                    "textus-cncf-entity-knowledge-representation-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-representation-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-representation-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-entity-knowledge-representation-paragraph-2",
+                "kind": "paragraph",
+                "text": "The search targets are Entity instances. RDF supports searches based on declared relationships and conditions; embeddings support searches based on semantic similarity. Results retain mappings to source instances and model definitions, with provenance and revision or time information. Exposing models through MCP and searching instances have distinct roles.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-representation"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-representation-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-representation-node-1",
+                    "textus-cncf-entity-knowledge-representation-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-representation-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-representation-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-entity-knowledge-mapping-table",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-representation"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-representation-claim-1",
+                    "textus-cncf-entity-knowledge-representation-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-representation-node-1",
+                    "textus-cncf-entity-knowledge-representation-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-representation-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-representation-flow"
+                  ]
+                },
+                "caption": "Mappings Preserved across the Knowledge Path",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Stage"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Role"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "Mapping to Preserve"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "textus-cncf-entity-knowledge-mapping-row-1",
+                    "cells": [
+                      "Entity instances",
+                      "Manage business subjects and state",
+                      "Model, subject identity and revision"
+                    ]
+                  },
+                  {
+                    "id": "textus-cncf-entity-knowledge-mapping-row-2",
+                    "cells": [
+                      "Information",
+                      "Handle information and its evidence",
+                      "Business subjects, sources and lifecycle"
+                    ]
+                  },
+                  {
+                    "id": "textus-cncf-entity-knowledge-mapping-row-3",
+                    "cells": [
+                      "RDF and embeddings",
+                      "Relationship/condition and similarity search over instances",
+                      "Identity mappings, provenance and freshness"
+                    ]
+                  },
+                  {
+                    "id": "textus-cncf-entity-knowledge-mapping-row-4",
+                    "cells": [
+                      "MCP and APIs",
+                      "Provide standard search to AI and applications",
+                      "Model meaning, read permissions and retrieval time"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-entity-knowledge-search-routes-section",
+            "heading": "Searching through MCP and APIs without Custom Code",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge-search-routes"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-search-routes-claim-1",
+                "textus-cncf-entity-knowledge-search-routes-claim-2",
+                "textus-cncf-entity-knowledge-search-routes-claim-3"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-search-routes-node-1",
+                "textus-cncf-entity-knowledge-search-routes-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-search-routes-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-search-routes-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-entity-knowledge-search-routes-paragraph-1",
+                "kind": "paragraph",
+                "text": "Instance search has two access routes: MCP and APIs. MCP supports AI and agent consumers; APIs support UIs, applications and external systems. Both are provided by default as standard capabilities without requiring application-specific search code.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-search-routes"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-search-routes-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-search-routes-node-1",
+                    "textus-cncf-entity-knowledge-search-routes-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-search-routes-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-search-routes-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-entity-knowledge-search-routes-paragraph-2",
+                "kind": "paragraph",
+                "text": "MCP and APIs are access interfaces, whereas RDF and embeddings are underlying search mechanisms. Both routes use standard model-based search capabilities. RDF is not reserved for APIs, nor are embeddings reserved for MCP.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-search-routes"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-search-routes-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-search-routes-node-1",
+                    "textus-cncf-entity-knowledge-search-routes-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-search-routes-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-search-routes-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-entity-knowledge-search-routes-paragraph-3",
+                "kind": "paragraph",
+                "text": "For example, AI can inspect a book model’s attributes and relationships through MCP, then search book instances by conditions or semantic similarity. Screens and external systems use the same search capabilities through APIs. Sharing model-based search reduces repeated definitions of business meaning for each access route.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-search-routes"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-search-routes-claim-3"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-search-routes-node-1",
+                    "textus-cncf-entity-knowledge-search-routes-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-search-routes-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-search-routes-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-entity-knowledge-access-section",
+            "heading": "Preserving Access Conditions and Context through MCP and APIs",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge-access"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-access-claim-1",
+                "textus-cncf-entity-knowledge-access-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-access-node-1",
+                "textus-cncf-entity-knowledge-access-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-access-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-access-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-entity-knowledge-access-paragraph-1",
+                "kind": "paragraph",
+                "text": "Both MCP and API searches return instances within the requesting principal’s permitted scope. Results preserve subjects, provenance, applicability and revisions or times, with access conditions carried into knowledge copies and indexes. Providing search by default does not make all information unconditionally public.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-access"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-access-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-access-node-1",
+                    "textus-cncf-entity-knowledge-access-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-access-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-access-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-entity-knowledge-access-paragraph-2",
+                "kind": "paragraph",
+                "text": "Retrieving knowledge does not grant authority to mutate business state. Proposed changes use public Operations and normal authorization and mutation paths. Contextual knowledge delivery and runtime controls jointly support decisions while constraining inappropriate operations.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-access"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-access-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-access-node-1",
+                    "textus-cncf-entity-knowledge-access-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-access-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-access-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-entity-knowledge-operation-section",
+            "heading": "Relating Changes and Inconsistencies to Their Sources",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge-operation"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-operation-claim-1",
+                "textus-cncf-entity-knowledge-operation-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-operation-node-1",
+                "textus-cncf-entity-knowledge-operation-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-operation-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-operation-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-entity-knowledge-operation-paragraph-1",
+                "kind": "paragraph",
+                "text": "When bibliographic information changes, identify stale versions across the source Entity, Information, knowledge representations and search results. Define re-extraction and projection conditions, behavior on failure, and differences requiring review. Distinguishing model changes from data updates narrows affected mappings and regeneration.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-operation"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-operation-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-operation-node-1",
+                    "textus-cncf-entity-knowledge-operation-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-operation-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-operation-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-entity-knowledge-operation-paragraph-2",
+                "kind": "paragraph",
+                "text": "Checks for broken mappings, revision mismatches and unsupported identity assumptions provide knowledge-harness feedback by locating the affected subjects and relationships. Formal consistency conditions can be checked mechanically; semantic meaning and business validity require source material and human judgment.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-operation"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-operation-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-operation-node-1",
+                    "textus-cncf-entity-knowledge-operation-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-operation-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-operation-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-entity-knowledge-scope-section",
+            "heading": "Using Standard Exposure and Search from Model Definitions",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge-scope"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-scope-claim-1",
+                "textus-cncf-entity-knowledge-scope-claim-2"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-scope-node-1",
+                "textus-cncf-entity-knowledge-scope-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-scope-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-scope-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-entity-knowledge-scope-paragraph-1",
+                "kind": "paragraph",
+                "text": "Normal development defines Entities in CML and uses Cozy generation and Textus/CNCF execution. MCP exposure of models and instances and instance search through MCP and APIs are basic capabilities; developers need not write custom exposure or search code. Business attributes, relationships, rules and access permissions are supplied through models and configuration.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-scope"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-scope-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-scope-node-1",
+                    "textus-cncf-entity-knowledge-scope-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-scope-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-scope-flow"
+                  ]
+                }
+              },
+              {
+                "id": "textus-cncf-entity-knowledge-scope-paragraph-2",
+                "kind": "paragraph",
+                "text": "Designing Domain Models from a BoK covers design foundations; this guide covers using information based on those models. Individual guides specify configuration and uses of Knowledge Lake, Knowledge Workbench, SIE and BoK components. Start with one subject and operation to check source and identity mappings, updates, permissions and search results.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-scope"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-scope-claim-2"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-scope-node-1",
+                    "textus-cncf-entity-knowledge-scope-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-scope-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-scope-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-entity-knowledge-conclusion-section",
+            "heading": "Conclusion",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge-conclusion"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-conclusion-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-conclusion-node-1",
+                "textus-cncf-entity-knowledge-conclusion-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-conclusion-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-conclusion-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-entity-knowledge-conclusion-paragraph-1",
+                "kind": "paragraph",
+                "text": "Model definitions and runtime support expose Entity models and instances through MCP and make instances searchable through both MCP and APIs. Standard RDF and embedding search reduces custom implementation for AI and application consumers. Preserving model meaning and access conditions in results supports appropriate knowledge use.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-conclusion"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-conclusion-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-conclusion-node-1",
+                    "textus-cncf-entity-knowledge-conclusion-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-conclusion-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-conclusion-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "textus-cncf-entity-knowledge-sources-section",
+            "heading": "Sources",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-entity-knowledge-sources"
+              ],
+              "claims": [
+                "textus-cncf-entity-knowledge-sources-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-entity-knowledge-sources-node-1",
+                "textus-cncf-entity-knowledge-sources-node-2"
+              ],
+              "relations": [
+                "textus-cncf-entity-knowledge-sources-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-entity-knowledge-sources-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "textus-cncf-entity-knowledge-sources-paragraph-1",
+                "kind": "paragraph",
+                "text": "Internal specification: cloud-native-component-framework/docs/spec/information-canonical-model.md. Design sources: the Entity-to-Information/Knowledge section of simplemodeling-org/docs/journal/2026/10/2026-10-16-cncf-series-runtime-ddd-knowledge-ai-harness.md and the journal 2026-11-03-knowledge-harness-design-runtime.md. This initial manuscript is based on specifications and design directions inspected on 2026-11-03.",
+                "coreRefs": {
+                  "steps": [
+                    "textus-cncf-entity-knowledge-sources"
+                  ],
+                  "claims": [
+                    "textus-cncf-entity-knowledge-sources-claim-1"
+                  ],
+                  "nodes": [
+                    "textus-cncf-entity-knowledge-sources-node-1",
+                    "textus-cncf-entity-knowledge-sources-node-2"
+                  ],
+                  "relations": [
+                    "textus-cncf-entity-knowledge-sources-relation-1"
+                  ],
+                  "flows": [
+                    "textus-cncf-entity-knowledge-sources-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  }
+}
