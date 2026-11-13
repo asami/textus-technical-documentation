@@ -1,0 +1,3929 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-ddd-architecture-document-ja",
+  "core": {
+    "id": "textus-cncf-ddd-architecture"
+  },
+  "locale": "ja",
+  "document": {
+    "title": "Textus/CNCF DDDモデリング技術ガイド",
+    "sections": [
+      {
+        "id": "textus-cncf-ddd-architecture-section",
+        "heading": "Textus/CNCF DDDモデリング技術ガイド",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-ddd-architecture"
+          ],
+          "claims": [
+            "textus-cncf-ddd-architecture-claim-1"
+          ],
+          "nodes": [
+            "textus-cncf-ddd-architecture-node-1",
+            "textus-cncf-ddd-architecture-node-2"
+          ],
+          "relations": [
+            "textus-cncf-ddd-architecture-relation-1"
+          ],
+          "flows": [
+            "textus-cncf-ddd-architecture-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "textus-cncf-ddd-architecture-paragraph-1",
+            "kind": "paragraph",
+            "text": "本技術ガイドは、DDDの観点からSimpleModelingおよびTextus/CNCFのモデル構造と実行の仕組みを説明します。DDDの概念や設計上の関心事との対応を通じて、本システムの構成と設計方針を理解することを目的とします。目的、参照する用語、全体像、戦略的・戦術的設計のハイライト、更新系・参照系との接続の順に示します。",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-ddd-architecture"
+              ],
+              "claims": [
+                "textus-cncf-ddd-architecture-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-ddd-architecture-node-1",
+                "textus-cncf-ddd-architecture-node-2"
+              ],
+              "relations": [
+                "textus-cncf-ddd-architecture-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-ddd-architecture-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "ddd-purpose-section",
+            "heading": "本技術ガイドの目的と対象",
+            "coreRefs": {
+              "steps": [
+                "ddd-purpose"
+              ],
+              "claims": [
+                "ddd-purpose-intent-claim",
+                "ddd-purpose-scope-claim"
+              ],
+              "nodes": [
+                "ddd-purpose-intent-node",
+                "ddd-purpose-scope-node"
+              ],
+              "relations": [
+                "ddd-purpose-local-next-1"
+              ],
+              "flows": [
+                "ddd-purpose-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-purpose-intent",
+                "kind": "paragraph",
+                "text": "本技術ガイドの読者は、DDDを手掛かりにSimpleModeling・Textus/CNCFを理解したい人です。DDDの概念を入口として、その概念が対応するモデル、補完技術、実行基盤との関係を説明します。各技術の役割と接続を示し、優劣や不足を論じる構成にはしません。",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-purpose"
+                  ],
+                  "claims": [
+                    "ddd-purpose-intent-claim"
+                  ],
+                  "nodes": [
+                    "ddd-purpose-intent-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-purpose-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-purpose-scope",
+                "kind": "paragraph",
+                "text": "一般的なモデリングの進め方や個々の案件の開発手順は別の資料で扱います。本文のハイライトは、どのDDD技術が、どの関心事に対応し、本システムのどこで使われるかを示します。設計上の対応と、採用版で利用できる生成・実行機能の範囲は区別します。",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-purpose"
+                  ],
+                  "claims": [
+                    "ddd-purpose-scope-claim"
+                  ],
+                  "nodes": [
+                    "ddd-purpose-scope-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-purpose-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ddd-vocabulary-section",
+            "heading": "3冊の参照範囲と採用する用語",
+            "coreRefs": {
+              "steps": [
+                "ddd-vocabulary"
+              ],
+              "claims": [
+                "ddd-vocabulary-sources-claim",
+                "ddd-book-coverage-claim",
+                "ddd-vocabulary-differences-claim",
+                "ddd-vocabulary-adoption-claim",
+                "ddd-adopted-terms-claim"
+              ],
+              "nodes": [
+                "ddd-vocabulary-sources-node",
+                "ddd-book-coverage-node",
+                "ddd-vocabulary-differences-node",
+                "ddd-vocabulary-adoption-node",
+                "ddd-adopted-terms-node"
+              ],
+              "relations": [
+                "ddd-vocabulary-local-next-1",
+                "ddd-vocabulary-local-next-2",
+                "ddd-vocabulary-local-next-3",
+                "ddd-vocabulary-local-next-4"
+              ],
+              "flows": [
+                "ddd-vocabulary-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-vocabulary-sources",
+                "kind": "paragraph",
+                "text": "参照するのはEvansのDomain-Driven Design（2003年）、VernonのImplementing Domain-Driven Design（2013年）、KhononovのLearning Domain-Driven Design（2021年）の英語版です。表ではE・V・Kと略記します。公開目次と下記の公開本文範囲を用いて、用語の掲載位置と説明の観点を照合しました。参照位置の確認と、定義本文全体の照合は別です。",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-vocabulary"
+                  ],
+                  "claims": [
+                    "ddd-vocabulary-sources-claim"
+                  ],
+                  "nodes": [
+                    "ddd-vocabulary-sources-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-vocabulary-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-book-coverage",
+                "kind": "table",
+                "caption": "3冊の掲載位置・確認範囲",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "概念"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "E：Evans"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "V：Vernon"
+                  },
+                  {
+                    "id": "col-4",
+                    "heading": "K：Khononov"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "ddd-book-coverage-row-1",
+                    "cells": [
+                      "言語・文脈",
+                      "第2章：共有言語／第14章：意味の境界",
+                      "第1–3章：用語・Context／出版社紹介でも言及",
+                      "第2・3章：知識と言語／モデル境界"
+                    ]
+                  },
+                  {
+                    "id": "ddd-book-coverage-row-2",
+                    "cells": [
+                      "Context間の関係",
+                      "第14章／戦略的設計の部",
+                      "第3・13章：Context Mapと接続",
+                      "第4章：関係・変換・Context Map"
+                    ]
+                  },
+                  {
+                    "id": "ddd-book-coverage-row-3",
+                    "cells": [
+                      "Entity・Value Object",
+                      "第5章：モデルの基本要素",
+                      "第5・6章：個別の要素",
+                      "第6章冒頭：Domain Modelの構成要素"
+                    ]
+                  },
+                  {
+                    "id": "ddd-book-coverage-row-4",
+                    "cells": [
+                      "Aggregate",
+                      "第6章：ライフサイクルの章を照合対象とする",
+                      "第10章：公開本文で整合性境界を確認",
+                      "第6章：構成要素として言及"
+                    ]
+                  },
+                  {
+                    "id": "ddd-book-coverage-row-5",
+                    "cells": [
+                      "Repository",
+                      "第6章：ライフサイクルの章を照合対象とする",
+                      "第12章：独立した章",
+                      "第6章冒頭：構成要素として言及"
+                    ]
+                  },
+                  {
+                    "id": "ddd-book-coverage-row-6",
+                    "cells": [
+                      "Domain Event",
+                      "今回の公開確認範囲では位置未確認",
+                      "第8章：独立した章",
+                      "第9・15章：連携・イベントの関連範囲"
+                    ]
+                  },
+                  {
+                    "id": "ddd-book-coverage-row-7",
+                    "cells": [
+                      "CQRS",
+                      "今回の公開確認範囲では位置未確認",
+                      "第4章／出版社が対応アーキテクチャとして明示",
+                      "第8章：更新・参照モデル分離"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ddd-vocabulary"
+                  ],
+                  "claims": [
+                    "ddd-book-coverage-claim"
+                  ],
+                  "nodes": [
+                    "ddd-book-coverage-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-vocabulary-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-vocabulary-differences",
+                "kind": "paragraph",
+                "text": "確認できる違いには、用語の定義だけでなく整理の範囲があります。Eはモデルの基本要素と後半の戦略的設計、Vは基本要素の個別章とアーキテクチャ・連携、Kは戦略的／戦術的設計とアーキテクチャの選択を明示して構成しています。K第6章の公開本文は、戦術的パターン群をDomain Modelの構成要素として説明する立場を示しています。V第10章の公開本文はAggregateを不変条件とトランザクションの整合性境界として具体化します。これらは説明範囲・強調点の違いとして扱い、確認していない定義の対立は断定しません。",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-vocabulary"
+                  ],
+                  "claims": [
+                    "ddd-vocabulary-differences-claim"
+                  ],
+                  "nodes": [
+                    "ddd-vocabulary-differences-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-vocabulary-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-vocabulary-adoption",
+                "kind": "paragraph",
+                "text": "次の表は、本技術ガイドで採用する意味とSimpleModelingへの接続です。各書の定義を同一と仮定せず、出典の観点と本システムの採用方針を区別します。「位置未確認」は今回の公開確認範囲を示すもので、書籍全体にその概念が登場しないという判断ではありません。",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-vocabulary"
+                  ],
+                  "claims": [
+                    "ddd-vocabulary-adoption-claim"
+                  ],
+                  "nodes": [
+                    "ddd-vocabulary-adoption-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-vocabulary-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-adopted-terms",
+                "kind": "table",
+                "caption": "採用する意味と本システムへの接続",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "用語"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "本技術ガイドでの意味"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "SimpleModeling・CNCFへの接点"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "ddd-adopted-terms-row-1",
+                    "cells": [
+                      "Ubiquitous Language",
+                      "モデルを支える文脈内の共有言語",
+                      "BoK用語とモデル・業務規則・知識との対応"
+                    ]
+                  },
+                  {
+                    "id": "ddd-adopted-terms-row-2",
+                    "cells": [
+                      "Bounded Context",
+                      "モデルと言語の意味が一貫する範囲",
+                      "サブシステム・コンポーネントのモデリング境界"
+                    ]
+                  },
+                  {
+                    "id": "ddd-adopted-terms-row-3",
+                    "cells": [
+                      "Context Map",
+                      "コンテキスト間の関係と責任の表現",
+                      "公開契約・変換・依存関係の対応"
+                    ]
+                  },
+                  {
+                    "id": "ddd-adopted-terms-row-4",
+                    "cells": [
+                      "Entity",
+                      "識別を保って状態が変わる業務対象",
+                      "CML Entityと永続状態・識別の契約"
+                    ]
+                  },
+                  {
+                    "id": "ddd-adopted-terms-row-5",
+                    "cells": [
+                      "Value Object",
+                      "識別ではなく値の意味と制約で扱うもの",
+                      "Value・Datatype。更新入力と参照結果の両方"
+                    ]
+                  },
+                  {
+                    "id": "ddd-adopted-terms-row-6",
+                    "cells": [
+                      "Aggregate",
+                      "Rootを通して不変条件を扱う更新整合性の単位",
+                      "更新側投影とCommand。保存時の確定条件へ接続"
+                    ]
+                  },
+                  {
+                    "id": "ddd-adopted-terms-row-7",
+                    "cells": [
+                      "Repository",
+                      "業務対象へのアクセスを表す接点",
+                      "DDD・PoEAAに共有される役割とEntityStore接続"
+                    ]
+                  },
+                  {
+                    "id": "ddd-adopted-terms-row-8",
+                    "cells": [
+                      "Domain Event",
+                      "業務で生じた出来事の表現",
+                      "更新連携では確定した事実を投影・後続処理へ渡す"
+                    ]
+                  },
+                  {
+                    "id": "ddd-adopted-terms-row-9",
+                    "cells": [
+                      "CQRS",
+                      "更新と参照のモデル責務を分ける考え方",
+                      "Aggregate/CommandとView/Queryの役割分離"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ddd-vocabulary"
+                  ],
+                  "claims": [
+                    "ddd-adopted-terms-claim"
+                  ],
+                  "nodes": [
+                    "ddd-adopted-terms-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-vocabulary-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ddd-landscape-section",
+            "heading": "DDDとCQRSから見る全体像",
+            "coreRefs": {
+              "steps": [
+                "ddd-landscape"
+              ],
+              "claims": [
+                "ddd-landscape-claim-1",
+                "ddd-landscape-claim-2"
+              ],
+              "nodes": [
+                "ddd-landscape-node-1",
+                "ddd-landscape-node-2"
+              ],
+              "relations": [
+                "ddd-landscape-relation-1"
+              ],
+              "flows": [
+                "ddd-landscape-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-landscape-paragraph-1",
+                "kind": "paragraph",
+                "text": "冒頭の図は、DDDからSimpleModelingの全体像へ入るための対応図です。戦略的設計は用語と境界を扱い、戦術的設計はその境界内のEntity、Value Object、Aggregateなどの責務を扱います。図ではDDDの概念、補完するアーキテクチャ技術、SimpleModeling・CNCFのモデルと基盤機構を分類し、接続線で各々の関係を示します。",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-landscape"
+                  ],
+                  "claims": [
+                    "ddd-landscape-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-landscape-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-landscape-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-landscape-paragraph-2",
+                "kind": "paragraph",
+                "text": "更新系はCommandからAggregateの規則と更新確定へ進み、参照系はQueryからView・Displayへ進みます。両系統は正本の確定状態と必要な投影で接続します。Value Objectは両系統で意味と制約を表します。共有するのは概念上の意味であり、同じメモリ上のインスタンスや同一形状のモデルを必須とするものではありません。CQRSは両モデルの役割分離を示し、保存先の物理的分割やEvent Sourcingは個別の選択として扱います。",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-landscape"
+                  ],
+                  "claims": [
+                    "ddd-landscape-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-landscape-node-2"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-landscape-flow"
+                  ]
+                }
+              },
+              {
+                "id": "model-landscape",
+                "kind": "figure",
+                "asset": "images/model-landscape-ja.png",
+                "caption": "DDD・補完技術・基盤とCQRSの更新系／参照系",
+                "alt": "DDD・補完技術・基盤とCQRSの更新系／参照系",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-landscape"
+                  ],
+                  "claims": [
+                    "ddd-landscape-claim-1",
+                    "ddd-landscape-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-landscape-node-1",
+                    "ddd-landscape-node-2"
+                  ],
+                  "relations": [
+                    "ddd-landscape-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-landscape-flow"
+                  ]
+                }
+              },
+              {
+                "id": "model-responsibilities",
+                "kind": "table",
+                "caption": "開発上の判断とモデリング技術",
+                "columns": [
+                  {
+                    "id": "model-responsibilities-column-1",
+                    "heading": "開発で決めること"
+                  },
+                  {
+                    "id": "model-responsibilities-column-2",
+                    "heading": "用いるモデル・技術"
+                  },
+                  {
+                    "id": "model-responsibilities-column-3",
+                    "heading": "DDD・PoEAAなどとの関係"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "model-responsibilities-row-1",
+                    "cells": [
+                      "何を業務対象とし、何を守るか",
+                      "Entity・Value・Aggregate・規則",
+                      "DDDの意味と整合性、PoEAAのDomain Model"
+                    ]
+                  },
+                  {
+                    "id": "model-responsibilities-row-2",
+                    "cells": [
+                      "目的をどの進行で実現するか",
+                      "Workflow・状態機械・Operation",
+                      "アプリケーション・モデルとService Layer"
+                    ]
+                  },
+                  {
+                    "id": "model-responsibilities-row-3",
+                    "cells": [
+                      "何を変更し、何を読むか",
+                      "Command・Query・View",
+                      "CQRSによる更新・参照モデルの分離"
+                    ]
+                  },
+                  {
+                    "id": "model-responsibilities-row-4",
+                    "cells": [
+                      "何が起き、何へ伝えるか",
+                      "Domain Event",
+                      "業務上の事実と後続処理の接続"
+                    ]
+                  },
+                  {
+                    "id": "model-responsibilities-row-5",
+                    "cells": [
+                      "どう取得・保存・確定するか",
+                      "Repository・マッピング・UoW",
+                      "PoEAAの永続化とトランザクションのパターン"
+                    ]
+                  },
+                  {
+                    "id": "model-responsibilities-row-6",
+                    "cells": [
+                      "何を利用者へ提示するか",
+                      "View・Display・UIモデル",
+                      "参照結果の意味と表示の分離"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ddd-landscape"
+                  ],
+                  "claims": [
+                    "ddd-landscape-claim-1",
+                    "ddd-landscape-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-landscape-node-1",
+                    "ddd-landscape-node-2"
+                  ],
+                  "relations": [
+                    "ddd-landscape-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-landscape-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ddd-strategic-section",
+            "heading": "戦略的設計のハイライト",
+            "coreRefs": {
+              "steps": [
+                "ddd-strategic"
+              ],
+              "claims": [
+                "ddd-strategic-intro-claim",
+                "ddd-strategic-axes-claim"
+              ],
+              "nodes": [
+                "ddd-strategic-intro-node",
+                "ddd-strategic-axes-node"
+              ],
+              "relations": [
+                "ddd-strategic-local-next-1"
+              ],
+              "flows": [
+                "ddd-strategic-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-strategic-intro",
+                "kind": "paragraph",
+                "text": "戦略的設計のハイライトは、意味を共有する言語、意味が一貫するコンテキスト、およびコンテキスト間の関係です。SimpleModelingでは、これらをBoKの用語・知識、サブシステム・コンポーネントの境界、公開契約との接点として説明します。",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-strategic"
+                  ],
+                  "claims": [
+                    "ddd-strategic-intro-claim"
+                  ],
+                  "nodes": [
+                    "ddd-strategic-intro-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-strategic-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-strategic-axes",
+                "kind": "paragraph",
+                "text": "コンテキストは更新と参照の両方に意味の範囲を与えます。戦略的／戦術的設計と、CQRSの更新系／参照系は直交する整理軸です。コンテキスト間の言語や契約を定めることと、一つのコンテキスト内で更新・参照モデルを分けることを、それぞれの役割で示します。",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-strategic"
+                  ],
+                  "claims": [
+                    "ddd-strategic-axes-claim"
+                  ],
+                  "nodes": [
+                    "ddd-strategic-axes-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-strategic-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ddd-context-section",
+                "heading": "Bounded Context・Context Mapと部品境界",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-context"
+                  ],
+                  "claims": [
+                    "ddd-context-claim-1",
+                    "ddd-context-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-context-node-1",
+                    "ddd-context-node-2"
+                  ],
+                  "relations": [
+                    "ddd-context-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-context-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-context-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Bounded Contextは、特定のモデルと言語の意味が一貫して適用される範囲です。例えば受注と配送で同じ「注文」という語を使っても、扱う属性や規則は異なり得ます。SimpleModelingでは、この意味の境界をサブシステムやコンポーネントの境界として具体化するモデリング方針を取ります。物理ホストやプロセスの数とは別の境界です。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-context"
+                      ],
+                      "claims": [
+                        "ddd-context-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-context-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-context-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-context-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Context Mapは、コンテキスト間の関係と接続時の責任を理解する接点です。SimpleModelingでは、対応するサブシステム・コンポーネント間の公開Service・Operation、データ変換およびEventの契約へ関係を具体化します。用語の翻訳、モデルの対応、接続先への依存を区別して記述します。これは本システムの採用方針であり、すべてのDDDシステムに同じ配備単位を要求するものではありません。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-context"
+                      ],
+                      "claims": [
+                        "ddd-context-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-context-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-context-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-knowledge-section",
+                "heading": "Ubiquitous LanguageとBoK・Entity・知識",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-knowledge"
+                  ],
+                  "claims": [
+                    "ddd-knowledge-claim-1",
+                    "ddd-knowledge-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-knowledge-node-1",
+                    "ddd-knowledge-node-2"
+                  ],
+                  "relations": [
+                    "ddd-knowledge-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-knowledge-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-knowledge-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Ubiquitous Languageは、業務のモデルを支える共有言語という観点です。SimpleModelingでは、BoKで管理する用語と、その文脈・説明・出典をモデルの意味へ結び付けます。用語からEntity・Value・Datatypeなどのモデルへ展開する経路と、用語を知識へ結び付ける経路を分けて示します。共有言語には会話・規則・振る舞いも含まれるため、用語一覧の存在だけで成立したとは扱いません。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-knowledge"
+                      ],
+                      "claims": [
+                        "ddd-knowledge-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-knowledge-node-1",
+                        "ddd-knowledge-node-2"
+                      ],
+                      "relations": [
+                        "ddd-knowledge-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-knowledge-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-knowledge-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "BoKと文芸モデルに残る意味・判断理由をCMLのモデル要素へつなぎ、具体化と実行を経たEntityの情報も、識別と出典を保ってInformation・知識表現へ接続します。すべての用語を一律にEntityへ変換する対応ではありません。詳細な二つの経路は、[[../../knowledge-modeling/textus-cncf-knowledge-modeling.dox/index.dox][BoKからドメイン・モデルを設計する]]と[[../../entity-knowledge/textus-cncf-entity-knowledge.dox/index.dox][Entityを知識として扱う]]で説明しています。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-knowledge"
+                      ],
+                      "claims": [
+                        "ddd-knowledge-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-knowledge-node-1",
+                        "ddd-knowledge-node-2"
+                      ],
+                      "relations": [
+                        "ddd-knowledge-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-knowledge-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ddd-domain-section",
+            "heading": "戦術的設計のハイライト",
+            "coreRefs": {
+              "steps": [
+                "ddd-domain"
+              ],
+              "claims": [
+                "ddd-domain-claim-1"
+              ],
+              "nodes": [
+                "ddd-domain-node-1",
+                "ddd-domain-node-2"
+              ],
+              "relations": [
+                "ddd-domain-relation-1"
+              ],
+              "flows": [
+                "ddd-domain-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-domain-paragraph-1",
+                "kind": "paragraph",
+                "text": "戦術的設計のハイライトは、Entityによる識別、Value Objectによる値の意味、Aggregateによる更新整合性、およびRepositoryやDomain Eventとの接続です。これらの概念を、SimpleModelingの型・規則・公開操作と照合します。戦略的／戦術的という分類と、更新系／参照系という分類は異なる軸です。Value Objectのように両系統で利用する概念もあります。",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-domain"
+                  ],
+                  "claims": [
+                    "ddd-domain-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-domain-node-1",
+                    "ddd-domain-node-2"
+                  ],
+                  "relations": [
+                    "ddd-domain-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-domain-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ddd-structure-section",
+                "heading": "Entityと両系統のValue Object",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-structure"
+                  ],
+                  "claims": [
+                    "ddd-structure-claim-1",
+                    "ddd-structure-claim-2",
+                    "ddd-structure-claim-3"
+                  ],
+                  "nodes": [
+                    "ddd-structure-node-1",
+                    "ddd-structure-node-2"
+                  ],
+                  "relations": [
+                    "ddd-structure-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-structure-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-structure-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "注文は識別子を保って状態が変わるEntityとして扱い、金額や数量は値の意味を持つValueとして扱います。属性の型、任意性、関係、値の制約を明示することで、注文番号と顧客番号の取り違えや、許されない数量を接続先へ渡すことを抑えます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-structure"
+                      ],
+                      "claims": [
+                        "ddd-structure-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-structure-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-structure-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-structure-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Value Objectの意味と制約は、更新系のOperation入力やAggregateの状態と、参照系のQuery結果やView値の両方で利用します。例えば金額は、注文更新の計算にも注文一覧の参照値にも登場します。CMLのValue・Datatypeと型付き接点は、この意味を両経路へ渡す対応先です。保存形式の変換や表示整形はそれぞれ別の責務として扱います。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-structure"
+                      ],
+                      "claims": [
+                        "ddd-structure-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-structure-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-structure-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-structure-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "業務の意味を型と制約へ表す考え方は、関数型プログラミングによるモデリングにもつながります。Domain Modeling Made Functionalは、この型による表現の参照先です。本技術ガイドでは、入力・結果・保存で同じ意味を共有するための技術として扱います。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-structure"
+                      ],
+                      "claims": [
+                        "ddd-structure-claim-3"
+                      ],
+                      "nodes": [
+                        "ddd-structure-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-structure-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-aggregate-section",
+                "heading": "Aggregateと更新の整合性境界",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-aggregate"
+                  ],
+                  "claims": [
+                    "ddd-aggregate-claim-1",
+                    "ddd-aggregate-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-aggregate-node-1",
+                    "ddd-aggregate-node-2",
+                    "ddd-aggregate-node-3"
+                  ],
+                  "relations": [
+                    "ddd-aggregate-relation-1",
+                    "ddd-aggregate-relation-2"
+                  ],
+                  "flows": [
+                    "ddd-aggregate-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-aggregate-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "注文と明細を一つのAggregateとするなら、明細の追加や注文確定はAggregate Rootの操作として表します。外部から項目を直接書き換えるのではなく、その操作で現在状態と業務条件を確認します。数量が正であることなどの値の制約と、確定する注文に明細があることなどの対象全体の規則を組み合わせます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-aggregate"
+                      ],
+                      "claims": [
+                        "ddd-aggregate-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-aggregate-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-aggregate-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-aggregate-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "CNCFではEntityの永続状態を正本とし、Aggregateを更新側の投影として扱います。Aggregateの生成操作と既存対象へのCommandを区別し、不変条件を対応する検査・計算・Commandの実装へ結び付けます。ここで妥当な更新候補を作り、後述するUoWと保存先の条件検査によって実際の状態へ確定します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-aggregate"
+                      ],
+                      "claims": [
+                        "ddd-aggregate-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-aggregate-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-aggregate-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "domain-execution",
+                    "kind": "table",
+                    "caption": "業務のモデルで決めることと接続先",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "モデル"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "決めること"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "利用する接点"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "domain-execution-row-1",
+                        "cells": [
+                          "Entity",
+                          "識別子、属性、関係",
+                          "Operation・保存・Viewの対象"
+                        ]
+                      },
+                      {
+                        "id": "domain-execution-row-2",
+                        "cells": [
+                          "Value",
+                          "値の意味と制約",
+                          "入力・結果・業務計算"
+                        ]
+                      },
+                      {
+                        "id": "domain-execution-row-3",
+                        "cells": [
+                          "Aggregate",
+                          "更新の単位と不変条件",
+                          "Command・UoW・保存時の条件検査"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-aggregate"
+                      ],
+                      "claims": [
+                        "ddd-aggregate-claim-1",
+                        "ddd-aggregate-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-aggregate-node-1",
+                        "ddd-aggregate-node-2",
+                        "ddd-aggregate-node-3"
+                      ],
+                      "relations": [
+                        "ddd-aggregate-relation-1",
+                        "ddd-aggregate-relation-2"
+                      ],
+                      "flows": [
+                        "ddd-aggregate-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ddd-delivery-section",
+            "heading": "CQRSの更新系・参照系と接続技術",
+            "coreRefs": {
+              "steps": [
+                "ddd-delivery"
+              ],
+              "claims": [
+                "ddd-delivery-claim-1"
+              ],
+              "nodes": [
+                "ddd-delivery-node-1",
+                "ddd-delivery-node-2"
+              ],
+              "relations": [
+                "ddd-delivery-relation-1"
+              ],
+              "flows": [
+                "ddd-delivery-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-delivery-paragraph-1",
+                "kind": "paragraph",
+                "text": "CQRSは、更新のためのモデルと参照のためのモデルを分けるアーキテクチャ上の観点です。以下では、更新系、確定結果を渡す接点、参照系の順に、DDD技術と関連機構の役割を示します。この並びは二系統の関係を読むためのものであり、一般的なモデリング手順ではありません。",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-delivery"
+                  ],
+                  "claims": [
+                    "ddd-delivery-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-delivery-node-1",
+                    "ddd-delivery-node-2"
+                  ],
+                  "relations": [
+                    "ddd-delivery-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-delivery-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ddd-runtime-section",
+                "heading": "更新系と永続化・確定の責務",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-runtime"
+                  ],
+                  "claims": [
+                    "ddd-runtime-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-runtime-node-1",
+                    "ddd-runtime-node-2"
+                  ],
+                  "relations": [
+                    "ddd-runtime-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-runtime-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-runtime-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "更新系では、Aggregateが表す業務規則と、保存・競合検査・確定の責務が接続します。RepositoryはDDDとPoEAAに共通して現れる接点です。Data MapperとUnit of Workは保存・更新管理を説明する補完パターンとして扱い、CNCFのEntityStore・DataStore・UoWの実行責務へ対応付けます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-runtime"
+                      ],
+                      "claims": [
+                        "ddd-runtime-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-runtime-node-1",
+                        "ddd-runtime-node-2"
+                      ],
+                      "relations": [
+                        "ddd-runtime-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-runtime-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": [
+                  {
+                    "id": "ddd-poeaa-section",
+                    "heading": "Repository・Data Mapperと保存の接点",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-poeaa"
+                      ],
+                      "claims": [
+                        "ddd-poeaa-claim-1",
+                        "ddd-poeaa-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-poeaa-node-1",
+                        "ddd-poeaa-node-2"
+                      ],
+                      "relations": [
+                        "ddd-poeaa-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-poeaa-flow"
+                      ]
+                    },
+                    "blocks": [
+                      {
+                        "id": "ddd-poeaa-paragraph-1",
+                        "kind": "paragraph",
+                        "text": "Repositoryは、業務対象を取得・更新する接点です。アプリケーションはこの接点から対象を取得してAggregateの操作を呼び出すため、業務処理の各所へデータベース操作を書き込む範囲を減らせます。対象の識別と更新の規則はドメイン側に保持します。",
+                        "coreRefs": {
+                          "steps": [
+                            "ddd-poeaa"
+                          ],
+                          "claims": [
+                            "ddd-poeaa-claim-1"
+                          ],
+                          "nodes": [
+                            "ddd-poeaa-node-1"
+                          ],
+                          "relations": [],
+                          "flows": [
+                            "ddd-poeaa-flow"
+                          ]
+                        }
+                      },
+                      {
+                        "id": "ddd-poeaa-paragraph-2",
+                        "kind": "paragraph",
+                        "text": "Data Mapperは、業務の型と保存形式の変換を整理するパターンです。CNCFではEntityStore・EntityPersistentとDataStoreの境界で、宣言された型と選択したマッピングに従って変換します。DataStoreは物理的なアクセスを担当します。この分離により、業務の型を保ったまま保存先の表現を選べます。",
+                        "coreRefs": {
+                          "steps": [
+                            "ddd-poeaa"
+                          ],
+                          "claims": [
+                            "ddd-poeaa-claim-2"
+                          ],
+                          "nodes": [
+                            "ddd-poeaa-node-2"
+                          ],
+                          "relations": [],
+                          "flows": [
+                            "ddd-poeaa-flow"
+                          ]
+                        }
+                      },
+                      {
+                        "id": "poeaa-responsibilities",
+                        "kind": "table",
+                        "caption": "業務の意味を保存まで保つ責務の分担",
+                        "columns": [
+                          {
+                            "id": "col-1",
+                            "heading": "責務"
+                          },
+                          {
+                            "id": "col-2",
+                            "heading": "用いる仕組み"
+                          },
+                          {
+                            "id": "col-3",
+                            "heading": "次へ渡すもの"
+                          }
+                        ],
+                        "rows": [
+                          {
+                            "id": "poeaa-responsibilities-row-1",
+                            "cells": [
+                              "対象を取得する",
+                              "Repository",
+                              "識別された業務対象"
+                            ]
+                          },
+                          {
+                            "id": "poeaa-responsibilities-row-2",
+                            "cells": [
+                              "更新内容を判断する",
+                              "Aggregate",
+                              "規則を満たす更新候補"
+                            ]
+                          },
+                          {
+                            "id": "poeaa-responsibilities-row-3",
+                            "cells": [
+                              "保存形式へ変換する",
+                              "Data Mapperの役割を担うマッピング境界",
+                              "宣言した型に対応する物理値"
+                            ]
+                          },
+                          {
+                            "id": "poeaa-responsibilities-row-4",
+                            "cells": [
+                              "確定・中止を管理する",
+                              "UoWと参加するDataStore",
+                              "永続状態と確定結果"
+                            ]
+                          }
+                        ],
+                        "coreRefs": {
+                          "steps": [
+                            "ddd-poeaa"
+                          ],
+                          "claims": [
+                            "ddd-poeaa-claim-1",
+                            "ddd-poeaa-claim-2"
+                          ],
+                          "nodes": [
+                            "ddd-poeaa-node-1",
+                            "ddd-poeaa-node-2"
+                          ],
+                          "relations": [
+                            "ddd-poeaa-relation-1"
+                          ],
+                          "flows": [
+                            "ddd-poeaa-flow"
+                          ]
+                        }
+                      }
+                    ],
+                    "sections": []
+                  },
+                  {
+                    "id": "ddd-uow-section",
+                    "heading": "Aggregate・Unit of Workと更新確定",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-uow"
+                      ],
+                      "claims": [
+                        "ddd-uow-claim-1",
+                        "ddd-uow-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-uow-node-1",
+                        "ddd-uow-node-2"
+                      ],
+                      "relations": [
+                        "ddd-uow-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-uow-flow"
+                      ]
+                    },
+                    "blocks": [
+                      {
+                        "id": "ddd-uow-paragraph-1",
+                        "kind": "paragraph",
+                        "text": "Aggregateは更新内容が業務上妥当かを判断し、UoWは更新のまとまりと確定・中止を管理します。DataStoreはそのトランザクションへ参加して保存先を操作します。競合検出を採用する場合は、期待するリビジョンや現在状態を保存先で原子的に検査し、条件が変わっていれば更新を拒否します。業務の規則と確定時の条件を組み合わせて整合性を守ります。",
+                        "coreRefs": {
+                          "steps": [
+                            "ddd-uow"
+                          ],
+                          "claims": [
+                            "ddd-uow-claim-1"
+                          ],
+                          "nodes": [
+                            "ddd-uow-node-1"
+                          ],
+                          "relations": [],
+                          "flows": [
+                            "ddd-uow-flow"
+                          ]
+                        }
+                      },
+                      {
+                        "id": "ddd-uow-paragraph-2",
+                        "kind": "paragraph",
+                        "text": "呼出しと対象への認可も同じ実行経路で適用します。長いWorkflowやJobが複数の更新へまたがる場合は、それぞれの確定範囲と、後続が失敗したときの再試行・補償を定めます。Workflowは業務の進行を、UoWは個々の処理の確定と資源の終了を担当し、一連の進行を一つのデータベース・トランザクションへ押し込めずに構成します。",
+                        "coreRefs": {
+                          "steps": [
+                            "ddd-uow"
+                          ],
+                          "claims": [
+                            "ddd-uow-claim-2"
+                          ],
+                          "nodes": [
+                            "ddd-uow-node-2"
+                          ],
+                          "relations": [],
+                          "flows": [
+                            "ddd-uow-flow"
+                          ]
+                        }
+                      }
+                    ],
+                    "sections": []
+                  }
+                ]
+              },
+              {
+                "id": "ddd-domain-events-section",
+                "heading": "Domain Eventと確定結果の連携",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-domain-events"
+                  ],
+                  "claims": [
+                    "ddd-domain-events-claim-1",
+                    "ddd-domain-events-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-domain-events-node-1",
+                    "ddd-domain-events-node-2"
+                  ],
+                  "relations": [
+                    "ddd-domain-events-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-domain-events-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-domain-events-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "「注文を確定する」というCommandに対して、「注文が確定した」というDomain Eventは生じた業務上の事実です。名称、対象の識別子、発生時刻、伝える情報を定めます。CNCFのAggregate/View契約では、この事実を更新側から参照側へ伝えてViewへ投影します。Workflowの後続処理や他のComponentとの連携にも業務上の出来事を使えます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-domain-events"
+                      ],
+                      "claims": [
+                        "ddd-domain-events-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-domain-events-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-domain-events-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-domain-events-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "更新の確定、Eventの記録・公開、受信側の処理完了は区別します。採用する経路に応じて再送、重複排除、順序、再開を定め、非同期のViewには必要な鮮度と再参照の方法を決めます。発生した事実の意味と配信・投影の方針を組み合わせることで、業務処理同士を過度に同期させずに結果を共有できます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-domain-events"
+                      ],
+                      "claims": [
+                        "ddd-domain-events-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-domain-events-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-domain-events-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "command-event-query",
+                    "kind": "table",
+                    "caption": "要求・事実・参照の役割",
+                    "columns": [
+                      {
+                        "id": "command-event-query-column-1",
+                        "heading": "種類"
+                      },
+                      {
+                        "id": "command-event-query-column-2",
+                        "heading": "注文の例"
+                      },
+                      {
+                        "id": "command-event-query-column-3",
+                        "heading": "モデルで定めること"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "command-event-query-row-1",
+                        "cells": [
+                          "Command",
+                          "注文を確定する",
+                          "入力、許される状態、更新条件"
+                        ]
+                      },
+                      {
+                        "id": "command-event-query-row-2",
+                        "cells": [
+                          "Domain Event",
+                          "注文が確定した",
+                          "事実の意味、対象、通知する情報"
+                        ]
+                      },
+                      {
+                        "id": "command-event-query-row-3",
+                        "cells": [
+                          "Query / View",
+                          "確定済みの注文を参照する",
+                          "必要な参照項目と鮮度"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-domain-events"
+                      ],
+                      "claims": [
+                        "ddd-domain-events-claim-1",
+                        "ddd-domain-events-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-domain-events-node-1",
+                        "ddd-domain-events-node-2"
+                      ],
+                      "relations": [
+                        "ddd-domain-events-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-domain-events-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-readmodel-section",
+                "heading": "参照系のQuery・Viewと再構築",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-readmodel"
+                  ],
+                  "claims": [
+                    "ddd-readmodel-claim-1",
+                    "ddd-readmodel-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-readmodel-node-1",
+                    "ddd-readmodel-node-2"
+                  ],
+                  "relations": [
+                    "ddd-readmodel-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-readmodel-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-readmodel-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "CNCFではAggregateを更新側、Viewを参照側の投影として整理します。注文確定の整合性を扱うモデルと、注文番号・確定状態・金額を返す参照モデルは、異なる責務を持ちます。Queryは参照経路へ接続し、Value Objectが表す値の意味は参照結果にも利用します。参照側の属性構成を、更新側のAggregateと同一にする必要はありません。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-readmodel"
+                      ],
+                      "claims": [
+                        "ddd-readmodel-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-readmodel-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-readmodel-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-readmodel-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "更新と参照のモデル分離と、保存先の物理的分離は別の判断です。本技術ガイドの基本構成ではEntityの永続状態を正本とし、ViewやDomainのWorking Setは再構築可能な状態として扱います。初期読込みと確定更新の投影を区別し、非同期の経路では鮮度と再参照の条件を明示します。イベント列を正本とするEvent Sourcingも、CQRSとは別に選択する方式です。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-readmodel"
+                      ],
+                      "claims": [
+                        "ddd-readmodel-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-readmodel-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-readmodel-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-display-section",
+                "heading": "参照系のView・Displayと操作の接点",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-display"
+                  ],
+                  "claims": [
+                    "ddd-display-claim-1",
+                    "ddd-display-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-display-node-1",
+                    "ddd-display-node-2",
+                    "ddd-display-node-3"
+                  ],
+                  "relations": [
+                    "ddd-display-relation-1",
+                    "ddd-display-relation-2"
+                  ],
+                  "flows": [
+                    "ddd-display-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-display-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Viewは、注文の識別子、状態、金額など、業務上の意味を持つ参照結果です。その外側にDisplayモデルを置き、表示項目、整形した値、参照先、操作の提示を構成します。CNCFは、認可済みのView値へ登録済みの表示定義と型付き変換を適用します。業務の意味を保ったまま、WebやFlutterなどのUIへ表示を接続できます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-display"
+                      ],
+                      "claims": [
+                        "ddd-display-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-display-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-display-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-display-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "画面からの操作は、公開Operationや明示的に登録した更新先へ戻します。表示を組み立てる処理でViewを更新するのではなく、認可、Aggregateの規則、UoWを通して業務の状態を変更します。View・Displayと更新の入口を組み合わせることで、画面の都合を業務規則から分離できます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-display"
+                      ],
+                      "claims": [
+                        "ddd-display-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-display-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-display-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "view-display-boundary",
+                    "kind": "figure",
+                    "asset": "images/view-display-boundary-ja.png",
+                    "caption": "更新系と参照系、View・Displayと共通の値",
+                    "alt": "更新系と参照系、View・Displayと共通の値",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-display"
+                      ],
+                      "claims": [
+                        "ddd-display-claim-1",
+                        "ddd-display-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-display-node-1",
+                        "ddd-display-node-2",
+                        "ddd-display-node-3"
+                      ],
+                      "relations": [
+                        "ddd-display-relation-1",
+                        "ddd-display-relation-2"
+                      ],
+                      "flows": [
+                        "ddd-display-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "read-presentation-roles",
+                    "kind": "table",
+                    "caption": "ViewとDisplayで扱う情報の違い",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "観点"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "View"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Display"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "read-presentation-roles-row-1",
+                        "cells": [
+                          "注文の金額",
+                          "通貨と数値を持つ業務上の値",
+                          "通貨表記や配置などの表示"
+                        ]
+                      },
+                      {
+                        "id": "read-presentation-roles-row-2",
+                        "cells": [
+                          "注文の状態",
+                          "確定済みなどの意味を持つ状態",
+                          "ラベルと提示する操作"
+                        ]
+                      },
+                      {
+                        "id": "read-presentation-roles-row-3",
+                        "cells": [
+                          "利用者",
+                          "業務処理や参照APIも利用可能",
+                          "表示を必要とするUI"
+                        ]
+                      },
+                      {
+                        "id": "read-presentation-roles-row-4",
+                        "cells": [
+                          "更新",
+                          "更新の正本にはしない",
+                          "登録した操作へ要求を接続"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-display"
+                      ],
+                      "claims": [
+                        "ddd-display-claim-1",
+                        "ddd-display-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-display-node-1",
+                        "ddd-display-node-2",
+                        "ddd-display-node-3"
+                      ],
+                      "relations": [
+                        "ddd-display-relation-1",
+                        "ddd-display-relation-2"
+                      ],
+                      "flows": [
+                        "ddd-display-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ddd-behavior-section",
+            "heading": "アプリケーションの進行と補完モデル",
+            "coreRefs": {
+              "steps": [
+                "ddd-behavior"
+              ],
+              "claims": [
+                "ddd-behavior-claim-1"
+              ],
+              "nodes": [
+                "ddd-behavior-node-1",
+                "ddd-behavior-node-2"
+              ],
+              "relations": [
+                "ddd-behavior-relation-1"
+              ],
+              "flows": [
+                "ddd-behavior-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-behavior-paragraph-1",
+                "kind": "paragraph",
+                "text": "DDDのモデルを利用するアプリケーション側には、公開操作、Workflow、状態機械、規則評価との接点があります。ここでは、各機構がDDDの概念とどの責任で接続するかを整理します。アプリケーションの進行と、対象が守る業務規則は、それぞれのモデルで表現します。",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-behavior"
+                  ],
+                  "claims": [
+                    "ddd-behavior-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-behavior-node-1",
+                    "ddd-behavior-node-2"
+                  ],
+                  "relations": [
+                    "ddd-behavior-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-behavior-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ddd-application-section",
+                "heading": "公開Operation・Workflowと業務操作",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-application"
+                  ],
+                  "claims": [
+                    "ddd-application-claim-1",
+                    "ddd-application-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-application-node-1",
+                    "ddd-application-node-2"
+                  ],
+                  "relations": [
+                    "ddd-application-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-application-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-application-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "定義済みのユースケースから、必要な操作、順序、分岐、待機をWorkflowへ具体化します。Service・Operationは外部から利用できる操作の境界となり、PoEAAのService Layerに対応する責務を担います。画面や外部APIは同じ公開操作へ接続し、Workflowはその実現に必要なドメイン操作を呼び出します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-application"
+                      ],
+                      "claims": [
+                        "ddd-application-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-application-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-application-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-application-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Workflowにはアプリケーションの進行を置き、注文を確定してよいかといった規則はドメイン側へ置きます。外部機能はProviderとの明示的なバインディングで接続します。ユースケースは実行手順そのものとして扱わず、構成した進行が期待する結果を実現するかを確認する基準にします。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-application"
+                      ],
+                      "claims": [
+                        "ddd-application-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-application-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-application-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-dynamic-section",
+                "heading": "状態機械・規則評価と業務条件",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-dynamic"
+                  ],
+                  "claims": [
+                    "ddd-dynamic-claim-1",
+                    "ddd-dynamic-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-dynamic-node-1",
+                    "ddd-dynamic-node-2"
+                  ],
+                  "relations": [
+                    "ddd-dynamic-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-dynamic-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-dynamic-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "状態機械では、対象の状態、イベント、遷移条件、実行する処理を定めます。注文の下書きから確定への遷移を注文確定Operationと対応付けると、Workflowから呼ばれた操作を、その対象の現在状態に従って判断できます。Cozyが生成する定義をCNCFの実行機構へ登録し、状態遷移と業務更新を同じ対象へ接続します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-dynamic"
+                      ],
+                      "claims": [
+                        "ddd-dynamic-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-dynamic-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-dynamic-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-dynamic-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "料金や承認条件など、独立して変更する判断はDomain Ruleとして識別し、Rule ModelとRule Engineへ接続できます。規則の評価結果をOperationなどの共通経路へ渡すことで、判断の内容と、認可・更新確定を伴う実行を分担します。Workflow、状態機械、規則を組み合わせ、進行、対象のライフサイクル、判断をそれぞれ明示します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-dynamic"
+                      ],
+                      "claims": [
+                        "ddd-dynamic-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-dynamic-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-dynamic-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ddd-execution-section",
+            "heading": "DDDモデルと生成・実行の接点",
+            "coreRefs": {
+              "steps": [
+                "ddd-execution"
+              ],
+              "claims": [
+                "ddd-execution-claim-1"
+              ],
+              "nodes": [
+                "ddd-execution-node-1",
+                "ddd-execution-node-2"
+              ],
+              "relations": [
+                "ddd-execution-relation-1"
+              ],
+              "flows": [
+                "ddd-execution-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-execution-paragraph-1",
+                "kind": "paragraph",
+                "text": "DDDの概念と、CML・Cozy・CNCFの接点を、型、実行定義、部品契約として対応付けます。更新系と参照系のモデルをそれぞれ具体化し、共通の識別や値の意味で接続します。モデルの意味、生成・登録、実行時の責務を区別することで、概念がどの仕組みを通して動作へつながるかを示します。",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-execution"
+                  ],
+                  "claims": [
+                    "ddd-execution-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-execution-node-1",
+                    "ddd-execution-node-2"
+                  ],
+                  "relations": [
+                    "ddd-execution-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-execution-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ddd-semantics-section",
+                "heading": "モデルの意味と処理系の責務",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-semantics"
+                  ],
+                  "claims": [
+                    "ddd-semantics-claim-1",
+                    "ddd-semantics-claim-2",
+                    "ddd-semantics-claim-3"
+                  ],
+                  "nodes": [
+                    "ddd-semantics-node-1",
+                    "ddd-semantics-node-2"
+                  ],
+                  "relations": [
+                    "ddd-semantics-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-semantics-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-semantics-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "開発者は、業務の型と制約、公開操作、状態と遷移、Workflowの進行、ViewとDisplayの対応をモデルに記述します。Cozyは、Entity・Valueなどを型付きの接点へ、状態機械・Workflow・表示などを対応する実行定義や接続コードへ具体化します。Textus/CNCFは登録された定義と処理を利用し、呼出し、遷移、投影、更新確定などを動作させます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-semantics"
+                      ],
+                      "claims": [
+                        "ddd-semantics-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-semantics-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-semantics-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-semantics-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "「モデルがそのまま動く」とは、モデルで決めた構造と振る舞いが、この具体化と実行の経路へ直接結び付いていることです。業務固有の計算や外部接続は、生成された型や明示された拡張点の中で補完します。実行時にすべてのCMLを読み直すという意味ではなく、生成とモデル定義の解釈を組み合わせてモデルを実現します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-semantics"
+                      ],
+                      "claims": [
+                        "ddd-semantics-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-semantics-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-semantics-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-semantics-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "補完する業務計算は、値を受け取り結果を返す処理として、保存や通信から分けて記述できます。計算を単独で確認し、入出力を共通の実行経路へ接続する考え方は、Functional and Reactive Domain Modelingで扱われています。関数型プログラミングの詳しい構成は、別文書「Modeling and FP」で扱います。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-semantics"
+                      ],
+                      "claims": [
+                        "ddd-semantics-claim-3"
+                      ],
+                      "nodes": [
+                        "ddd-semantics-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-semantics-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-memory-section",
+                "heading": "Entity分類とメモリ常駐の方針",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-memory"
+                  ],
+                  "claims": [
+                    "ddd-memory-claim-1",
+                    "ddd-memory-claim-2",
+                    "ddd-memory-claim-3"
+                  ],
+                  "nodes": [
+                    "ddd-memory-node-1",
+                    "ddd-memory-node-2",
+                    "ddd-memory-node-3"
+                  ],
+                  "relations": [
+                    "ddd-memory-relation-1",
+                    "ddd-memory-relation-2"
+                  ],
+                  "flows": [
+                    "ddd-memory-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-memory-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Entityのモデルは、データの構造だけでなく、実行時の扱いも指定します。Textus/CNCFでは、ステレオタイプに相当するEntityの分類をentityKindとして扱い、マスターデータを常駐させるなどの既定方針へ結び付けます。タスクデータは必要に応じて取得し、用途に合わせてキャッシュや保持の方針を設定します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-memory"
+                      ],
+                      "claims": [
+                        "ddd-memory-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-memory-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-memory-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-memory-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "分類だけで全対象を常駐させるのではなく、分類から得る既定値と明示的なWorking Set方針を組み合わせます。現行の既定値ではmasterは常駐、taskはWorking Set無効で、workflowの活動中保持には状態を使う方針の指定が必要です。モデルの分類と設定を実行基盤が利用するため、Entityごとに管理処理を作り直す負担を減らせます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-memory"
+                      ],
+                      "claims": [
+                        "ddd-memory-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-memory-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-memory-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-memory-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "常駐やキャッシュは永続状態を置き換える正本ではなく、業務処理のために保持する再構築可能な状態です。本技術ガイドではモデルの分類から実行方針へ至る対応を扱い、保持・解放、整合性、復旧の詳細はリアクティブ技術ガイドへつなぎます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-memory"
+                      ],
+                      "claims": [
+                        "ddd-memory-claim-3"
+                      ],
+                      "nodes": [
+                        "ddd-memory-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-memory-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-toolchain-section",
+                "heading": "記述・生成物・実行機構の対応",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-toolchain"
+                  ],
+                  "claims": [
+                    "ddd-toolchain-claim-1",
+                    "ddd-toolchain-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-toolchain-node-1",
+                    "ddd-toolchain-node-2"
+                  ],
+                  "relations": [
+                    "ddd-toolchain-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-toolchain-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-toolchain-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "次の表は、開発で記述する内容が、どの生成物と実行責務へつながるかを示します。業務の型は入力・結果・保存の意味をそろえ、動的な定義は進行と状態をそろえ、参照・表示の定義は利用者へ渡す情報をそろえます。異なるモデルが共通の識別子と型付き契約を参照することで、一つの動作へ接続できます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-toolchain"
+                      ],
+                      "claims": [
+                        "ddd-toolchain-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-toolchain-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-toolchain-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-toolchain-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "実際の接続では、利用するモデル要素について、定義の生成、実行機構への登録、必要なProviderや補完処理のバインディングをそろえます。Domain Ruleの具体化や外部Providerなどは、採用する版と構成で対応範囲を確認します。モデルに記述した内容と、その内容を扱う実装・設定を対応させることが、動作までを一貫させる作業になります。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-toolchain"
+                      ],
+                      "claims": [
+                        "ddd-toolchain-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-toolchain-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-toolchain-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "execution-path",
+                    "kind": "figure",
+                    "asset": "images/execution-path-ja.png",
+                    "caption": "更新・参照のモデルから生成と実行への対応",
+                    "alt": "更新・参照のモデルから生成と実行への対応",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-toolchain"
+                      ],
+                      "claims": [
+                        "ddd-toolchain-claim-1",
+                        "ddd-toolchain-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-toolchain-node-1",
+                        "ddd-toolchain-node-2"
+                      ],
+                      "relations": [
+                        "ddd-toolchain-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-toolchain-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "toolchain-roles",
+                    "kind": "table",
+                    "caption": "モデル記述・生成物・実行責務の対応",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "モデルに記述する内容"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Cozyによる具体化"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Textus/CNCFでの利用"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "toolchain-roles-row-1",
+                        "cells": [
+                          "Entity・Valueの型と制約",
+                          "型・スキーマ・接続契約",
+                          "入力・業務処理・保存の接点"
+                        ]
+                      },
+                      {
+                        "id": "toolchain-roles-row-2",
+                        "cells": [
+                          "Aggregateの生成とCommand",
+                          "操作の契約と実装接点",
+                          "業務処理を呼び出し更新経路へ接続"
+                        ]
+                      },
+                      {
+                        "id": "toolchain-roles-row-3",
+                        "cells": [
+                          "状態・遷移・Workflow",
+                          "動的な実行定義と必要な接点",
+                          "登録した定義と処理で進行・遷移"
+                        ]
+                      },
+                      {
+                        "id": "toolchain-roles-row-4",
+                        "cells": [
+                          "View・表示の対応",
+                          "型付き接点・表示定義・接続コード",
+                          "View取得とDisplay投影"
+                        ]
+                      },
+                      {
+                        "id": "toolchain-roles-row-memory",
+                        "cells": [
+                          "Entityの分類と保持方針",
+                          "分類・設定を実行側へ渡す契約",
+                          "既定値と指定方針による常駐・取得・保持"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-toolchain"
+                      ],
+                      "claims": [
+                        "ddd-toolchain-claim-1",
+                        "ddd-toolchain-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-toolchain-node-1",
+                        "ddd-toolchain-node-2"
+                      ],
+                      "relations": [
+                        "ddd-toolchain-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-toolchain-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-components-section",
+                "heading": "Component・CARと公開契約",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-components"
+                  ],
+                  "claims": [
+                    "ddd-components-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-components-node-1",
+                    "ddd-components-node-2"
+                  ],
+                  "relations": [
+                    "ddd-components-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-components-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-components-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Componentには業務上の責務を配置し、Service・OperationとEventの契約を公開します。生成された定義と実装、補完処理をCARへまとめ、導入時に依存関係とProviderを接続します。Bounded Contextの意味の境界を公開契約へ対応付けることで、他のComponentやUIが内部状態へ直接依存する範囲を減らせます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-components"
+                      ],
+                      "claims": [
+                        "ddd-components-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-components-node-1",
+                        "ddd-components-node-2"
+                      ],
+                      "relations": [
+                        "ddd-components-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-components-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-example-section",
+                "heading": "注文の更新系・参照系における対応例",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-example"
+                  ],
+                  "claims": [
+                    "ddd-example-claim-1",
+                    "ddd-example-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-example-node-1",
+                    "ddd-example-node-2"
+                  ],
+                  "relations": [
+                    "ddd-example-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-example-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-example-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "注文確定では、Workflowから公開Operationを呼び、Order Aggregateが明細と現在状態を確認して更新候補を作ります。UoWが確定を管理し、選択したマッピングとDataStoreを通して保存します。確定した事実をDomain Eventとして後続へ渡し、Viewへ反映した結果をDisplayで提示します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-example"
+                      ],
+                      "claims": [
+                        "ddd-example-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-example-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-example-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-example-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "この例で開発者が定めるのは、注文の型と規則、確定操作、進行、参照項目、表示との対応です。処理系は、その定義と補完処理を登録された実行機構へつなぎます。図はモデルと実行責務の対応を示し、配信や投影のタイミングは採用する経路に応じて定めます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-example"
+                      ],
+                      "claims": [
+                        "ddd-example-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-example-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-example-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "order-model-execution",
+                    "kind": "figure",
+                    "asset": "images/order-model-execution-ja.png",
+                    "caption": "注文の更新確定と参照要求の二系統",
+                    "alt": "注文の更新確定と参照要求の二系統",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-example"
+                      ],
+                      "claims": [
+                        "ddd-example-claim-1",
+                        "ddd-example-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-example-node-1",
+                        "ddd-example-node-2"
+                      ],
+                      "relations": [
+                        "ddd-example-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-example-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ddd-development-section",
+            "heading": "補完実装・検証との接点",
+            "coreRefs": {
+              "steps": [
+                "ddd-development"
+              ],
+              "claims": [
+                "ddd-development-claim-1"
+              ],
+              "nodes": [
+                "ddd-development-node-1",
+                "ddd-development-node-2"
+              ],
+              "relations": [
+                "ddd-development-relation-1"
+              ],
+              "flows": [
+                "ddd-development-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-development-paragraph-1",
+                "kind": "paragraph",
+                "text": "モデルの意味と実装の対応は、補完コードと検証結果にも引き継ぎます。ここでは、DDDで表した規則が、生成物、AIによる補完、更新系・参照系の確認へどう接続するかを示します。一般的な開発手順の解説は別の資料で扱います。",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-development"
+                  ],
+                  "claims": [
+                    "ddd-development-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-development-node-1",
+                    "ddd-development-node-2"
+                  ],
+                  "relations": [
+                    "ddd-development-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-development-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ddd-ai-section",
+                "heading": "生成・AI補完とモデルの契約",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-ai"
+                  ],
+                  "claims": [
+                    "ddd-ai-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-ai-node-1",
+                    "ddd-ai-node-2"
+                  ],
+                  "relations": [
+                    "ddd-ai-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-ai-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-ai-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "機械的に導出できる型と接続構造はCozyの生成へ任せ、業務計算や外部機能との接続などをAIで補完できます。AIの変更も同じ型・部品契約・モデル検査・実行経路に従うため、既存の意味や更新境界に沿わせやすくなります。業務モデルを実行するための構成が、AIの判断と変更範囲を絞るハーネスとしても機能します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-ai"
+                      ],
+                      "claims": [
+                        "ddd-ai-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-ai-node-1",
+                        "ddd-ai-node-2"
+                      ],
+                      "relations": [
+                        "ddd-ai-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-ai-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-verification-section",
+                "heading": "規則・公開契約・更新結果・参照結果の確認",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-verification"
+                  ],
+                  "claims": [
+                    "ddd-verification-claim-1",
+                    "ddd-verification-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-verification-node-1",
+                    "ddd-verification-node-2"
+                  ],
+                  "relations": [
+                    "ddd-verification-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-verification-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-verification-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "検証では、定義済みユースケースとモデルの対応、生成された型や部品契約、実行結果の三つを突き合わせます。textus-cbd-supportのモデルレビュー、コンパイルやcar lint、実行仕様を組み合わせ、規則が成立する例、拒否すべき例、競合や途中失敗後の状態を確認します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-verification"
+                      ],
+                      "claims": [
+                        "ddd-verification-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-verification-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-verification-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-verification-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "たとえば注文確定の条件を変更した場合は、Aggregateと状態機械の条件、対応するOperation、検証例を更新します。参照や表示へ影響するならView・Displayも確認します。生成コードだけを変更せず、元の定義と必要な補完処理へ戻すことで、業務の意味と動作の対応を保ちます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-verification"
+                      ],
+                      "claims": [
+                        "ddd-verification-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-verification-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-verification-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "model-feedback",
+                    "kind": "figure",
+                    "asset": "images/model-feedback-ja.png",
+                    "caption": "更新・参照のモデルと実装・検証の対応",
+                    "alt": "更新・参照のモデルと実装・検証の対応",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-verification"
+                      ],
+                      "claims": [
+                        "ddd-verification-claim-1",
+                        "ddd-verification-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-verification-node-1",
+                        "ddd-verification-node-2"
+                      ],
+                      "relations": [
+                        "ddd-verification-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-verification-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "verification-layers",
+                    "kind": "table",
+                    "caption": "モデルと実行を結ぶ確認",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "確認対象"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "仕組み"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "確認内容"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "verification-layers-row-1",
+                        "cells": [
+                          "モデル間の対応",
+                          "モデルレビュー",
+                          "要求とWorkflow、ドメイン、View・Display"
+                        ]
+                      },
+                      {
+                        "id": "verification-layers-row-2",
+                        "cells": [
+                          "型と部品契約",
+                          "コンパイル・car lint",
+                          "接続と部品構造の適合"
+                        ]
+                      },
+                      {
+                        "id": "verification-layers-row-3",
+                        "cells": [
+                          "業務規則",
+                          "実行仕様・テスト",
+                          "成立する例と拒否する例"
+                        ]
+                      },
+                      {
+                        "id": "verification-layers-row-4",
+                        "cells": [
+                          "更新と表示",
+                          "結合確認",
+                          "確定後の参照、競合、失敗時の状態"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-verification"
+                      ],
+                      "claims": [
+                        "ddd-verification-claim-1",
+                        "ddd-verification-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-verification-node-1",
+                        "ddd-verification-node-2"
+                      ],
+                      "relations": [
+                        "ddd-verification-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-verification-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-conclusion-section",
+                "heading": "対応関係のまとめ",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-conclusion"
+                  ],
+                  "claims": [
+                    "ddd-conclusion-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-conclusion-node-1",
+                    "ddd-conclusion-node-2"
+                  ],
+                  "relations": [
+                    "ddd-conclusion-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-conclusion-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-conclusion-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "本技術ガイドでは、DDDの戦略的設計を用語とコンポーネント境界へ、戦術的設計を型と規則へ対応付け、CQRSの更新系・参照系に沿って関連機構との接続を示しました。各概念の役割と出典の区別を保つことで、DDDからSimpleModeling・Textus/CNCFの全体像を理解する接点になります。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-conclusion"
+                      ],
+                      "claims": [
+                        "ddd-conclusion-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-conclusion-node-1",
+                        "ddd-conclusion-node-2"
+                      ],
+                      "relations": [
+                        "ddd-conclusion-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-conclusion-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ddd-appendix-section",
+            "heading": "付録：概念と関連技術の索引",
+            "coreRefs": {
+              "steps": [
+                "ddd-appendix"
+              ],
+              "claims": [
+                "ddd-appendix-claim-1"
+              ],
+              "nodes": [
+                "ddd-appendix-node-1",
+                "ddd-appendix-node-2"
+              ],
+              "relations": [
+                "ddd-appendix-relation-1"
+              ],
+              "flows": [
+                "ddd-appendix-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-appendix-paragraph-1",
+                "kind": "paragraph",
+                "text": "付録は、本文で説明したDDDの概念、PoEAAと共有するパターン、および関連するアーキテクチャ・基盤技術の索引です。分類は役割を整理するためのもので、ある書籍で言及されることと、DDD固有の概念であることは区別します。",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-appendix"
+                  ],
+                  "claims": [
+                    "ddd-appendix-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-appendix-node-1",
+                    "ddd-appendix-node-2"
+                  ],
+                  "relations": [
+                    "ddd-appendix-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-appendix-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ddd-appendix-ddd-section",
+                "heading": "DDDの概念・パターン",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-appendix-ddd"
+                  ],
+                  "claims": [
+                    "ddd-appendix-ddd-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-appendix-ddd-node-1",
+                    "ddd-appendix-ddd-node-2"
+                  ],
+                  "relations": [
+                    "ddd-appendix-ddd-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-appendix-ddd-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-appendix-ddd-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "DDDの基本概念はEvansのDomain-Driven Designを基礎とし、Implementing Domain-Driven DesignとLearning Domain-Driven Designを併せて参照します。Domain Eventやアーキテクチャとの接続を含め、本文で用いたパターンを整理しています。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-appendix-ddd"
+                      ],
+                      "claims": [
+                        "ddd-appendix-ddd-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-appendix-ddd-node-1",
+                        "ddd-appendix-ddd-node-2"
+                      ],
+                      "relations": [
+                        "ddd-appendix-ddd-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-appendix-ddd-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "appendix-ddd-patterns",
+                    "kind": "table",
+                    "caption": "DDDパターンの一覧",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "パターン"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "本文での役割"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "本文の対応箇所"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "appendix-ddd-patterns-row-1",
+                        "cells": [
+                          "Ubiquitous Language",
+                          "用語とモデルの意味をそろえる",
+                          "用語とBounded Context"
+                        ]
+                      },
+                      {
+                        "id": "appendix-ddd-patterns-row-2",
+                        "cells": [
+                          "Bounded Context",
+                          "意味が一貫する範囲を定める",
+                          "用語とBounded Context／Component・CAR"
+                        ]
+                      },
+                      {
+                        "id": "appendix-ddd-patterns-row-3",
+                        "cells": [
+                          "Model-Driven Design",
+                          "モデルと実装・実行を結び付ける",
+                          "モデルの定義をTextus/CNCFの動作へ"
+                        ]
+                      },
+                      {
+                        "id": "appendix-ddd-patterns-row-4",
+                        "cells": [
+                          "Entity",
+                          "識別子を持つ業務対象",
+                          "EntityとValue"
+                        ]
+                      },
+                      {
+                        "id": "appendix-ddd-patterns-row-5",
+                        "cells": [
+                          "Value Object",
+                          "値の意味と制約",
+                          "EntityとValue"
+                        ]
+                      },
+                      {
+                        "id": "appendix-ddd-patterns-row-6",
+                        "cells": [
+                          "Aggregate / Root",
+                          "整合性と更新の入口",
+                          "Aggregate／AggregateとUoW"
+                        ]
+                      },
+                      {
+                        "id": "appendix-ddd-patterns-row-7",
+                        "cells": [
+                          "Repository",
+                          "業務対象へのアクセス",
+                          "RepositoryとData Mapper"
+                        ]
+                      },
+                      {
+                        "id": "appendix-ddd-patterns-row-8",
+                        "cells": [
+                          "Domain Event",
+                          "生じた業務上の事実",
+                          "Domain Eventで後続へ伝える"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-appendix-ddd"
+                      ],
+                      "claims": [
+                        "ddd-appendix-ddd-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-appendix-ddd-node-1",
+                        "ddd-appendix-ddd-node-2"
+                      ],
+                      "relations": [
+                        "ddd-appendix-ddd-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-appendix-ddd-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-appendix-poeaa-section",
+                "heading": "PoEAAと共有するパターン",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-appendix-poeaa"
+                  ],
+                  "claims": [
+                    "ddd-appendix-poeaa-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-appendix-poeaa-node-1",
+                    "ddd-appendix-poeaa-node-2"
+                  ],
+                  "relations": [
+                    "ddd-appendix-poeaa-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-appendix-poeaa-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-appendix-poeaa-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "業務モデルをアプリケーションとして動かす構成を理解するために用いたパターンです。本文では責務の対応を示しています。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-appendix-poeaa"
+                      ],
+                      "claims": [
+                        "ddd-appendix-poeaa-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-appendix-poeaa-node-1",
+                        "ddd-appendix-poeaa-node-2"
+                      ],
+                      "relations": [
+                        "ddd-appendix-poeaa-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-appendix-poeaa-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "appendix-poeaa-patterns",
+                    "kind": "table",
+                    "caption": "PoEAAパターンの一覧",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "パターン"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "本文での役割"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "本文の対応箇所"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "appendix-poeaa-patterns-row-1",
+                        "cells": [
+                          "Domain Model",
+                          "データと振る舞いを一体に記述",
+                          "業務の意味と守る規則"
+                        ]
+                      },
+                      {
+                        "id": "appendix-poeaa-patterns-row-2",
+                        "cells": [
+                          "Service Layer",
+                          "アプリケーションの公開操作",
+                          "公開OperationとWorkflow"
+                        ]
+                      },
+                      {
+                        "id": "appendix-poeaa-patterns-row-3",
+                        "cells": [
+                          "Repository",
+                          "業務対象へのアクセスを集約",
+                          "RepositoryとData Mapper"
+                        ]
+                      },
+                      {
+                        "id": "appendix-poeaa-patterns-row-4",
+                        "cells": [
+                          "Data Mapper",
+                          "業務の型と保存形式を分離",
+                          "RepositoryとData Mapper"
+                        ]
+                      },
+                      {
+                        "id": "appendix-poeaa-patterns-row-5",
+                        "cells": [
+                          "Unit of Work",
+                          "更新のまとまりと確定を管理",
+                          "AggregateとUoW"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-appendix-poeaa"
+                      ],
+                      "claims": [
+                        "ddd-appendix-poeaa-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-appendix-poeaa-node-1",
+                        "ddd-appendix-poeaa-node-2"
+                      ],
+                      "relations": [
+                        "ddd-appendix-poeaa-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-appendix-poeaa-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-appendix-related-section",
+                "heading": "関連アーキテクチャ・基盤技術",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-appendix-related"
+                  ],
+                  "claims": [
+                    "ddd-appendix-related-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-appendix-related-node-1",
+                    "ddd-appendix-related-node-2"
+                  ],
+                  "relations": [
+                    "ddd-appendix-related-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-appendix-related-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-appendix-related-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "更新・参照、非同期の連携、処理の進行、モデル駆動UI、メモリ管理、部品の構成・配布を支える技術をまとめます。DDD・PoEAAで整理した業務の意味と責務を、実行基盤の構成へつなぐために利用します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-appendix-related"
+                      ],
+                      "claims": [
+                        "ddd-appendix-related-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-appendix-related-node-1",
+                        "ddd-appendix-related-node-2"
+                      ],
+                      "relations": [
+                        "ddd-appendix-related-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-appendix-related-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "appendix-related-techniques",
+                    "kind": "table",
+                    "caption": "Cloud Nativeの技術と補完する範囲",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "技術"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "補完する範囲"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "本文の対応箇所"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "appendix-related-techniques-row-1",
+                        "cells": [
+                          "CQRS",
+                          "更新と参照のモデルを分離",
+                          "CQRS"
+                        ]
+                      },
+                      {
+                        "id": "appendix-related-techniques-row-2",
+                        "cells": [
+                          "状態機械",
+                          "対象の状態と許される遷移",
+                          "状態機械と規則"
+                        ]
+                      },
+                      {
+                        "id": "appendix-related-techniques-row-3",
+                        "cells": [
+                          "Workflow",
+                          "アプリケーションの進行",
+                          "公開OperationとWorkflow"
+                        ]
+                      },
+                      {
+                        "id": "appendix-related-techniques-row-4",
+                        "cells": [
+                          "Rule Model / Engine",
+                          "判断を独立して記述・評価",
+                          "状態機械と規則"
+                        ]
+                      },
+                      {
+                        "id": "appendix-related-techniques-row-5",
+                        "cells": [
+                          "View / Display",
+                          "意味を持つ参照結果と表示を分離",
+                          "CQRS／Display"
+                        ]
+                      },
+                      {
+                        "id": "appendix-related-techniques-row-6",
+                        "cells": [
+                          "CBD / CAR",
+                          "モデルと実装の構成・配布",
+                          "Component・CAR"
+                        ]
+                      },
+                      {
+                        "id": "appendix-related-techniques-row-memory",
+                        "cells": [
+                          "Entity分類とWorking Set",
+                          "モデル駆動のメモリ管理",
+                          "Entityの分類からメモリ管理"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-appendix-related"
+                      ],
+                      "claims": [
+                        "ddd-appendix-related-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-appendix-related-node-1",
+                        "ddd-appendix-related-node-2"
+                      ],
+                      "relations": [
+                        "ddd-appendix-related-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-appendix-related-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ddd-references-section",
+            "heading": "参考資料と確認範囲",
+            "coreRefs": {
+              "steps": [
+                "ddd-references"
+              ],
+              "claims": [
+                "ddd-references-claim-1",
+                "ddd-references-claim-2",
+                "ddd-references-claim-3",
+                "ddd-references-claim-4",
+                "ddd-references-claim-5",
+                "ddd-references-claim-6",
+                "ddd-references-claim-7",
+                "ddd-references-claim-8",
+                "ddd-comparison-sources-claim"
+              ],
+              "nodes": [
+                "ddd-references-node-1",
+                "ddd-references-node-2",
+                "ddd-references-node-3",
+                "ddd-comparison-sources-node"
+              ],
+              "relations": [
+                "ddd-references-relation-1",
+                "ddd-references-relation-2",
+                "ddd-references-relation-3"
+              ],
+              "flows": [
+                "ddd-references-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-references-paragraph-1",
+                "kind": "paragraph",
+                "text": "Eric Evans, Domain-Driven Design: Tackling Complexity in the Heart of Software。業務の意味、Ubiquitous Language、Bounded Context、Entity・Value・Aggregateなどの基本概念の参照先。https://www.informit.com/store/domain-driven-design-tackling-complexity-in-the-heart-9780321125217",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-references"
+                  ],
+                  "claims": [
+                    "ddd-references-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-references-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-references-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-references-paragraph-2",
+                "kind": "paragraph",
+                "text": "Vaughn Vernon, Implementing Domain-Driven Design。基本概念を実装とアーキテクチャへ接続する際の参照先。https://www.informit.com/store/implementing-domain-driven-design-9780321834577",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-references"
+                  ],
+                  "claims": [
+                    "ddd-references-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-references-node-2"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-references-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-references-paragraph-3",
+                "kind": "paragraph",
+                "text": "Vlad Khononov, Learning Domain-Driven Design。戦略的設計・戦術的設計・アーキテクチャ上の選択を整理する参照先。https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-references"
+                  ],
+                  "claims": [
+                    "ddd-references-claim-3"
+                  ],
+                  "nodes": [
+                    "ddd-references-node-3"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-references-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-references-paragraph-4",
+                "kind": "paragraph",
+                "text": "Martin Fowler, Patterns of Enterprise Application Architecture。本文のService Layer、Repository、Data Mapper、Unit of Workは公開パターン・カタログも参照しています。https://martinfowler.com/eaaCatalog/ 。CQRS：https://martinfowler.com/bliki/CQRS.html 。DDDの補助資料：Eric Evans, Domain-Driven Design Reference。https://www.domainlanguage.com/ddd/reference/",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-references"
+                  ],
+                  "claims": [
+                    "ddd-references-claim-4"
+                  ],
+                  "nodes": [
+                    "ddd-references-node-3"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-references-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-references-paragraph-5",
+                "kind": "paragraph",
+                "text": "Scott Wlaschin, Domain Modeling Made Functional。本文「Entityと両系統のValue Object」の型・値の制約との対応で参照します。F#での実装手法の詳細は本技術ガイドでは扱いません。https://pragprog.com/titles/swdddf/domain-modeling-made-functional/",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-references"
+                  ],
+                  "claims": [
+                    "ddd-references-claim-5"
+                  ],
+                  "nodes": [
+                    "ddd-references-node-3"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-references-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-references-paragraph-6",
+                "kind": "paragraph",
+                "text": "Debasish Ghosh, Functional and Reactive Domain Modeling。本文「モデルの意味と処理系の責務」の業務計算と入出力処理の分離との対応で参照します。Scalaによる関数型モデリングの詳説は別文書の対象とします。https://www.manning.com/books/functional-and-reactive-domain-modeling",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-references"
+                  ],
+                  "claims": [
+                    "ddd-references-claim-6"
+                  ],
+                  "nodes": [
+                    "ddd-references-node-3"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-references-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-references-paragraph-7",
+                "kind": "paragraph",
+                "text": "内部資料：SimpleModeling.orgの2026-10-16「CNCFシリーズ構想 - DDDモデルを実行し、KnowledgeとAIへ接続するRuntime」と2026-10-17「Domain Rule / Rule Engineをハーネス・シリーズとCNCF記事へ接続する」。CozyのCML Semantic Capability Inventory、ModelTypeProjector実装、Generated StateMachine/Workflow ABI Contract。",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-references"
+                  ],
+                  "claims": [
+                    "ddd-references-claim-7"
+                  ],
+                  "nodes": [
+                    "ddd-references-node-3"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-references-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-references-paragraph-8",
+                "kind": "paragraph",
+                "text": "内部資料：CNCFのAggregate/View Semantic Boundary、Entity Runtime Architecture、Textus Subsystem Runtime Architecture、Entity Conflict and Conditional Transition、Action Execution Semantics、Rule Engine and Inference Runtime。これらの設計・仕様と実装の位置付けを区別して参照しています。 Display Model runtime designとDisplay Model runtime specificationは、ViewとDisplayの責務分離および操作の接続の参照先です。 DataStore and Aggregate Persistence Model、DataStore logical type mapping、UnitOfWork Resource Lifecycle、Canonical Event Shapeも参照しています。 Entity Kind and Working Set PolicyとEntityKindRuntimePolicyの実装は、分類とメモリ管理の対応の参照先です。",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-references"
+                  ],
+                  "claims": [
+                    "ddd-references-claim-8"
+                  ],
+                  "nodes": [
+                    "ddd-references-node-3"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-references-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-comparison-sources",
+                "kind": "paragraph",
+                "text": "比較の公開出典：Eの目次 https://www.oreilly.com/library/view/domain-driven-design-tackling/0321125215/toc.html 、第5章の冒頭 https://www.oreilly.com/library/view/domain-driven-design-tackling/0321125215/ch05.html 。Vの目次は前掲出版社ページ、第10章の整合性境界の公開本文 https://www.informit.com/articles/article.aspx?p=2020371&seqNum=2 。Kの目次は前掲出版社ページ、第3章の文脈依存の用語例 https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/ch03.html 、第6章の用語整理 https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/ch06.html 。全文照合や不掲載の証明は、この公開確認の対象外です。",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-references"
+                  ],
+                  "claims": [
+                    "ddd-comparison-sources-claim"
+                  ],
+                  "nodes": [
+                    "ddd-comparison-sources-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-references-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "textus-cncf-ddd-architecture",
+        "text": "Textus/CNCF DDDモデリング技術ガイド"
+      },
+      {
+        "stepRef": "ddd-purpose",
+        "text": "本技術ガイドの目的と対象"
+      },
+      {
+        "stepRef": "ddd-vocabulary",
+        "text": "3冊の参照範囲と採用する用語"
+      },
+      {
+        "stepRef": "ddd-landscape",
+        "text": "DDDとCQRSから見る全体像"
+      },
+      {
+        "stepRef": "ddd-strategic",
+        "text": "戦略的設計のハイライト"
+      },
+      {
+        "stepRef": "ddd-context",
+        "text": "Bounded Context・Context Mapと部品境界"
+      },
+      {
+        "stepRef": "ddd-knowledge",
+        "text": "Ubiquitous LanguageとBoK・Entity・知識"
+      },
+      {
+        "stepRef": "ddd-domain",
+        "text": "戦術的設計のハイライト"
+      },
+      {
+        "stepRef": "ddd-structure",
+        "text": "Entityと両系統のValue Object"
+      },
+      {
+        "stepRef": "ddd-aggregate",
+        "text": "Aggregateと更新の整合性境界"
+      },
+      {
+        "stepRef": "ddd-delivery",
+        "text": "CQRSの更新系・参照系と接続技術"
+      },
+      {
+        "stepRef": "ddd-runtime",
+        "text": "更新系と永続化・確定の責務"
+      },
+      {
+        "stepRef": "ddd-poeaa",
+        "text": "Repository・Data Mapperと保存の接点"
+      },
+      {
+        "stepRef": "ddd-uow",
+        "text": "Aggregate・Unit of Workと更新確定"
+      },
+      {
+        "stepRef": "ddd-domain-events",
+        "text": "Domain Eventと確定結果の連携"
+      },
+      {
+        "stepRef": "ddd-readmodel",
+        "text": "参照系のQuery・Viewと再構築"
+      },
+      {
+        "stepRef": "ddd-display",
+        "text": "参照系のView・Displayと操作の接点"
+      },
+      {
+        "stepRef": "ddd-behavior",
+        "text": "アプリケーションの進行と補完モデル"
+      },
+      {
+        "stepRef": "ddd-application",
+        "text": "公開Operation・Workflowと業務操作"
+      },
+      {
+        "stepRef": "ddd-dynamic",
+        "text": "状態機械・規則評価と業務条件"
+      },
+      {
+        "stepRef": "ddd-execution",
+        "text": "DDDモデルと生成・実行の接点"
+      },
+      {
+        "stepRef": "ddd-semantics",
+        "text": "モデルの意味と処理系の責務"
+      },
+      {
+        "stepRef": "ddd-memory",
+        "text": "Entity分類とメモリ常駐の方針"
+      },
+      {
+        "stepRef": "ddd-toolchain",
+        "text": "記述・生成物・実行機構の対応"
+      },
+      {
+        "stepRef": "ddd-components",
+        "text": "Component・CARと公開契約"
+      },
+      {
+        "stepRef": "ddd-example",
+        "text": "注文の更新系・参照系における対応例"
+      },
+      {
+        "stepRef": "ddd-development",
+        "text": "補完実装・検証との接点"
+      },
+      {
+        "stepRef": "ddd-ai",
+        "text": "生成・AI補完とモデルの契約"
+      },
+      {
+        "stepRef": "ddd-verification",
+        "text": "規則・公開契約・更新結果・参照結果の確認"
+      },
+      {
+        "stepRef": "ddd-conclusion",
+        "text": "対応関係のまとめ"
+      },
+      {
+        "stepRef": "ddd-appendix",
+        "text": "付録：概念と関連技術の索引"
+      },
+      {
+        "stepRef": "ddd-appendix-ddd",
+        "text": "DDDの概念・パターン"
+      },
+      {
+        "stepRef": "ddd-appendix-poeaa",
+        "text": "PoEAAと共有するパターン"
+      },
+      {
+        "stepRef": "ddd-appendix-related",
+        "text": "関連アーキテクチャ・基盤技術"
+      },
+      {
+        "stepRef": "ddd-references",
+        "text": "参考資料と確認範囲"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "textus-cncf-ddd-architecture-node-1",
+        "text": "DDDを入口にシステムの構成を理解する"
+      },
+      {
+        "nodeRef": "textus-cncf-ddd-architecture-node-2",
+        "text": "概念・補完技術・実行の対応を示す"
+      },
+      {
+        "nodeRef": "ddd-purpose-intent-node",
+        "text": "本技術ガイドの読者は、DDDを手掛かりにSimpleModeling・Textus/CNCFを理解したい人です。DDDの概念を入口として、その概念が対応するモデル、補完技術、実行基盤との関係を説明します。各技術の役割と接続を示し、優劣や不足を論じる構成にはしません。"
+      },
+      {
+        "nodeRef": "ddd-purpose-scope-node",
+        "text": "一般的なモデリングの進め方や個々の案件の開発手順は別の資料で扱います。本文のハイライトは、どのDDD技術が、どの関心事に対応し、本システムのどこで使われるかを示します。設計上の対応と、採用版で利用できる生成・実行機能の範囲は区別します。"
+      },
+      {
+        "nodeRef": "ddd-vocabulary-sources-node",
+        "text": "参照するのはEvansのDomain-Driven Design（2003年）、VernonのImplementing Domain-Driven Design（2013年）、KhononovのLearning Domain-Driven Design（2021年）の英語版です。表ではE・V・Kと略記します。公開目次と下記の公開本文範囲を用いて、用語の掲載位置と説明の観点を照合しました。参照位置の確認と、定義本文全体の照合は別です。"
+      },
+      {
+        "nodeRef": "ddd-book-coverage-node",
+        "text": "3冊の掲載位置と確認範囲"
+      },
+      {
+        "nodeRef": "ddd-vocabulary-differences-node",
+        "text": "確認できる違いには、用語の定義だけでなく整理の範囲があります。Eはモデルの基本要素と後半の戦略的設計、Vは基本要素の個別章とアーキテクチャ・連携、Kは戦略的／戦術的設計とアーキテクチャの選択を明示して構成しています。K第6章の公開本文は、戦術的パターン群をDomain Modelの構成要素として説明する立場を示しています。V第10章の公開本文はAggregateを不変条件とトランザクションの整合性境界として具体化します。これらは説明範囲・強調点の違いとして扱い、確認していない定義の対立は断定しません。"
+      },
+      {
+        "nodeRef": "ddd-vocabulary-adoption-node",
+        "text": "次の表は、本技術ガイドで採用する意味とSimpleModelingへの接続です。各書の定義を同一と仮定せず、出典の観点と本システムの採用方針を区別します。「位置未確認」は今回の公開確認範囲を示すもので、書籍全体にその概念が登場しないという判断ではありません。"
+      },
+      {
+        "nodeRef": "ddd-adopted-terms-node",
+        "text": "本技術ガイドの採用意味と接続"
+      },
+      {
+        "nodeRef": "ddd-landscape-node-1",
+        "text": "DDD・関連技術・基盤の役割を区別する"
+      },
+      {
+        "nodeRef": "ddd-landscape-node-2",
+        "text": "CQRSの更新・参照と共通の値の意味を接続する"
+      },
+      {
+        "nodeRef": "ddd-strategic-intro-node",
+        "text": "戦略的設計のハイライトは、意味を共有する言語、意味が一貫するコンテキスト、およびコンテキスト間の関係です。SimpleModelingでは、これらをBoKの用語・知識、サブシステム・コンポーネントの境界、公開契約との接点として説明します。"
+      },
+      {
+        "nodeRef": "ddd-strategic-axes-node",
+        "text": "コンテキストは更新と参照の両方に意味の範囲を与えます。戦略的／戦術的設計と、CQRSの更新系／参照系は直交する整理軸です。コンテキスト間の言語や契約を定めることと、一つのコンテキスト内で更新・参照モデルを分けることを、それぞれの役割で示します。"
+      },
+      {
+        "nodeRef": "ddd-context-node-1",
+        "text": "Bounded Contextは、特定のモデルと言語の意味が一貫して適用される範囲です。例えば受注と配送で同じ「注文」という語を使っても、扱う属性や規則は異なり得ます。SimpleModelingでは、この意味の境界をサブシステムやコンポーネントの境界として具体化するモデリング方針を取ります。物理ホストやプロセスの数とは別の境界です。"
+      },
+      {
+        "nodeRef": "ddd-context-node-2",
+        "text": "Context Mapは、コンテキスト間の関係と接続時の責任を理解する接点です。SimpleModelingでは、対応するサブシステム・コンポーネント間の公開Service・Operation、データ変換およびEventの契約へ関係を具体化します。用語の翻訳、モデルの対応、接続先への依存を区別して記述します。これは本システムの採用方針であり、すべてのDDDシステムに同じ配備単位を要求するものではありません。"
+      },
+      {
+        "nodeRef": "ddd-knowledge-node-1",
+        "text": "Ubiquitous LanguageとBoK・Entity・知識"
+      },
+      {
+        "nodeRef": "ddd-knowledge-node-2",
+        "text": "Ubiquitous LanguageとBoK・Entity・知識"
+      },
+      {
+        "nodeRef": "ddd-domain-node-1",
+        "text": "概念の意味と適用範囲を定める"
+      },
+      {
+        "nodeRef": "ddd-domain-node-2",
+        "text": "更新を許す境界へ結び付ける"
+      },
+      {
+        "nodeRef": "ddd-structure-node-1",
+        "text": "注文は識別子を保って状態が変わるEntityとして扱い、金額や数量は値の意味を持つValueとして扱います。属性の型、任意性、関係、値の制約を明示することで、注文番号と顧客番号の取り違えや、許されない数量を接続先へ渡すことを抑えます。"
+      },
+      {
+        "nodeRef": "ddd-structure-node-2",
+        "text": "Value Objectの意味と制約は、更新系のOperation入力やAggregateの状態と、参照系のQuery結果やView値の両方で利用します。例えば金額は、注文更新の計算にも注文一覧の参照値にも登場します。CMLのValue・Datatypeと型付き接点は、この意味を両経路へ渡す対応先です。保存形式の変換や表示整形はそれぞれ別の責務として扱います。"
+      },
+      {
+        "nodeRef": "ddd-aggregate-node-1",
+        "text": "注文と明細を一つのAggregateとするなら、明細の追加や注文確定はAggregate Rootの操作として表します。外部から項目を直接書き換えるのではなく、その操作で現在状態と業務条件を確認します。数量が正であることなどの値の制約と、確定する注文に明細があることなどの対象全体の規則を組み合わせます。"
+      },
+      {
+        "nodeRef": "ddd-aggregate-node-2",
+        "text": "CNCFではEntityの永続状態を正本とし、Aggregateを更新側の投影として扱います。Aggregateの生成操作と既存対象へのCommandを区別し、不変条件を対応する検査・計算・Commandの実装へ結び付けます。ここで妥当な更新候補を作り、後述するUoWと保存先の条件検査によって実際の状態へ確定します。"
+      },
+      {
+        "nodeRef": "ddd-aggregate-node-3",
+        "text": "規則の宣言と実装を検証する"
+      },
+      {
+        "nodeRef": "ddd-delivery-node-1",
+        "text": "更新と参照に異なるモデルを使う"
+      },
+      {
+        "nodeRef": "ddd-delivery-node-2",
+        "text": "事実と投影で表示までつなぐ"
+      },
+      {
+        "nodeRef": "ddd-runtime-node-1",
+        "text": "モデルの境界を実行全体へ広げる"
+      },
+      {
+        "nodeRef": "ddd-runtime-node-2",
+        "text": "基盤の共通機構へ委ねる"
+      },
+      {
+        "nodeRef": "ddd-poeaa-node-1",
+        "text": "Repositoryは、業務対象を取得・更新する接点です。アプリケーションはこの接点から対象を取得してAggregateの操作を呼び出すため、業務処理の各所へデータベース操作を書き込む範囲を減らせます。対象の識別と更新の規則はドメイン側に保持します。"
+      },
+      {
+        "nodeRef": "ddd-poeaa-node-2",
+        "text": "Data Mapperは、業務の型と保存形式の変換を整理するパターンです。CNCFではEntityStore・EntityPersistentとDataStoreの境界で、宣言された型と選択したマッピングに従って変換します。DataStoreは物理的なアクセスを担当します。この分離により、業務の型を保ったまま保存先の表現を選べます。"
+      },
+      {
+        "nodeRef": "ddd-uow-node-1",
+        "text": "Aggregateは更新内容が業務上妥当かを判断し、UoWは更新のまとまりと確定・中止を管理します。DataStoreはそのトランザクションへ参加して保存先を操作します。競合検出を採用する場合は、期待するリビジョンや現在状態を保存先で原子的に検査し、条件が変わっていれば更新を拒否します。業務の規則と確定時の条件を組み合わせて整合性を守ります。"
+      },
+      {
+        "nodeRef": "ddd-uow-node-2",
+        "text": "呼出しと対象への認可も同じ実行経路で適用します。長いWorkflowやJobが複数の更新へまたがる場合は、それぞれの確定範囲と、後続が失敗したときの再試行・補償を定めます。Workflowは業務の進行を、UoWは個々の処理の確定と資源の終了を担当し、一連の進行を一つのデータベース・トランザクションへ押し込めずに構成します。"
+      },
+      {
+        "nodeRef": "ddd-domain-events-node-1",
+        "text": "「注文を確定する」というCommandに対して、「注文が確定した」というDomain Eventは生じた業務上の事実です。名称、対象の識別子、発生時刻、伝える情報を定めます。CNCFのAggregate/View契約では、この事実を更新側から参照側へ伝えてViewへ投影します。Workflowの後続処理や他のComponentとの連携にも業務上の出来事を使えます。"
+      },
+      {
+        "nodeRef": "ddd-domain-events-node-2",
+        "text": "更新の確定、Eventの記録・公開、受信側の処理完了は区別します。採用する経路に応じて再送、重複排除、順序、再開を定め、非同期のViewには必要な鮮度と再参照の方法を決めます。発生した事実の意味と配信・投影の方針を組み合わせることで、業務処理同士を過度に同期させずに結果を共有できます。"
+      },
+      {
+        "nodeRef": "ddd-readmodel-node-1",
+        "text": "CNCFではAggregateを更新側、Viewを参照側の投影として整理します。注文確定の整合性を扱うモデルと、注文番号・確定状態・金額を返す参照モデルは、異なる責務を持ちます。Queryは参照経路へ接続し、Value Objectが表す値の意味は参照結果にも利用します。参照側の属性構成を、更新側のAggregateと同一にする必要はありません。"
+      },
+      {
+        "nodeRef": "ddd-readmodel-node-2",
+        "text": "更新と参照のモデル分離と、保存先の物理的分離は別の判断です。本技術ガイドの基本構成ではEntityの永続状態を正本とし、ViewやDomainのWorking Setは再構築可能な状態として扱います。初期読込みと確定更新の投影を区別し、非同期の経路では鮮度と再参照の条件を明示します。イベント列を正本とするEvent Sourcingも、CQRSとは別に選択する方式です。"
+      },
+      {
+        "nodeRef": "ddd-display-node-1",
+        "text": "Viewは、注文の識別子、状態、金額など、業務上の意味を持つ参照結果です。その外側にDisplayモデルを置き、表示項目、整形した値、参照先、操作の提示を構成します。CNCFは、認可済みのView値へ登録済みの表示定義と型付き変換を適用します。業務の意味を保ったまま、WebやFlutterなどのUIへ表示を接続できます。"
+      },
+      {
+        "nodeRef": "ddd-display-node-2",
+        "text": "画面からの操作は、公開Operationや明示的に登録した更新先へ戻します。表示を組み立てる処理でViewを更新するのではなく、認可、Aggregateの規則、UoWを通して業務の状態を変更します。View・Displayと更新の入口を組み合わせることで、画面の都合を業務規則から分離できます。"
+      },
+      {
+        "nodeRef": "ddd-display-node-3",
+        "text": "操作を業務の更新経路へ戻す"
+      },
+      {
+        "nodeRef": "ddd-behavior-node-1",
+        "text": "振る舞いの条件をモデル化する"
+      },
+      {
+        "nodeRef": "ddd-behavior-node-2",
+        "text": "構造と実行を接続する"
+      },
+      {
+        "nodeRef": "ddd-application-node-1",
+        "text": "定義済みのユースケースから、必要な操作、順序、分岐、待機をWorkflowへ具体化します。Service・Operationは外部から利用できる操作の境界となり、PoEAAのService Layerに対応する責務を担います。画面や外部APIは同じ公開操作へ接続し、Workflowはその実現に必要なドメイン操作を呼び出します。"
+      },
+      {
+        "nodeRef": "ddd-application-node-2",
+        "text": "Workflowにはアプリケーションの進行を置き、注文を確定してよいかといった規則はドメイン側へ置きます。外部機能はProviderとの明示的なバインディングで接続します。ユースケースは実行手順そのものとして扱わず、構成した進行が期待する結果を実現するかを確認する基準にします。"
+      },
+      {
+        "nodeRef": "ddd-dynamic-node-1",
+        "text": "状態機械では、対象の状態、イベント、遷移条件、実行する処理を定めます。注文の下書きから確定への遷移を注文確定Operationと対応付けると、Workflowから呼ばれた操作を、その対象の現在状態に従って判断できます。Cozyが生成する定義をCNCFの実行機構へ登録し、状態遷移と業務更新を同じ対象へ接続します。"
+      },
+      {
+        "nodeRef": "ddd-dynamic-node-2",
+        "text": "料金や承認条件など、独立して変更する判断はDomain Ruleとして識別し、Rule ModelとRule Engineへ接続できます。規則の評価結果をOperationなどの共通経路へ渡すことで、判断の内容と、認可・更新確定を伴う実行を分担します。Workflow、状態機械、規則を組み合わせ、進行、対象のライフサイクル、判断をそれぞれ明示します。"
+      },
+      {
+        "nodeRef": "ddd-execution-node-1",
+        "text": "業務の意味を定義する"
+      },
+      {
+        "nodeRef": "ddd-execution-node-2",
+        "text": "共通経路へ具体化する"
+      },
+      {
+        "nodeRef": "ddd-semantics-node-1",
+        "text": "開発者は、業務の型と制約、公開操作、状態と遷移、Workflowの進行、ViewとDisplayの対応をモデルに記述します。Cozyは、Entity・Valueなどを型付きの接点へ、状態機械・Workflow・表示などを対応する実行定義や接続コードへ具体化します。Textus/CNCFは登録された定義と処理を利用し、呼出し、遷移、投影、更新確定などを動作させます。"
+      },
+      {
+        "nodeRef": "ddd-semantics-node-2",
+        "text": "「モデルがそのまま動く」とは、モデルで決めた構造と振る舞いが、この具体化と実行の経路へ直接結び付いていることです。業務固有の計算や外部接続は、生成された型や明示された拡張点の中で補完します。実行時にすべてのCMLを読み直すという意味ではなく、生成とモデル定義の解釈を組み合わせてモデルを実現します。"
+      },
+      {
+        "nodeRef": "ddd-memory-node-1",
+        "text": "Entityのモデルは、データの構造だけでなく、実行時の扱いも指定します。Textus/CNCFでは、ステレオタイプに相当するEntityの分類をentityKindとして扱い、マスターデータを常駐させるなどの既定方針へ結び付けます。タスクデータは必要に応じて取得し、用途に合わせてキャッシュや保持の方針を設定します。"
+      },
+      {
+        "nodeRef": "ddd-memory-node-2",
+        "text": "分類だけで全対象を常駐させるのではなく、分類から得る既定値と明示的なWorking Set方針を組み合わせます。現行の既定値ではmasterは常駐、taskはWorking Set無効で、workflowの活動中保持には状態を使う方針の指定が必要です。モデルの分類と設定を実行基盤が利用するため、Entityごとに管理処理を作り直す負担を減らせます。"
+      },
+      {
+        "nodeRef": "ddd-memory-node-3",
+        "text": "常駐やキャッシュは永続状態を置き換える正本ではなく、業務処理のために保持する再構築可能な状態です。本技術ガイドではモデルの分類から実行方針へ至る対応を扱い、保持・解放、整合性、復旧の詳細はリアクティブ技術ガイドへつなぎます。"
+      },
+      {
+        "nodeRef": "ddd-toolchain-node-1",
+        "text": "次の表は、開発で記述する内容が、どの生成物と実行責務へつながるかを示します。業務の型は入力・結果・保存の意味をそろえ、動的な定義は進行と状態をそろえ、参照・表示の定義は利用者へ渡す情報をそろえます。異なるモデルが共通の識別子と型付き契約を参照することで、一つの動作へ接続できます。"
+      },
+      {
+        "nodeRef": "ddd-toolchain-node-2",
+        "text": "実際の接続では、利用するモデル要素について、定義の生成、実行機構への登録、必要なProviderや補完処理のバインディングをそろえます。Domain Ruleの具体化や外部Providerなどは、採用する版と構成で対応範囲を確認します。モデルに記述した内容と、その内容を扱う実装・設定を対応させることが、動作までを一貫させる作業になります。"
+      },
+      {
+        "nodeRef": "ddd-components-node-1",
+        "text": "モデルの責務を部品へ配置する"
+      },
+      {
+        "nodeRef": "ddd-components-node-2",
+        "text": "公開契約で外部と接続する"
+      },
+      {
+        "nodeRef": "ddd-example-node-1",
+        "text": "注文確定では、Workflowから公開Operationを呼び、Order Aggregateが明細と現在状態を確認して更新候補を作ります。UoWが確定を管理し、選択したマッピングとDataStoreを通して保存します。確定した事実をDomain Eventとして後続へ渡し、Viewへ反映した結果をDisplayで提示します。"
+      },
+      {
+        "nodeRef": "ddd-example-node-2",
+        "text": "この例で開発者が定めるのは、注文の型と規則、確定操作、進行、参照項目、表示との対応です。処理系は、その定義と補完処理を登録された実行機構へつなぎます。図はモデルと実行責務の対応を示し、配信や投影のタイミングは採用する経路に応じて定めます。"
+      },
+      {
+        "nodeRef": "ddd-development-node-1",
+        "text": "変更の影響をモデルから追う"
+      },
+      {
+        "nodeRef": "ddd-development-node-2",
+        "text": "業務の意味と実現を検証する"
+      },
+      {
+        "nodeRef": "ddd-ai-node-1",
+        "text": "機械的生成と意味の補完を分ける"
+      },
+      {
+        "nodeRef": "ddd-ai-node-2",
+        "text": "モデルと実行の境界で変更を制約する"
+      },
+      {
+        "nodeRef": "ddd-verification-node-1",
+        "text": "検証では、定義済みユースケースとモデルの対応、生成された型や部品契約、実行結果の三つを突き合わせます。textus-cbd-supportのモデルレビュー、コンパイルやcar lint、実行仕様を組み合わせ、規則が成立する例、拒否すべき例、競合や途中失敗後の状態を確認します。"
+      },
+      {
+        "nodeRef": "ddd-verification-node-2",
+        "text": "たとえば注文確定の条件を変更した場合は、Aggregateと状態機械の条件、対応するOperation、検証例を更新します。参照や表示へ影響するならView・Displayも確認します。生成コードだけを変更せず、元の定義と必要な補完処理へ戻すことで、業務の意味と動作の対応を保ちます。"
+      },
+      {
+        "nodeRef": "ddd-conclusion-node-1",
+        "text": "モデルの意味を実行へ保持する"
+      },
+      {
+        "nodeRef": "ddd-conclusion-node-2",
+        "text": "開発・変更・検証を一貫させる"
+      },
+      {
+        "nodeRef": "ddd-appendix-node-1",
+        "text": "パターンの役割を参照する"
+      },
+      {
+        "nodeRef": "ddd-appendix-node-2",
+        "text": "本文の接続箇所を確認する"
+      },
+      {
+        "nodeRef": "ddd-appendix-ddd-node-1",
+        "text": "役割を区別する"
+      },
+      {
+        "nodeRef": "ddd-appendix-ddd-node-2",
+        "text": "他のモデルとの接続を確認する"
+      },
+      {
+        "nodeRef": "ddd-appendix-poeaa-node-1",
+        "text": "役割を区別する"
+      },
+      {
+        "nodeRef": "ddd-appendix-poeaa-node-2",
+        "text": "他のモデルとの接続を確認する"
+      },
+      {
+        "nodeRef": "ddd-appendix-related-node-1",
+        "text": "役割を区別する"
+      },
+      {
+        "nodeRef": "ddd-appendix-related-node-2",
+        "text": "他のモデルとの接続を確認する"
+      },
+      {
+        "nodeRef": "ddd-references-node-1",
+        "text": "Eric Evans, Domain-Driven Design: Tackling Complexity in the Heart of Software。業務の意味、Ubiquitous Language、Bounded Context、Entity・Value・Aggregateなどの基本概念の参照先。https://www.informit.com/store/domain-driven-design-tackling-complexity-in-the-heart-9780321125217"
+      },
+      {
+        "nodeRef": "ddd-references-node-2",
+        "text": "Vaughn Vernon, Implementing Domain-Driven Design。基本概念を実装とアーキテクチャへ接続する際の参照先。https://www.informit.com/store/implementing-domain-driven-design-9780321834577"
+      },
+      {
+        "nodeRef": "ddd-references-node-3",
+        "text": "Vlad Khononov, Learning Domain-Driven Design。戦略的設計・戦術的設計・アーキテクチャ上の選択を整理する参照先。https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/"
+      },
+      {
+        "nodeRef": "ddd-comparison-sources-node",
+        "text": "比較の公開出典：Eの目次 https://www.oreilly.com/library/view/domain-driven-design-tackling/0321125215/toc.html 、第5章の冒頭 https://www.oreilly.com/library/view/domain-driven-design-tackling/0321125215/ch05.html 。Vの目次は前掲出版社ページ、第10章の整合性境界の公開本文 https://www.informit.com/articles/article.aspx?p=2020371&seqNum=2 。Kの目次は前掲出版社ページ、第3章の文脈依存の用語例 https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/ch03.html 、第6章の用語整理 https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/ch06.html 。全文照合や不掲載の証明は、この公開確認の対象外です。"
+      }
+    ]
+  }
+}

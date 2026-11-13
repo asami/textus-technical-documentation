@@ -1,0 +1,3929 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-ddd-architecture-document-en",
+  "core": {
+    "id": "textus-cncf-ddd-architecture"
+  },
+  "locale": "en",
+  "document": {
+    "title": "Textus/CNCF DDD Modeling — Technical Guide",
+    "sections": [
+      {
+        "id": "textus-cncf-ddd-architecture-section",
+        "heading": "Textus/CNCF DDD Modeling — Technical Guide",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-ddd-architecture"
+          ],
+          "claims": [
+            "textus-cncf-ddd-architecture-claim-1"
+          ],
+          "nodes": [
+            "textus-cncf-ddd-architecture-node-1",
+            "textus-cncf-ddd-architecture-node-2"
+          ],
+          "relations": [
+            "textus-cncf-ddd-architecture-relation-1"
+          ],
+          "flows": [
+            "textus-cncf-ddd-architecture-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "textus-cncf-ddd-architecture-paragraph-1",
+            "kind": "paragraph",
+            "text": "This technical guide explains SimpleModeling and Textus/CNCF models and execution through a DDD perspective. Its purpose is to make the system structure and design decisions understandable through correspondences with DDD concepts and concerns. It presents purpose, selected terminology, the overview, strategic/tactical highlights and connections to update/read processing.",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-ddd-architecture"
+              ],
+              "claims": [
+                "textus-cncf-ddd-architecture-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-ddd-architecture-node-1",
+                "textus-cncf-ddd-architecture-node-2"
+              ],
+              "relations": [
+                "textus-cncf-ddd-architecture-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-ddd-architecture-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "ddd-purpose-section",
+            "heading": "Purpose and Scope",
+            "coreRefs": {
+              "steps": [
+                "ddd-purpose"
+              ],
+              "claims": [
+                "ddd-purpose-intent-claim",
+                "ddd-purpose-scope-claim"
+              ],
+              "nodes": [
+                "ddd-purpose-intent-node",
+                "ddd-purpose-scope-node"
+              ],
+              "relations": [
+                "ddd-purpose-local-next-1"
+              ],
+              "flows": [
+                "ddd-purpose-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-purpose-intent",
+                "kind": "paragraph",
+                "text": "This guide is for readers using DDD to understand SimpleModeling/Textus/CNCF. DDD concepts lead to their corresponding models, complementary techniques and runtime mechanisms. The explanation identifies roles and connections without a superiority or deficiency narrative.",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-purpose"
+                  ],
+                  "claims": [
+                    "ddd-purpose-intent-claim"
+                  ],
+                  "nodes": [
+                    "ddd-purpose-intent-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-purpose-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-purpose-scope",
+                "kind": "paragraph",
+                "text": "General modeling methods and project development procedures belong to separate guides. Each highlight identifies the DDD technique, its concern and its place in this system. Architectural correspondence is separate from the generation/runtime capabilities available in a selected version.",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-purpose"
+                  ],
+                  "claims": [
+                    "ddd-purpose-scope-claim"
+                  ],
+                  "nodes": [
+                    "ddd-purpose-scope-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-purpose-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ddd-vocabulary-section",
+            "heading": "Three-Book Sources and Selected Vocabulary",
+            "coreRefs": {
+              "steps": [
+                "ddd-vocabulary"
+              ],
+              "claims": [
+                "ddd-vocabulary-sources-claim",
+                "ddd-book-coverage-claim",
+                "ddd-vocabulary-differences-claim",
+                "ddd-vocabulary-adoption-claim",
+                "ddd-adopted-terms-claim"
+              ],
+              "nodes": [
+                "ddd-vocabulary-sources-node",
+                "ddd-book-coverage-node",
+                "ddd-vocabulary-differences-node",
+                "ddd-vocabulary-adoption-node",
+                "ddd-adopted-terms-node"
+              ],
+              "relations": [
+                "ddd-vocabulary-local-next-1",
+                "ddd-vocabulary-local-next-2",
+                "ddd-vocabulary-local-next-3",
+                "ddd-vocabulary-local-next-4"
+              ],
+              "flows": [
+                "ddd-vocabulary-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-vocabulary-sources",
+                "kind": "paragraph",
+                "text": "The sources are the English editions of Evans (2003), Vernon (2013) and Khononov (2021), abbreviated E/V/K below. Public contents and the identified previews support comparison of coverage and explanatory perspectives. Confirming a location is separate from comparing every definition in full.",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-vocabulary"
+                  ],
+                  "claims": [
+                    "ddd-vocabulary-sources-claim"
+                  ],
+                  "nodes": [
+                    "ddd-vocabulary-sources-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-vocabulary-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-book-coverage",
+                "kind": "table",
+                "caption": "Three-Book Coverage and Inspection Scope",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Concept"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "E: Evans"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "V: Vernon"
+                  },
+                  {
+                    "id": "col-4",
+                    "heading": "K: Khononov"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "ddd-book-coverage-row-1",
+                    "cells": [
+                      "Language/context",
+                      "Ch 2: shared language; Ch 14: model integrity",
+                      "Ch 1–3; publisher coverage of language/context",
+                      "Ch 2–3: knowledge/language and boundaries"
+                    ]
+                  },
+                  {
+                    "id": "ddd-book-coverage-row-2",
+                    "cells": [
+                      "Context relationships",
+                      "Ch 14 / strategic-design part",
+                      "Ch 3 and 13: maps and integration",
+                      "Ch 4: relationships, translation and maps"
+                    ]
+                  },
+                  {
+                    "id": "ddd-book-coverage-row-3",
+                    "cells": [
+                      "Entity/Value Object",
+                      "Ch 5: model elements",
+                      "Ch 5–6: separate building blocks",
+                      "Ch 6 opening: Domain Model building blocks"
+                    ]
+                  },
+                  {
+                    "id": "ddd-book-coverage-row-4",
+                    "cells": [
+                      "Aggregate",
+                      "Ch 6 lifecycle: definition inspection target",
+                      "Ch 10: public consistency-boundary excerpt",
+                      "Ch 6: named as a building block"
+                    ]
+                  },
+                  {
+                    "id": "ddd-book-coverage-row-5",
+                    "cells": [
+                      "Repository",
+                      "Ch 6 lifecycle: definition inspection target",
+                      "Ch 12: dedicated chapter",
+                      "Ch 6 opening: named building block"
+                    ]
+                  },
+                  {
+                    "id": "ddd-book-coverage-row-6",
+                    "cells": [
+                      "Domain Event",
+                      "Location unverified in inspected public material",
+                      "Ch 8: dedicated chapter",
+                      "Ch 9/15: communication/event coverage"
+                    ]
+                  },
+                  {
+                    "id": "ddd-book-coverage-row-7",
+                    "cells": [
+                      "CQRS",
+                      "Location unverified in inspected public material",
+                      "Ch 4 / explicit publisher architecture coverage",
+                      "Ch 8: update/read model separation"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ddd-vocabulary"
+                  ],
+                  "claims": [
+                    "ddd-book-coverage-claim"
+                  ],
+                  "nodes": [
+                    "ddd-book-coverage-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-vocabulary-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-vocabulary-differences",
+                "kind": "paragraph",
+                "text": "Verified differences include organization and emphasis. E separates model building blocks and later strategic design; V gives individual building-block chapters and architecture/integration; K explicitly organizes strategic/tactical design and architecture choices. The K Chapter 6 preview treats tactical patterns as Domain Model building blocks. The V Chapter 10 excerpt develops Aggregate invariants and transactional consistency boundaries. These observations concern scope/emphasis, not an asserted disagreement between uninspected definitions.",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-vocabulary"
+                  ],
+                  "claims": [
+                    "ddd-vocabulary-differences-claim"
+                  ],
+                  "nodes": [
+                    "ddd-vocabulary-differences-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-vocabulary-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-vocabulary-adoption",
+                "kind": "paragraph",
+                "text": "The following meanings are adopted for this guide and connected to SimpleModeling. Source perspectives and system policy remain distinct rather than assuming identical definitions. Location unverified describes this public inspection scope, not absence from an entire book.",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-vocabulary"
+                  ],
+                  "claims": [
+                    "ddd-vocabulary-adoption-claim"
+                  ],
+                  "nodes": [
+                    "ddd-vocabulary-adoption-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-vocabulary-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-adopted-terms",
+                "kind": "table",
+                "caption": "Adopted Meanings and System Connections",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Term"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Meaning in This Guide"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "SimpleModeling/CNCF Connection"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "ddd-adopted-terms-row-1",
+                    "cells": [
+                      "Ubiquitous Language",
+                      "Shared language supporting a contextual model",
+                      "BoK terminology linked to models/rules/knowledge"
+                    ]
+                  },
+                  {
+                    "id": "ddd-adopted-terms-row-2",
+                    "cells": [
+                      "Bounded Context",
+                      "Scope of consistent model/language meaning",
+                      "Subsystem/component modeling boundary"
+                    ]
+                  },
+                  {
+                    "id": "ddd-adopted-terms-row-3",
+                    "cells": [
+                      "Context Map",
+                      "Inter-context relationships and responsibilities",
+                      "Public contracts, translation and dependencies"
+                    ]
+                  },
+                  {
+                    "id": "ddd-adopted-terms-row-4",
+                    "cells": [
+                      "Entity",
+                      "Domain object with continuing identity",
+                      "CML Entity, persistence and identity contracts"
+                    ]
+                  },
+                  {
+                    "id": "ddd-adopted-terms-row-5",
+                    "cells": [
+                      "Value Object",
+                      "Meaning/constraints of a value rather than identity",
+                      "Value/Datatype on both update and read paths"
+                    ]
+                  },
+                  {
+                    "id": "ddd-adopted-terms-row-6",
+                    "cells": [
+                      "Aggregate",
+                      "Update consistency unit enforcing invariants via a root",
+                      "Update projection/Commands connected to commit checks"
+                    ]
+                  },
+                  {
+                    "id": "ddd-adopted-terms-row-7",
+                    "cells": [
+                      "Repository",
+                      "Domain-object access boundary",
+                      "Shared DDD/PoEAA role connected to EntityStore"
+                    ]
+                  },
+                  {
+                    "id": "ddd-adopted-terms-row-8",
+                    "cells": [
+                      "Domain Event",
+                      "An occurrence meaningful to the domain",
+                      "Committed facts feed projections/subsequent work here"
+                    ]
+                  },
+                  {
+                    "id": "ddd-adopted-terms-row-9",
+                    "cells": [
+                      "CQRS",
+                      "Separate update and read model responsibilities",
+                      "Aggregate/Command versus View/Query roles"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ddd-vocabulary"
+                  ],
+                  "claims": [
+                    "ddd-adopted-terms-claim"
+                  ],
+                  "nodes": [
+                    "ddd-adopted-terms-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-vocabulary-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ddd-landscape-section",
+            "heading": "System Overview through DDD and CQRS",
+            "coreRefs": {
+              "steps": [
+                "ddd-landscape"
+              ],
+              "claims": [
+                "ddd-landscape-claim-1",
+                "ddd-landscape-claim-2"
+              ],
+              "nodes": [
+                "ddd-landscape-node-1",
+                "ddd-landscape-node-2"
+              ],
+              "relations": [
+                "ddd-landscape-relation-1"
+              ],
+              "flows": [
+                "ddd-landscape-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-landscape-paragraph-1",
+                "kind": "paragraph",
+                "text": "The opening diagram connects DDD concerns to the SimpleModeling overview. Strategic design addresses language and boundaries; tactical design addresses responsibilities of Entities, Value Objects and Aggregates within those boundaries. The diagram distinguishes DDD concepts, complementary architecture techniques and SimpleModeling/CNCF models and mechanisms, with explicit connections between them.",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-landscape"
+                  ],
+                  "claims": [
+                    "ddd-landscape-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-landscape-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-landscape-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-landscape-paragraph-2",
+                "kind": "paragraph",
+                "text": "The update path leads from Commands through Aggregate rules to commit. The read path leads from Queries to Views and Displays. Authoritative committed state and required projections connect the paths. Value Objects express meanings and constraints on both sides, without requiring a shared in-memory instance or identical model shapes. CQRS separates model responsibilities; physical storage separation and Event Sourcing remain independent choices.",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-landscape"
+                  ],
+                  "claims": [
+                    "ddd-landscape-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-landscape-node-2"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-landscape-flow"
+                  ]
+                }
+              },
+              {
+                "id": "model-landscape",
+                "kind": "figure",
+                "asset": "images/model-landscape-en.png",
+                "caption": "DDD, Supporting Techniques, Platform and CQRS Update/Read Paths",
+                "alt": "DDD, Supporting Techniques, Platform and CQRS Update/Read Paths",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-landscape"
+                  ],
+                  "claims": [
+                    "ddd-landscape-claim-1",
+                    "ddd-landscape-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-landscape-node-1",
+                    "ddd-landscape-node-2"
+                  ],
+                  "relations": [
+                    "ddd-landscape-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-landscape-flow"
+                  ]
+                }
+              },
+              {
+                "id": "model-responsibilities",
+                "kind": "table",
+                "caption": "Development decisions and modeling techniques",
+                "columns": [
+                  {
+                    "id": "model-responsibilities-column-1",
+                    "heading": "Development decision"
+                  },
+                  {
+                    "id": "model-responsibilities-column-2",
+                    "heading": "Model or technique"
+                  },
+                  {
+                    "id": "model-responsibilities-column-3",
+                    "heading": "Reference perspective"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "model-responsibilities-row-1",
+                    "cells": [
+                      "Which objects and rules matter?",
+                      "Entity / Value / Aggregate / Rules",
+                      "DDD semantics and consistency; PoEAA Domain Model"
+                    ]
+                  },
+                  {
+                    "id": "model-responsibilities-row-2",
+                    "cells": [
+                      "How is the goal realized?",
+                      "Workflow / State machine / Operation",
+                      "Application modeling and Service Layer"
+                    ]
+                  },
+                  {
+                    "id": "model-responsibilities-row-3",
+                    "cells": [
+                      "What changes and what is read?",
+                      "Command / Query / View",
+                      "CQRS write/read model separation"
+                    ]
+                  },
+                  {
+                    "id": "model-responsibilities-row-4",
+                    "cells": [
+                      "What happened and who reacts?",
+                      "Domain Event",
+                      "Business facts and subsequent processing"
+                    ]
+                  },
+                  {
+                    "id": "model-responsibilities-row-5",
+                    "cells": [
+                      "How is data loaded and committed?",
+                      "Repository / Mapping / UoW",
+                      "PoEAA persistence and transaction patterns"
+                    ]
+                  },
+                  {
+                    "id": "model-responsibilities-row-6",
+                    "cells": [
+                      "What is presented to users?",
+                      "View / Display / UI model",
+                      "Separation of semantic reads and presentation"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ddd-landscape"
+                  ],
+                  "claims": [
+                    "ddd-landscape-claim-1",
+                    "ddd-landscape-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-landscape-node-1",
+                    "ddd-landscape-node-2"
+                  ],
+                  "relations": [
+                    "ddd-landscape-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-landscape-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ddd-strategic-section",
+            "heading": "Strategic Design Highlights",
+            "coreRefs": {
+              "steps": [
+                "ddd-strategic"
+              ],
+              "claims": [
+                "ddd-strategic-intro-claim",
+                "ddd-strategic-axes-claim"
+              ],
+              "nodes": [
+                "ddd-strategic-intro-node",
+                "ddd-strategic-axes-node"
+              ],
+              "relations": [
+                "ddd-strategic-local-next-1"
+              ],
+              "flows": [
+                "ddd-strategic-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-strategic-intro",
+                "kind": "paragraph",
+                "text": "Strategic highlights are shared language, contexts of consistent meaning and relationships between contexts. SimpleModeling connects them to BoK terminology/knowledge, subsystem/component boundaries and public contracts.",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-strategic"
+                  ],
+                  "claims": [
+                    "ddd-strategic-intro-claim"
+                  ],
+                  "nodes": [
+                    "ddd-strategic-intro-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-strategic-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-strategic-axes",
+                "kind": "paragraph",
+                "text": "Contexts scope meanings for both updates and reads. Strategic/tactical design and CQRS update/read paths are separate axes. Inter-context language/contracts and intra-context update/read model separation have distinct roles.",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-strategic"
+                  ],
+                  "claims": [
+                    "ddd-strategic-axes-claim"
+                  ],
+                  "nodes": [
+                    "ddd-strategic-axes-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-strategic-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ddd-context-section",
+                "heading": "Bounded Contexts, Context Maps and Component Boundaries",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-context"
+                  ],
+                  "claims": [
+                    "ddd-context-claim-1",
+                    "ddd-context-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-context-node-1",
+                    "ddd-context-node-2"
+                  ],
+                  "relations": [
+                    "ddd-context-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-context-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-context-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "A Bounded Context scopes consistent meanings for a model and its language. Order-taking and shipping may use the same word order with different attributes and rules. SimpleModeling concretizes this semantic boundary as a subsystem or component modeling boundary. This is separate from the number of physical hosts or processes.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-context"
+                      ],
+                      "claims": [
+                        "ddd-context-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-context-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-context-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-context-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Context Maps provide an entry point for understanding inter-context relationships and integration responsibilities. SimpleModeling realizes these relationships through subsystem/component Service/Operation, translation and Event contracts. Terminology translation, model correspondence and dependencies are described separately. This is the adopted system policy, not a universal DDD deployment topology.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-context"
+                      ],
+                      "claims": [
+                        "ddd-context-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-context-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-context-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-knowledge-section",
+                "heading": "Ubiquitous Language, BoK, Entities and Knowledge",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-knowledge"
+                  ],
+                  "claims": [
+                    "ddd-knowledge-claim-1",
+                    "ddd-knowledge-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-knowledge-node-1",
+                    "ddd-knowledge-node-2"
+                  ],
+                  "relations": [
+                    "ddd-knowledge-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-knowledge-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-knowledge-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Ubiquitous Language concerns the shared language supporting a domain model. SimpleModeling connects BoK terminology, context, explanations and provenance to model meaning. One path develops terms into Entities, Values and Datatypes; another connects terminology to knowledge. Conversations, rules and behavior are also part of the language, so a glossary alone does not establish it.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-knowledge"
+                      ],
+                      "claims": [
+                        "ddd-knowledge-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-knowledge-node-1",
+                        "ddd-knowledge-node-2"
+                      ],
+                      "relations": [
+                        "ddd-knowledge-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-knowledge-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-knowledge-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Meaning and rationale in the BoK/literate model connect to CML elements; information held by executed Entities connects to Information and knowledge representations with identity and provenance. This is not a conversion of every term into an Entity. The two paths are detailed in [[../../knowledge-modeling/textus-cncf-knowledge-modeling.dox/index.dox][Designing Domain Models from the BoK]] and [[../../entity-knowledge/textus-cncf-entity-knowledge.dox/index.dox][Treating Entities as Knowledge]].",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-knowledge"
+                      ],
+                      "claims": [
+                        "ddd-knowledge-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-knowledge-node-1",
+                        "ddd-knowledge-node-2"
+                      ],
+                      "relations": [
+                        "ddd-knowledge-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-knowledge-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ddd-domain-section",
+            "heading": "Tactical Design Highlights",
+            "coreRefs": {
+              "steps": [
+                "ddd-domain"
+              ],
+              "claims": [
+                "ddd-domain-claim-1"
+              ],
+              "nodes": [
+                "ddd-domain-node-1",
+                "ddd-domain-node-2"
+              ],
+              "relations": [
+                "ddd-domain-relation-1"
+              ],
+              "flows": [
+                "ddd-domain-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-domain-paragraph-1",
+                "kind": "paragraph",
+                "text": "Tactical highlights cover Entity identity, Value Object semantics, Aggregate update consistency and connections to Repositories and Domain Events. These concepts correspond to SimpleModeling types, rules and public operations. Strategic/tactical classification and update/read classification are separate axes; concepts such as Value Objects participate in both paths.",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-domain"
+                  ],
+                  "claims": [
+                    "ddd-domain-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-domain-node-1",
+                    "ddd-domain-node-2"
+                  ],
+                  "relations": [
+                    "ddd-domain-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-domain-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ddd-structure-section",
+                "heading": "Entities and Value Objects across Both Paths",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-structure"
+                  ],
+                  "claims": [
+                    "ddd-structure-claim-1",
+                    "ddd-structure-claim-2",
+                    "ddd-structure-claim-3"
+                  ],
+                  "nodes": [
+                    "ddd-structure-node-1",
+                    "ddd-structure-node-2"
+                  ],
+                  "relations": [
+                    "ddd-structure-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-structure-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-structure-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "An order is an Entity whose identity persists as its state changes; money and quantity are Values with business meaning. Explicit attribute types, optionality, relationships and constraints help prevent incorrect identifiers or invalid quantities from being passed across model boundaries.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-structure"
+                      ],
+                      "claims": [
+                        "ddd-structure-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-structure-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-structure-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-structure-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Value Object meanings and constraints participate both in update Operation inputs/Aggregate state and in Query results/View values. An amount can be used in an order calculation and an order-list read. CML Values/Datatypes and typed boundaries carry these meanings through both paths. Persistence conversion and presentation formatting have separate responsibilities.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-structure"
+                      ],
+                      "claims": [
+                        "ddd-structure-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-structure-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-structure-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-structure-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Expressing business meaning through types and constraints also connects to functional domain modeling. Domain Modeling Made Functional is a reference for this use of types. Here the technique supports shared meanings across inputs, results and persistence.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-structure"
+                      ],
+                      "claims": [
+                        "ddd-structure-claim-3"
+                      ],
+                      "nodes": [
+                        "ddd-structure-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-structure-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-aggregate-section",
+                "heading": "Aggregates and Update Consistency Boundaries",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-aggregate"
+                  ],
+                  "claims": [
+                    "ddd-aggregate-claim-1",
+                    "ddd-aggregate-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-aggregate-node-1",
+                    "ddd-aggregate-node-2",
+                    "ddd-aggregate-node-3"
+                  ],
+                  "relations": [
+                    "ddd-aggregate-relation-1",
+                    "ddd-aggregate-relation-2"
+                  ],
+                  "flows": [
+                    "ddd-aggregate-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-aggregate-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "If an order and its lines form one Aggregate, adding a line or confirming the order is expressed through Aggregate Root operations. Those operations check current state and business conditions. Value constraints such as positive quantities combine with whole-object rules such as requiring lines before confirmation.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-aggregate"
+                      ],
+                      "claims": [
+                        "ddd-aggregate-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-aggregate-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-aggregate-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-aggregate-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "CNCF keeps persistent Entity state authoritative and treats an Aggregate as a write-side projection. Creation is distinguished from Commands on existing objects, and invariants are connected to the relevant checks, calculations and Command implementations. Valid update candidates are then committed through UoW and storage conditions described later.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-aggregate"
+                      ],
+                      "claims": [
+                        "ddd-aggregate-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-aggregate-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-aggregate-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "domain-execution",
+                    "kind": "table",
+                    "caption": "Domain-model decisions and connections",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Model"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Decision"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Used by"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "domain-execution-row-1",
+                        "cells": [
+                          "Entity",
+                          "Identity, attributes and relationships",
+                          "Operations, persistence and View subjects"
+                        ]
+                      },
+                      {
+                        "id": "domain-execution-row-2",
+                        "cells": [
+                          "Value",
+                          "Meaning and constraints",
+                          "Inputs, results and calculations"
+                        ]
+                      },
+                      {
+                        "id": "domain-execution-row-3",
+                        "cells": [
+                          "Aggregate",
+                          "Update scope and invariants",
+                          "Commands, UoW and storage checks"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-aggregate"
+                      ],
+                      "claims": [
+                        "ddd-aggregate-claim-1",
+                        "ddd-aggregate-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-aggregate-node-1",
+                        "ddd-aggregate-node-2",
+                        "ddd-aggregate-node-3"
+                      ],
+                      "relations": [
+                        "ddd-aggregate-relation-1",
+                        "ddd-aggregate-relation-2"
+                      ],
+                      "flows": [
+                        "ddd-aggregate-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ddd-delivery-section",
+            "heading": "CQRS Update/Read Paths and Connected Techniques",
+            "coreRefs": {
+              "steps": [
+                "ddd-delivery"
+              ],
+              "claims": [
+                "ddd-delivery-claim-1"
+              ],
+              "nodes": [
+                "ddd-delivery-node-1",
+                "ddd-delivery-node-2"
+              ],
+              "relations": [
+                "ddd-delivery-relation-1"
+              ],
+              "flows": [
+                "ddd-delivery-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-delivery-paragraph-1",
+                "kind": "paragraph",
+                "text": "CQRS is an architectural perspective separating models for updates and reads. The sections below explain the update path, committed-result connections and read path, locating DDD techniques and supporting mechanisms. Their order explains the relationship between paths rather than prescribing a general modeling procedure.",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-delivery"
+                  ],
+                  "claims": [
+                    "ddd-delivery-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-delivery-node-1",
+                    "ddd-delivery-node-2"
+                  ],
+                  "relations": [
+                    "ddd-delivery-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-delivery-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ddd-runtime-section",
+                "heading": "Update-Side Persistence and Commitment",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-runtime"
+                  ],
+                  "claims": [
+                    "ddd-runtime-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-runtime-node-1",
+                    "ddd-runtime-node-2"
+                  ],
+                  "relations": [
+                    "ddd-runtime-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-runtime-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-runtime-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "The update path connects Aggregate business rules with persistence, conflict checks and commit. Repository is a connection appearing in both DDD and PoEAA. Data Mapper and Unit of Work are complementary persistence/update-management patterns mapped to CNCF EntityStore, DataStore and UoW responsibilities.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-runtime"
+                      ],
+                      "claims": [
+                        "ddd-runtime-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-runtime-node-1",
+                        "ddd-runtime-node-2"
+                      ],
+                      "relations": [
+                        "ddd-runtime-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-runtime-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": [
+                  {
+                    "id": "ddd-poeaa-section",
+                    "heading": "Repositories, Data Mappers and Persistence",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-poeaa"
+                      ],
+                      "claims": [
+                        "ddd-poeaa-claim-1",
+                        "ddd-poeaa-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-poeaa-node-1",
+                        "ddd-poeaa-node-2"
+                      ],
+                      "relations": [
+                        "ddd-poeaa-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-poeaa-flow"
+                      ]
+                    },
+                    "blocks": [
+                      {
+                        "id": "ddd-poeaa-paragraph-1",
+                        "kind": "paragraph",
+                        "text": "A Repository provides access to business objects. Applications load objects through this boundary and invoke Aggregate behavior, reducing database-specific code throughout business processing. Object identity and update rules remain domain responsibilities.",
+                        "coreRefs": {
+                          "steps": [
+                            "ddd-poeaa"
+                          ],
+                          "claims": [
+                            "ddd-poeaa-claim-1"
+                          ],
+                          "nodes": [
+                            "ddd-poeaa-node-1"
+                          ],
+                          "relations": [],
+                          "flows": [
+                            "ddd-poeaa-flow"
+                          ]
+                        }
+                      },
+                      {
+                        "id": "ddd-poeaa-paragraph-2",
+                        "kind": "paragraph",
+                        "text": "Data Mapper organizes conversion between business types and storage representations. CNCF’s EntityStore/EntityPersistent–DataStore boundary converts according to declared types and selected mappings, while DataStore handles physical access. This separation allows storage representations to vary without changing business types.",
+                        "coreRefs": {
+                          "steps": [
+                            "ddd-poeaa"
+                          ],
+                          "claims": [
+                            "ddd-poeaa-claim-2"
+                          ],
+                          "nodes": [
+                            "ddd-poeaa-node-2"
+                          ],
+                          "relations": [],
+                          "flows": [
+                            "ddd-poeaa-flow"
+                          ]
+                        }
+                      },
+                      {
+                        "id": "poeaa-responsibilities",
+                        "kind": "table",
+                        "caption": "Responsibilities preserving business meaning through persistence",
+                        "columns": [
+                          {
+                            "id": "col-1",
+                            "heading": "Responsibility"
+                          },
+                          {
+                            "id": "col-2",
+                            "heading": "Mechanism"
+                          },
+                          {
+                            "id": "col-3",
+                            "heading": "Passes forward"
+                          }
+                        ],
+                        "rows": [
+                          {
+                            "id": "poeaa-responsibilities-row-1",
+                            "cells": [
+                              "Access the subject",
+                              "Repository",
+                              "An identified business object"
+                            ]
+                          },
+                          {
+                            "id": "poeaa-responsibilities-row-2",
+                            "cells": [
+                              "Validate the change",
+                              "Aggregate",
+                              "A valid update candidate"
+                            ]
+                          },
+                          {
+                            "id": "poeaa-responsibilities-row-3",
+                            "cells": [
+                              "Convert representations",
+                              "Data-mapping boundary",
+                              "Physical values for declared types"
+                            ]
+                          },
+                          {
+                            "id": "poeaa-responsibilities-row-4",
+                            "cells": [
+                              "Manage commit or abort",
+                              "UoW and participating DataStore",
+                              "Persistent state and commit outcome"
+                            ]
+                          }
+                        ],
+                        "coreRefs": {
+                          "steps": [
+                            "ddd-poeaa"
+                          ],
+                          "claims": [
+                            "ddd-poeaa-claim-1",
+                            "ddd-poeaa-claim-2"
+                          ],
+                          "nodes": [
+                            "ddd-poeaa-node-1",
+                            "ddd-poeaa-node-2"
+                          ],
+                          "relations": [
+                            "ddd-poeaa-relation-1"
+                          ],
+                          "flows": [
+                            "ddd-poeaa-flow"
+                          ]
+                        }
+                      }
+                    ],
+                    "sections": []
+                  },
+                  {
+                    "id": "ddd-uow-section",
+                    "heading": "Aggregates, Unit of Work and Commit",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-uow"
+                      ],
+                      "claims": [
+                        "ddd-uow-claim-1",
+                        "ddd-uow-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-uow-node-1",
+                        "ddd-uow-node-2"
+                      ],
+                      "relations": [
+                        "ddd-uow-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-uow-flow"
+                      ]
+                    },
+                    "blocks": [
+                      {
+                        "id": "ddd-uow-paragraph-1",
+                        "kind": "paragraph",
+                        "text": "Aggregates determine whether proposed changes are valid in the business domain; UoW manages the grouping, commitment and abortion of changes. DataStore participates in the transaction and performs storage operations. With conflict detection selected, storage atomically checks expected revisions or state and rejects changes when conditions differ. Business rules and commit-time conditions jointly protect consistency.",
+                        "coreRefs": {
+                          "steps": [
+                            "ddd-uow"
+                          ],
+                          "claims": [
+                            "ddd-uow-claim-1"
+                          ],
+                          "nodes": [
+                            "ddd-uow-node-1"
+                          ],
+                          "relations": [],
+                          "flows": [
+                            "ddd-uow-flow"
+                          ]
+                        }
+                      },
+                      {
+                        "id": "ddd-uow-paragraph-2",
+                        "kind": "paragraph",
+                        "text": "Invocation and target authorization apply on the same execution path. When a long Workflow or Job spans multiple updates, each commit boundary and subsequent retry or compensation policy is explicit. Workflows organize business progression; UoW manages commitment and resource termination for individual work, without forcing the whole progression into one database transaction.",
+                        "coreRefs": {
+                          "steps": [
+                            "ddd-uow"
+                          ],
+                          "claims": [
+                            "ddd-uow-claim-2"
+                          ],
+                          "nodes": [
+                            "ddd-uow-node-2"
+                          ],
+                          "relations": [],
+                          "flows": [
+                            "ddd-uow-flow"
+                          ]
+                        }
+                      }
+                    ],
+                    "sections": []
+                  }
+                ]
+              },
+              {
+                "id": "ddd-domain-events-section",
+                "heading": "Domain Events and Committed-Result Connections",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-domain-events"
+                  ],
+                  "claims": [
+                    "ddd-domain-events-claim-1",
+                    "ddd-domain-events-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-domain-events-node-1",
+                    "ddd-domain-events-node-2"
+                  ],
+                  "relations": [
+                    "ddd-domain-events-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-domain-events-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-domain-events-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Where a Command requests order confirmation, a Domain Event records that confirmation occurred. Its name, subject identity, occurrence time and information are explicit. CNCF’s Aggregate/View contract connects the write side to View projection through such facts. Business occurrences can also coordinate subsequent Workflow processing and other Components.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-domain-events"
+                      ],
+                      "claims": [
+                        "ddd-domain-events-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-domain-events-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-domain-events-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-domain-events-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Commitment, Event recording and publication, and consumer completion are separate outcomes. The chosen path defines redelivery, deduplication, ordering and resumption; asynchronous Views require freshness and re-read policies. Combining fact semantics with delivery and projection policies shares results without requiring excessive synchronous coupling.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-domain-events"
+                      ],
+                      "claims": [
+                        "ddd-domain-events-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-domain-events-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-domain-events-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "command-event-query",
+                    "kind": "table",
+                    "caption": "Roles of requests, facts and reads",
+                    "columns": [
+                      {
+                        "id": "command-event-query-column-1",
+                        "heading": "Kind"
+                      },
+                      {
+                        "id": "command-event-query-column-2",
+                        "heading": "Order example"
+                      },
+                      {
+                        "id": "command-event-query-column-3",
+                        "heading": "Modeling decision"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "command-event-query-row-1",
+                        "cells": [
+                          "Command",
+                          "Confirm the order",
+                          "Input, permitted state and update conditions"
+                        ]
+                      },
+                      {
+                        "id": "command-event-query-row-2",
+                        "cells": [
+                          "Domain Event",
+                          "Order confirmed",
+                          "Meaning, subject and communicated information"
+                        ]
+                      },
+                      {
+                        "id": "command-event-query-row-3",
+                        "cells": [
+                          "Query / View",
+                          "Read confirmed orders",
+                          "Required read fields and freshness"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-domain-events"
+                      ],
+                      "claims": [
+                        "ddd-domain-events-claim-1",
+                        "ddd-domain-events-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-domain-events-node-1",
+                        "ddd-domain-events-node-2"
+                      ],
+                      "relations": [
+                        "ddd-domain-events-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-domain-events-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-readmodel-section",
+                "heading": "Read-Side Queries, Views and Reconstruction",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-readmodel"
+                  ],
+                  "claims": [
+                    "ddd-readmodel-claim-1",
+                    "ddd-readmodel-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-readmodel-node-1",
+                    "ddd-readmodel-node-2"
+                  ],
+                  "relations": [
+                    "ddd-readmodel-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-readmodel-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-readmodel-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "CNCF organizes Aggregates as update-side projections and Views as read-side projections. A model enforcing order-confirmation consistency and a model returning order number/status/amount have different responsibilities. Queries use the read route; Value Object semantics also apply to returned values. Read-side attributes need not match the update Aggregate shape.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-readmodel"
+                      ],
+                      "claims": [
+                        "ddd-readmodel-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-readmodel-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-readmodel-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-readmodel-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Model separation and physical storage separation are separate decisions. This guide uses persistent Entity state as authoritative and treats Views and the Domain Working Set as reconstructible. Baseline loading and committed-update projection are distinct; asynchronous routes specify freshness and re-read conditions. Event Sourcing, where event history is authoritative, is a separate selection from CQRS.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-readmodel"
+                      ],
+                      "claims": [
+                        "ddd-readmodel-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-readmodel-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-readmodel-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-display-section",
+                "heading": "Read-Side Views, Displays and Action Connections",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-display"
+                  ],
+                  "claims": [
+                    "ddd-display-claim-1",
+                    "ddd-display-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-display-node-1",
+                    "ddd-display-node-2",
+                    "ddd-display-node-3"
+                  ],
+                  "relations": [
+                    "ddd-display-relation-1",
+                    "ddd-display-relation-2"
+                  ],
+                  "flows": [
+                    "ddd-display-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-display-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Views contain semantic read results such as order identity, state and amount. A Display model sits outside the View and organizes fields, formatted values, links and offered actions. CNCF applies registered presentation definitions and typed conversions to authorized View values, connecting them to UIs such as Web and Flutter while retaining business meaning.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-display"
+                      ],
+                      "claims": [
+                        "ddd-display-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-display-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-display-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-display-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "UI actions return through public Operations or explicitly registered mutation targets. Changes follow authorization, Aggregate rules and UoW rather than modifying Views during presentation. Combining View/Display projection with a separate mutation entry keeps presentation concerns apart from business rules.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-display"
+                      ],
+                      "claims": [
+                        "ddd-display-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-display-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-display-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "view-display-boundary",
+                    "kind": "figure",
+                    "asset": "images/view-display-boundary-en.png",
+                    "caption": "Update/Read Paths, Views/Displays and Shared Values",
+                    "alt": "Update/Read Paths, Views/Displays and Shared Values",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-display"
+                      ],
+                      "claims": [
+                        "ddd-display-claim-1",
+                        "ddd-display-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-display-node-1",
+                        "ddd-display-node-2",
+                        "ddd-display-node-3"
+                      ],
+                      "relations": [
+                        "ddd-display-relation-1",
+                        "ddd-display-relation-2"
+                      ],
+                      "flows": [
+                        "ddd-display-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "read-presentation-roles",
+                    "kind": "table",
+                    "caption": "Information owned by Views and Displays",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Concern"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "View"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Display"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "read-presentation-roles-row-1",
+                        "cells": [
+                          "Order amount",
+                          "Semantic amount with currency and number",
+                          "Formatting and placement"
+                        ]
+                      },
+                      {
+                        "id": "read-presentation-roles-row-2",
+                        "cells": [
+                          "Order state",
+                          "A meaningful state, such as confirmed",
+                          "Labels and offered actions"
+                        ]
+                      },
+                      {
+                        "id": "read-presentation-roles-row-3",
+                        "cells": [
+                          "Consumer",
+                          "Also usable by business logic and read APIs",
+                          "UIs requiring presentation"
+                        ]
+                      },
+                      {
+                        "id": "read-presentation-roles-row-4",
+                        "cells": [
+                          "Mutation",
+                          "Not an authoritative write model",
+                          "Requests use registered operations"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-display"
+                      ],
+                      "claims": [
+                        "ddd-display-claim-1",
+                        "ddd-display-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-display-node-1",
+                        "ddd-display-node-2",
+                        "ddd-display-node-3"
+                      ],
+                      "relations": [
+                        "ddd-display-relation-1",
+                        "ddd-display-relation-2"
+                      ],
+                      "flows": [
+                        "ddd-display-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ddd-behavior-section",
+            "heading": "Application Progression and Complementary Models",
+            "coreRefs": {
+              "steps": [
+                "ddd-behavior"
+              ],
+              "claims": [
+                "ddd-behavior-claim-1"
+              ],
+              "nodes": [
+                "ddd-behavior-node-1",
+                "ddd-behavior-node-2"
+              ],
+              "relations": [
+                "ddd-behavior-relation-1"
+              ],
+              "flows": [
+                "ddd-behavior-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-behavior-paragraph-1",
+                "kind": "paragraph",
+                "text": "Applications using DDD models connect public operations, Workflows, state machines and rule evaluation. This section identifies how those mechanisms relate to DDD concerns. Application progression and business-object invariants are represented by their respective models.",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-behavior"
+                  ],
+                  "claims": [
+                    "ddd-behavior-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-behavior-node-1",
+                    "ddd-behavior-node-2"
+                  ],
+                  "relations": [
+                    "ddd-behavior-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-behavior-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ddd-application-section",
+                "heading": "Public Operations, Workflows and Domain Operations",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-application"
+                  ],
+                  "claims": [
+                    "ddd-application-claim-1",
+                    "ddd-application-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-application-node-1",
+                    "ddd-application-node-2"
+                  ],
+                  "relations": [
+                    "ddd-application-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-application-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-application-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Previously defined use cases are realized through Workflow operations, sequencing, branching and waits. Services and Operations form the externally accessible application boundary, taking responsibility corresponding to PoEAA’s Service Layer. Screens and external APIs connect to the same public operations; Workflows invoke the domain behavior needed to realize them.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-application"
+                      ],
+                      "claims": [
+                        "ddd-application-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-application-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-application-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-application-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Application progression belongs in the Workflow; rules such as whether an order may be confirmed remain in the domain. External functions connect through explicit Provider bindings. Use cases provide criteria for checking the resulting behavior rather than serving as executable procedures themselves.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-application"
+                      ],
+                      "claims": [
+                        "ddd-application-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-application-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-application-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-dynamic-section",
+                "heading": "State Machines, Rule Evaluation and Business Conditions",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-dynamic"
+                  ],
+                  "claims": [
+                    "ddd-dynamic-claim-1",
+                    "ddd-dynamic-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-dynamic-node-1",
+                    "ddd-dynamic-node-2"
+                  ],
+                  "relations": [
+                    "ddd-dynamic-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-dynamic-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-dynamic-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "A state machine defines states, events, transition conditions and actions. Relating the draft-to-confirmed transition to the confirmation Operation allows calls from a Workflow to be evaluated against the order’s current state. Cozy-generated definitions are registered with CNCF, connecting transitions and business updates to the same subject.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-dynamic"
+                      ],
+                      "claims": [
+                        "ddd-dynamic-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-dynamic-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-dynamic-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-dynamic-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Decisions that change independently, such as pricing or approval conditions, can be identified as Domain Rules and connected to a Rule Model and Rule Engine. Evaluation results enter shared execution paths such as Operations, separating decision logic from execution with authorization and commitment. Workflows, state machines and rules make progression, object lifecycle and decisions explicit.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-dynamic"
+                      ],
+                      "claims": [
+                        "ddd-dynamic-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-dynamic-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-dynamic-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ddd-execution-section",
+            "heading": "DDD Models, Generation and Runtime Connections",
+            "coreRefs": {
+              "steps": [
+                "ddd-execution"
+              ],
+              "claims": [
+                "ddd-execution-claim-1"
+              ],
+              "nodes": [
+                "ddd-execution-node-1",
+                "ddd-execution-node-2"
+              ],
+              "relations": [
+                "ddd-execution-relation-1"
+              ],
+              "flows": [
+                "ddd-execution-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-execution-paragraph-1",
+                "kind": "paragraph",
+                "text": "DDD concepts connect to CML, Cozy and CNCF through types, execution definitions and component contracts. Update/read models are realized separately and connected through shared identity and value meanings. Distinguishing model meaning, generation/registration and runtime responsibilities identifies the mechanisms connecting concepts to behavior.",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-execution"
+                  ],
+                  "claims": [
+                    "ddd-execution-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-execution-node-1",
+                    "ddd-execution-node-2"
+                  ],
+                  "relations": [
+                    "ddd-execution-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-execution-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ddd-semantics-section",
+                "heading": "Model Meaning and Platform Responsibilities",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-semantics"
+                  ],
+                  "claims": [
+                    "ddd-semantics-claim-1",
+                    "ddd-semantics-claim-2",
+                    "ddd-semantics-claim-3"
+                  ],
+                  "nodes": [
+                    "ddd-semantics-node-1",
+                    "ddd-semantics-node-2"
+                  ],
+                  "relations": [
+                    "ddd-semantics-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-semantics-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-semantics-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Developers model business types and constraints, public operations, states and transitions, Workflow progression, and View/Display relationships. Cozy projects Entities and Values into typed interfaces and state machines, Workflows and presentation into corresponding definitions and connection code. Textus/CNCF uses registered definitions and handlers to perform invocation, transitions, projection and commitment.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-semantics"
+                      ],
+                      "claims": [
+                        "ddd-semantics-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-semantics-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-semantics-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-semantics-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "A model “running directly” means that its defined structure and behavior are directly connected to this projection and execution path. Business-specific calculations and external integration supplement generated types and explicit extension points. The approach combines generation with interpretation of model definitions; it does not mean reparsing all CML at runtime.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-semantics"
+                      ],
+                      "claims": [
+                        "ddd-semantics-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-semantics-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-semantics-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-semantics-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Supplementary business calculations can take values and return results separately from persistence and communication. Functional and Reactive Domain Modeling discusses this separation, which allows calculations to be checked independently and I/O to follow shared execution paths. Detailed functional-programming composition is reserved for a separate Modeling and FP document.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-semantics"
+                      ],
+                      "claims": [
+                        "ddd-semantics-claim-3"
+                      ],
+                      "nodes": [
+                        "ddd-semantics-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-semantics-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-memory-section",
+                "heading": "Entity Classification and Residency Policy",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-memory"
+                  ],
+                  "claims": [
+                    "ddd-memory-claim-1",
+                    "ddd-memory-claim-2",
+                    "ddd-memory-claim-3"
+                  ],
+                  "nodes": [
+                    "ddd-memory-node-1",
+                    "ddd-memory-node-2",
+                    "ddd-memory-node-3"
+                  ],
+                  "relations": [
+                    "ddd-memory-relation-1",
+                    "ddd-memory-relation-2"
+                  ],
+                  "flows": [
+                    "ddd-memory-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-memory-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Entity models specify runtime treatment as well as data structure. Textus/CNCF represents the stereotype-like classification as entityKind and connects it to defaults such as residency for master data. Task data is loaded as needed, with caching or retention configured for its intended use.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-memory"
+                      ],
+                      "claims": [
+                        "ddd-memory-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-memory-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-memory-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-memory-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Classification defaults combine with explicit Working Set policies. Current defaults make master resident and disable the Working Set for task; active-only workflow residency requires an explicit state-based policy. Runtime use of model classification and configuration reduces per-Entity memory-management implementation.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-memory"
+                      ],
+                      "claims": [
+                        "ddd-memory-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-memory-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-memory-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-memory-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Residency and caching hold reconstructible state for domain processing rather than replacing authoritative persistent state. This guide covers the mapping from model classification to execution policy; retention, release, consistency and recovery are detailed in the reactive guide.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-memory"
+                      ],
+                      "claims": [
+                        "ddd-memory-claim-3"
+                      ],
+                      "nodes": [
+                        "ddd-memory-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-memory-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-toolchain-section",
+                "heading": "Descriptions, Generated Artifacts and Runtime Mechanisms",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-toolchain"
+                  ],
+                  "claims": [
+                    "ddd-toolchain-claim-1",
+                    "ddd-toolchain-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-toolchain-node-1",
+                    "ddd-toolchain-node-2"
+                  ],
+                  "relations": [
+                    "ddd-toolchain-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-toolchain-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-toolchain-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "The table relates authored model content to generated artifacts and runtime responsibilities. Business types align inputs, results and persistence; dynamic definitions align progression and state; read and presentation definitions align information provided to users. Shared identities and typed contracts connect these different models into one behavior.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-toolchain"
+                      ],
+                      "claims": [
+                        "ddd-toolchain-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-toolchain-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-toolchain-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-toolchain-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "For each selected model element, generation, registration with runtime mechanisms, and Provider or supplementary bindings must align. End-to-end Domain Rule projection and external Providers are checked for the selected version and configuration. Relating authored content to its implementation and configuration preserves continuity through execution.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-toolchain"
+                      ],
+                      "claims": [
+                        "ddd-toolchain-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-toolchain-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-toolchain-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "execution-path",
+                    "kind": "figure",
+                    "asset": "images/execution-path-en.png",
+                    "caption": "Update/Read Models Connected to Generation and Runtime",
+                    "alt": "Update/Read Models Connected to Generation and Runtime",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-toolchain"
+                      ],
+                      "claims": [
+                        "ddd-toolchain-claim-1",
+                        "ddd-toolchain-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-toolchain-node-1",
+                        "ddd-toolchain-node-2"
+                      ],
+                      "relations": [
+                        "ddd-toolchain-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-toolchain-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "toolchain-roles",
+                    "kind": "table",
+                    "caption": "Model content, generated artifacts and runtime responsibilities",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Authored model content"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Cozy projection"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Textus/CNCF use"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "toolchain-roles-row-1",
+                        "cells": [
+                          "Entity/Value types and constraints",
+                          "Types, schemas and contracts",
+                          "Input, domain and persistence boundaries"
+                        ]
+                      },
+                      {
+                        "id": "toolchain-roles-row-2",
+                        "cells": [
+                          "Aggregate creation and Commands",
+                          "Operation contracts and implementation points",
+                          "Invoke behavior through mutation paths"
+                        ]
+                      },
+                      {
+                        "id": "toolchain-roles-row-3",
+                        "cells": [
+                          "States, transitions and Workflows",
+                          "Dynamic definitions and required interfaces",
+                          "Run registered progression and transitions"
+                        ]
+                      },
+                      {
+                        "id": "toolchain-roles-row-4",
+                        "cells": [
+                          "View/presentation relationships",
+                          "Typed bindings and presentation definitions",
+                          "Acquire Views and project Displays"
+                        ]
+                      },
+                      {
+                        "id": "toolchain-roles-row-memory",
+                        "cells": [
+                          "Entity classification and retention policy",
+                          "Contracts carrying classification and configuration",
+                          "Residency, loading and retention using defaults and explicit policy"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-toolchain"
+                      ],
+                      "claims": [
+                        "ddd-toolchain-claim-1",
+                        "ddd-toolchain-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-toolchain-node-1",
+                        "ddd-toolchain-node-2"
+                      ],
+                      "relations": [
+                        "ddd-toolchain-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-toolchain-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-components-section",
+                "heading": "Components, CARs and Public Contracts",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-components"
+                  ],
+                  "claims": [
+                    "ddd-components-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-components-node-1",
+                    "ddd-components-node-2"
+                  ],
+                  "relations": [
+                    "ddd-components-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-components-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-components-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Components hold business responsibilities and expose Service, Operation and Event contracts. CARs package generated definitions and implementations with supplementary logic; installation connects dependencies and Providers. Mapping Bounded Context semantics to public contracts reduces direct dependence on internal state by other Components or UIs.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-components"
+                      ],
+                      "claims": [
+                        "ddd-components-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-components-node-1",
+                        "ddd-components-node-2"
+                      ],
+                      "relations": [
+                        "ddd-components-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-components-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-example-section",
+                "heading": "Order Update/Read Correspondence Example",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-example"
+                  ],
+                  "claims": [
+                    "ddd-example-claim-1",
+                    "ddd-example-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-example-node-1",
+                    "ddd-example-node-2"
+                  ],
+                  "relations": [
+                    "ddd-example-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-example-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-example-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "In order confirmation, a Workflow invokes a public Operation and the Order Aggregate checks lines and current state to produce a proposed update. UoW manages commitment, with selected mappings and DataStore performing persistence. The committed fact is communicated as a Domain Event; its projected View result is presented through Display.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-example"
+                      ],
+                      "claims": [
+                        "ddd-example-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-example-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-example-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-example-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "The developer defines order types and rules, the confirmation operation, progression, read fields and presentation mappings. The platform connects these definitions and supplementary handlers to registered execution mechanisms. The diagram illustrates model-to-runtime responsibilities; delivery and projection timing follow the selected execution path.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-example"
+                      ],
+                      "claims": [
+                        "ddd-example-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-example-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-example-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "order-model-execution",
+                    "kind": "figure",
+                    "asset": "images/order-model-execution-en.png",
+                    "caption": "Order Commit and Read Requests as Two Paths",
+                    "alt": "Order Commit and Read Requests as Two Paths",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-example"
+                      ],
+                      "claims": [
+                        "ddd-example-claim-1",
+                        "ddd-example-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-example-node-1",
+                        "ddd-example-node-2"
+                      ],
+                      "relations": [
+                        "ddd-example-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-example-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ddd-development-section",
+            "heading": "Supplementary Implementation and Verification",
+            "coreRefs": {
+              "steps": [
+                "ddd-development"
+              ],
+              "claims": [
+                "ddd-development-claim-1"
+              ],
+              "nodes": [
+                "ddd-development-node-1",
+                "ddd-development-node-2"
+              ],
+              "relations": [
+                "ddd-development-relation-1"
+              ],
+              "flows": [
+                "ddd-development-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-development-paragraph-1",
+                "kind": "paragraph",
+                "text": "Model/implementation correspondences extend to supplementary code and verification results. This section relates DDD rules to generated artifacts, AI additions and checks of update/read behavior. General development procedures belong to separate documentation.",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-development"
+                  ],
+                  "claims": [
+                    "ddd-development-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-development-node-1",
+                    "ddd-development-node-2"
+                  ],
+                  "relations": [
+                    "ddd-development-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-development-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ddd-ai-section",
+                "heading": "Generation, AI Additions and Model Contracts",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-ai"
+                  ],
+                  "claims": [
+                    "ddd-ai-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-ai-node-1",
+                    "ddd-ai-node-2"
+                  ],
+                  "relations": [
+                    "ddd-ai-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-ai-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-ai-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Cozy generates mechanically derivable types and connection structure; AI can supplement business calculations and external integration. The same types, component contracts, model checks and execution paths constrain AI changes to established meanings and update boundaries. The model-execution structure also functions as a harness that narrows AI decisions and changes.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-ai"
+                      ],
+                      "claims": [
+                        "ddd-ai-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-ai-node-1",
+                        "ddd-ai-node-2"
+                      ],
+                      "relations": [
+                        "ddd-ai-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-ai-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-verification-section",
+                "heading": "Rules, Public Contracts and Update/Read Results",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-verification"
+                  ],
+                  "claims": [
+                    "ddd-verification-claim-1",
+                    "ddd-verification-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-verification-node-1",
+                    "ddd-verification-node-2"
+                  ],
+                  "relations": [
+                    "ddd-verification-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-verification-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-verification-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Verification compares defined use cases with models, generated types and component contracts, and runtime outcomes. textus-cbd-support model review, compilation, car lint and executable specifications cover valid cases, rejected cases, conflicts and state after partial failure.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-verification"
+                      ],
+                      "claims": [
+                        "ddd-verification-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-verification-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-verification-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ddd-verification-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Changing order-confirmation conditions requires updates to Aggregate and state-machine conditions, the relevant Operation and verification examples. Views and Displays are checked when the change affects them. Updating source definitions and necessary supplementary logic rather than patching generated code keeps business meaning aligned with behavior.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-verification"
+                      ],
+                      "claims": [
+                        "ddd-verification-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-verification-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ddd-verification-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "model-feedback",
+                    "kind": "figure",
+                    "asset": "images/model-feedback-en.png",
+                    "caption": "Update/Read Model, Implementation and Verification Connections",
+                    "alt": "Update/Read Model, Implementation and Verification Connections",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-verification"
+                      ],
+                      "claims": [
+                        "ddd-verification-claim-1",
+                        "ddd-verification-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-verification-node-1",
+                        "ddd-verification-node-2"
+                      ],
+                      "relations": [
+                        "ddd-verification-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-verification-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "verification-layers",
+                    "kind": "table",
+                    "caption": "Checks connecting models and execution",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Target"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Mechanism"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Checks"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "verification-layers-row-1",
+                        "cells": [
+                          "Model relationships",
+                          "Model review",
+                          "Requirements, Workflow, domain and View/Display"
+                        ]
+                      },
+                      {
+                        "id": "verification-layers-row-2",
+                        "cells": [
+                          "Types and contracts",
+                          "Compilation / car lint",
+                          "Connection and component conformance"
+                        ]
+                      },
+                      {
+                        "id": "verification-layers-row-3",
+                        "cells": [
+                          "Business rules",
+                          "Executable specifications / Tests",
+                          "Valid and rejected examples"
+                        ]
+                      },
+                      {
+                        "id": "verification-layers-row-4",
+                        "cells": [
+                          "Mutation and presentation",
+                          "Integration checks",
+                          "Post-commit reads, conflicts and failure state"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-verification"
+                      ],
+                      "claims": [
+                        "ddd-verification-claim-1",
+                        "ddd-verification-claim-2"
+                      ],
+                      "nodes": [
+                        "ddd-verification-node-1",
+                        "ddd-verification-node-2"
+                      ],
+                      "relations": [
+                        "ddd-verification-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-verification-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-conclusion-section",
+                "heading": "Correspondence Summary",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-conclusion"
+                  ],
+                  "claims": [
+                    "ddd-conclusion-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-conclusion-node-1",
+                    "ddd-conclusion-node-2"
+                  ],
+                  "relations": [
+                    "ddd-conclusion-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-conclusion-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-conclusion-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "The guide maps strategic DDD to language/component boundaries and tactical DDD to types/rules, then uses CQRS update/read paths to explain connected mechanisms. Retaining concept roles and source distinctions provides entry points from DDD into the SimpleModeling/Textus/CNCF overview.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-conclusion"
+                      ],
+                      "claims": [
+                        "ddd-conclusion-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-conclusion-node-1",
+                        "ddd-conclusion-node-2"
+                      ],
+                      "relations": [
+                        "ddd-conclusion-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-conclusion-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ddd-appendix-section",
+            "heading": "Appendix: Concept and Related-Technique Index",
+            "coreRefs": {
+              "steps": [
+                "ddd-appendix"
+              ],
+              "claims": [
+                "ddd-appendix-claim-1"
+              ],
+              "nodes": [
+                "ddd-appendix-node-1",
+                "ddd-appendix-node-2"
+              ],
+              "relations": [
+                "ddd-appendix-relation-1"
+              ],
+              "flows": [
+                "ddd-appendix-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-appendix-paragraph-1",
+                "kind": "paragraph",
+                "text": "The appendix indexes DDD concepts, patterns shared with PoEAA and connected architecture/platform techniques. The grouping identifies roles; appearance in a DDD book does not by itself establish a concept as exclusive to DDD.",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-appendix"
+                  ],
+                  "claims": [
+                    "ddd-appendix-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-appendix-node-1",
+                    "ddd-appendix-node-2"
+                  ],
+                  "relations": [
+                    "ddd-appendix-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-appendix-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ddd-appendix-ddd-section",
+                "heading": "DDD Concepts and Patterns",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-appendix-ddd"
+                  ],
+                  "claims": [
+                    "ddd-appendix-ddd-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-appendix-ddd-node-1",
+                    "ddd-appendix-ddd-node-2"
+                  ],
+                  "relations": [
+                    "ddd-appendix-ddd-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-appendix-ddd-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-appendix-ddd-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Evans’s Domain-Driven Design provides the foundation, supplemented by Implementing Domain-Driven Design and Learning Domain-Driven Design. The table organizes patterns used in the guide, including Domain Events and their architectural connections.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-appendix-ddd"
+                      ],
+                      "claims": [
+                        "ddd-appendix-ddd-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-appendix-ddd-node-1",
+                        "ddd-appendix-ddd-node-2"
+                      ],
+                      "relations": [
+                        "ddd-appendix-ddd-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-appendix-ddd-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "appendix-ddd-patterns",
+                    "kind": "table",
+                    "caption": "DDD pattern index",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Pattern"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Role in this guide"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Relevant section"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "appendix-ddd-patterns-row-1",
+                        "cells": [
+                          "Ubiquitous Language",
+                          "Align terminology and model meaning",
+                          "Language and Bounded Contexts"
+                        ]
+                      },
+                      {
+                        "id": "appendix-ddd-patterns-row-2",
+                        "cells": [
+                          "Bounded Context",
+                          "Bound consistent meaning",
+                          "Bounded Contexts / Components and CARs"
+                        ]
+                      },
+                      {
+                        "id": "appendix-ddd-patterns-row-3",
+                        "cells": [
+                          "Model-Driven Design",
+                          "Connect models to implementation and execution",
+                          "Model definitions and Textus/CNCF execution"
+                        ]
+                      },
+                      {
+                        "id": "appendix-ddd-patterns-row-4",
+                        "cells": [
+                          "Entity",
+                          "Identity-bearing business objects",
+                          "Entities and Values"
+                        ]
+                      },
+                      {
+                        "id": "appendix-ddd-patterns-row-5",
+                        "cells": [
+                          "Value Object",
+                          "Value meaning and constraints",
+                          "Entities and Values"
+                        ]
+                      },
+                      {
+                        "id": "appendix-ddd-patterns-row-6",
+                        "cells": [
+                          "Aggregate / Root",
+                          "Consistency and update entry",
+                          "Aggregates / Aggregates and UoW"
+                        ]
+                      },
+                      {
+                        "id": "appendix-ddd-patterns-row-7",
+                        "cells": [
+                          "Repository",
+                          "Access to business objects",
+                          "Repository and Data Mapper"
+                        ]
+                      },
+                      {
+                        "id": "appendix-ddd-patterns-row-8",
+                        "cells": [
+                          "Domain Event",
+                          "Business occurrences",
+                          "Domain Events and subsequent processing"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-appendix-ddd"
+                      ],
+                      "claims": [
+                        "ddd-appendix-ddd-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-appendix-ddd-node-1",
+                        "ddd-appendix-ddd-node-2"
+                      ],
+                      "relations": [
+                        "ddd-appendix-ddd-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-appendix-ddd-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-appendix-poeaa-section",
+                "heading": "Patterns Shared with PoEAA",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-appendix-poeaa"
+                  ],
+                  "claims": [
+                    "ddd-appendix-poeaa-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-appendix-poeaa-node-1",
+                    "ddd-appendix-poeaa-node-2"
+                  ],
+                  "relations": [
+                    "ddd-appendix-poeaa-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-appendix-poeaa-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-appendix-poeaa-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "These patterns help explain how business models become application structures. The guide maps their responsibilities to the platform.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-appendix-poeaa"
+                      ],
+                      "claims": [
+                        "ddd-appendix-poeaa-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-appendix-poeaa-node-1",
+                        "ddd-appendix-poeaa-node-2"
+                      ],
+                      "relations": [
+                        "ddd-appendix-poeaa-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-appendix-poeaa-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "appendix-poeaa-patterns",
+                    "kind": "table",
+                    "caption": "PoEAA pattern index",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Pattern"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Role in this guide"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Relevant section"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "appendix-poeaa-patterns-row-1",
+                        "cells": [
+                          "Domain Model",
+                          "Combine business data and behavior",
+                          "Business meaning and rules"
+                        ]
+                      },
+                      {
+                        "id": "appendix-poeaa-patterns-row-2",
+                        "cells": [
+                          "Service Layer",
+                          "Public application operations",
+                          "Public Operations and Workflows"
+                        ]
+                      },
+                      {
+                        "id": "appendix-poeaa-patterns-row-3",
+                        "cells": [
+                          "Repository",
+                          "Concentrate business-object access",
+                          "Repository and Data Mapper"
+                        ]
+                      },
+                      {
+                        "id": "appendix-poeaa-patterns-row-4",
+                        "cells": [
+                          "Data Mapper",
+                          "Separate domain and storage representations",
+                          "Repository and Data Mapper"
+                        ]
+                      },
+                      {
+                        "id": "appendix-poeaa-patterns-row-5",
+                        "cells": [
+                          "Unit of Work",
+                          "Manage grouped updates and commitment",
+                          "Aggregates and UoW"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-appendix-poeaa"
+                      ],
+                      "claims": [
+                        "ddd-appendix-poeaa-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-appendix-poeaa-node-1",
+                        "ddd-appendix-poeaa-node-2"
+                      ],
+                      "relations": [
+                        "ddd-appendix-poeaa-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-appendix-poeaa-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ddd-appendix-related-section",
+                "heading": "Related Architecture and Platform Techniques",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-appendix-related"
+                  ],
+                  "claims": [
+                    "ddd-appendix-related-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-appendix-related-node-1",
+                    "ddd-appendix-related-node-2"
+                  ],
+                  "relations": [
+                    "ddd-appendix-related-relation-1"
+                  ],
+                  "flows": [
+                    "ddd-appendix-related-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ddd-appendix-related-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "These techniques support writes and reads, asynchronous coordination, progression, model-driven UI, memory management, and component composition and delivery. They connect business meaning and responsibilities organized through DDD and PoEAA to runtime architecture.",
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-appendix-related"
+                      ],
+                      "claims": [
+                        "ddd-appendix-related-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-appendix-related-node-1",
+                        "ddd-appendix-related-node-2"
+                      ],
+                      "relations": [
+                        "ddd-appendix-related-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-appendix-related-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "appendix-related-techniques",
+                    "kind": "table",
+                    "caption": "Cloud Native techniques and complementary roles",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Technique"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Complementary role"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Relevant section"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "appendix-related-techniques-row-1",
+                        "cells": [
+                          "CQRS",
+                          "Separate write and read models",
+                          "CQRS"
+                        ]
+                      },
+                      {
+                        "id": "appendix-related-techniques-row-2",
+                        "cells": [
+                          "State machine",
+                          "States and permitted transitions",
+                          "State machines and rules"
+                        ]
+                      },
+                      {
+                        "id": "appendix-related-techniques-row-3",
+                        "cells": [
+                          "Workflow",
+                          "Application progression",
+                          "Public Operations and Workflows"
+                        ]
+                      },
+                      {
+                        "id": "appendix-related-techniques-row-4",
+                        "cells": [
+                          "Rule Model / Engine",
+                          "Explicit independent decisions",
+                          "State machines and rules"
+                        ]
+                      },
+                      {
+                        "id": "appendix-related-techniques-row-5",
+                        "cells": [
+                          "View / Display",
+                          "Separate semantic reads from presentation",
+                          "CQRS / Display"
+                        ]
+                      },
+                      {
+                        "id": "appendix-related-techniques-row-6",
+                        "cells": [
+                          "CBD / CAR",
+                          "Compose and distribute models with code",
+                          "Components and CARs"
+                        ]
+                      },
+                      {
+                        "id": "appendix-related-techniques-row-memory",
+                        "cells": [
+                          "Entity classification / Working Set",
+                          "Model-driven memory management",
+                          "Entity classification and memory management"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ddd-appendix-related"
+                      ],
+                      "claims": [
+                        "ddd-appendix-related-claim-1"
+                      ],
+                      "nodes": [
+                        "ddd-appendix-related-node-1",
+                        "ddd-appendix-related-node-2"
+                      ],
+                      "relations": [
+                        "ddd-appendix-related-relation-1"
+                      ],
+                      "flows": [
+                        "ddd-appendix-related-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ddd-references-section",
+            "heading": "References and Inspection Scope",
+            "coreRefs": {
+              "steps": [
+                "ddd-references"
+              ],
+              "claims": [
+                "ddd-references-claim-1",
+                "ddd-references-claim-2",
+                "ddd-references-claim-3",
+                "ddd-references-claim-4",
+                "ddd-references-claim-5",
+                "ddd-references-claim-6",
+                "ddd-references-claim-7",
+                "ddd-references-claim-8",
+                "ddd-comparison-sources-claim"
+              ],
+              "nodes": [
+                "ddd-references-node-1",
+                "ddd-references-node-2",
+                "ddd-references-node-3",
+                "ddd-comparison-sources-node"
+              ],
+              "relations": [
+                "ddd-references-relation-1",
+                "ddd-references-relation-2",
+                "ddd-references-relation-3"
+              ],
+              "flows": [
+                "ddd-references-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ddd-references-paragraph-1",
+                "kind": "paragraph",
+                "text": "Eric Evans, Domain-Driven Design: Tackling Complexity in the Heart of Software. Foundation for business meaning, Ubiquitous Language, Bounded Contexts, Entities, Values and Aggregates. https://www.informit.com/store/domain-driven-design-tackling-complexity-in-the-heart-9780321125217",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-references"
+                  ],
+                  "claims": [
+                    "ddd-references-claim-1"
+                  ],
+                  "nodes": [
+                    "ddd-references-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-references-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-references-paragraph-2",
+                "kind": "paragraph",
+                "text": "Vaughn Vernon, Implementing Domain-Driven Design. Reference for connecting core concepts to implementation and architecture. https://www.informit.com/store/implementing-domain-driven-design-9780321834577",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-references"
+                  ],
+                  "claims": [
+                    "ddd-references-claim-2"
+                  ],
+                  "nodes": [
+                    "ddd-references-node-2"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-references-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-references-paragraph-3",
+                "kind": "paragraph",
+                "text": "Vlad Khononov, Learning Domain-Driven Design. Reference for strategic and tactical design and architectural choices. https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-references"
+                  ],
+                  "claims": [
+                    "ddd-references-claim-3"
+                  ],
+                  "nodes": [
+                    "ddd-references-node-3"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-references-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-references-paragraph-4",
+                "kind": "paragraph",
+                "text": "Martin Fowler, Patterns of Enterprise Application Architecture. The public catalog also supports the guide’s Service Layer, Repository, Data Mapper and Unit of Work mappings: https://martinfowler.com/eaaCatalog/ . CQRS: https://martinfowler.com/bliki/CQRS.html . Supplementary DDD reference: Eric Evans, Domain-Driven Design Reference, https://www.domainlanguage.com/ddd/reference/",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-references"
+                  ],
+                  "claims": [
+                    "ddd-references-claim-4"
+                  ],
+                  "nodes": [
+                    "ddd-references-node-3"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-references-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-references-paragraph-5",
+                "kind": "paragraph",
+                "text": "Scott Wlaschin, Domain Modeling Made Functional. Referenced for types and value constraints in “Entities and Value Objects across Both Paths.” Detailed F# implementation techniques are outside this guide. https://pragprog.com/titles/swdddf/domain-modeling-made-functional/",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-references"
+                  ],
+                  "claims": [
+                    "ddd-references-claim-5"
+                  ],
+                  "nodes": [
+                    "ddd-references-node-3"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-references-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-references-paragraph-6",
+                "kind": "paragraph",
+                "text": "Debasish Ghosh, Functional and Reactive Domain Modeling. Referenced for separating domain calculations from I/O in “Model Meaning and Platform Responsibilities.” Detailed functional modeling in Scala belongs in the separate document. https://www.manning.com/books/functional-and-reactive-domain-modeling",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-references"
+                  ],
+                  "claims": [
+                    "ddd-references-claim-6"
+                  ],
+                  "nodes": [
+                    "ddd-references-node-3"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-references-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-references-paragraph-7",
+                "kind": "paragraph",
+                "text": "Internal sources: SimpleModeling.org journals of 2026-10-16 on executing DDD models in CNCF and 2026-10-17 on Domain Rule / Rule Engine integration; Cozy’s CML Semantic Capability Inventory, ModelTypeProjector implementation, and Generated StateMachine/Workflow ABI Contract.",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-references"
+                  ],
+                  "claims": [
+                    "ddd-references-claim-7"
+                  ],
+                  "nodes": [
+                    "ddd-references-node-3"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-references-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-references-paragraph-8",
+                "kind": "paragraph",
+                "text": "Internal sources: CNCF’s Aggregate/View Semantic Boundary, Entity Runtime Architecture, Textus Subsystem Runtime Architecture, Entity Conflict and Conditional Transition, Action Execution Semantics, and Rule Engine and Inference Runtime. Design contracts, specifications and implementation evidence are treated according to their respective scope. Display Model runtime design and specification establish the View/Display responsibility split and action integration. Further internal references are DataStore and Aggregate Persistence Model, DataStore logical type mapping, UnitOfWork Resource Lifecycle and Canonical Event Shape. Entity Kind and Working Set Policy and the EntityKindRuntimePolicy implementation establish the classification-to-memory-policy mapping.",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-references"
+                  ],
+                  "claims": [
+                    "ddd-references-claim-8"
+                  ],
+                  "nodes": [
+                    "ddd-references-node-3"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-references-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ddd-comparison-sources",
+                "kind": "paragraph",
+                "text": "Public comparison sources: E contents https://www.oreilly.com/library/view/domain-driven-design-tackling/0321125215/toc.html and Chapter 5 opening https://www.oreilly.com/library/view/domain-driven-design-tackling/0321125215/ch05.html ; V contents at the cited publisher page and the Chapter 10 consistency-boundary excerpt https://www.informit.com/articles/article.aspx?p=2020371&seqNum=2 ; K contents at the cited publisher page, context-dependent language in Chapter 3 https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/ch03.html and terminology in Chapter 6 https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/ch06.html . This public inspection does not establish full-text equivalence or absence.",
+                "coreRefs": {
+                  "steps": [
+                    "ddd-references"
+                  ],
+                  "claims": [
+                    "ddd-comparison-sources-claim"
+                  ],
+                  "nodes": [
+                    "ddd-comparison-sources-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ddd-references-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "textus-cncf-ddd-architecture",
+        "text": "Textus/CNCF DDD Modeling — Technical Guide"
+      },
+      {
+        "stepRef": "ddd-purpose",
+        "text": "Purpose and Scope"
+      },
+      {
+        "stepRef": "ddd-vocabulary",
+        "text": "Three-Book Sources and Selected Vocabulary"
+      },
+      {
+        "stepRef": "ddd-landscape",
+        "text": "System Overview through DDD and CQRS"
+      },
+      {
+        "stepRef": "ddd-strategic",
+        "text": "Strategic Design Highlights"
+      },
+      {
+        "stepRef": "ddd-context",
+        "text": "Bounded Contexts, Context Maps and Component Boundaries"
+      },
+      {
+        "stepRef": "ddd-knowledge",
+        "text": "Ubiquitous Language, BoK, Entities and Knowledge"
+      },
+      {
+        "stepRef": "ddd-domain",
+        "text": "Tactical Design Highlights"
+      },
+      {
+        "stepRef": "ddd-structure",
+        "text": "Entities and Value Objects across Both Paths"
+      },
+      {
+        "stepRef": "ddd-aggregate",
+        "text": "Aggregates and Update Consistency Boundaries"
+      },
+      {
+        "stepRef": "ddd-delivery",
+        "text": "CQRS Update/Read Paths and Connected Techniques"
+      },
+      {
+        "stepRef": "ddd-runtime",
+        "text": "Update-Side Persistence and Commitment"
+      },
+      {
+        "stepRef": "ddd-poeaa",
+        "text": "Repositories, Data Mappers and Persistence"
+      },
+      {
+        "stepRef": "ddd-uow",
+        "text": "Aggregates, Unit of Work and Commit"
+      },
+      {
+        "stepRef": "ddd-domain-events",
+        "text": "Domain Events and Committed-Result Connections"
+      },
+      {
+        "stepRef": "ddd-readmodel",
+        "text": "Read-Side Queries, Views and Reconstruction"
+      },
+      {
+        "stepRef": "ddd-display",
+        "text": "Read-Side Views, Displays and Action Connections"
+      },
+      {
+        "stepRef": "ddd-behavior",
+        "text": "Application Progression and Complementary Models"
+      },
+      {
+        "stepRef": "ddd-application",
+        "text": "Public Operations, Workflows and Domain Operations"
+      },
+      {
+        "stepRef": "ddd-dynamic",
+        "text": "State Machines, Rule Evaluation and Business Conditions"
+      },
+      {
+        "stepRef": "ddd-execution",
+        "text": "DDD Models, Generation and Runtime Connections"
+      },
+      {
+        "stepRef": "ddd-semantics",
+        "text": "Model Meaning and Platform Responsibilities"
+      },
+      {
+        "stepRef": "ddd-memory",
+        "text": "Entity Classification and Residency Policy"
+      },
+      {
+        "stepRef": "ddd-toolchain",
+        "text": "Descriptions, Generated Artifacts and Runtime Mechanisms"
+      },
+      {
+        "stepRef": "ddd-components",
+        "text": "Components, CARs and Public Contracts"
+      },
+      {
+        "stepRef": "ddd-example",
+        "text": "Order Update/Read Correspondence Example"
+      },
+      {
+        "stepRef": "ddd-development",
+        "text": "Supplementary Implementation and Verification"
+      },
+      {
+        "stepRef": "ddd-ai",
+        "text": "Generation, AI Additions and Model Contracts"
+      },
+      {
+        "stepRef": "ddd-verification",
+        "text": "Rules, Public Contracts and Update/Read Results"
+      },
+      {
+        "stepRef": "ddd-conclusion",
+        "text": "Correspondence Summary"
+      },
+      {
+        "stepRef": "ddd-appendix",
+        "text": "Appendix: Concept and Related-Technique Index"
+      },
+      {
+        "stepRef": "ddd-appendix-ddd",
+        "text": "DDD Concepts and Patterns"
+      },
+      {
+        "stepRef": "ddd-appendix-poeaa",
+        "text": "Patterns Shared with PoEAA"
+      },
+      {
+        "stepRef": "ddd-appendix-related",
+        "text": "Related Architecture and Platform Techniques"
+      },
+      {
+        "stepRef": "ddd-references",
+        "text": "References and Inspection Scope"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "textus-cncf-ddd-architecture-node-1",
+        "text": "Use DDD as an entry to the system structure"
+      },
+      {
+        "nodeRef": "textus-cncf-ddd-architecture-node-2",
+        "text": "Explain concepts, complementary techniques and execution"
+      },
+      {
+        "nodeRef": "ddd-purpose-intent-node",
+        "text": "This guide is for readers using DDD to understand SimpleModeling/Textus/CNCF. DDD concepts lead to their corresponding models, complementary techniques and runtime mechanisms. The explanation identifies roles and connections without a superiority or deficiency narrative."
+      },
+      {
+        "nodeRef": "ddd-purpose-scope-node",
+        "text": "General modeling methods and project development procedures belong to separate guides. Each highlight identifies the DDD technique, its concern and its place in this system. Architectural correspondence is separate from the generation/runtime capabilities available in a selected version."
+      },
+      {
+        "nodeRef": "ddd-vocabulary-sources-node",
+        "text": "The sources are the English editions of Evans (2003), Vernon (2013) and Khononov (2021), abbreviated E/V/K below. Public contents and the identified previews support comparison of coverage and explanatory perspectives. Confirming a location is separate from comparing every definition in full."
+      },
+      {
+        "nodeRef": "ddd-book-coverage-node",
+        "text": "Three-book coverage and inspection scope"
+      },
+      {
+        "nodeRef": "ddd-vocabulary-differences-node",
+        "text": "Verified differences include organization and emphasis. E separates model building blocks and later strategic design; V gives individual building-block chapters and architecture/integration; K explicitly organizes strategic/tactical design and architecture choices. The K Chapter 6 preview treats tactical patterns as Domain Model building blocks. The V Chapter 10 excerpt develops Aggregate invariants and transactional consistency boundaries. These observations concern scope/emphasis, not an asserted disagreement between uninspected definitions."
+      },
+      {
+        "nodeRef": "ddd-vocabulary-adoption-node",
+        "text": "The following meanings are adopted for this guide and connected to SimpleModeling. Source perspectives and system policy remain distinct rather than assuming identical definitions. Location unverified describes this public inspection scope, not absence from an entire book."
+      },
+      {
+        "nodeRef": "ddd-adopted-terms-node",
+        "text": "Adopted guide meanings and connections"
+      },
+      {
+        "nodeRef": "ddd-landscape-node-1",
+        "text": "Distinguish DDD, related techniques and platform roles"
+      },
+      {
+        "nodeRef": "ddd-landscape-node-2",
+        "text": "Connect update/read paths and shared value meaning"
+      },
+      {
+        "nodeRef": "ddd-strategic-intro-node",
+        "text": "Strategic highlights are shared language, contexts of consistent meaning and relationships between contexts. SimpleModeling connects them to BoK terminology/knowledge, subsystem/component boundaries and public contracts."
+      },
+      {
+        "nodeRef": "ddd-strategic-axes-node",
+        "text": "Contexts scope meanings for both updates and reads. Strategic/tactical design and CQRS update/read paths are separate axes. Inter-context language/contracts and intra-context update/read model separation have distinct roles."
+      },
+      {
+        "nodeRef": "ddd-context-node-1",
+        "text": "A Bounded Context scopes consistent meanings for a model and its language. Order-taking and shipping may use the same word order with different attributes and rules. SimpleModeling concretizes this semantic boundary as a subsystem or component modeling boundary. This is separate from the number of physical hosts or processes."
+      },
+      {
+        "nodeRef": "ddd-context-node-2",
+        "text": "Context Maps provide an entry point for understanding inter-context relationships and integration responsibilities. SimpleModeling realizes these relationships through subsystem/component Service/Operation, translation and Event contracts. Terminology translation, model correspondence and dependencies are described separately. This is the adopted system policy, not a universal DDD deployment topology."
+      },
+      {
+        "nodeRef": "ddd-knowledge-node-1",
+        "text": "Ubiquitous Language, BoK, Entities and Knowledge"
+      },
+      {
+        "nodeRef": "ddd-knowledge-node-2",
+        "text": "Ubiquitous Language, BoK, Entities and Knowledge"
+      },
+      {
+        "nodeRef": "ddd-domain-node-1",
+        "text": "Define meaning and scope"
+      },
+      {
+        "nodeRef": "ddd-domain-node-2",
+        "text": "Connect meaning to permitted update boundaries"
+      },
+      {
+        "nodeRef": "ddd-structure-node-1",
+        "text": "An order is an Entity whose identity persists as its state changes; money and quantity are Values with business meaning. Explicit attribute types, optionality, relationships and constraints help prevent incorrect identifiers or invalid quantities from being passed across model boundaries."
+      },
+      {
+        "nodeRef": "ddd-structure-node-2",
+        "text": "Value Object meanings and constraints participate both in update Operation inputs/Aggregate state and in Query results/View values. An amount can be used in an order calculation and an order-list read. CML Values/Datatypes and typed boundaries carry these meanings through both paths. Persistence conversion and presentation formatting have separate responsibilities."
+      },
+      {
+        "nodeRef": "ddd-aggregate-node-1",
+        "text": "If an order and its lines form one Aggregate, adding a line or confirming the order is expressed through Aggregate Root operations. Those operations check current state and business conditions. Value constraints such as positive quantities combine with whole-object rules such as requiring lines before confirmation."
+      },
+      {
+        "nodeRef": "ddd-aggregate-node-2",
+        "text": "CNCF keeps persistent Entity state authoritative and treats an Aggregate as a write-side projection. Creation is distinguished from Commands on existing objects, and invariants are connected to the relevant checks, calculations and Command implementations. Valid update candidates are then committed through UoW and storage conditions described later."
+      },
+      {
+        "nodeRef": "ddd-aggregate-node-3",
+        "text": "Verify the link between rules and implementation"
+      },
+      {
+        "nodeRef": "ddd-delivery-node-1",
+        "text": "Use separate models for writes and reads"
+      },
+      {
+        "nodeRef": "ddd-delivery-node-2",
+        "text": "Connect facts and projections to presentation"
+      },
+      {
+        "nodeRef": "ddd-runtime-node-1",
+        "text": "Preserve model boundaries throughout execution"
+      },
+      {
+        "nodeRef": "ddd-runtime-node-2",
+        "text": "Delegate supporting mechanisms to the platform"
+      },
+      {
+        "nodeRef": "ddd-poeaa-node-1",
+        "text": "A Repository provides access to business objects. Applications load objects through this boundary and invoke Aggregate behavior, reducing database-specific code throughout business processing. Object identity and update rules remain domain responsibilities."
+      },
+      {
+        "nodeRef": "ddd-poeaa-node-2",
+        "text": "Data Mapper organizes conversion between business types and storage representations. CNCF’s EntityStore/EntityPersistent–DataStore boundary converts according to declared types and selected mappings, while DataStore handles physical access. This separation allows storage representations to vary without changing business types."
+      },
+      {
+        "nodeRef": "ddd-uow-node-1",
+        "text": "Aggregates determine whether proposed changes are valid in the business domain; UoW manages the grouping, commitment and abortion of changes. DataStore participates in the transaction and performs storage operations. With conflict detection selected, storage atomically checks expected revisions or state and rejects changes when conditions differ. Business rules and commit-time conditions jointly protect consistency."
+      },
+      {
+        "nodeRef": "ddd-uow-node-2",
+        "text": "Invocation and target authorization apply on the same execution path. When a long Workflow or Job spans multiple updates, each commit boundary and subsequent retry or compensation policy is explicit. Workflows organize business progression; UoW manages commitment and resource termination for individual work, without forcing the whole progression into one database transaction."
+      },
+      {
+        "nodeRef": "ddd-domain-events-node-1",
+        "text": "Where a Command requests order confirmation, a Domain Event records that confirmation occurred. Its name, subject identity, occurrence time and information are explicit. CNCF’s Aggregate/View contract connects the write side to View projection through such facts. Business occurrences can also coordinate subsequent Workflow processing and other Components."
+      },
+      {
+        "nodeRef": "ddd-domain-events-node-2",
+        "text": "Commitment, Event recording and publication, and consumer completion are separate outcomes. The chosen path defines redelivery, deduplication, ordering and resumption; asynchronous Views require freshness and re-read policies. Combining fact semantics with delivery and projection policies shares results without requiring excessive synchronous coupling."
+      },
+      {
+        "nodeRef": "ddd-readmodel-node-1",
+        "text": "CNCF organizes Aggregates as update-side projections and Views as read-side projections. A model enforcing order-confirmation consistency and a model returning order number/status/amount have different responsibilities. Queries use the read route; Value Object semantics also apply to returned values. Read-side attributes need not match the update Aggregate shape."
+      },
+      {
+        "nodeRef": "ddd-readmodel-node-2",
+        "text": "Model separation and physical storage separation are separate decisions. This guide uses persistent Entity state as authoritative and treats Views and the Domain Working Set as reconstructible. Baseline loading and committed-update projection are distinct; asynchronous routes specify freshness and re-read conditions. Event Sourcing, where event history is authoritative, is a separate selection from CQRS."
+      },
+      {
+        "nodeRef": "ddd-display-node-1",
+        "text": "Views contain semantic read results such as order identity, state and amount. A Display model sits outside the View and organizes fields, formatted values, links and offered actions. CNCF applies registered presentation definitions and typed conversions to authorized View values, connecting them to UIs such as Web and Flutter while retaining business meaning."
+      },
+      {
+        "nodeRef": "ddd-display-node-2",
+        "text": "UI actions return through public Operations or explicitly registered mutation targets. Changes follow authorization, Aggregate rules and UoW rather than modifying Views during presentation. Combining View/Display projection with a separate mutation entry keeps presentation concerns apart from business rules."
+      },
+      {
+        "nodeRef": "ddd-display-node-3",
+        "text": "Route actions back to domain mutation paths"
+      },
+      {
+        "nodeRef": "ddd-behavior-node-1",
+        "text": "Model behavioral conditions"
+      },
+      {
+        "nodeRef": "ddd-behavior-node-2",
+        "text": "Connect structure to execution"
+      },
+      {
+        "nodeRef": "ddd-application-node-1",
+        "text": "Previously defined use cases are realized through Workflow operations, sequencing, branching and waits. Services and Operations form the externally accessible application boundary, taking responsibility corresponding to PoEAA’s Service Layer. Screens and external APIs connect to the same public operations; Workflows invoke the domain behavior needed to realize them."
+      },
+      {
+        "nodeRef": "ddd-application-node-2",
+        "text": "Application progression belongs in the Workflow; rules such as whether an order may be confirmed remain in the domain. External functions connect through explicit Provider bindings. Use cases provide criteria for checking the resulting behavior rather than serving as executable procedures themselves."
+      },
+      {
+        "nodeRef": "ddd-dynamic-node-1",
+        "text": "A state machine defines states, events, transition conditions and actions. Relating the draft-to-confirmed transition to the confirmation Operation allows calls from a Workflow to be evaluated against the order’s current state. Cozy-generated definitions are registered with CNCF, connecting transitions and business updates to the same subject."
+      },
+      {
+        "nodeRef": "ddd-dynamic-node-2",
+        "text": "Decisions that change independently, such as pricing or approval conditions, can be identified as Domain Rules and connected to a Rule Model and Rule Engine. Evaluation results enter shared execution paths such as Operations, separating decision logic from execution with authorization and commitment. Workflows, state machines and rules make progression, object lifecycle and decisions explicit."
+      },
+      {
+        "nodeRef": "ddd-execution-node-1",
+        "text": "Define business meaning"
+      },
+      {
+        "nodeRef": "ddd-execution-node-2",
+        "text": "Make it concrete through a shared path"
+      },
+      {
+        "nodeRef": "ddd-semantics-node-1",
+        "text": "Developers model business types and constraints, public operations, states and transitions, Workflow progression, and View/Display relationships. Cozy projects Entities and Values into typed interfaces and state machines, Workflows and presentation into corresponding definitions and connection code. Textus/CNCF uses registered definitions and handlers to perform invocation, transitions, projection and commitment."
+      },
+      {
+        "nodeRef": "ddd-semantics-node-2",
+        "text": "A model “running directly” means that its defined structure and behavior are directly connected to this projection and execution path. Business-specific calculations and external integration supplement generated types and explicit extension points. The approach combines generation with interpretation of model definitions; it does not mean reparsing all CML at runtime."
+      },
+      {
+        "nodeRef": "ddd-memory-node-1",
+        "text": "Entity models specify runtime treatment as well as data structure. Textus/CNCF represents the stereotype-like classification as entityKind and connects it to defaults such as residency for master data. Task data is loaded as needed, with caching or retention configured for its intended use."
+      },
+      {
+        "nodeRef": "ddd-memory-node-2",
+        "text": "Classification defaults combine with explicit Working Set policies. Current defaults make master resident and disable the Working Set for task; active-only workflow residency requires an explicit state-based policy. Runtime use of model classification and configuration reduces per-Entity memory-management implementation."
+      },
+      {
+        "nodeRef": "ddd-memory-node-3",
+        "text": "Residency and caching hold reconstructible state for domain processing rather than replacing authoritative persistent state. This guide covers the mapping from model classification to execution policy; retention, release, consistency and recovery are detailed in the reactive guide."
+      },
+      {
+        "nodeRef": "ddd-toolchain-node-1",
+        "text": "The table relates authored model content to generated artifacts and runtime responsibilities. Business types align inputs, results and persistence; dynamic definitions align progression and state; read and presentation definitions align information provided to users. Shared identities and typed contracts connect these different models into one behavior."
+      },
+      {
+        "nodeRef": "ddd-toolchain-node-2",
+        "text": "For each selected model element, generation, registration with runtime mechanisms, and Provider or supplementary bindings must align. End-to-end Domain Rule projection and external Providers are checked for the selected version and configuration. Relating authored content to its implementation and configuration preserves continuity through execution."
+      },
+      {
+        "nodeRef": "ddd-components-node-1",
+        "text": "Assign model responsibilities to components"
+      },
+      {
+        "nodeRef": "ddd-components-node-2",
+        "text": "Connect external clients through public contracts"
+      },
+      {
+        "nodeRef": "ddd-example-node-1",
+        "text": "In order confirmation, a Workflow invokes a public Operation and the Order Aggregate checks lines and current state to produce a proposed update. UoW manages commitment, with selected mappings and DataStore performing persistence. The committed fact is communicated as a Domain Event; its projected View result is presented through Display."
+      },
+      {
+        "nodeRef": "ddd-example-node-2",
+        "text": "The developer defines order types and rules, the confirmation operation, progression, read fields and presentation mappings. The platform connects these definitions and supplementary handlers to registered execution mechanisms. The diagram illustrates model-to-runtime responsibilities; delivery and projection timing follow the selected execution path."
+      },
+      {
+        "nodeRef": "ddd-development-node-1",
+        "text": "Trace change impact from the model"
+      },
+      {
+        "nodeRef": "ddd-development-node-2",
+        "text": "Verify business meaning and its realization"
+      },
+      {
+        "nodeRef": "ddd-ai-node-1",
+        "text": "Separate mechanical generation from semantic supplementation"
+      },
+      {
+        "nodeRef": "ddd-ai-node-2",
+        "text": "Constrain changes through model and execution boundaries"
+      },
+      {
+        "nodeRef": "ddd-verification-node-1",
+        "text": "Verification compares defined use cases with models, generated types and component contracts, and runtime outcomes. textus-cbd-support model review, compilation, car lint and executable specifications cover valid cases, rejected cases, conflicts and state after partial failure."
+      },
+      {
+        "nodeRef": "ddd-verification-node-2",
+        "text": "Changing order-confirmation conditions requires updates to Aggregate and state-machine conditions, the relevant Operation and verification examples. Views and Displays are checked when the change affects them. Updating source definitions and necessary supplementary logic rather than patching generated code keeps business meaning aligned with behavior."
+      },
+      {
+        "nodeRef": "ddd-conclusion-node-1",
+        "text": "Preserve model semantics in execution"
+      },
+      {
+        "nodeRef": "ddd-conclusion-node-2",
+        "text": "Keep development, change and verification coherent"
+      },
+      {
+        "nodeRef": "ddd-appendix-node-1",
+        "text": "Look up pattern responsibilities"
+      },
+      {
+        "nodeRef": "ddd-appendix-node-2",
+        "text": "Locate their connections in the guide"
+      },
+      {
+        "nodeRef": "ddd-appendix-ddd-node-1",
+        "text": "Identify responsibilities"
+      },
+      {
+        "nodeRef": "ddd-appendix-ddd-node-2",
+        "text": "Locate connections to other models"
+      },
+      {
+        "nodeRef": "ddd-appendix-poeaa-node-1",
+        "text": "Identify responsibilities"
+      },
+      {
+        "nodeRef": "ddd-appendix-poeaa-node-2",
+        "text": "Locate connections to other models"
+      },
+      {
+        "nodeRef": "ddd-appendix-related-node-1",
+        "text": "Identify responsibilities"
+      },
+      {
+        "nodeRef": "ddd-appendix-related-node-2",
+        "text": "Locate connections to other models"
+      },
+      {
+        "nodeRef": "ddd-references-node-1",
+        "text": "Eric Evans, Domain-Driven Design: Tackling Complexity in the Heart of Software. Foundation for business meaning, Ubiquitous Language, Bounded Contexts, Entities, Values and Aggregates. https://www.informit.com/store/domain-driven-design-tackling-complexity-in-the-heart-9780321125217"
+      },
+      {
+        "nodeRef": "ddd-references-node-2",
+        "text": "Vaughn Vernon, Implementing Domain-Driven Design. Reference for connecting core concepts to implementation and architecture. https://www.informit.com/store/implementing-domain-driven-design-9780321834577"
+      },
+      {
+        "nodeRef": "ddd-references-node-3",
+        "text": "Vlad Khononov, Learning Domain-Driven Design. Reference for strategic and tactical design and architectural choices. https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/"
+      },
+      {
+        "nodeRef": "ddd-comparison-sources-node",
+        "text": "Public comparison sources: E contents https://www.oreilly.com/library/view/domain-driven-design-tackling/0321125215/toc.html and Chapter 5 opening https://www.oreilly.com/library/view/domain-driven-design-tackling/0321125215/ch05.html ; V contents at the cited publisher page and the Chapter 10 consistency-boundary excerpt https://www.informit.com/articles/article.aspx?p=2020371&seqNum=2 ; K contents at the cited publisher page, context-dependent language in Chapter 3 https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/ch03.html and terminology in Chapter 6 https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/ch06.html . This public inspection does not establish full-text equivalence or absence."
+      }
+    ]
+  }
+}

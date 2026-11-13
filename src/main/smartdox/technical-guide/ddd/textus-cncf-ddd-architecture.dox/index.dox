@@ -1,0 +1,357 @@
+Textus/CNCF DDD Modeling — Technical Guide｜Textus/CNCF DDDモデリング技術ガイド
+================================================================================
+
+# HEAD
+
+status=draft
+published_at=2026-10-27
+document=textus-cncf-ddd-architecture
+
+## SUMMARY
+
+<span lang="ja">本技術ガイドは、DDDの観点からSimpleModelingおよびTextus/CNCFのモデル構造と実行の仕組みを説明します。DDDの概念や設計上の関心事との対応を通じて、本システムの構成と設計方針を理解することを目的とします。目的、参照する用語、全体像、戦略的・戦術的設計のハイライト、更新系・参照系との接続の順に示します。</span><span lang="en">This technical guide explains SimpleModeling and Textus/CNCF models and execution through a DDD perspective. Its purpose is to make the system structure and design decisions understandable through correspondences with DDD concepts and concerns. It presents purpose, selected terminology, the overview, strategic/tactical highlights and connections to update/read processing.</span>
+
+# Purpose and Scope｜本技術ガイドの目的と対象
+
+<span lang="ja">本技術ガイドの読者は、DDDを手掛かりにSimpleModeling・Textus/CNCFを理解したい人です。DDDの概念を入口として、その概念が対応するモデル、補完技術、実行基盤との関係を説明します。各技術の役割と接続を示し、優劣や不足を論じる構成にはしません。</span><span lang="en">This guide is for readers using DDD to understand SimpleModeling/Textus/CNCF. DDD concepts lead to their corresponding models, complementary techniques and runtime mechanisms. The explanation identifies roles and connections without a superiority or deficiency narrative.</span>
+
+<span lang="ja">一般的なモデリングの進め方や個々の案件の開発手順は別の資料で扱います。本文のハイライトは、どのDDD技術が、どの関心事に対応し、本システムのどこで使われるかを示します。設計上の対応と、採用版で利用できる生成・実行機能の範囲は区別します。</span><span lang="en">General modeling methods and project development procedures belong to separate guides. Each highlight identifies the DDD technique, its concern and its place in this system. Architectural correspondence is separate from the generation/runtime capabilities available in a selected version.</span>
+
+# Three-Book Sources and Selected Vocabulary｜3冊の参照範囲と採用する用語
+
+<span lang="ja">参照するのはEvansのDomain-Driven Design（2003年）、VernonのImplementing Domain-Driven Design（2013年）、KhononovのLearning Domain-Driven Design（2021年）の英語版です。表ではE・V・Kと略記します。公開目次と下記の公開本文範囲を用いて、用語の掲載位置と説明の観点を照合しました。参照位置の確認と、定義本文全体の照合は別です。</span><span lang="en">The sources are the English editions of Evans (2003), Vernon (2013) and Khononov (2021), abbreviated E/V/K below. Public contents and the identified previews support comparison of coverage and explanatory perspectives. Confirming a location is separate from comparing every definition in full.</span>
+
+<span lang="ja">3冊の掲載位置・確認範囲</span><span lang="en">Three-Book Coverage and Inspection Scope</span>
+
+| <span lang="ja">概念</span><span lang="en">Concept</span> | <span lang="ja">E：Evans</span><span lang="en">E: Evans</span> | <span lang="ja">V：Vernon</span><span lang="en">V: Vernon</span> | <span lang="ja">K：Khononov</span><span lang="en">K: Khononov</span> |
+| --- | --- | --- | --- |
+| <span lang="ja">言語・文脈</span><span lang="en">Language/context</span> | <span lang="ja">第2章：共有言語／第14章：意味の境界</span><span lang="en">Ch 2: shared language; Ch 14: model integrity</span> | <span lang="ja">第1–3章：用語・Context／出版社紹介でも言及</span><span lang="en">Ch 1–3; publisher coverage of language/context</span> | <span lang="ja">第2・3章：知識と言語／モデル境界</span><span lang="en">Ch 2–3: knowledge/language and boundaries</span> |
+| <span lang="ja">Context間の関係</span><span lang="en">Context relationships</span> | <span lang="ja">第14章／戦略的設計の部</span><span lang="en">Ch 14 / strategic-design part</span> | <span lang="ja">第3・13章：Context Mapと接続</span><span lang="en">Ch 3 and 13: maps and integration</span> | <span lang="ja">第4章：関係・変換・Context Map</span><span lang="en">Ch 4: relationships, translation and maps</span> |
+| <span lang="ja">Entity・Value Object</span><span lang="en">Entity/Value Object</span> | <span lang="ja">第5章：モデルの基本要素</span><span lang="en">Ch 5: model elements</span> | <span lang="ja">第5・6章：個別の要素</span><span lang="en">Ch 5–6: separate building blocks</span> | <span lang="ja">第6章冒頭：Domain Modelの構成要素</span><span lang="en">Ch 6 opening: Domain Model building blocks</span> |
+| <span lang="ja">Aggregate</span><span lang="en">Aggregate</span> | <span lang="ja">第6章：ライフサイクルの章を照合対象とする</span><span lang="en">Ch 6 lifecycle: definition inspection target</span> | <span lang="ja">第10章：公開本文で整合性境界を確認</span><span lang="en">Ch 10: public consistency-boundary excerpt</span> | <span lang="ja">第6章：構成要素として言及</span><span lang="en">Ch 6: named as a building block</span> |
+| <span lang="ja">Repository</span><span lang="en">Repository</span> | <span lang="ja">第6章：ライフサイクルの章を照合対象とする</span><span lang="en">Ch 6 lifecycle: definition inspection target</span> | <span lang="ja">第12章：独立した章</span><span lang="en">Ch 12: dedicated chapter</span> | <span lang="ja">第6章冒頭：構成要素として言及</span><span lang="en">Ch 6 opening: named building block</span> |
+| <span lang="ja">Domain Event</span><span lang="en">Domain Event</span> | <span lang="ja">今回の公開確認範囲では位置未確認</span><span lang="en">Location unverified in inspected public material</span> | <span lang="ja">第8章：独立した章</span><span lang="en">Ch 8: dedicated chapter</span> | <span lang="ja">第9・15章：連携・イベントの関連範囲</span><span lang="en">Ch 9/15: communication/event coverage</span> |
+| <span lang="ja">CQRS</span><span lang="en">CQRS</span> | <span lang="ja">今回の公開確認範囲では位置未確認</span><span lang="en">Location unverified in inspected public material</span> | <span lang="ja">第4章／出版社が対応アーキテクチャとして明示</span><span lang="en">Ch 4 / explicit publisher architecture coverage</span> | <span lang="ja">第8章：更新・参照モデル分離</span><span lang="en">Ch 8: update/read model separation</span> |
+
+<span lang="ja">確認できる違いには、用語の定義だけでなく整理の範囲があります。Eはモデルの基本要素と後半の戦略的設計、Vは基本要素の個別章とアーキテクチャ・連携、Kは戦略的／戦術的設計とアーキテクチャの選択を明示して構成しています。K第6章の公開本文は、戦術的パターン群をDomain Modelの構成要素として説明する立場を示しています。V第10章の公開本文はAggregateを不変条件とトランザクションの整合性境界として具体化します。これらは説明範囲・強調点の違いとして扱い、確認していない定義の対立は断定しません。</span><span lang="en">Verified differences include organization and emphasis. E separates model building blocks and later strategic design; V gives individual building-block chapters and architecture/integration; K explicitly organizes strategic/tactical design and architecture choices. The K Chapter 6 preview treats tactical patterns as Domain Model building blocks. The V Chapter 10 excerpt develops Aggregate invariants and transactional consistency boundaries. These observations concern scope/emphasis, not an asserted disagreement between uninspected definitions.</span>
+
+<span lang="ja">次の表は、本技術ガイドで採用する意味とSimpleModelingへの接続です。各書の定義を同一と仮定せず、出典の観点と本システムの採用方針を区別します。「位置未確認」は今回の公開確認範囲を示すもので、書籍全体にその概念が登場しないという判断ではありません。</span><span lang="en">The following meanings are adopted for this guide and connected to SimpleModeling. Source perspectives and system policy remain distinct rather than assuming identical definitions. Location unverified describes this public inspection scope, not absence from an entire book.</span>
+
+<span lang="ja">採用する意味と本システムへの接続</span><span lang="en">Adopted Meanings and System Connections</span>
+
+| <span lang="ja">用語</span><span lang="en">Term</span> | <span lang="ja">本技術ガイドでの意味</span><span lang="en">Meaning in This Guide</span> | <span lang="ja">SimpleModeling・CNCFへの接点</span><span lang="en">SimpleModeling/CNCF Connection</span> |
+| --- | --- | --- |
+| <span lang="ja">Ubiquitous Language</span><span lang="en">Ubiquitous Language</span> | <span lang="ja">モデルを支える文脈内の共有言語</span><span lang="en">Shared language supporting a contextual model</span> | <span lang="ja">BoK用語とモデル・業務規則・知識との対応</span><span lang="en">BoK terminology linked to models/rules/knowledge</span> |
+| <span lang="ja">Bounded Context</span><span lang="en">Bounded Context</span> | <span lang="ja">モデルと言語の意味が一貫する範囲</span><span lang="en">Scope of consistent model/language meaning</span> | <span lang="ja">サブシステム・コンポーネントのモデリング境界</span><span lang="en">Subsystem/component modeling boundary</span> |
+| <span lang="ja">Context Map</span><span lang="en">Context Map</span> | <span lang="ja">コンテキスト間の関係と責任の表現</span><span lang="en">Inter-context relationships and responsibilities</span> | <span lang="ja">公開契約・変換・依存関係の対応</span><span lang="en">Public contracts, translation and dependencies</span> |
+| <span lang="ja">Entity</span><span lang="en">Entity</span> | <span lang="ja">識別を保って状態が変わる業務対象</span><span lang="en">Domain object with continuing identity</span> | <span lang="ja">CML Entityと永続状態・識別の契約</span><span lang="en">CML Entity, persistence and identity contracts</span> |
+| <span lang="ja">Value Object</span><span lang="en">Value Object</span> | <span lang="ja">識別ではなく値の意味と制約で扱うもの</span><span lang="en">Meaning/constraints of a value rather than identity</span> | <span lang="ja">Value・Datatype。更新入力と参照結果の両方</span><span lang="en">Value/Datatype on both update and read paths</span> |
+| <span lang="ja">Aggregate</span><span lang="en">Aggregate</span> | <span lang="ja">Rootを通して不変条件を扱う更新整合性の単位</span><span lang="en">Update consistency unit enforcing invariants via a root</span> | <span lang="ja">更新側投影とCommand。保存時の確定条件へ接続</span><span lang="en">Update projection/Commands connected to commit checks</span> |
+| <span lang="ja">Repository</span><span lang="en">Repository</span> | <span lang="ja">業務対象へのアクセスを表す接点</span><span lang="en">Domain-object access boundary</span> | <span lang="ja">DDD・PoEAAに共有される役割とEntityStore接続</span><span lang="en">Shared DDD/PoEAA role connected to EntityStore</span> |
+| <span lang="ja">Domain Event</span><span lang="en">Domain Event</span> | <span lang="ja">業務で生じた出来事の表現</span><span lang="en">An occurrence meaningful to the domain</span> | <span lang="ja">更新連携では確定した事実を投影・後続処理へ渡す</span><span lang="en">Committed facts feed projections/subsequent work here</span> |
+| <span lang="ja">CQRS</span><span lang="en">CQRS</span> | <span lang="ja">更新と参照のモデル責務を分ける考え方</span><span lang="en">Separate update and read model responsibilities</span> | <span lang="ja">Aggregate/CommandとView/Queryの役割分離</span><span lang="en">Aggregate/Command versus View/Query roles</span> |
+
+# System Overview through DDD and CQRS｜DDDとCQRSから見る全体像
+
+<span lang="ja">冒頭の図は、DDDからSimpleModelingの全体像へ入るための対応図です。戦略的設計は用語と境界を扱い、戦術的設計はその境界内のEntity、Value Object、Aggregateなどの責務を扱います。図ではDDDの概念、補完するアーキテクチャ技術、SimpleModeling・CNCFのモデルと基盤機構を分類し、接続線で各々の関係を示します。</span><span lang="en">The opening diagram connects DDD concerns to the SimpleModeling overview. Strategic design addresses language and boundaries; tactical design addresses responsibilities of Entities, Value Objects and Aggregates within those boundaries. The diagram distinguishes DDD concepts, complementary architecture techniques and SimpleModeling/CNCF models and mechanisms, with explicit connections between them.</span>
+
+<span lang="ja">更新系はCommandからAggregateの規則と更新確定へ進み、参照系はQueryからView・Displayへ進みます。両系統は正本の確定状態と必要な投影で接続します。Value Objectは両系統で意味と制約を表します。共有するのは概念上の意味であり、同じメモリ上のインスタンスや同一形状のモデルを必須とするものではありません。CQRSは両モデルの役割分離を示し、保存先の物理的分割やEvent Sourcingは個別の選択として扱います。</span><span lang="en">The update path leads from Commands through Aggregate rules to commit. The read path leads from Queries to Views and Displays. Authoritative committed state and required projections connect the paths. Value Objects express meanings and constraints on both sides, without requiring a shared in-memory instance or identical model shapes. CQRS separates model responsibilities; physical storage separation and Event Sourcing remain independent choices.</span>
+
+<span lang="ja">[[images/model-landscape-ja.png]]</span><span lang="en">[[images/model-landscape-en.png]]</span>
+
+<span lang="ja">DDD・補完技術・基盤とCQRSの更新系／参照系</span><span lang="en">DDD, Supporting Techniques, Platform and CQRS Update/Read Paths</span>
+
+<span lang="ja">開発上の判断とモデリング技術</span><span lang="en">Development decisions and modeling techniques</span>
+
+| <span lang="ja">開発で決めること</span><span lang="en">Development decision</span> | <span lang="ja">用いるモデル・技術</span><span lang="en">Model or technique</span> | <span lang="ja">DDD・PoEAAなどとの関係</span><span lang="en">Reference perspective</span> |
+| --- | --- | --- |
+| <span lang="ja">何を業務対象とし、何を守るか</span><span lang="en">Which objects and rules matter?</span> | <span lang="ja">Entity・Value・Aggregate・規則</span><span lang="en">Entity / Value / Aggregate / Rules</span> | <span lang="ja">DDDの意味と整合性、PoEAAのDomain Model</span><span lang="en">DDD semantics and consistency; PoEAA Domain Model</span> |
+| <span lang="ja">目的をどの進行で実現するか</span><span lang="en">How is the goal realized?</span> | <span lang="ja">Workflow・状態機械・Operation</span><span lang="en">Workflow / State machine / Operation</span> | <span lang="ja">アプリケーション・モデルとService Layer</span><span lang="en">Application modeling and Service Layer</span> |
+| <span lang="ja">何を変更し、何を読むか</span><span lang="en">What changes and what is read?</span> | <span lang="ja">Command・Query・View</span><span lang="en">Command / Query / View</span> | <span lang="ja">CQRSによる更新・参照モデルの分離</span><span lang="en">CQRS write/read model separation</span> |
+| <span lang="ja">何が起き、何へ伝えるか</span><span lang="en">What happened and who reacts?</span> | <span lang="ja">Domain Event</span><span lang="en">Domain Event</span> | <span lang="ja">業務上の事実と後続処理の接続</span><span lang="en">Business facts and subsequent processing</span> |
+| <span lang="ja">どう取得・保存・確定するか</span><span lang="en">How is data loaded and committed?</span> | <span lang="ja">Repository・マッピング・UoW</span><span lang="en">Repository / Mapping / UoW</span> | <span lang="ja">PoEAAの永続化とトランザクションのパターン</span><span lang="en">PoEAA persistence and transaction patterns</span> |
+| <span lang="ja">何を利用者へ提示するか</span><span lang="en">What is presented to users?</span> | <span lang="ja">View・Display・UIモデル</span><span lang="en">View / Display / UI model</span> | <span lang="ja">参照結果の意味と表示の分離</span><span lang="en">Separation of semantic reads and presentation</span> |
+
+# Strategic Design Highlights｜戦略的設計のハイライト
+
+<span lang="ja">戦略的設計のハイライトは、意味を共有する言語、意味が一貫するコンテキスト、およびコンテキスト間の関係です。SimpleModelingでは、これらをBoKの用語・知識、サブシステム・コンポーネントの境界、公開契約との接点として説明します。</span><span lang="en">Strategic highlights are shared language, contexts of consistent meaning and relationships between contexts. SimpleModeling connects them to BoK terminology/knowledge, subsystem/component boundaries and public contracts.</span>
+
+<span lang="ja">コンテキストは更新と参照の両方に意味の範囲を与えます。戦略的／戦術的設計と、CQRSの更新系／参照系は直交する整理軸です。コンテキスト間の言語や契約を定めることと、一つのコンテキスト内で更新・参照モデルを分けることを、それぞれの役割で示します。</span><span lang="en">Contexts scope meanings for both updates and reads. Strategic/tactical design and CQRS update/read paths are separate axes. Inter-context language/contracts and intra-context update/read model separation have distinct roles.</span>
+
+## Bounded Contexts, Context Maps and Component Boundaries｜Bounded Context・Context Mapと部品境界
+
+<span lang="ja">Bounded Contextは、特定のモデルと言語の意味が一貫して適用される範囲です。例えば受注と配送で同じ「注文」という語を使っても、扱う属性や規則は異なり得ます。SimpleModelingでは、この意味の境界をサブシステムやコンポーネントの境界として具体化するモデリング方針を取ります。物理ホストやプロセスの数とは別の境界です。</span><span lang="en">A Bounded Context scopes consistent meanings for a model and its language. Order-taking and shipping may use the same word order with different attributes and rules. SimpleModeling concretizes this semantic boundary as a subsystem or component modeling boundary. This is separate from the number of physical hosts or processes.</span>
+
+<span lang="ja">Context Mapは、コンテキスト間の関係と接続時の責任を理解する接点です。SimpleModelingでは、対応するサブシステム・コンポーネント間の公開Service・Operation、データ変換およびEventの契約へ関係を具体化します。用語の翻訳、モデルの対応、接続先への依存を区別して記述します。これは本システムの採用方針であり、すべてのDDDシステムに同じ配備単位を要求するものではありません。</span><span lang="en">Context Maps provide an entry point for understanding inter-context relationships and integration responsibilities. SimpleModeling realizes these relationships through subsystem/component Service/Operation, translation and Event contracts. Terminology translation, model correspondence and dependencies are described separately. This is the adopted system policy, not a universal DDD deployment topology.</span>
+
+## Ubiquitous Language, BoK, Entities and Knowledge｜Ubiquitous LanguageとBoK・Entity・知識
+
+<span lang="ja">Ubiquitous Languageは、業務のモデルを支える共有言語という観点です。SimpleModelingでは、BoKで管理する用語と、その文脈・説明・出典をモデルの意味へ結び付けます。用語からEntity・Value・Datatypeなどのモデルへ展開する経路と、用語を知識へ結び付ける経路を分けて示します。共有言語には会話・規則・振る舞いも含まれるため、用語一覧の存在だけで成立したとは扱いません。</span><span lang="en">Ubiquitous Language concerns the shared language supporting a domain model. SimpleModeling connects BoK terminology, context, explanations and provenance to model meaning. One path develops terms into Entities, Values and Datatypes; another connects terminology to knowledge. Conversations, rules and behavior are also part of the language, so a glossary alone does not establish it.</span>
+
+<span lang="ja">BoKと文芸モデルに残る意味・判断理由をCMLのモデル要素へつなぎ、具体化と実行を経たEntityの情報も、識別と出典を保ってInformation・知識表現へ接続します。すべての用語を一律にEntityへ変換する対応ではありません。詳細な二つの経路は、[[../../knowledge-modeling/textus-cncf-knowledge-modeling.dox/index.dox][BoKからドメイン・モデルを設計する]]と[[../../entity-knowledge/textus-cncf-entity-knowledge.dox/index.dox][Entityを知識として扱う]]で説明しています。</span><span lang="en">Meaning and rationale in the BoK/literate model connect to CML elements; information held by executed Entities connects to Information and knowledge representations with identity and provenance. This is not a conversion of every term into an Entity. The two paths are detailed in [[../../knowledge-modeling/textus-cncf-knowledge-modeling.dox/index.dox][Designing Domain Models from the BoK]] and [[../../entity-knowledge/textus-cncf-entity-knowledge.dox/index.dox][Treating Entities as Knowledge]].</span>
+
+# Tactical Design Highlights｜戦術的設計のハイライト
+
+<span lang="ja">戦術的設計のハイライトは、Entityによる識別、Value Objectによる値の意味、Aggregateによる更新整合性、およびRepositoryやDomain Eventとの接続です。これらの概念を、SimpleModelingの型・規則・公開操作と照合します。戦略的／戦術的という分類と、更新系／参照系という分類は異なる軸です。Value Objectのように両系統で利用する概念もあります。</span><span lang="en">Tactical highlights cover Entity identity, Value Object semantics, Aggregate update consistency and connections to Repositories and Domain Events. These concepts correspond to SimpleModeling types, rules and public operations. Strategic/tactical classification and update/read classification are separate axes; concepts such as Value Objects participate in both paths.</span>
+
+## Entities and Value Objects across Both Paths｜Entityと両系統のValue Object
+
+<span lang="ja">注文は識別子を保って状態が変わるEntityとして扱い、金額や数量は値の意味を持つValueとして扱います。属性の型、任意性、関係、値の制約を明示することで、注文番号と顧客番号の取り違えや、許されない数量を接続先へ渡すことを抑えます。</span><span lang="en">An order is an Entity whose identity persists as its state changes; money and quantity are Values with business meaning. Explicit attribute types, optionality, relationships and constraints help prevent incorrect identifiers or invalid quantities from being passed across model boundaries.</span>
+
+<span lang="ja">Value Objectの意味と制約は、更新系のOperation入力やAggregateの状態と、参照系のQuery結果やView値の両方で利用します。例えば金額は、注文更新の計算にも注文一覧の参照値にも登場します。CMLのValue・Datatypeと型付き接点は、この意味を両経路へ渡す対応先です。保存形式の変換や表示整形はそれぞれ別の責務として扱います。</span><span lang="en">Value Object meanings and constraints participate both in update Operation inputs/Aggregate state and in Query results/View values. An amount can be used in an order calculation and an order-list read. CML Values/Datatypes and typed boundaries carry these meanings through both paths. Persistence conversion and presentation formatting have separate responsibilities.</span>
+
+<span lang="ja">業務の意味を型と制約へ表す考え方は、関数型プログラミングによるモデリングにもつながります。Domain Modeling Made Functionalは、この型による表現の参照先です。本技術ガイドでは、入力・結果・保存で同じ意味を共有するための技術として扱います。</span><span lang="en">Expressing business meaning through types and constraints also connects to functional domain modeling. Domain Modeling Made Functional is a reference for this use of types. Here the technique supports shared meanings across inputs, results and persistence.</span>
+
+## Aggregates and Update Consistency Boundaries｜Aggregateと更新の整合性境界
+
+<span lang="ja">注文と明細を一つのAggregateとするなら、明細の追加や注文確定はAggregate Rootの操作として表します。外部から項目を直接書き換えるのではなく、その操作で現在状態と業務条件を確認します。数量が正であることなどの値の制約と、確定する注文に明細があることなどの対象全体の規則を組み合わせます。</span><span lang="en">If an order and its lines form one Aggregate, adding a line or confirming the order is expressed through Aggregate Root operations. Those operations check current state and business conditions. Value constraints such as positive quantities combine with whole-object rules such as requiring lines before confirmation.</span>
+
+<span lang="ja">CNCFではEntityの永続状態を正本とし、Aggregateを更新側の投影として扱います。Aggregateの生成操作と既存対象へのCommandを区別し、不変条件を対応する検査・計算・Commandの実装へ結び付けます。ここで妥当な更新候補を作り、後述するUoWと保存先の条件検査によって実際の状態へ確定します。</span><span lang="en">CNCF keeps persistent Entity state authoritative and treats an Aggregate as a write-side projection. Creation is distinguished from Commands on existing objects, and invariants are connected to the relevant checks, calculations and Command implementations. Valid update candidates are then committed through UoW and storage conditions described later.</span>
+
+<span lang="ja">業務のモデルで決めることと接続先</span><span lang="en">Domain-model decisions and connections</span>
+
+| <span lang="ja">モデル</span><span lang="en">Model</span> | <span lang="ja">決めること</span><span lang="en">Decision</span> | <span lang="ja">利用する接点</span><span lang="en">Used by</span> |
+| --- | --- | --- |
+| <span lang="ja">Entity</span><span lang="en">Entity</span> | <span lang="ja">識別子、属性、関係</span><span lang="en">Identity, attributes and relationships</span> | <span lang="ja">Operation・保存・Viewの対象</span><span lang="en">Operations, persistence and View subjects</span> |
+| <span lang="ja">Value</span><span lang="en">Value</span> | <span lang="ja">値の意味と制約</span><span lang="en">Meaning and constraints</span> | <span lang="ja">入力・結果・業務計算</span><span lang="en">Inputs, results and calculations</span> |
+| <span lang="ja">Aggregate</span><span lang="en">Aggregate</span> | <span lang="ja">更新の単位と不変条件</span><span lang="en">Update scope and invariants</span> | <span lang="ja">Command・UoW・保存時の条件検査</span><span lang="en">Commands, UoW and storage checks</span> |
+
+# CQRS Update/Read Paths and Connected Techniques｜CQRSの更新系・参照系と接続技術
+
+<span lang="ja">CQRSは、更新のためのモデルと参照のためのモデルを分けるアーキテクチャ上の観点です。以下では、更新系、確定結果を渡す接点、参照系の順に、DDD技術と関連機構の役割を示します。この並びは二系統の関係を読むためのものであり、一般的なモデリング手順ではありません。</span><span lang="en">CQRS is an architectural perspective separating models for updates and reads. The sections below explain the update path, committed-result connections and read path, locating DDD techniques and supporting mechanisms. Their order explains the relationship between paths rather than prescribing a general modeling procedure.</span>
+
+## Update-Side Persistence and Commitment｜更新系と永続化・確定の責務
+
+<span lang="ja">更新系では、Aggregateが表す業務規則と、保存・競合検査・確定の責務が接続します。RepositoryはDDDとPoEAAに共通して現れる接点です。Data MapperとUnit of Workは保存・更新管理を説明する補完パターンとして扱い、CNCFのEntityStore・DataStore・UoWの実行責務へ対応付けます。</span><span lang="en">The update path connects Aggregate business rules with persistence, conflict checks and commit. Repository is a connection appearing in both DDD and PoEAA. Data Mapper and Unit of Work are complementary persistence/update-management patterns mapped to CNCF EntityStore, DataStore and UoW responsibilities.</span>
+
+### Repositories, Data Mappers and Persistence｜Repository・Data Mapperと保存の接点
+
+<span lang="ja">Repositoryは、業務対象を取得・更新する接点です。アプリケーションはこの接点から対象を取得してAggregateの操作を呼び出すため、業務処理の各所へデータベース操作を書き込む範囲を減らせます。対象の識別と更新の規則はドメイン側に保持します。</span><span lang="en">A Repository provides access to business objects. Applications load objects through this boundary and invoke Aggregate behavior, reducing database-specific code throughout business processing. Object identity and update rules remain domain responsibilities.</span>
+
+<span lang="ja">Data Mapperは、業務の型と保存形式の変換を整理するパターンです。CNCFではEntityStore・EntityPersistentとDataStoreの境界で、宣言された型と選択したマッピングに従って変換します。DataStoreは物理的なアクセスを担当します。この分離により、業務の型を保ったまま保存先の表現を選べます。</span><span lang="en">Data Mapper organizes conversion between business types and storage representations. CNCF’s EntityStore/EntityPersistent–DataStore boundary converts according to declared types and selected mappings, while DataStore handles physical access. This separation allows storage representations to vary without changing business types.</span>
+
+<span lang="ja">業務の意味を保存まで保つ責務の分担</span><span lang="en">Responsibilities preserving business meaning through persistence</span>
+
+| <span lang="ja">責務</span><span lang="en">Responsibility</span> | <span lang="ja">用いる仕組み</span><span lang="en">Mechanism</span> | <span lang="ja">次へ渡すもの</span><span lang="en">Passes forward</span> |
+| --- | --- | --- |
+| <span lang="ja">対象を取得する</span><span lang="en">Access the subject</span> | <span lang="ja">Repository</span><span lang="en">Repository</span> | <span lang="ja">識別された業務対象</span><span lang="en">An identified business object</span> |
+| <span lang="ja">更新内容を判断する</span><span lang="en">Validate the change</span> | <span lang="ja">Aggregate</span><span lang="en">Aggregate</span> | <span lang="ja">規則を満たす更新候補</span><span lang="en">A valid update candidate</span> |
+| <span lang="ja">保存形式へ変換する</span><span lang="en">Convert representations</span> | <span lang="ja">Data Mapperの役割を担うマッピング境界</span><span lang="en">Data-mapping boundary</span> | <span lang="ja">宣言した型に対応する物理値</span><span lang="en">Physical values for declared types</span> |
+| <span lang="ja">確定・中止を管理する</span><span lang="en">Manage commit or abort</span> | <span lang="ja">UoWと参加するDataStore</span><span lang="en">UoW and participating DataStore</span> | <span lang="ja">永続状態と確定結果</span><span lang="en">Persistent state and commit outcome</span> |
+
+### Aggregates, Unit of Work and Commit｜Aggregate・Unit of Workと更新確定
+
+<span lang="ja">Aggregateは更新内容が業務上妥当かを判断し、UoWは更新のまとまりと確定・中止を管理します。DataStoreはそのトランザクションへ参加して保存先を操作します。競合検出を採用する場合は、期待するリビジョンや現在状態を保存先で原子的に検査し、条件が変わっていれば更新を拒否します。業務の規則と確定時の条件を組み合わせて整合性を守ります。</span><span lang="en">Aggregates determine whether proposed changes are valid in the business domain; UoW manages the grouping, commitment and abortion of changes. DataStore participates in the transaction and performs storage operations. With conflict detection selected, storage atomically checks expected revisions or state and rejects changes when conditions differ. Business rules and commit-time conditions jointly protect consistency.</span>
+
+<span lang="ja">呼出しと対象への認可も同じ実行経路で適用します。長いWorkflowやJobが複数の更新へまたがる場合は、それぞれの確定範囲と、後続が失敗したときの再試行・補償を定めます。Workflowは業務の進行を、UoWは個々の処理の確定と資源の終了を担当し、一連の進行を一つのデータベース・トランザクションへ押し込めずに構成します。</span><span lang="en">Invocation and target authorization apply on the same execution path. When a long Workflow or Job spans multiple updates, each commit boundary and subsequent retry or compensation policy is explicit. Workflows organize business progression; UoW manages commitment and resource termination for individual work, without forcing the whole progression into one database transaction.</span>
+
+## Domain Events and Committed-Result Connections｜Domain Eventと確定結果の連携
+
+<span lang="ja">「注文を確定する」というCommandに対して、「注文が確定した」というDomain Eventは生じた業務上の事実です。名称、対象の識別子、発生時刻、伝える情報を定めます。CNCFのAggregate/View契約では、この事実を更新側から参照側へ伝えてViewへ投影します。Workflowの後続処理や他のComponentとの連携にも業務上の出来事を使えます。</span><span lang="en">Where a Command requests order confirmation, a Domain Event records that confirmation occurred. Its name, subject identity, occurrence time and information are explicit. CNCF’s Aggregate/View contract connects the write side to View projection through such facts. Business occurrences can also coordinate subsequent Workflow processing and other Components.</span>
+
+<span lang="ja">更新の確定、Eventの記録・公開、受信側の処理完了は区別します。採用する経路に応じて再送、重複排除、順序、再開を定め、非同期のViewには必要な鮮度と再参照の方法を決めます。発生した事実の意味と配信・投影の方針を組み合わせることで、業務処理同士を過度に同期させずに結果を共有できます。</span><span lang="en">Commitment, Event recording and publication, and consumer completion are separate outcomes. The chosen path defines redelivery, deduplication, ordering and resumption; asynchronous Views require freshness and re-read policies. Combining fact semantics with delivery and projection policies shares results without requiring excessive synchronous coupling.</span>
+
+<span lang="ja">要求・事実・参照の役割</span><span lang="en">Roles of requests, facts and reads</span>
+
+| <span lang="ja">種類</span><span lang="en">Kind</span> | <span lang="ja">注文の例</span><span lang="en">Order example</span> | <span lang="ja">モデルで定めること</span><span lang="en">Modeling decision</span> |
+| --- | --- | --- |
+| <span lang="ja">Command</span><span lang="en">Command</span> | <span lang="ja">注文を確定する</span><span lang="en">Confirm the order</span> | <span lang="ja">入力、許される状態、更新条件</span><span lang="en">Input, permitted state and update conditions</span> |
+| <span lang="ja">Domain Event</span><span lang="en">Domain Event</span> | <span lang="ja">注文が確定した</span><span lang="en">Order confirmed</span> | <span lang="ja">事実の意味、対象、通知する情報</span><span lang="en">Meaning, subject and communicated information</span> |
+| <span lang="ja">Query / View</span><span lang="en">Query / View</span> | <span lang="ja">確定済みの注文を参照する</span><span lang="en">Read confirmed orders</span> | <span lang="ja">必要な参照項目と鮮度</span><span lang="en">Required read fields and freshness</span> |
+
+## Read-Side Queries, Views and Reconstruction｜参照系のQuery・Viewと再構築
+
+<span lang="ja">CNCFではAggregateを更新側、Viewを参照側の投影として整理します。注文確定の整合性を扱うモデルと、注文番号・確定状態・金額を返す参照モデルは、異なる責務を持ちます。Queryは参照経路へ接続し、Value Objectが表す値の意味は参照結果にも利用します。参照側の属性構成を、更新側のAggregateと同一にする必要はありません。</span><span lang="en">CNCF organizes Aggregates as update-side projections and Views as read-side projections. A model enforcing order-confirmation consistency and a model returning order number/status/amount have different responsibilities. Queries use the read route; Value Object semantics also apply to returned values. Read-side attributes need not match the update Aggregate shape.</span>
+
+<span lang="ja">更新と参照のモデル分離と、保存先の物理的分離は別の判断です。本技術ガイドの基本構成ではEntityの永続状態を正本とし、ViewやDomainのWorking Setは再構築可能な状態として扱います。初期読込みと確定更新の投影を区別し、非同期の経路では鮮度と再参照の条件を明示します。イベント列を正本とするEvent Sourcingも、CQRSとは別に選択する方式です。</span><span lang="en">Model separation and physical storage separation are separate decisions. This guide uses persistent Entity state as authoritative and treats Views and the Domain Working Set as reconstructible. Baseline loading and committed-update projection are distinct; asynchronous routes specify freshness and re-read conditions. Event Sourcing, where event history is authoritative, is a separate selection from CQRS.</span>
+
+## Read-Side Views, Displays and Action Connections｜参照系のView・Displayと操作の接点
+
+<span lang="ja">Viewは、注文の識別子、状態、金額など、業務上の意味を持つ参照結果です。その外側にDisplayモデルを置き、表示項目、整形した値、参照先、操作の提示を構成します。CNCFは、認可済みのView値へ登録済みの表示定義と型付き変換を適用します。業務の意味を保ったまま、WebやFlutterなどのUIへ表示を接続できます。</span><span lang="en">Views contain semantic read results such as order identity, state and amount. A Display model sits outside the View and organizes fields, formatted values, links and offered actions. CNCF applies registered presentation definitions and typed conversions to authorized View values, connecting them to UIs such as Web and Flutter while retaining business meaning.</span>
+
+<span lang="ja">画面からの操作は、公開Operationや明示的に登録した更新先へ戻します。表示を組み立てる処理でViewを更新するのではなく、認可、Aggregateの規則、UoWを通して業務の状態を変更します。View・Displayと更新の入口を組み合わせることで、画面の都合を業務規則から分離できます。</span><span lang="en">UI actions return through public Operations or explicitly registered mutation targets. Changes follow authorization, Aggregate rules and UoW rather than modifying Views during presentation. Combining View/Display projection with a separate mutation entry keeps presentation concerns apart from business rules.</span>
+
+<span lang="ja">[[images/view-display-boundary-ja.png]]</span><span lang="en">[[images/view-display-boundary-en.png]]</span>
+
+<span lang="ja">更新系と参照系、View・Displayと共通の値</span><span lang="en">Update/Read Paths, Views/Displays and Shared Values</span>
+
+<span lang="ja">ViewとDisplayで扱う情報の違い</span><span lang="en">Information owned by Views and Displays</span>
+
+| <span lang="ja">観点</span><span lang="en">Concern</span> | <span lang="ja">View</span><span lang="en">View</span> | <span lang="ja">Display</span><span lang="en">Display</span> |
+| --- | --- | --- |
+| <span lang="ja">注文の金額</span><span lang="en">Order amount</span> | <span lang="ja">通貨と数値を持つ業務上の値</span><span lang="en">Semantic amount with currency and number</span> | <span lang="ja">通貨表記や配置などの表示</span><span lang="en">Formatting and placement</span> |
+| <span lang="ja">注文の状態</span><span lang="en">Order state</span> | <span lang="ja">確定済みなどの意味を持つ状態</span><span lang="en">A meaningful state, such as confirmed</span> | <span lang="ja">ラベルと提示する操作</span><span lang="en">Labels and offered actions</span> |
+| <span lang="ja">利用者</span><span lang="en">Consumer</span> | <span lang="ja">業務処理や参照APIも利用可能</span><span lang="en">Also usable by business logic and read APIs</span> | <span lang="ja">表示を必要とするUI</span><span lang="en">UIs requiring presentation</span> |
+| <span lang="ja">更新</span><span lang="en">Mutation</span> | <span lang="ja">更新の正本にはしない</span><span lang="en">Not an authoritative write model</span> | <span lang="ja">登録した操作へ要求を接続</span><span lang="en">Requests use registered operations</span> |
+
+# Application Progression and Complementary Models｜アプリケーションの進行と補完モデル
+
+<span lang="ja">DDDのモデルを利用するアプリケーション側には、公開操作、Workflow、状態機械、規則評価との接点があります。ここでは、各機構がDDDの概念とどの責任で接続するかを整理します。アプリケーションの進行と、対象が守る業務規則は、それぞれのモデルで表現します。</span><span lang="en">Applications using DDD models connect public operations, Workflows, state machines and rule evaluation. This section identifies how those mechanisms relate to DDD concerns. Application progression and business-object invariants are represented by their respective models.</span>
+
+## Public Operations, Workflows and Domain Operations｜公開Operation・Workflowと業務操作
+
+<span lang="ja">定義済みのユースケースから、必要な操作、順序、分岐、待機をWorkflowへ具体化します。Service・Operationは外部から利用できる操作の境界となり、PoEAAのService Layerに対応する責務を担います。画面や外部APIは同じ公開操作へ接続し、Workflowはその実現に必要なドメイン操作を呼び出します。</span><span lang="en">Previously defined use cases are realized through Workflow operations, sequencing, branching and waits. Services and Operations form the externally accessible application boundary, taking responsibility corresponding to PoEAA’s Service Layer. Screens and external APIs connect to the same public operations; Workflows invoke the domain behavior needed to realize them.</span>
+
+<span lang="ja">Workflowにはアプリケーションの進行を置き、注文を確定してよいかといった規則はドメイン側へ置きます。外部機能はProviderとの明示的なバインディングで接続します。ユースケースは実行手順そのものとして扱わず、構成した進行が期待する結果を実現するかを確認する基準にします。</span><span lang="en">Application progression belongs in the Workflow; rules such as whether an order may be confirmed remain in the domain. External functions connect through explicit Provider bindings. Use cases provide criteria for checking the resulting behavior rather than serving as executable procedures themselves.</span>
+
+## State Machines, Rule Evaluation and Business Conditions｜状態機械・規則評価と業務条件
+
+<span lang="ja">状態機械では、対象の状態、イベント、遷移条件、実行する処理を定めます。注文の下書きから確定への遷移を注文確定Operationと対応付けると、Workflowから呼ばれた操作を、その対象の現在状態に従って判断できます。Cozyが生成する定義をCNCFの実行機構へ登録し、状態遷移と業務更新を同じ対象へ接続します。</span><span lang="en">A state machine defines states, events, transition conditions and actions. Relating the draft-to-confirmed transition to the confirmation Operation allows calls from a Workflow to be evaluated against the order’s current state. Cozy-generated definitions are registered with CNCF, connecting transitions and business updates to the same subject.</span>
+
+<span lang="ja">料金や承認条件など、独立して変更する判断はDomain Ruleとして識別し、Rule ModelとRule Engineへ接続できます。規則の評価結果をOperationなどの共通経路へ渡すことで、判断の内容と、認可・更新確定を伴う実行を分担します。Workflow、状態機械、規則を組み合わせ、進行、対象のライフサイクル、判断をそれぞれ明示します。</span><span lang="en">Decisions that change independently, such as pricing or approval conditions, can be identified as Domain Rules and connected to a Rule Model and Rule Engine. Evaluation results enter shared execution paths such as Operations, separating decision logic from execution with authorization and commitment. Workflows, state machines and rules make progression, object lifecycle and decisions explicit.</span>
+
+# DDD Models, Generation and Runtime Connections｜DDDモデルと生成・実行の接点
+
+<span lang="ja">DDDの概念と、CML・Cozy・CNCFの接点を、型、実行定義、部品契約として対応付けます。更新系と参照系のモデルをそれぞれ具体化し、共通の識別や値の意味で接続します。モデルの意味、生成・登録、実行時の責務を区別することで、概念がどの仕組みを通して動作へつながるかを示します。</span><span lang="en">DDD concepts connect to CML, Cozy and CNCF through types, execution definitions and component contracts. Update/read models are realized separately and connected through shared identity and value meanings. Distinguishing model meaning, generation/registration and runtime responsibilities identifies the mechanisms connecting concepts to behavior.</span>
+
+## Model Meaning and Platform Responsibilities｜モデルの意味と処理系の責務
+
+<span lang="ja">開発者は、業務の型と制約、公開操作、状態と遷移、Workflowの進行、ViewとDisplayの対応をモデルに記述します。Cozyは、Entity・Valueなどを型付きの接点へ、状態機械・Workflow・表示などを対応する実行定義や接続コードへ具体化します。Textus/CNCFは登録された定義と処理を利用し、呼出し、遷移、投影、更新確定などを動作させます。</span><span lang="en">Developers model business types and constraints, public operations, states and transitions, Workflow progression, and View/Display relationships. Cozy projects Entities and Values into typed interfaces and state machines, Workflows and presentation into corresponding definitions and connection code. Textus/CNCF uses registered definitions and handlers to perform invocation, transitions, projection and commitment.</span>
+
+<span lang="ja">「モデルがそのまま動く」とは、モデルで決めた構造と振る舞いが、この具体化と実行の経路へ直接結び付いていることです。業務固有の計算や外部接続は、生成された型や明示された拡張点の中で補完します。実行時にすべてのCMLを読み直すという意味ではなく、生成とモデル定義の解釈を組み合わせてモデルを実現します。</span><span lang="en">A model “running directly” means that its defined structure and behavior are directly connected to this projection and execution path. Business-specific calculations and external integration supplement generated types and explicit extension points. The approach combines generation with interpretation of model definitions; it does not mean reparsing all CML at runtime.</span>
+
+<span lang="ja">補完する業務計算は、値を受け取り結果を返す処理として、保存や通信から分けて記述できます。計算を単独で確認し、入出力を共通の実行経路へ接続する考え方は、Functional and Reactive Domain Modelingで扱われています。関数型プログラミングの詳しい構成は、別文書「Modeling and FP」で扱います。</span><span lang="en">Supplementary business calculations can take values and return results separately from persistence and communication. Functional and Reactive Domain Modeling discusses this separation, which allows calculations to be checked independently and I/O to follow shared execution paths. Detailed functional-programming composition is reserved for a separate Modeling and FP document.</span>
+
+## Entity Classification and Residency Policy｜Entity分類とメモリ常駐の方針
+
+<span lang="ja">Entityのモデルは、データの構造だけでなく、実行時の扱いも指定します。Textus/CNCFでは、ステレオタイプに相当するEntityの分類をentityKindとして扱い、マスターデータを常駐させるなどの既定方針へ結び付けます。タスクデータは必要に応じて取得し、用途に合わせてキャッシュや保持の方針を設定します。</span><span lang="en">Entity models specify runtime treatment as well as data structure. Textus/CNCF represents the stereotype-like classification as entityKind and connects it to defaults such as residency for master data. Task data is loaded as needed, with caching or retention configured for its intended use.</span>
+
+<span lang="ja">分類だけで全対象を常駐させるのではなく、分類から得る既定値と明示的なWorking Set方針を組み合わせます。現行の既定値ではmasterは常駐、taskはWorking Set無効で、workflowの活動中保持には状態を使う方針の指定が必要です。モデルの分類と設定を実行基盤が利用するため、Entityごとに管理処理を作り直す負担を減らせます。</span><span lang="en">Classification defaults combine with explicit Working Set policies. Current defaults make master resident and disable the Working Set for task; active-only workflow residency requires an explicit state-based policy. Runtime use of model classification and configuration reduces per-Entity memory-management implementation.</span>
+
+<span lang="ja">常駐やキャッシュは永続状態を置き換える正本ではなく、業務処理のために保持する再構築可能な状態です。本技術ガイドではモデルの分類から実行方針へ至る対応を扱い、保持・解放、整合性、復旧の詳細はリアクティブ技術ガイドへつなぎます。</span><span lang="en">Residency and caching hold reconstructible state for domain processing rather than replacing authoritative persistent state. This guide covers the mapping from model classification to execution policy; retention, release, consistency and recovery are detailed in the reactive guide.</span>
+
+## Descriptions, Generated Artifacts and Runtime Mechanisms｜記述・生成物・実行機構の対応
+
+<span lang="ja">次の表は、開発で記述する内容が、どの生成物と実行責務へつながるかを示します。業務の型は入力・結果・保存の意味をそろえ、動的な定義は進行と状態をそろえ、参照・表示の定義は利用者へ渡す情報をそろえます。異なるモデルが共通の識別子と型付き契約を参照することで、一つの動作へ接続できます。</span><span lang="en">The table relates authored model content to generated artifacts and runtime responsibilities. Business types align inputs, results and persistence; dynamic definitions align progression and state; read and presentation definitions align information provided to users. Shared identities and typed contracts connect these different models into one behavior.</span>
+
+<span lang="ja">実際の接続では、利用するモデル要素について、定義の生成、実行機構への登録、必要なProviderや補完処理のバインディングをそろえます。Domain Ruleの具体化や外部Providerなどは、採用する版と構成で対応範囲を確認します。モデルに記述した内容と、その内容を扱う実装・設定を対応させることが、動作までを一貫させる作業になります。</span><span lang="en">For each selected model element, generation, registration with runtime mechanisms, and Provider or supplementary bindings must align. End-to-end Domain Rule projection and external Providers are checked for the selected version and configuration. Relating authored content to its implementation and configuration preserves continuity through execution.</span>
+
+<span lang="ja">[[images/execution-path-ja.png]]</span><span lang="en">[[images/execution-path-en.png]]</span>
+
+<span lang="ja">更新・参照のモデルから生成と実行への対応</span><span lang="en">Update/Read Models Connected to Generation and Runtime</span>
+
+<span lang="ja">モデル記述・生成物・実行責務の対応</span><span lang="en">Model content, generated artifacts and runtime responsibilities</span>
+
+| <span lang="ja">モデルに記述する内容</span><span lang="en">Authored model content</span> | <span lang="ja">Cozyによる具体化</span><span lang="en">Cozy projection</span> | <span lang="ja">Textus/CNCFでの利用</span><span lang="en">Textus/CNCF use</span> |
+| --- | --- | --- |
+| <span lang="ja">Entity・Valueの型と制約</span><span lang="en">Entity/Value types and constraints</span> | <span lang="ja">型・スキーマ・接続契約</span><span lang="en">Types, schemas and contracts</span> | <span lang="ja">入力・業務処理・保存の接点</span><span lang="en">Input, domain and persistence boundaries</span> |
+| <span lang="ja">Aggregateの生成とCommand</span><span lang="en">Aggregate creation and Commands</span> | <span lang="ja">操作の契約と実装接点</span><span lang="en">Operation contracts and implementation points</span> | <span lang="ja">業務処理を呼び出し更新経路へ接続</span><span lang="en">Invoke behavior through mutation paths</span> |
+| <span lang="ja">状態・遷移・Workflow</span><span lang="en">States, transitions and Workflows</span> | <span lang="ja">動的な実行定義と必要な接点</span><span lang="en">Dynamic definitions and required interfaces</span> | <span lang="ja">登録した定義と処理で進行・遷移</span><span lang="en">Run registered progression and transitions</span> |
+| <span lang="ja">View・表示の対応</span><span lang="en">View/presentation relationships</span> | <span lang="ja">型付き接点・表示定義・接続コード</span><span lang="en">Typed bindings and presentation definitions</span> | <span lang="ja">View取得とDisplay投影</span><span lang="en">Acquire Views and project Displays</span> |
+| <span lang="ja">Entityの分類と保持方針</span><span lang="en">Entity classification and retention policy</span> | <span lang="ja">分類・設定を実行側へ渡す契約</span><span lang="en">Contracts carrying classification and configuration</span> | <span lang="ja">既定値と指定方針による常駐・取得・保持</span><span lang="en">Residency, loading and retention using defaults and explicit policy</span> |
+
+## Components, CARs and Public Contracts｜Component・CARと公開契約
+
+<span lang="ja">Componentには業務上の責務を配置し、Service・OperationとEventの契約を公開します。生成された定義と実装、補完処理をCARへまとめ、導入時に依存関係とProviderを接続します。Bounded Contextの意味の境界を公開契約へ対応付けることで、他のComponentやUIが内部状態へ直接依存する範囲を減らせます。</span><span lang="en">Components hold business responsibilities and expose Service, Operation and Event contracts. CARs package generated definitions and implementations with supplementary logic; installation connects dependencies and Providers. Mapping Bounded Context semantics to public contracts reduces direct dependence on internal state by other Components or UIs.</span>
+
+## Order Update/Read Correspondence Example｜注文の更新系・参照系における対応例
+
+<span lang="ja">注文確定では、Workflowから公開Operationを呼び、Order Aggregateが明細と現在状態を確認して更新候補を作ります。UoWが確定を管理し、選択したマッピングとDataStoreを通して保存します。確定した事実をDomain Eventとして後続へ渡し、Viewへ反映した結果をDisplayで提示します。</span><span lang="en">In order confirmation, a Workflow invokes a public Operation and the Order Aggregate checks lines and current state to produce a proposed update. UoW manages commitment, with selected mappings and DataStore performing persistence. The committed fact is communicated as a Domain Event; its projected View result is presented through Display.</span>
+
+<span lang="ja">この例で開発者が定めるのは、注文の型と規則、確定操作、進行、参照項目、表示との対応です。処理系は、その定義と補完処理を登録された実行機構へつなぎます。図はモデルと実行責務の対応を示し、配信や投影のタイミングは採用する経路に応じて定めます。</span><span lang="en">The developer defines order types and rules, the confirmation operation, progression, read fields and presentation mappings. The platform connects these definitions and supplementary handlers to registered execution mechanisms. The diagram illustrates model-to-runtime responsibilities; delivery and projection timing follow the selected execution path.</span>
+
+<span lang="ja">[[images/order-model-execution-ja.png]]</span><span lang="en">[[images/order-model-execution-en.png]]</span>
+
+<span lang="ja">注文の更新確定と参照要求の二系統</span><span lang="en">Order Commit and Read Requests as Two Paths</span>
+
+# Supplementary Implementation and Verification｜補完実装・検証との接点
+
+<span lang="ja">モデルの意味と実装の対応は、補完コードと検証結果にも引き継ぎます。ここでは、DDDで表した規則が、生成物、AIによる補完、更新系・参照系の確認へどう接続するかを示します。一般的な開発手順の解説は別の資料で扱います。</span><span lang="en">Model/implementation correspondences extend to supplementary code and verification results. This section relates DDD rules to generated artifacts, AI additions and checks of update/read behavior. General development procedures belong to separate documentation.</span>
+
+## Generation, AI Additions and Model Contracts｜生成・AI補完とモデルの契約
+
+<span lang="ja">機械的に導出できる型と接続構造はCozyの生成へ任せ、業務計算や外部機能との接続などをAIで補完できます。AIの変更も同じ型・部品契約・モデル検査・実行経路に従うため、既存の意味や更新境界に沿わせやすくなります。業務モデルを実行するための構成が、AIの判断と変更範囲を絞るハーネスとしても機能します。</span><span lang="en">Cozy generates mechanically derivable types and connection structure; AI can supplement business calculations and external integration. The same types, component contracts, model checks and execution paths constrain AI changes to established meanings and update boundaries. The model-execution structure also functions as a harness that narrows AI decisions and changes.</span>
+
+## Rules, Public Contracts and Update/Read Results｜規則・公開契約・更新結果・参照結果の確認
+
+<span lang="ja">検証では、定義済みユースケースとモデルの対応、生成された型や部品契約、実行結果の三つを突き合わせます。textus-cbd-supportのモデルレビュー、コンパイルやcar lint、実行仕様を組み合わせ、規則が成立する例、拒否すべき例、競合や途中失敗後の状態を確認します。</span><span lang="en">Verification compares defined use cases with models, generated types and component contracts, and runtime outcomes. textus-cbd-support model review, compilation, car lint and executable specifications cover valid cases, rejected cases, conflicts and state after partial failure.</span>
+
+<span lang="ja">たとえば注文確定の条件を変更した場合は、Aggregateと状態機械の条件、対応するOperation、検証例を更新します。参照や表示へ影響するならView・Displayも確認します。生成コードだけを変更せず、元の定義と必要な補完処理へ戻すことで、業務の意味と動作の対応を保ちます。</span><span lang="en">Changing order-confirmation conditions requires updates to Aggregate and state-machine conditions, the relevant Operation and verification examples. Views and Displays are checked when the change affects them. Updating source definitions and necessary supplementary logic rather than patching generated code keeps business meaning aligned with behavior.</span>
+
+<span lang="ja">[[images/model-feedback-ja.png]]</span><span lang="en">[[images/model-feedback-en.png]]</span>
+
+<span lang="ja">更新・参照のモデルと実装・検証の対応</span><span lang="en">Update/Read Model, Implementation and Verification Connections</span>
+
+<span lang="ja">モデルと実行を結ぶ確認</span><span lang="en">Checks connecting models and execution</span>
+
+| <span lang="ja">確認対象</span><span lang="en">Target</span> | <span lang="ja">仕組み</span><span lang="en">Mechanism</span> | <span lang="ja">確認内容</span><span lang="en">Checks</span> |
+| --- | --- | --- |
+| <span lang="ja">モデル間の対応</span><span lang="en">Model relationships</span> | <span lang="ja">モデルレビュー</span><span lang="en">Model review</span> | <span lang="ja">要求とWorkflow、ドメイン、View・Display</span><span lang="en">Requirements, Workflow, domain and View/Display</span> |
+| <span lang="ja">型と部品契約</span><span lang="en">Types and contracts</span> | <span lang="ja">コンパイル・car lint</span><span lang="en">Compilation / car lint</span> | <span lang="ja">接続と部品構造の適合</span><span lang="en">Connection and component conformance</span> |
+| <span lang="ja">業務規則</span><span lang="en">Business rules</span> | <span lang="ja">実行仕様・テスト</span><span lang="en">Executable specifications / Tests</span> | <span lang="ja">成立する例と拒否する例</span><span lang="en">Valid and rejected examples</span> |
+| <span lang="ja">更新と表示</span><span lang="en">Mutation and presentation</span> | <span lang="ja">結合確認</span><span lang="en">Integration checks</span> | <span lang="ja">確定後の参照、競合、失敗時の状態</span><span lang="en">Post-commit reads, conflicts and failure state</span> |
+
+## Correspondence Summary｜対応関係のまとめ
+
+<span lang="ja">本技術ガイドでは、DDDの戦略的設計を用語とコンポーネント境界へ、戦術的設計を型と規則へ対応付け、CQRSの更新系・参照系に沿って関連機構との接続を示しました。各概念の役割と出典の区別を保つことで、DDDからSimpleModeling・Textus/CNCFの全体像を理解する接点になります。</span><span lang="en">The guide maps strategic DDD to language/component boundaries and tactical DDD to types/rules, then uses CQRS update/read paths to explain connected mechanisms. Retaining concept roles and source distinctions provides entry points from DDD into the SimpleModeling/Textus/CNCF overview.</span>
+
+# Appendix: Concept and Related-Technique Index｜付録：概念と関連技術の索引
+
+<span lang="ja">付録は、本文で説明したDDDの概念、PoEAAと共有するパターン、および関連するアーキテクチャ・基盤技術の索引です。分類は役割を整理するためのもので、ある書籍で言及されることと、DDD固有の概念であることは区別します。</span><span lang="en">The appendix indexes DDD concepts, patterns shared with PoEAA and connected architecture/platform techniques. The grouping identifies roles; appearance in a DDD book does not by itself establish a concept as exclusive to DDD.</span>
+
+## DDD Concepts and Patterns｜DDDの概念・パターン
+
+<span lang="ja">DDDの基本概念はEvansのDomain-Driven Designを基礎とし、Implementing Domain-Driven DesignとLearning Domain-Driven Designを併せて参照します。Domain Eventやアーキテクチャとの接続を含め、本文で用いたパターンを整理しています。</span><span lang="en">Evans’s Domain-Driven Design provides the foundation, supplemented by Implementing Domain-Driven Design and Learning Domain-Driven Design. The table organizes patterns used in the guide, including Domain Events and their architectural connections.</span>
+
+<span lang="ja">DDDパターンの一覧</span><span lang="en">DDD pattern index</span>
+
+| <span lang="ja">パターン</span><span lang="en">Pattern</span> | <span lang="ja">本文での役割</span><span lang="en">Role in this guide</span> | <span lang="ja">本文の対応箇所</span><span lang="en">Relevant section</span> |
+| --- | --- | --- |
+| <span lang="ja">Ubiquitous Language</span><span lang="en">Ubiquitous Language</span> | <span lang="ja">用語とモデルの意味をそろえる</span><span lang="en">Align terminology and model meaning</span> | <span lang="ja">用語とBounded Context</span><span lang="en">Language and Bounded Contexts</span> |
+| <span lang="ja">Bounded Context</span><span lang="en">Bounded Context</span> | <span lang="ja">意味が一貫する範囲を定める</span><span lang="en">Bound consistent meaning</span> | <span lang="ja">用語とBounded Context／Component・CAR</span><span lang="en">Bounded Contexts / Components and CARs</span> |
+| <span lang="ja">Model-Driven Design</span><span lang="en">Model-Driven Design</span> | <span lang="ja">モデルと実装・実行を結び付ける</span><span lang="en">Connect models to implementation and execution</span> | <span lang="ja">モデルの定義をTextus/CNCFの動作へ</span><span lang="en">Model definitions and Textus/CNCF execution</span> |
+| <span lang="ja">Entity</span><span lang="en">Entity</span> | <span lang="ja">識別子を持つ業務対象</span><span lang="en">Identity-bearing business objects</span> | <span lang="ja">EntityとValue</span><span lang="en">Entities and Values</span> |
+| <span lang="ja">Value Object</span><span lang="en">Value Object</span> | <span lang="ja">値の意味と制約</span><span lang="en">Value meaning and constraints</span> | <span lang="ja">EntityとValue</span><span lang="en">Entities and Values</span> |
+| <span lang="ja">Aggregate / Root</span><span lang="en">Aggregate / Root</span> | <span lang="ja">整合性と更新の入口</span><span lang="en">Consistency and update entry</span> | <span lang="ja">Aggregate／AggregateとUoW</span><span lang="en">Aggregates / Aggregates and UoW</span> |
+| <span lang="ja">Repository</span><span lang="en">Repository</span> | <span lang="ja">業務対象へのアクセス</span><span lang="en">Access to business objects</span> | <span lang="ja">RepositoryとData Mapper</span><span lang="en">Repository and Data Mapper</span> |
+| <span lang="ja">Domain Event</span><span lang="en">Domain Event</span> | <span lang="ja">生じた業務上の事実</span><span lang="en">Business occurrences</span> | <span lang="ja">Domain Eventで後続へ伝える</span><span lang="en">Domain Events and subsequent processing</span> |
+
+## Patterns Shared with PoEAA｜PoEAAと共有するパターン
+
+<span lang="ja">業務モデルをアプリケーションとして動かす構成を理解するために用いたパターンです。本文では責務の対応を示しています。</span><span lang="en">These patterns help explain how business models become application structures. The guide maps their responsibilities to the platform.</span>
+
+<span lang="ja">PoEAAパターンの一覧</span><span lang="en">PoEAA pattern index</span>
+
+| <span lang="ja">パターン</span><span lang="en">Pattern</span> | <span lang="ja">本文での役割</span><span lang="en">Role in this guide</span> | <span lang="ja">本文の対応箇所</span><span lang="en">Relevant section</span> |
+| --- | --- | --- |
+| <span lang="ja">Domain Model</span><span lang="en">Domain Model</span> | <span lang="ja">データと振る舞いを一体に記述</span><span lang="en">Combine business data and behavior</span> | <span lang="ja">業務の意味と守る規則</span><span lang="en">Business meaning and rules</span> |
+| <span lang="ja">Service Layer</span><span lang="en">Service Layer</span> | <span lang="ja">アプリケーションの公開操作</span><span lang="en">Public application operations</span> | <span lang="ja">公開OperationとWorkflow</span><span lang="en">Public Operations and Workflows</span> |
+| <span lang="ja">Repository</span><span lang="en">Repository</span> | <span lang="ja">業務対象へのアクセスを集約</span><span lang="en">Concentrate business-object access</span> | <span lang="ja">RepositoryとData Mapper</span><span lang="en">Repository and Data Mapper</span> |
+| <span lang="ja">Data Mapper</span><span lang="en">Data Mapper</span> | <span lang="ja">業務の型と保存形式を分離</span><span lang="en">Separate domain and storage representations</span> | <span lang="ja">RepositoryとData Mapper</span><span lang="en">Repository and Data Mapper</span> |
+| <span lang="ja">Unit of Work</span><span lang="en">Unit of Work</span> | <span lang="ja">更新のまとまりと確定を管理</span><span lang="en">Manage grouped updates and commitment</span> | <span lang="ja">AggregateとUoW</span><span lang="en">Aggregates and UoW</span> |
+
+## Related Architecture and Platform Techniques｜関連アーキテクチャ・基盤技術
+
+<span lang="ja">更新・参照、非同期の連携、処理の進行、モデル駆動UI、メモリ管理、部品の構成・配布を支える技術をまとめます。DDD・PoEAAで整理した業務の意味と責務を、実行基盤の構成へつなぐために利用します。</span><span lang="en">These techniques support writes and reads, asynchronous coordination, progression, model-driven UI, memory management, and component composition and delivery. They connect business meaning and responsibilities organized through DDD and PoEAA to runtime architecture.</span>
+
+<span lang="ja">Cloud Nativeの技術と補完する範囲</span><span lang="en">Cloud Native techniques and complementary roles</span>
+
+| <span lang="ja">技術</span><span lang="en">Technique</span> | <span lang="ja">補完する範囲</span><span lang="en">Complementary role</span> | <span lang="ja">本文の対応箇所</span><span lang="en">Relevant section</span> |
+| --- | --- | --- |
+| <span lang="ja">CQRS</span><span lang="en">CQRS</span> | <span lang="ja">更新と参照のモデルを分離</span><span lang="en">Separate write and read models</span> | <span lang="ja">CQRS</span><span lang="en">CQRS</span> |
+| <span lang="ja">状態機械</span><span lang="en">State machine</span> | <span lang="ja">対象の状態と許される遷移</span><span lang="en">States and permitted transitions</span> | <span lang="ja">状態機械と規則</span><span lang="en">State machines and rules</span> |
+| <span lang="ja">Workflow</span><span lang="en">Workflow</span> | <span lang="ja">アプリケーションの進行</span><span lang="en">Application progression</span> | <span lang="ja">公開OperationとWorkflow</span><span lang="en">Public Operations and Workflows</span> |
+| <span lang="ja">Rule Model / Engine</span><span lang="en">Rule Model / Engine</span> | <span lang="ja">判断を独立して記述・評価</span><span lang="en">Explicit independent decisions</span> | <span lang="ja">状態機械と規則</span><span lang="en">State machines and rules</span> |
+| <span lang="ja">View / Display</span><span lang="en">View / Display</span> | <span lang="ja">意味を持つ参照結果と表示を分離</span><span lang="en">Separate semantic reads from presentation</span> | <span lang="ja">CQRS／Display</span><span lang="en">CQRS / Display</span> |
+| <span lang="ja">CBD / CAR</span><span lang="en">CBD / CAR</span> | <span lang="ja">モデルと実装の構成・配布</span><span lang="en">Compose and distribute models with code</span> | <span lang="ja">Component・CAR</span><span lang="en">Components and CARs</span> |
+| <span lang="ja">Entity分類とWorking Set</span><span lang="en">Entity classification / Working Set</span> | <span lang="ja">モデル駆動のメモリ管理</span><span lang="en">Model-driven memory management</span> | <span lang="ja">Entityの分類からメモリ管理</span><span lang="en">Entity classification and memory management</span> |
+
+# References and Inspection Scope｜参考資料と確認範囲
+
+<span lang="ja">Eric Evans, Domain-Driven Design: Tackling Complexity in the Heart of Software。業務の意味、Ubiquitous Language、Bounded Context、Entity・Value・Aggregateなどの基本概念の参照先。https://www.informit.com/store/domain-driven-design-tackling-complexity-in-the-heart-9780321125217</span><span lang="en">Eric Evans, Domain-Driven Design: Tackling Complexity in the Heart of Software. Foundation for business meaning, Ubiquitous Language, Bounded Contexts, Entities, Values and Aggregates. https://www.informit.com/store/domain-driven-design-tackling-complexity-in-the-heart-9780321125217</span>
+
+<span lang="ja">Vaughn Vernon, Implementing Domain-Driven Design。基本概念を実装とアーキテクチャへ接続する際の参照先。https://www.informit.com/store/implementing-domain-driven-design-9780321834577</span><span lang="en">Vaughn Vernon, Implementing Domain-Driven Design. Reference for connecting core concepts to implementation and architecture. https://www.informit.com/store/implementing-domain-driven-design-9780321834577</span>
+
+<span lang="ja">Vlad Khononov, Learning Domain-Driven Design。戦略的設計・戦術的設計・アーキテクチャ上の選択を整理する参照先。https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/</span><span lang="en">Vlad Khononov, Learning Domain-Driven Design. Reference for strategic and tactical design and architectural choices. https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/</span>
+
+<span lang="ja">Martin Fowler, Patterns of Enterprise Application Architecture。本文のService Layer、Repository、Data Mapper、Unit of Workは公開パターン・カタログも参照しています。https://martinfowler.com/eaaCatalog/ 。CQRS：https://martinfowler.com/bliki/CQRS.html 。DDDの補助資料：Eric Evans, Domain-Driven Design Reference。https://www.domainlanguage.com/ddd/reference/</span><span lang="en">Martin Fowler, Patterns of Enterprise Application Architecture. The public catalog also supports the guide’s Service Layer, Repository, Data Mapper and Unit of Work mappings: https://martinfowler.com/eaaCatalog/ . CQRS: https://martinfowler.com/bliki/CQRS.html . Supplementary DDD reference: Eric Evans, Domain-Driven Design Reference, https://www.domainlanguage.com/ddd/reference/</span>
+
+<span lang="ja">Scott Wlaschin, Domain Modeling Made Functional。本文「Entityと両系統のValue Object」の型・値の制約との対応で参照します。F#での実装手法の詳細は本技術ガイドでは扱いません。https://pragprog.com/titles/swdddf/domain-modeling-made-functional/</span><span lang="en">Scott Wlaschin, Domain Modeling Made Functional. Referenced for types and value constraints in “Entities and Value Objects across Both Paths.” Detailed F# implementation techniques are outside this guide. https://pragprog.com/titles/swdddf/domain-modeling-made-functional/</span>
+
+<span lang="ja">Debasish Ghosh, Functional and Reactive Domain Modeling。本文「モデルの意味と処理系の責務」の業務計算と入出力処理の分離との対応で参照します。Scalaによる関数型モデリングの詳説は別文書の対象とします。https://www.manning.com/books/functional-and-reactive-domain-modeling</span><span lang="en">Debasish Ghosh, Functional and Reactive Domain Modeling. Referenced for separating domain calculations from I/O in “Model Meaning and Platform Responsibilities.” Detailed functional modeling in Scala belongs in the separate document. https://www.manning.com/books/functional-and-reactive-domain-modeling</span>
+
+<span lang="ja">内部資料：SimpleModeling.orgの2026-10-16「CNCFシリーズ構想 - DDDモデルを実行し、KnowledgeとAIへ接続するRuntime」と2026-10-17「Domain Rule / Rule Engineをハーネス・シリーズとCNCF記事へ接続する」。CozyのCML Semantic Capability Inventory、ModelTypeProjector実装、Generated StateMachine/Workflow ABI Contract。</span><span lang="en">Internal sources: SimpleModeling.org journals of 2026-10-16 on executing DDD models in CNCF and 2026-10-17 on Domain Rule / Rule Engine integration; Cozy’s CML Semantic Capability Inventory, ModelTypeProjector implementation, and Generated StateMachine/Workflow ABI Contract.</span>
+
+<span lang="ja">内部資料：CNCFのAggregate/View Semantic Boundary、Entity Runtime Architecture、Textus Subsystem Runtime Architecture、Entity Conflict and Conditional Transition、Action Execution Semantics、Rule Engine and Inference Runtime。これらの設計・仕様と実装の位置付けを区別して参照しています。 Display Model runtime designとDisplay Model runtime specificationは、ViewとDisplayの責務分離および操作の接続の参照先です。 DataStore and Aggregate Persistence Model、DataStore logical type mapping、UnitOfWork Resource Lifecycle、Canonical Event Shapeも参照しています。 Entity Kind and Working Set PolicyとEntityKindRuntimePolicyの実装は、分類とメモリ管理の対応の参照先です。</span><span lang="en">Internal sources: CNCF’s Aggregate/View Semantic Boundary, Entity Runtime Architecture, Textus Subsystem Runtime Architecture, Entity Conflict and Conditional Transition, Action Execution Semantics, and Rule Engine and Inference Runtime. Design contracts, specifications and implementation evidence are treated according to their respective scope. Display Model runtime design and specification establish the View/Display responsibility split and action integration. Further internal references are DataStore and Aggregate Persistence Model, DataStore logical type mapping, UnitOfWork Resource Lifecycle and Canonical Event Shape. Entity Kind and Working Set Policy and the EntityKindRuntimePolicy implementation establish the classification-to-memory-policy mapping.</span>
+
+<span lang="ja">比較の公開出典：Eの目次 https://www.oreilly.com/library/view/domain-driven-design-tackling/0321125215/toc.html 、第5章の冒頭 https://www.oreilly.com/library/view/domain-driven-design-tackling/0321125215/ch05.html 。Vの目次は前掲出版社ページ、第10章の整合性境界の公開本文 https://www.informit.com/articles/article.aspx?p=2020371&seqNum=2 。Kの目次は前掲出版社ページ、第3章の文脈依存の用語例 https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/ch03.html 、第6章の用語整理 https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/ch06.html 。全文照合や不掲載の証明は、この公開確認の対象外です。</span><span lang="en">Public comparison sources: E contents https://www.oreilly.com/library/view/domain-driven-design-tackling/0321125215/toc.html and Chapter 5 opening https://www.oreilly.com/library/view/domain-driven-design-tackling/0321125215/ch05.html ; V contents at the cited publisher page and the Chapter 10 consistency-boundary excerpt https://www.informit.com/articles/article.aspx?p=2020371&seqNum=2 ; K contents at the cited publisher page, context-dependent language in Chapter 3 https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/ch03.html and terminology in Chapter 6 https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/ch06.html . This public inspection does not establish full-text equivalence or absence.</span>

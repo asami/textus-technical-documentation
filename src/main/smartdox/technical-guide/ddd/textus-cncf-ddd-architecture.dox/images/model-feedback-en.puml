@@ -1,0 +1,30 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 16
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 24
+skinparam nodesep 22
+skinparam ArrowColor #526476
+skinparam ArrowThickness 1.5
+skinparam rectangleBorderColor #66778B
+skinparam rectangleBackgroundColor #EFF3F7
+skinparam packageBackgroundColor #FFFFFF
+skinparam packageBorderColor #8D9AA8
+skinparam databaseBackgroundColor #EFF3F7
+skinparam noteBackgroundColor #FFF9E8
+skinparam dpi 170
+top to bottom direction
+rectangle "Business meaning / rules\nDDD model and language" as meaning #FFF0C4
+rectangle "Update model\nCommand / Aggregate" as update #EFF3F7
+rectangle "Read model\nQuery / View / Display" as read #EFF3F7
+rectangle "Generated / supplementary code\nTypes and public contracts" as impl #EFF3F7
+rectangle "Verification results\nCommit/refusal / read meaning/freshness" as result #EFF3F7
+meaning -[#197A58]-> update
+meaning -[#2768A6]-> read
+update -[#197A58]-> impl
+read -[#2768A6]-> impl
+impl -down-> result
+result -left-> meaning : Check against source model
+@enduml

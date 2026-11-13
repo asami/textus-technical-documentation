@@ -1,0 +1,55 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 16
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 24
+skinparam nodesep 22
+skinparam ArrowColor #526476
+skinparam ArrowThickness 1.5
+skinparam rectangleBorderColor #66778B
+skinparam rectangleBackgroundColor #EFF3F7
+skinparam packageBackgroundColor #FFFFFF
+skinparam packageBorderColor #8D9AA8
+skinparam databaseBackgroundColor #EFF3F7
+skinparam noteBackgroundColor #FFF9E8
+skinparam dpi 170
+top to bottom direction
+rectangle "BoK terms / knowledge\nSimpleModeling" as bok #EFF3F7
+rectangle "Ubiquitous Language\nBounded Context / Context Map\nDDD: strategic design" as strategy #FFF0C4
+bok -right-> strategy : Contextual meaning
+package "Subsystem / Component modeling boundary" as boundary {
+rectangle "Value Object [DDD]\nMeaning/constraints: amount, quantity" as value #FFF0C4
+package "Update side [CQRS]" as write #F0FBF6 {
+rectangle "Command / Operation\nMutation entry [SM]" as command #EFF3F7
+rectangle "Entity / Aggregate [DDD]\nIdentity, state, invariants" as aggregate #FFF0C4
+rectangle "Repository / UoW\nAccess / commit [shared/supporting]" as commit #E9F3E7
+rectangle "Domain Event [DDD]\nCommitted business occurrence" as event #FFF0C4
+command -[#197A58]-> aggregate
+aggregate -[#197A58]-> commit
+commit -[#9064A5,dashed]-> event : After commit
+}
+package "Read side [CQRS]" as read #EFF6FD {
+rectangle "Query / Operation\nRead entry [SM]" as query #EFF3F7
+rectangle "View [SM/CNCF]\nRead model / projection" as view #EFF3F7
+rectangle "Display / UI [SM]\nPresentation / available actions" as display #EFF3F7
+query -[#2768A6]-> view : Read
+view -[#2768A6]-> display : Result
+}
+command -[hidden]right-> query
+aggregate -[hidden]right-> view
+commit -[hidden]right-> display
+database "Persistent Entity state [CNCF]\nAuthoritative in this guide" as store
+commit -[#197A58]-> store : Check / commit
+store -[#2768A6]up-> view : Baseline / reconstruction
+event -[#9064A5,dashed]up-> view : Selected projection path
+value -[#9064A5,dashed]-> aggregate : Update values
+value -[#9064A5,dashed]-> view : Read values
+}
+strategy -down-> boundary : Concretize semantic boundary
+legend bottom
+Gold: DDD concepts  Green: supporting patterns  Gray: SimpleModeling/CNCF
+Green arrows: updates  Blue arrows: reads  Purple dashed: meaning/committed-result connections
+endlegend
+@enduml

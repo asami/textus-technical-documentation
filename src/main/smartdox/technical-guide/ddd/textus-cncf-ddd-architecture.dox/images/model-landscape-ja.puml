@@ -1,0 +1,55 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 16
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 24
+skinparam nodesep 22
+skinparam ArrowColor #526476
+skinparam ArrowThickness 1.5
+skinparam rectangleBorderColor #66778B
+skinparam rectangleBackgroundColor #EFF3F7
+skinparam packageBackgroundColor #FFFFFF
+skinparam packageBorderColor #8D9AA8
+skinparam databaseBackgroundColor #EFF3F7
+skinparam noteBackgroundColor #FFF9E8
+skinparam dpi 170
+top to bottom direction
+rectangle "BoKの用語・知識\nSimpleModeling" as bok #EFF3F7
+rectangle "Ubiquitous Language\nBounded Context / Context Map\nDDD: 戦略的設計" as strategy #FFF0C4
+bok -right-> strategy : 文脈内の意味
+package "サブシステム / コンポーネントの境界" as boundary {
+rectangle "Value Object [DDD]\n金額・数量などの意味と制約" as value #FFF0C4
+package "更新系 [CQRS]" as write #F0FBF6 {
+rectangle "Command / Operation\n更新の入口 [SM]" as command #EFF3F7
+rectangle "Entity / Aggregate [DDD]\n識別・状態・不変条件" as aggregate #FFF0C4
+rectangle "Repository / UoW\n保存接点・確定 [共有/補完]" as commit #E9F3E7
+rectangle "Domain Event [DDD]\n確定した業務上の事実" as event #FFF0C4
+command -[#197A58]-> aggregate
+aggregate -[#197A58]-> commit
+commit -[#9064A5,dashed]-> event : 確定後
+}
+package "参照系 [CQRS]" as read #EFF6FD {
+rectangle "Query / Operation\n参照の入口 [SM]" as query #EFF3F7
+rectangle "View [SM/CNCF]\n参照モデル・投影" as view #EFF3F7
+rectangle "Display / UI [SM]\n表示・操作の提示" as display #EFF3F7
+query -[#2768A6]-> view : 参照
+view -[#2768A6]-> display : 結果
+}
+command -[hidden]right-> query
+aggregate -[hidden]right-> view
+commit -[hidden]right-> display
+database "Entityの永続状態 [CNCF]\n本技術ガイドの正本" as store
+commit -[#197A58]-> store : 条件検査・確定
+store -[#2768A6]up-> view : 初期読込み・再構築
+event -[#9064A5,dashed]up-> view : 選択した投影経路
+value -[#9064A5,dashed]-> aggregate : 更新側の値
+value -[#9064A5,dashed]-> view : 参照側の値
+}
+strategy -down-> boundary : 意味の境界を具体化
+legend bottom
+金色: DDDの概念  緑色: 補完パターン  灰色: SimpleModeling/CNCF
+緑の矢印: 更新  青の矢印: 参照  紫の破線: 意味・確定結果の接続
+endlegend
+@enduml

@@ -1,0 +1,1441 @@
+{
+  "schema": "cozy.content-core.logic-tree.v1",
+  "id": "textus-cncf-ddd-architecture",
+  "root": {
+    "id": "textus-cncf-ddd-architecture",
+    "semanticRole": "explanation",
+    "claims": [
+      "textus-cncf-ddd-architecture-claim-1"
+    ],
+    "structure": {
+      "pattern": "sequence",
+      "nodes": [
+        {
+          "id": "textus-cncf-ddd-architecture-node-1",
+          "role": "step"
+        },
+        {
+          "id": "textus-cncf-ddd-architecture-node-2",
+          "role": "step"
+        }
+      ],
+      "relations": [
+        {
+          "id": "textus-cncf-ddd-architecture-relation-1",
+          "relationType": "next",
+          "from": "textus-cncf-ddd-architecture-node-1",
+          "to": "textus-cncf-ddd-architecture-node-2"
+        }
+      ]
+    },
+    "flow": {
+      "id": "textus-cncf-ddd-architecture-flow",
+      "transitions": [
+        {
+          "id": "textus-cncf-ddd-architecture-reading-next-1",
+          "relationType": "next",
+          "fromStepId": "ddd-purpose",
+          "toStepId": "ddd-vocabulary"
+        },
+        {
+          "id": "textus-cncf-ddd-architecture-reading-next-2",
+          "relationType": "next",
+          "fromStepId": "ddd-vocabulary",
+          "toStepId": "ddd-landscape"
+        },
+        {
+          "id": "textus-cncf-ddd-architecture-reading-next-3",
+          "relationType": "next",
+          "fromStepId": "ddd-landscape",
+          "toStepId": "ddd-strategic"
+        },
+        {
+          "id": "textus-cncf-ddd-architecture-reading-next-4",
+          "relationType": "next",
+          "fromStepId": "ddd-strategic",
+          "toStepId": "ddd-domain"
+        },
+        {
+          "id": "textus-cncf-ddd-architecture-reading-next-5",
+          "relationType": "next",
+          "fromStepId": "ddd-domain",
+          "toStepId": "ddd-delivery"
+        },
+        {
+          "id": "textus-cncf-ddd-architecture-reading-next-6",
+          "relationType": "next",
+          "fromStepId": "ddd-delivery",
+          "toStepId": "ddd-behavior"
+        },
+        {
+          "id": "textus-cncf-ddd-architecture-reading-next-7",
+          "relationType": "next",
+          "fromStepId": "ddd-behavior",
+          "toStepId": "ddd-execution"
+        },
+        {
+          "id": "textus-cncf-ddd-architecture-reading-next-8",
+          "relationType": "next",
+          "fromStepId": "ddd-execution",
+          "toStepId": "ddd-development"
+        },
+        {
+          "id": "textus-cncf-ddd-architecture-reading-next-9",
+          "relationType": "next",
+          "fromStepId": "ddd-development",
+          "toStepId": "ddd-appendix"
+        },
+        {
+          "id": "textus-cncf-ddd-architecture-reading-next-10",
+          "relationType": "next",
+          "fromStepId": "ddd-appendix",
+          "toStepId": "ddd-references"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "ddd-purpose",
+        "semanticRole": "explanation",
+        "claims": [
+          "ddd-purpose-intent-claim",
+          "ddd-purpose-scope-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ddd-purpose-intent-node",
+              "role": "step"
+            },
+            {
+              "id": "ddd-purpose-scope-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ddd-purpose-local-next-1",
+              "relationType": "next",
+              "from": "ddd-purpose-intent-node",
+              "to": "ddd-purpose-scope-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ddd-purpose-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "ddd-vocabulary",
+        "semanticRole": "explanation",
+        "claims": [
+          "ddd-vocabulary-sources-claim",
+          "ddd-book-coverage-claim",
+          "ddd-vocabulary-differences-claim",
+          "ddd-vocabulary-adoption-claim",
+          "ddd-adopted-terms-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ddd-vocabulary-sources-node",
+              "role": "step"
+            },
+            {
+              "id": "ddd-book-coverage-node",
+              "role": "step"
+            },
+            {
+              "id": "ddd-vocabulary-differences-node",
+              "role": "step"
+            },
+            {
+              "id": "ddd-vocabulary-adoption-node",
+              "role": "step"
+            },
+            {
+              "id": "ddd-adopted-terms-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ddd-vocabulary-local-next-1",
+              "relationType": "next",
+              "from": "ddd-vocabulary-sources-node",
+              "to": "ddd-book-coverage-node"
+            },
+            {
+              "id": "ddd-vocabulary-local-next-2",
+              "relationType": "next",
+              "from": "ddd-book-coverage-node",
+              "to": "ddd-vocabulary-differences-node"
+            },
+            {
+              "id": "ddd-vocabulary-local-next-3",
+              "relationType": "next",
+              "from": "ddd-vocabulary-differences-node",
+              "to": "ddd-vocabulary-adoption-node"
+            },
+            {
+              "id": "ddd-vocabulary-local-next-4",
+              "relationType": "next",
+              "from": "ddd-vocabulary-adoption-node",
+              "to": "ddd-adopted-terms-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ddd-vocabulary-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "ddd-landscape",
+        "semanticRole": "explanation",
+        "claims": [
+          "ddd-landscape-claim-1",
+          "ddd-landscape-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ddd-landscape-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ddd-landscape-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ddd-landscape-relation-1",
+              "relationType": "next",
+              "from": "ddd-landscape-node-1",
+              "to": "ddd-landscape-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ddd-landscape-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "ddd-strategic",
+        "semanticRole": "explanation",
+        "claims": [
+          "ddd-strategic-intro-claim",
+          "ddd-strategic-axes-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ddd-strategic-intro-node",
+              "role": "step"
+            },
+            {
+              "id": "ddd-strategic-axes-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ddd-strategic-local-next-1",
+              "relationType": "next",
+              "from": "ddd-strategic-intro-node",
+              "to": "ddd-strategic-axes-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ddd-strategic-flow",
+          "transitions": [
+            {
+              "id": "ddd-strategic-reading-next-1",
+              "relationType": "next",
+              "fromStepId": "ddd-context",
+              "toStepId": "ddd-knowledge"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ddd-context",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-context-claim-1",
+              "ddd-context-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-context-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-context-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-context-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-context-node-1",
+                  "to": "ddd-context-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-context-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ddd-knowledge",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-knowledge-claim-1",
+              "ddd-knowledge-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-knowledge-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-knowledge-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-knowledge-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-knowledge-node-1",
+                  "to": "ddd-knowledge-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-knowledge-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ddd-domain",
+        "semanticRole": "explanation",
+        "claims": [
+          "ddd-domain-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ddd-domain-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ddd-domain-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ddd-domain-relation-1",
+              "relationType": "next",
+              "from": "ddd-domain-node-1",
+              "to": "ddd-domain-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ddd-domain-flow",
+          "transitions": [
+            {
+              "id": "ddd-domain-reading-next-1",
+              "relationType": "next",
+              "fromStepId": "ddd-structure",
+              "toStepId": "ddd-aggregate"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ddd-structure",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-structure-claim-1",
+              "ddd-structure-claim-2",
+              "ddd-structure-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-structure-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-structure-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-structure-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-structure-node-1",
+                  "to": "ddd-structure-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-structure-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ddd-aggregate",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-aggregate-claim-1",
+              "ddd-aggregate-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-aggregate-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-aggregate-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-aggregate-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-aggregate-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-aggregate-node-1",
+                  "to": "ddd-aggregate-node-2"
+                },
+                {
+                  "id": "ddd-aggregate-relation-2",
+                  "relationType": "next",
+                  "from": "ddd-aggregate-node-2",
+                  "to": "ddd-aggregate-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-aggregate-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ddd-delivery",
+        "semanticRole": "explanation",
+        "claims": [
+          "ddd-delivery-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ddd-delivery-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ddd-delivery-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ddd-delivery-relation-1",
+              "relationType": "next",
+              "from": "ddd-delivery-node-1",
+              "to": "ddd-delivery-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ddd-delivery-flow",
+          "transitions": [
+            {
+              "id": "ddd-delivery-reading-next-1",
+              "relationType": "next",
+              "fromStepId": "ddd-runtime",
+              "toStepId": "ddd-domain-events"
+            },
+            {
+              "id": "ddd-delivery-reading-next-2",
+              "relationType": "next",
+              "fromStepId": "ddd-domain-events",
+              "toStepId": "ddd-readmodel"
+            },
+            {
+              "id": "ddd-delivery-reading-next-3",
+              "relationType": "next",
+              "fromStepId": "ddd-readmodel",
+              "toStepId": "ddd-display"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ddd-runtime",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-runtime-claim-1"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-runtime-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-runtime-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-runtime-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-runtime-node-1",
+                  "to": "ddd-runtime-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-runtime-flow",
+              "transitions": [
+                {
+                  "id": "ddd-runtime-reading-next-1",
+                  "relationType": "next",
+                  "fromStepId": "ddd-poeaa",
+                  "toStepId": "ddd-uow"
+                }
+              ]
+            },
+            "steps": [
+              {
+                "id": "ddd-poeaa",
+                "semanticRole": "explanation",
+                "claims": [
+                  "ddd-poeaa-claim-1",
+                  "ddd-poeaa-claim-2"
+                ],
+                "structure": {
+                  "pattern": "sequence",
+                  "nodes": [
+                    {
+                      "id": "ddd-poeaa-node-1",
+                      "role": "step"
+                    },
+                    {
+                      "id": "ddd-poeaa-node-2",
+                      "role": "step"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "ddd-poeaa-relation-1",
+                      "relationType": "next",
+                      "from": "ddd-poeaa-node-1",
+                      "to": "ddd-poeaa-node-2"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "ddd-poeaa-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "ddd-uow",
+                "semanticRole": "explanation",
+                "claims": [
+                  "ddd-uow-claim-1",
+                  "ddd-uow-claim-2"
+                ],
+                "structure": {
+                  "pattern": "sequence",
+                  "nodes": [
+                    {
+                      "id": "ddd-uow-node-1",
+                      "role": "step"
+                    },
+                    {
+                      "id": "ddd-uow-node-2",
+                      "role": "step"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "ddd-uow-relation-1",
+                      "relationType": "next",
+                      "from": "ddd-uow-node-1",
+                      "to": "ddd-uow-node-2"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "ddd-uow-flow",
+                  "transitions": []
+                },
+                "steps": []
+              }
+            ]
+          },
+          {
+            "id": "ddd-domain-events",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-domain-events-claim-1",
+              "ddd-domain-events-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-domain-events-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-domain-events-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-domain-events-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-domain-events-node-1",
+                  "to": "ddd-domain-events-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-domain-events-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ddd-readmodel",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-readmodel-claim-1",
+              "ddd-readmodel-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-readmodel-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-readmodel-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-readmodel-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-readmodel-node-1",
+                  "to": "ddd-readmodel-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-readmodel-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ddd-display",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-display-claim-1",
+              "ddd-display-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-display-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-display-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-display-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-display-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-display-node-1",
+                  "to": "ddd-display-node-2"
+                },
+                {
+                  "id": "ddd-display-relation-2",
+                  "relationType": "next",
+                  "from": "ddd-display-node-2",
+                  "to": "ddd-display-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-display-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ddd-behavior",
+        "semanticRole": "explanation",
+        "claims": [
+          "ddd-behavior-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ddd-behavior-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ddd-behavior-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ddd-behavior-relation-1",
+              "relationType": "next",
+              "from": "ddd-behavior-node-1",
+              "to": "ddd-behavior-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ddd-behavior-flow",
+          "transitions": [
+            {
+              "id": "ddd-behavior-reading-next-1",
+              "relationType": "next",
+              "fromStepId": "ddd-application",
+              "toStepId": "ddd-dynamic"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ddd-application",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-application-claim-1",
+              "ddd-application-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-application-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-application-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-application-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-application-node-1",
+                  "to": "ddd-application-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-application-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ddd-dynamic",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-dynamic-claim-1",
+              "ddd-dynamic-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-dynamic-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-dynamic-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-dynamic-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-dynamic-node-1",
+                  "to": "ddd-dynamic-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-dynamic-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ddd-execution",
+        "semanticRole": "explanation",
+        "claims": [
+          "ddd-execution-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ddd-execution-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ddd-execution-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ddd-execution-relation-1",
+              "relationType": "next",
+              "from": "ddd-execution-node-1",
+              "to": "ddd-execution-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ddd-execution-flow",
+          "transitions": [
+            {
+              "id": "ddd-execution-reading-next-1",
+              "relationType": "next",
+              "fromStepId": "ddd-semantics",
+              "toStepId": "ddd-memory"
+            },
+            {
+              "id": "ddd-execution-reading-next-2",
+              "relationType": "next",
+              "fromStepId": "ddd-memory",
+              "toStepId": "ddd-toolchain"
+            },
+            {
+              "id": "ddd-execution-reading-next-3",
+              "relationType": "next",
+              "fromStepId": "ddd-toolchain",
+              "toStepId": "ddd-components"
+            },
+            {
+              "id": "ddd-execution-reading-next-4",
+              "relationType": "next",
+              "fromStepId": "ddd-components",
+              "toStepId": "ddd-example"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ddd-semantics",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-semantics-claim-1",
+              "ddd-semantics-claim-2",
+              "ddd-semantics-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-semantics-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-semantics-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-semantics-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-semantics-node-1",
+                  "to": "ddd-semantics-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-semantics-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ddd-memory",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-memory-claim-1",
+              "ddd-memory-claim-2",
+              "ddd-memory-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-memory-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-memory-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-memory-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-memory-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-memory-node-1",
+                  "to": "ddd-memory-node-2"
+                },
+                {
+                  "id": "ddd-memory-relation-2",
+                  "relationType": "next",
+                  "from": "ddd-memory-node-2",
+                  "to": "ddd-memory-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-memory-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ddd-toolchain",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-toolchain-claim-1",
+              "ddd-toolchain-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-toolchain-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-toolchain-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-toolchain-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-toolchain-node-1",
+                  "to": "ddd-toolchain-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-toolchain-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ddd-components",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-components-claim-1"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-components-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-components-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-components-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-components-node-1",
+                  "to": "ddd-components-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-components-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ddd-example",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-example-claim-1",
+              "ddd-example-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-example-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-example-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-example-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-example-node-1",
+                  "to": "ddd-example-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-example-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ddd-development",
+        "semanticRole": "explanation",
+        "claims": [
+          "ddd-development-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ddd-development-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ddd-development-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ddd-development-relation-1",
+              "relationType": "next",
+              "from": "ddd-development-node-1",
+              "to": "ddd-development-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ddd-development-flow",
+          "transitions": [
+            {
+              "id": "ddd-development-reading-next-1",
+              "relationType": "next",
+              "fromStepId": "ddd-ai",
+              "toStepId": "ddd-verification"
+            },
+            {
+              "id": "ddd-development-reading-next-2",
+              "relationType": "next",
+              "fromStepId": "ddd-verification",
+              "toStepId": "ddd-conclusion"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ddd-ai",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-ai-claim-1"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-ai-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-ai-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-ai-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-ai-node-1",
+                  "to": "ddd-ai-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-ai-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ddd-verification",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-verification-claim-1",
+              "ddd-verification-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-verification-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-verification-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-verification-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-verification-node-1",
+                  "to": "ddd-verification-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-verification-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ddd-conclusion",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-conclusion-claim-1"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-conclusion-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-conclusion-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-conclusion-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-conclusion-node-1",
+                  "to": "ddd-conclusion-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-conclusion-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ddd-appendix",
+        "semanticRole": "explanation",
+        "claims": [
+          "ddd-appendix-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ddd-appendix-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ddd-appendix-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ddd-appendix-relation-1",
+              "relationType": "next",
+              "from": "ddd-appendix-node-1",
+              "to": "ddd-appendix-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ddd-appendix-flow",
+          "transitions": [
+            {
+              "id": "ddd-appendix-reading-next-1",
+              "relationType": "next",
+              "fromStepId": "ddd-appendix-ddd",
+              "toStepId": "ddd-appendix-poeaa"
+            },
+            {
+              "id": "ddd-appendix-reading-next-2",
+              "relationType": "next",
+              "fromStepId": "ddd-appendix-poeaa",
+              "toStepId": "ddd-appendix-related"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ddd-appendix-ddd",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-appendix-ddd-claim-1"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-appendix-ddd-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-appendix-ddd-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-appendix-ddd-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-appendix-ddd-node-1",
+                  "to": "ddd-appendix-ddd-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-appendix-ddd-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ddd-appendix-poeaa",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-appendix-poeaa-claim-1"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-appendix-poeaa-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-appendix-poeaa-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-appendix-poeaa-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-appendix-poeaa-node-1",
+                  "to": "ddd-appendix-poeaa-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-appendix-poeaa-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ddd-appendix-related",
+            "semanticRole": "explanation",
+            "claims": [
+              "ddd-appendix-related-claim-1"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ddd-appendix-related-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ddd-appendix-related-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ddd-appendix-related-relation-1",
+                  "relationType": "next",
+                  "from": "ddd-appendix-related-node-1",
+                  "to": "ddd-appendix-related-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ddd-appendix-related-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ddd-references",
+        "semanticRole": "explanation",
+        "claims": [
+          "ddd-references-claim-1",
+          "ddd-references-claim-2",
+          "ddd-references-claim-3",
+          "ddd-references-claim-4",
+          "ddd-references-claim-5",
+          "ddd-references-claim-6",
+          "ddd-references-claim-7",
+          "ddd-references-claim-8",
+          "ddd-comparison-sources-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ddd-references-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ddd-references-node-2",
+              "role": "step"
+            },
+            {
+              "id": "ddd-references-node-3",
+              "role": "step"
+            },
+            {
+              "id": "ddd-comparison-sources-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ddd-references-relation-1",
+              "relationType": "next",
+              "from": "ddd-references-node-1",
+              "to": "ddd-references-node-2"
+            },
+            {
+              "id": "ddd-references-relation-2",
+              "relationType": "next",
+              "from": "ddd-references-node-2",
+              "to": "ddd-references-node-3"
+            },
+            {
+              "id": "ddd-references-relation-3",
+              "relationType": "next",
+              "from": "ddd-references-node-3",
+              "to": "ddd-comparison-sources-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ddd-references-flow",
+          "transitions": []
+        },
+        "steps": []
+      }
+    ]
+  }
+}

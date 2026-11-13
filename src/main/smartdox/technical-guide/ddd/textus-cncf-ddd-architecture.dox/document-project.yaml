@@ -1,0 +1,32 @@
+{
+  "schema": "cozy.document-project.v2",
+  "id": "textus-cncf-ddd-architecture",
+  "workflow": {
+    "schema": "cozy.document-workflow.v2",
+    "id": "document-production"
+  },
+  "profile": "standard",
+  "language": "ja",
+  "workspace": {
+    "kind": "directory"
+  },
+  "contentCore": "content/core.yaml",
+  "activeOptionalWorkProducts": [],
+  "semanticScope": {
+    "id": "textus-cncf-ddd-architecture",
+    "localeVariants": [
+      {
+        "project": "textus-cncf-ddd-architecture",
+        "language": "ja",
+        "contentCore": "textus-cncf-ddd-architecture",
+        "workProducts": []
+      },
+      {
+        "project": "textus-cncf-ddd-architecture",
+        "language": "en",
+        "contentCore": "textus-cncf-ddd-architecture",
+        "workProducts": []
+      }
+    ]
+  }
+}

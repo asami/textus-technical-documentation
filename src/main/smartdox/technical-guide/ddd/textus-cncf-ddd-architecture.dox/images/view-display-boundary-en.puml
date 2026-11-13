@@ -1,0 +1,39 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 16
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 24
+skinparam nodesep 22
+skinparam ArrowColor #526476
+skinparam ArrowThickness 1.5
+skinparam rectangleBorderColor #66778B
+skinparam rectangleBackgroundColor #EFF3F7
+skinparam packageBackgroundColor #FFFFFF
+skinparam packageBorderColor #8D9AA8
+skinparam databaseBackgroundColor #EFF3F7
+skinparam noteBackgroundColor #FFF9E8
+skinparam dpi 170
+top to bottom direction
+rectangle "Command / Operation\nUpdate path" as op #EFF3F7
+rectangle "Aggregate [DDD]\nProposed update" as agg #FFF0C4
+rectangle "UoW / authoritative store\nCommit / condition checks" as commit #E9F3E7
+rectangle "Domain Event [DDD]\nCommitted fact" as event #FFF0C4
+rectangle "Query / Operation\nRead path" as query #EFF3F7
+rectangle "View\nRead result" as view #EFF3F7
+rectangle "Display / UI\nPresentation / actions" as display #EFF3F7
+rectangle "Value Object [DDD]\nValue meaning on both paths" as vo #FFF0C4
+op -[hidden]right-> query
+agg -[hidden]right-> view
+commit -[hidden]right-> display
+op -[#197A58]-> agg
+agg -[#197A58]-> commit
+commit -[#9064A5,dashed]-> event
+event -[#9064A5,dashed]up-> view : Projection
+query -[#2768A6]-> view
+view -[#2768A6]-> display
+vo -[#9064A5,dashed]-> agg
+vo -[#9064A5,dashed]-> view
+display -[#197A58,dashed]-> op : Selected mutation action
+@enduml

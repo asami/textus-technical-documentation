@@ -1,0 +1,39 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 16
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 24
+skinparam nodesep 22
+skinparam ArrowColor #526476
+skinparam ArrowThickness 1.5
+skinparam rectangleBorderColor #66778B
+skinparam rectangleBackgroundColor #EFF3F7
+skinparam packageBackgroundColor #FFFFFF
+skinparam packageBorderColor #8D9AA8
+skinparam databaseBackgroundColor #EFF3F7
+skinparam noteBackgroundColor #FFF9E8
+skinparam dpi 170
+top to bottom direction
+rectangle "Command / Operation\n更新系" as op #EFF3F7
+rectangle "Aggregate [DDD]\n更新候補" as agg #FFF0C4
+rectangle "UoW / 正本\n確定・条件検査" as commit #E9F3E7
+rectangle "Domain Event [DDD]\n確定した事実" as event #FFF0C4
+rectangle "Query / Operation\n参照系" as query #EFF3F7
+rectangle "View\n参照結果" as view #EFF3F7
+rectangle "Display / UI\n表示・操作" as display #EFF3F7
+rectangle "Value Object [DDD]\n両系統の値の意味" as vo #FFF0C4
+op -[hidden]right-> query
+agg -[hidden]right-> view
+commit -[hidden]right-> display
+op -[#197A58]-> agg
+agg -[#197A58]-> commit
+commit -[#9064A5,dashed]-> event
+event -[#9064A5,dashed]up-> view : 投影
+query -[#2768A6]-> view
+view -[#2768A6]-> display
+vo -[#9064A5,dashed]-> agg
+vo -[#9064A5,dashed]-> view
+display -[#197A58,dashed]-> op : 選択された更新操作
+@enduml

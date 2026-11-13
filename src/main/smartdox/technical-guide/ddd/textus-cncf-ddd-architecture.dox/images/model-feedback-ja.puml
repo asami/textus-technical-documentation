@@ -1,0 +1,30 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 16
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 24
+skinparam nodesep 22
+skinparam ArrowColor #526476
+skinparam ArrowThickness 1.5
+skinparam rectangleBorderColor #66778B
+skinparam rectangleBackgroundColor #EFF3F7
+skinparam packageBackgroundColor #FFFFFF
+skinparam packageBorderColor #8D9AA8
+skinparam databaseBackgroundColor #EFF3F7
+skinparam noteBackgroundColor #FFF9E8
+skinparam dpi 170
+top to bottom direction
+rectangle "業務の意味・規則\nDDDモデルと用語" as meaning #FFF0C4
+rectangle "更新系のモデル\nCommand / Aggregate" as update #EFF3F7
+rectangle "参照系のモデル\nQuery / View / Display" as read #EFF3F7
+rectangle "生成物・補完処理\n型と公開契約" as impl #EFF3F7
+rectangle "検証結果\n更新の確定・拒否 / 参照の意味・鮮度" as result #EFF3F7
+meaning -[#197A58]-> update
+meaning -[#2768A6]-> read
+update -[#197A58]-> impl
+read -[#2768A6]-> impl
+impl -down-> result
+result -left-> meaning : 元のモデルと照合
+@enduml
