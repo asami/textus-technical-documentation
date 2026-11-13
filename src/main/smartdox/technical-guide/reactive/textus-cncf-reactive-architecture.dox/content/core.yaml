@@ -1,0 +1,1387 @@
+{
+  "schema": "cozy.content-core.logic-tree.v1",
+  "id": "textus-cncf-reactive-architecture",
+  "root": {
+    "id": "textus-cncf-reactive-architecture",
+    "semanticRole": "explanation",
+    "claims": [
+      "textus-cncf-reactive-architecture-claim-1"
+    ],
+    "structure": {
+      "pattern": "sequence",
+      "nodes": [
+        {
+          "id": "textus-cncf-reactive-architecture-node-1",
+          "role": "step"
+        },
+        {
+          "id": "textus-cncf-reactive-architecture-node-effect",
+          "role": "step"
+        }
+      ],
+      "relations": [
+        {
+          "id": "textus-cncf-reactive-architecture-relation-effect",
+          "relationType": "next",
+          "from": "textus-cncf-reactive-architecture-node-1",
+          "to": "textus-cncf-reactive-architecture-node-effect"
+        }
+      ]
+    },
+    "flow": {
+      "id": "textus-cncf-reactive-architecture-flow",
+      "transitions": [
+        {
+          "id": "textus-cncf-reactive-architecture-transition-1",
+          "relationType": "next",
+          "fromStepId": "reactive-foundation",
+          "toStepId": "reactive-state"
+        },
+        {
+          "id": "textus-cncf-reactive-architecture-transition-2",
+          "relationType": "next",
+          "fromStepId": "reactive-state",
+          "toStepId": "reactive-program"
+        },
+        {
+          "id": "textus-cncf-reactive-architecture-transition-3",
+          "relationType": "next",
+          "fromStepId": "reactive-program",
+          "toStepId": "reactive-coordination"
+        },
+        {
+          "id": "textus-cncf-reactive-architecture-transition-4",
+          "relationType": "next",
+          "fromStepId": "reactive-coordination",
+          "toStepId": "reactive-resilience"
+        },
+        {
+          "id": "textus-cncf-reactive-architecture-transition-5",
+          "relationType": "next",
+          "fromStepId": "reactive-resilience",
+          "toStepId": "reactive-adoption"
+        },
+        {
+          "id": "textus-cncf-reactive-architecture-transition-6",
+          "relationType": "next",
+          "fromStepId": "reactive-adoption",
+          "toStepId": "reactive-conclusion"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "reactive-foundation",
+        "semanticRole": "explanation",
+        "claims": [
+          "reactive-foundation-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "reactive-foundation-node-1",
+              "role": "step"
+            },
+            {
+              "id": "reactive-foundation-node-complexity",
+              "role": "step"
+            },
+            {
+              "id": "reactive-foundation-node-effect",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "reactive-foundation-relation-complexity",
+              "relationType": "next",
+              "from": "reactive-foundation-node-1",
+              "to": "reactive-foundation-node-complexity"
+            },
+            {
+              "id": "reactive-foundation-relation-effect",
+              "relationType": "next",
+              "from": "reactive-foundation-node-complexity",
+              "to": "reactive-foundation-node-effect"
+            }
+          ]
+        },
+        "flow": {
+          "id": "reactive-foundation-flow",
+          "transitions": [
+            {
+              "id": "reactive-foundation-transition-quality-map",
+              "relationType": "next",
+              "fromStepId": "reactive-qualities",
+              "toStepId": "reactive-quality-attributes"
+            },
+            {
+              "id": "reactive-foundation-transition-architecture",
+              "relationType": "next",
+              "fromStepId": "reactive-quality-attributes",
+              "toStepId": "reactive-tiers"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "reactive-qualities",
+            "semanticRole": "explanation",
+            "claims": [
+              "reactive-qualities-claim-1",
+              "reactive-qualities-claim-2",
+              "reactive-qualities-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "reactive-qualities-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-qualities-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-qualities-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reactive-qualities-relation-1",
+                  "relationType": "next",
+                  "from": "reactive-qualities-node-1",
+                  "to": "reactive-qualities-node-2"
+                },
+                {
+                  "id": "reactive-qualities-relation-2",
+                  "relationType": "next",
+                  "from": "reactive-qualities-node-2",
+                  "to": "reactive-qualities-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "reactive-qualities-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "reactive-quality-attributes",
+            "semanticRole": "explanation",
+            "claims": [
+              "reactive-quality-attributes-claim-overview"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "reactive-quality-attributes-node-combination",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-quality-attributes-node-quality",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reactive-quality-attributes-relation-overview",
+                  "relationType": "next",
+                  "from": "reactive-quality-attributes-node-combination",
+                  "to": "reactive-quality-attributes-node-quality"
+                }
+              ]
+            },
+            "flow": {
+              "id": "reactive-quality-attributes-flow",
+              "transitions": [
+                {
+                  "id": "reactive-quality-attributes-transition-1",
+                  "relationType": "next",
+                  "fromStepId": "reactive-quality-attributes-performance",
+                  "toStepId": "reactive-quality-attributes-elasticity"
+                },
+                {
+                  "id": "reactive-quality-attributes-transition-2",
+                  "relationType": "next",
+                  "fromStepId": "reactive-quality-attributes-elasticity",
+                  "toStepId": "reactive-quality-attributes-availability"
+                },
+                {
+                  "id": "reactive-quality-attributes-transition-3",
+                  "relationType": "next",
+                  "fromStepId": "reactive-quality-attributes-availability",
+                  "toStepId": "reactive-quality-attributes-recoverability"
+                },
+                {
+                  "id": "reactive-quality-attributes-transition-4",
+                  "relationType": "next",
+                  "fromStepId": "reactive-quality-attributes-recoverability",
+                  "toStepId": "reactive-quality-attributes-consistency"
+                },
+                {
+                  "id": "reactive-quality-attributes-transition-5",
+                  "relationType": "next",
+                  "fromStepId": "reactive-quality-attributes-consistency",
+                  "toStepId": "reactive-quality-attributes-security"
+                },
+                {
+                  "id": "reactive-quality-attributes-transition-6",
+                  "relationType": "next",
+                  "fromStepId": "reactive-quality-attributes-security",
+                  "toStepId": "reactive-quality-attributes-observability"
+                },
+                {
+                  "id": "reactive-quality-attributes-transition-7",
+                  "relationType": "next",
+                  "fromStepId": "reactive-quality-attributes-observability",
+                  "toStepId": "reactive-quality-attributes-maintainability"
+                },
+                {
+                  "id": "reactive-quality-attributes-transition-8",
+                  "relationType": "next",
+                  "fromStepId": "reactive-quality-attributes-maintainability",
+                  "toStepId": "reactive-quality-attributes-testability"
+                },
+                {
+                  "id": "reactive-quality-attributes-transition-9",
+                  "relationType": "next",
+                  "fromStepId": "reactive-quality-attributes-testability",
+                  "toStepId": "reactive-quality-attributes-efficiency"
+                }
+              ]
+            },
+            "steps": [
+              {
+                "id": "reactive-quality-attributes-performance",
+                "semanticRole": "explanation",
+                "claims": [
+                  "reactive-quality-attributes-claim-performance"
+                ],
+                "structure": {
+                  "pattern": "mapping",
+                  "nodes": [
+                    {
+                      "id": "reactive-quality-attributes-mechanisms-performance",
+                      "role": "source"
+                    },
+                    {
+                      "id": "reactive-quality-attributes-quality-performance",
+                      "role": "target"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "reactive-quality-attributes-mapping-performance",
+                      "relationType": "maps-to",
+                      "from": "reactive-quality-attributes-mechanisms-performance",
+                      "to": "reactive-quality-attributes-quality-performance"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "reactive-quality-attributes-performance-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "reactive-quality-attributes-elasticity",
+                "semanticRole": "explanation",
+                "claims": [
+                  "reactive-quality-attributes-claim-elasticity"
+                ],
+                "structure": {
+                  "pattern": "mapping",
+                  "nodes": [
+                    {
+                      "id": "reactive-quality-attributes-mechanisms-elasticity",
+                      "role": "source"
+                    },
+                    {
+                      "id": "reactive-quality-attributes-quality-elasticity",
+                      "role": "target"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "reactive-quality-attributes-mapping-elasticity",
+                      "relationType": "maps-to",
+                      "from": "reactive-quality-attributes-mechanisms-elasticity",
+                      "to": "reactive-quality-attributes-quality-elasticity"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "reactive-quality-attributes-elasticity-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "reactive-quality-attributes-availability",
+                "semanticRole": "explanation",
+                "claims": [
+                  "reactive-quality-attributes-claim-availability"
+                ],
+                "structure": {
+                  "pattern": "mapping",
+                  "nodes": [
+                    {
+                      "id": "reactive-quality-attributes-mechanisms-availability",
+                      "role": "source"
+                    },
+                    {
+                      "id": "reactive-quality-attributes-quality-availability",
+                      "role": "target"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "reactive-quality-attributes-mapping-availability",
+                      "relationType": "maps-to",
+                      "from": "reactive-quality-attributes-mechanisms-availability",
+                      "to": "reactive-quality-attributes-quality-availability"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "reactive-quality-attributes-availability-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "reactive-quality-attributes-recoverability",
+                "semanticRole": "explanation",
+                "claims": [
+                  "reactive-quality-attributes-claim-recoverability"
+                ],
+                "structure": {
+                  "pattern": "mapping",
+                  "nodes": [
+                    {
+                      "id": "reactive-quality-attributes-mechanisms-recoverability",
+                      "role": "source"
+                    },
+                    {
+                      "id": "reactive-quality-attributes-quality-recoverability",
+                      "role": "target"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "reactive-quality-attributes-mapping-recoverability",
+                      "relationType": "maps-to",
+                      "from": "reactive-quality-attributes-mechanisms-recoverability",
+                      "to": "reactive-quality-attributes-quality-recoverability"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "reactive-quality-attributes-recoverability-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "reactive-quality-attributes-consistency",
+                "semanticRole": "explanation",
+                "claims": [
+                  "reactive-quality-attributes-claim-consistency"
+                ],
+                "structure": {
+                  "pattern": "mapping",
+                  "nodes": [
+                    {
+                      "id": "reactive-quality-attributes-mechanisms-consistency",
+                      "role": "source"
+                    },
+                    {
+                      "id": "reactive-quality-attributes-quality-consistency",
+                      "role": "target"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "reactive-quality-attributes-mapping-consistency",
+                      "relationType": "maps-to",
+                      "from": "reactive-quality-attributes-mechanisms-consistency",
+                      "to": "reactive-quality-attributes-quality-consistency"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "reactive-quality-attributes-consistency-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "reactive-quality-attributes-security",
+                "semanticRole": "explanation",
+                "claims": [
+                  "reactive-quality-attributes-claim-security"
+                ],
+                "structure": {
+                  "pattern": "mapping",
+                  "nodes": [
+                    {
+                      "id": "reactive-quality-attributes-mechanisms-security",
+                      "role": "source"
+                    },
+                    {
+                      "id": "reactive-quality-attributes-quality-security",
+                      "role": "target"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "reactive-quality-attributes-mapping-security",
+                      "relationType": "maps-to",
+                      "from": "reactive-quality-attributes-mechanisms-security",
+                      "to": "reactive-quality-attributes-quality-security"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "reactive-quality-attributes-security-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "reactive-quality-attributes-observability",
+                "semanticRole": "explanation",
+                "claims": [
+                  "reactive-quality-attributes-claim-observability"
+                ],
+                "structure": {
+                  "pattern": "mapping",
+                  "nodes": [
+                    {
+                      "id": "reactive-quality-attributes-mechanisms-observability",
+                      "role": "source"
+                    },
+                    {
+                      "id": "reactive-quality-attributes-quality-observability",
+                      "role": "target"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "reactive-quality-attributes-mapping-observability",
+                      "relationType": "maps-to",
+                      "from": "reactive-quality-attributes-mechanisms-observability",
+                      "to": "reactive-quality-attributes-quality-observability"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "reactive-quality-attributes-observability-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "reactive-quality-attributes-maintainability",
+                "semanticRole": "explanation",
+                "claims": [
+                  "reactive-quality-attributes-claim-maintainability"
+                ],
+                "structure": {
+                  "pattern": "mapping",
+                  "nodes": [
+                    {
+                      "id": "reactive-quality-attributes-mechanisms-maintainability",
+                      "role": "source"
+                    },
+                    {
+                      "id": "reactive-quality-attributes-quality-maintainability",
+                      "role": "target"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "reactive-quality-attributes-mapping-maintainability",
+                      "relationType": "maps-to",
+                      "from": "reactive-quality-attributes-mechanisms-maintainability",
+                      "to": "reactive-quality-attributes-quality-maintainability"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "reactive-quality-attributes-maintainability-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "reactive-quality-attributes-testability",
+                "semanticRole": "explanation",
+                "claims": [
+                  "reactive-quality-attributes-claim-testability"
+                ],
+                "structure": {
+                  "pattern": "mapping",
+                  "nodes": [
+                    {
+                      "id": "reactive-quality-attributes-mechanisms-testability",
+                      "role": "source"
+                    },
+                    {
+                      "id": "reactive-quality-attributes-quality-testability",
+                      "role": "target"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "reactive-quality-attributes-mapping-testability",
+                      "relationType": "maps-to",
+                      "from": "reactive-quality-attributes-mechanisms-testability",
+                      "to": "reactive-quality-attributes-quality-testability"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "reactive-quality-attributes-testability-flow",
+                  "transitions": []
+                },
+                "steps": []
+              },
+              {
+                "id": "reactive-quality-attributes-efficiency",
+                "semanticRole": "explanation",
+                "claims": [
+                  "reactive-quality-attributes-claim-efficiency"
+                ],
+                "structure": {
+                  "pattern": "mapping",
+                  "nodes": [
+                    {
+                      "id": "reactive-quality-attributes-mechanisms-efficiency",
+                      "role": "source"
+                    },
+                    {
+                      "id": "reactive-quality-attributes-quality-efficiency",
+                      "role": "target"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "id": "reactive-quality-attributes-mapping-efficiency",
+                      "relationType": "maps-to",
+                      "from": "reactive-quality-attributes-mechanisms-efficiency",
+                      "to": "reactive-quality-attributes-quality-efficiency"
+                    }
+                  ]
+                },
+                "flow": {
+                  "id": "reactive-quality-attributes-efficiency-flow",
+                  "transitions": []
+                },
+                "steps": []
+              }
+            ]
+          },
+          {
+            "id": "reactive-tiers",
+            "semanticRole": "explanation",
+            "claims": [
+              "reactive-tiers-claim-1",
+              "reactive-tiers-claim-2",
+              "reactive-tiers-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "reactive-tiers-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-tiers-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-tiers-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reactive-tiers-relation-1",
+                  "relationType": "next",
+                  "from": "reactive-tiers-node-1",
+                  "to": "reactive-tiers-node-2"
+                },
+                {
+                  "id": "reactive-tiers-relation-2",
+                  "relationType": "next",
+                  "from": "reactive-tiers-node-2",
+                  "to": "reactive-tiers-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "reactive-tiers-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "reactive-state",
+        "semanticRole": "explanation",
+        "claims": [
+          "reactive-state-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "reactive-state-node-1",
+              "role": "step"
+            },
+            {
+              "id": "reactive-state-node-effect",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "reactive-state-relation-effect",
+              "relationType": "next",
+              "from": "reactive-state-node-1",
+              "to": "reactive-state-node-effect"
+            }
+          ]
+        },
+        "flow": {
+          "id": "reactive-state-flow",
+          "transitions": [
+            {
+              "id": "reactive-state-transition-1",
+              "relationType": "next",
+              "fromStepId": "reactive-memory",
+              "toStepId": "reactive-cqrs"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "reactive-memory",
+            "semanticRole": "explanation",
+            "claims": [
+              "reactive-memory-claim-1",
+              "reactive-memory-claim-2",
+              "reactive-memory-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "reactive-memory-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-memory-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-memory-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reactive-memory-relation-1",
+                  "relationType": "next",
+                  "from": "reactive-memory-node-1",
+                  "to": "reactive-memory-node-2"
+                },
+                {
+                  "id": "reactive-memory-relation-2",
+                  "relationType": "next",
+                  "from": "reactive-memory-node-2",
+                  "to": "reactive-memory-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "reactive-memory-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "reactive-cqrs",
+            "semanticRole": "explanation",
+            "claims": [
+              "reactive-cqrs-claim-1",
+              "reactive-cqrs-claim-2",
+              "reactive-cqrs-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "reactive-cqrs-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-cqrs-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-cqrs-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reactive-cqrs-relation-1",
+                  "relationType": "next",
+                  "from": "reactive-cqrs-node-1",
+                  "to": "reactive-cqrs-node-2"
+                },
+                {
+                  "id": "reactive-cqrs-relation-2",
+                  "relationType": "next",
+                  "from": "reactive-cqrs-node-2",
+                  "to": "reactive-cqrs-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "reactive-cqrs-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "reactive-program",
+        "semanticRole": "explanation",
+        "claims": [
+          "reactive-program-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "reactive-program-node-1",
+              "role": "step"
+            },
+            {
+              "id": "reactive-program-node-effect",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "reactive-program-relation-effect",
+              "relationType": "next",
+              "from": "reactive-program-node-1",
+              "to": "reactive-program-node-effect"
+            }
+          ]
+        },
+        "flow": {
+          "id": "reactive-program-flow",
+          "transitions": [
+            {
+              "id": "reactive-program-transition-1",
+              "relationType": "next",
+              "fromStepId": "reactive-composition",
+              "toStepId": "reactive-uow"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "reactive-composition",
+            "semanticRole": "explanation",
+            "claims": [
+              "reactive-composition-claim-1",
+              "reactive-composition-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "reactive-composition-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-composition-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reactive-composition-relation-1",
+                  "relationType": "next",
+                  "from": "reactive-composition-node-1",
+                  "to": "reactive-composition-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "reactive-composition-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "reactive-uow",
+            "semanticRole": "explanation",
+            "claims": [
+              "reactive-uow-claim-1",
+              "reactive-uow-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "reactive-uow-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-uow-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reactive-uow-relation-1",
+                  "relationType": "next",
+                  "from": "reactive-uow-node-1",
+                  "to": "reactive-uow-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "reactive-uow-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "reactive-coordination",
+        "semanticRole": "explanation",
+        "claims": [
+          "reactive-coordination-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "reactive-coordination-node-1",
+              "role": "step"
+            },
+            {
+              "id": "reactive-coordination-node-effect",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "reactive-coordination-relation-effect",
+              "relationType": "next",
+              "from": "reactive-coordination-node-1",
+              "to": "reactive-coordination-node-effect"
+            }
+          ]
+        },
+        "flow": {
+          "id": "reactive-coordination-flow",
+          "transitions": [
+            {
+              "id": "reactive-coordination-transition-1",
+              "relationType": "next",
+              "fromStepId": "reactive-jobs",
+              "toStepId": "reactive-load"
+            },
+            {
+              "id": "reactive-coordination-transition-2",
+              "relationType": "next",
+              "fromStepId": "reactive-load",
+              "toStepId": "reactive-events"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "reactive-jobs",
+            "semanticRole": "explanation",
+            "claims": [
+              "reactive-jobs-claim-1",
+              "reactive-jobs-claim-2",
+              "reactive-jobs-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "reactive-jobs-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-jobs-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-jobs-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reactive-jobs-relation-1",
+                  "relationType": "next",
+                  "from": "reactive-jobs-node-1",
+                  "to": "reactive-jobs-node-2"
+                },
+                {
+                  "id": "reactive-jobs-relation-2",
+                  "relationType": "next",
+                  "from": "reactive-jobs-node-2",
+                  "to": "reactive-jobs-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "reactive-jobs-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "reactive-load",
+            "semanticRole": "explanation",
+            "claims": [
+              "reactive-load-claim-1",
+              "reactive-load-claim-2",
+              "reactive-load-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "reactive-load-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-load-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-load-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reactive-load-relation-1",
+                  "relationType": "next",
+                  "from": "reactive-load-node-1",
+                  "to": "reactive-load-node-2"
+                },
+                {
+                  "id": "reactive-load-relation-2",
+                  "relationType": "next",
+                  "from": "reactive-load-node-2",
+                  "to": "reactive-load-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "reactive-load-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "reactive-events",
+            "semanticRole": "explanation",
+            "claims": [
+              "reactive-events-claim-1",
+              "reactive-events-claim-2",
+              "reactive-events-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "reactive-events-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-events-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-events-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reactive-events-relation-1",
+                  "relationType": "next",
+                  "from": "reactive-events-node-1",
+                  "to": "reactive-events-node-2"
+                },
+                {
+                  "id": "reactive-events-relation-2",
+                  "relationType": "next",
+                  "from": "reactive-events-node-2",
+                  "to": "reactive-events-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "reactive-events-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "reactive-resilience",
+        "semanticRole": "explanation",
+        "claims": [
+          "reactive-resilience-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "reactive-resilience-node-1",
+              "role": "step"
+            },
+            {
+              "id": "reactive-resilience-node-effect",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "reactive-resilience-relation-effect",
+              "relationType": "next",
+              "from": "reactive-resilience-node-1",
+              "to": "reactive-resilience-node-effect"
+            }
+          ]
+        },
+        "flow": {
+          "id": "reactive-resilience-flow",
+          "transitions": [
+            {
+              "id": "reactive-resilience-transition-1",
+              "relationType": "next",
+              "fromStepId": "reactive-recovery",
+              "toStepId": "reactive-resources"
+            },
+            {
+              "id": "reactive-resilience-transition-2",
+              "relationType": "next",
+              "fromStepId": "reactive-resources",
+              "toStepId": "reactive-availability"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "reactive-recovery",
+            "semanticRole": "explanation",
+            "claims": [
+              "reactive-recovery-claim-1",
+              "reactive-recovery-claim-2",
+              "reactive-recovery-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "reactive-recovery-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-recovery-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-recovery-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reactive-recovery-relation-1",
+                  "relationType": "next",
+                  "from": "reactive-recovery-node-1",
+                  "to": "reactive-recovery-node-2"
+                },
+                {
+                  "id": "reactive-recovery-relation-2",
+                  "relationType": "next",
+                  "from": "reactive-recovery-node-2",
+                  "to": "reactive-recovery-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "reactive-recovery-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "reactive-resources",
+            "semanticRole": "explanation",
+            "claims": [
+              "reactive-resources-claim-1",
+              "reactive-resources-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "reactive-resources-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-resources-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reactive-resources-relation-1",
+                  "relationType": "next",
+                  "from": "reactive-resources-node-1",
+                  "to": "reactive-resources-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "reactive-resources-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "reactive-availability",
+            "semanticRole": "explanation",
+            "claims": [
+              "reactive-availability-claim-1",
+              "reactive-availability-claim-2",
+              "reactive-availability-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "reactive-availability-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-availability-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-availability-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reactive-availability-relation-1",
+                  "relationType": "next",
+                  "from": "reactive-availability-node-1",
+                  "to": "reactive-availability-node-2"
+                },
+                {
+                  "id": "reactive-availability-relation-2",
+                  "relationType": "next",
+                  "from": "reactive-availability-node-2",
+                  "to": "reactive-availability-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "reactive-availability-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "reactive-adoption",
+        "semanticRole": "explanation",
+        "claims": [
+          "reactive-adoption-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "reactive-adoption-node-1",
+              "role": "step"
+            },
+            {
+              "id": "reactive-adoption-node-effect",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "reactive-adoption-relation-effect",
+              "relationType": "next",
+              "from": "reactive-adoption-node-1",
+              "to": "reactive-adoption-node-effect"
+            }
+          ]
+        },
+        "flow": {
+          "id": "reactive-adoption-flow",
+          "transitions": [
+            {
+              "id": "reactive-adoption-transition-1",
+              "relationType": "next",
+              "fromStepId": "reactive-observability",
+              "toStepId": "reactive-scope"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "reactive-observability",
+            "semanticRole": "explanation",
+            "claims": [
+              "reactive-observability-claim-1",
+              "reactive-observability-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "reactive-observability-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-observability-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reactive-observability-relation-1",
+                  "relationType": "next",
+                  "from": "reactive-observability-node-1",
+                  "to": "reactive-observability-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "reactive-observability-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "reactive-scope",
+            "semanticRole": "explanation",
+            "claims": [
+              "reactive-scope-claim-1",
+              "reactive-scope-claim-2",
+              "reactive-scope-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "reactive-scope-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-scope-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "reactive-scope-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "reactive-scope-relation-1",
+                  "relationType": "next",
+                  "from": "reactive-scope-node-1",
+                  "to": "reactive-scope-node-2"
+                },
+                {
+                  "id": "reactive-scope-relation-2",
+                  "relationType": "next",
+                  "from": "reactive-scope-node-2",
+                  "to": "reactive-scope-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "reactive-scope-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "reactive-conclusion",
+        "semanticRole": "explanation",
+        "claims": [
+          "reactive-conclusion-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "reactive-conclusion-node-1",
+              "role": "step"
+            },
+            {
+              "id": "reactive-conclusion-node-effect",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "reactive-conclusion-relation-effect",
+              "relationType": "next",
+              "from": "reactive-conclusion-node-1",
+              "to": "reactive-conclusion-node-effect"
+            }
+          ]
+        },
+        "flow": {
+          "id": "reactive-conclusion-flow",
+          "transitions": []
+        },
+        "steps": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBorderColor #899DA9
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam sequenceParticipantBackgroundColor #F0F6F8
+skinparam sequenceLifeLineBorderColor #899DA9
+skinparam sequenceMessageAlign center
+skinparam noteBackgroundColor #FFF8E9
+skinparam noteBorderColor #C5B88B
+skinparam dpi 170
+skinparam ranksep 15
+skinparam nodesep 20
+rectangle "Command" as cmd
+rectangle "Aggregate / state machine\nBusiness rules" as rules
+rectangle "UoW\nConflict check / commit" as uow
+database "Durable Entity state" as store
+rectangle "Working Set / View\nMemory / read projection" as view
+rectangle "Query" as query
+cmd -right-> rules
+rules -right-> uow
+uow -down-> store
+store -left-> view : Reconstruct
+uow ..> view : Update / invalidate after commit
+query -down-> view : Read
+note bottom of store
+ Define freshness for asynchronous projection.
+ Memory residency does not replace persistence.
+end note
+@enduml

@@ -1,0 +1,32 @@
+{
+  "schema": "cozy.document-project.v2",
+  "id": "textus-cncf-reactive-architecture",
+  "workflow": {
+    "schema": "cozy.document-workflow.v2",
+    "id": "document-production"
+  },
+  "profile": "standard",
+  "language": "ja",
+  "workspace": {
+    "kind": "directory"
+  },
+  "contentCore": "content/core.yaml",
+  "activeOptionalWorkProducts": [],
+  "semanticScope": {
+    "id": "textus-cncf-reactive-architecture",
+    "localeVariants": [
+      {
+        "project": "textus-cncf-reactive-architecture",
+        "language": "ja",
+        "contentCore": "textus-cncf-reactive-architecture",
+        "workProducts": []
+      },
+      {
+        "project": "textus-cncf-reactive-architecture",
+        "language": "en",
+        "contentCore": "textus-cncf-reactive-architecture",
+        "workProducts": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,242 @@
+Textus/CNCF Reactive Architecture — Technical Guide｜Textus/CNCF リアクティブ・アーキテクチャ技術ガイド
+===================================================================================
+
+# HEAD
+
+status=draft
+published_at=2026-10-27
+document=textus-cncf-reactive-architecture
+
+## SUMMARY
+
+<span lang="en">Cloud applications require scalable processing capacity, flexibility to extend and change functionality, and high availability. Textus/CNCF embeds the complex execution controls supporting these qualities in shared infrastructure, so that development using CML models and standard CNCF facilities can obtain reactive behavior. This guide explains the architecture and combinations of mechanisms that make this division of responsibilities possible.</span><span lang="ja">クラウドアプリケーションには、負荷に応じた処理能力の拡大、機能の拡張や変更への柔軟性、高可用性が求められます。Textus/CNCFは、これらを支える複雑な実行制御を共通基盤に組み込み、CMLのモデルとCNCFの標準機能を使う開発からリアクティブな動作を得られるようにしています。本書では、この分担を実現するアーキテクチャと技術の組合せを説明します。</span>
+
+# Realizing Reactive Qualities through the Whole Architecture｜リアクティブ性を全体アーキテクチャで実現する
+
+<span lang="ja">バックエンドの処理を非同期のメッセージで連携させると、呼出し側と処理側が同時に動作し続ける必要がなくなり、部品ごとに処理能力や配置を調整しやすくなります。この分離に、容量の調整、負荷制御、障害の隔離と回復を組み合わせることで、次の品質改善につながります。</span><span lang="en">Connecting backend processes through asynchronous messages removes the need for callers and receivers to remain active together, making capacity and placement easier to adjust for each component. Combining this separation with capacity adjustment, load control, failure isolation, and recovery supports the following quality improvements.</span>
+
+#+CAPTION: <span lang="ja">表1　リアクティブな構成による品質属性の改善</span><span lang="en">Table 1. Quality improvements supported by reactive architecture</span>
+
+| <span lang="ja">品質属性</span><span lang="en">Quality attribute</span> | <span lang="ja">得られる改善</span><span lang="en">Improvement</span> | <span lang="ja">リアクティブな構成での対応</span><span lang="en">Reactive architectural response</span> |
+| --- | --- | --- |
+| <span lang="ja">スケーラビリティ（処理能力の拡張）</span><span lang="en">Scalability</span> | <span lang="ja">負荷の高い処理の能力を増やしやすい</span><span lang="en">Increase capacity for heavily loaded processing</span> | <span lang="ja">処理を分離し、複数の実行先へ負荷を分散する</span><span lang="en">Separate processing and distribute load across execution instances</span> |
+| <span lang="ja">弾力性</span><span lang="en">Elasticity</span> | <span lang="ja">需要の変動に応じて処理能力を調整できる</span><span lang="en">Adjust capacity as demand changes</span> | <span lang="ja">実行数の増減と、下流の容量に応じた受付制御を組み合わせる</span><span lang="en">Combine instance scaling with admission control based on downstream capacity</span> |
+| <span lang="ja">高可用性</span><span lang="en">High availability</span> | <span lang="ja">一部が停止してもサービスを継続しやすい</span><span lang="en">Continue service when part of the system stops</span> | <span lang="ja">障害を区画内に抑え、冗長化と実行先の切替えを組み合わせる</span><span lang="en">Contain failures and combine redundancy with routing to available instances</span> |
+| <span lang="ja">耐障害性・回復可能性</span><span lang="en">Resilience / recoverability</span> | <span lang="ja">障害の波及を抑え、処理を回復しやすい</span><span lang="en">Limit failure propagation and recover work</span> | <span lang="ja">失敗を分離して記録し、再試行・再開を管理する</span><span lang="en">Isolate and record failures; manage retries and resumption</span> |
+| <span lang="ja">応答性</span><span lang="en">Responsiveness</span> | <span lang="ja">長時間処理や過負荷による応答の停滞を抑える</span><span lang="en">Limit response delays from long-running work and overload</span> | <span lang="ja">受付と完了を分け、待機量と並行実行数を制御する</span><span lang="en">Separate acceptance from completion; bound pending and concurrent work</span> |
+| <span lang="ja">機能拡張・変更の柔軟性</span><span lang="en">Extensibility / flexibility</span> | <span lang="ja">部品の追加・変更の影響を限定しやすい</span><span lang="en">Limit the impact of adding or changing components</span> | <span lang="ja">メッセージの契約を保ち、各部品の処理と実行時期を分離する</span><span lang="en">Preserve message contracts while separating component processing and timing</span> |
+| <span lang="ja">資源効率・運用コスト</span><span lang="en">Resource efficiency / cost</span> | <span lang="ja">待機中の資源占有や過剰な常時配備を減らせる</span><span lang="en">Reduce resources held while waiting and excessive standing capacity</span> | <span lang="ja">非ブロッキングな実行と負荷に応じた資源配分を組み合わせる</span><span lang="en">Combine non-blocking execution with demand-dependent resource allocation</span> |
+
+<span lang="ja">非同期化すると、処理の順序や完了の確認、データの整合性、再試行に伴う重複実行など、管理すべき事項が増えます。これらの制御を業務処理ごとに実装すると、処理間で方式が異なり、システム全体で一貫した動作を保つことが難しくなります。</span><span lang="en">Asynchronous processing introduces additional concerns: ordering, completion tracking, data consistency, and duplicate execution during retries. Implementing these controls separately for each business process leads to different conventions and makes consistent system-wide behavior harder to maintain.</span>
+
+<span lang="ja">Textus/CNCFでは、CMLで定義したモデルとCNCFの標準機能を使って業務処理を構成すると、その処理が共通の実行機構へ接続されます。ティアとコンポーネントの分担、メッセージによる連携、ジョブ管理、資源管理、障害対応がこの実行経路で働くため、開発者が業務処理ごとに非同期制御を組み立てる必要を減らせます。通常の開発では業務のモデルと処理に集中しながら、実行基盤によるリアクティブ性の支援を受けられます。技術的に難しい制御を基盤が引き受け、標準的な作法に沿う実装へ適用することが、このアーキテクチャの要点です。</span><span lang="en">Business processing built with CML models and standard CNCF facilities connects to shared execution mechanisms. Tier and component responsibilities, message-based communication, Job management, resource management, and failure handling operate along this execution path, reducing the need to construct asynchronous controls for each business process. In ordinary development, developers can concentrate on business models and logic while receiving reactive support from the runtime. Having the infrastructure take responsibility for technically demanding controls and apply them to implementations following standard conventions is a central feature of this architecture.</span>
+
+## Relating the Four Characteristics to Quality Attributes｜四つの特性と品質属性を関連付ける
+
+<span lang="en">The Reactive Manifesto identifies responsiveness, resilience, elasticity, and message-driven communication as interrelated characteristics. Textus/CNCF aims to return a result, acceptance state, or failure within an appropriate time despite changing load or partial failures. This requires a path for admission, execution, and outcome inspection, rather than asynchronous execution alone. Reference: The Reactive Manifesto (https://www.reactivemanifesto.org/).</span><span lang="ja">リアクティブ宣言は、応答性、耐障害性、弾力性、メッセージ駆動を相互に関連する四つの特性として整理しています。Textus/CNCFでは、負荷の変動や部分的な障害があっても、要求に対して適切な時間で結果、受付状態、失敗を返せることを目指します。単に処理を非同期化するだけでなく、その処理を受け入れ、実行し、結果を確認できる経路を設計します。参考：リアクティブ宣言（https://www.reactivemanifesto.org/）。</span>
+
+<span lang="en">Message-driven communication reduces temporal dependencies so that load and failures can be managed separately. Textus/CNCF distinguishes requests, facts, and execution management through Commands, Events, and Jobs.</span><span lang="ja">メッセージ駆動は、処理間の時間的な依存を減らし、負荷や障害を分離して扱うための構成です。Textus/CNCFでは、Command、Event、Jobで要求、発生した事実、実行管理を区別します。</span>
+
+<span lang="en">Using the benefits of asynchronous architecture also requires preserving consistency and security, and making separated processing observable and testable. The following mapping covers these controls and organizes combinations of Textus/CNCF mechanisms through ten quality perspectives.</span><span lang="ja">非同期な構成の利点を活かすには、データ整合性やセキュリティを保ち、分離した処理を観測・検証できることも必要です。以下では、こうした制御を含め、Textus/CNCFの技術の組合せを十の品質属性から整理します。</span>
+
+## Quality Attributes and Their Supporting Combinations｜品質属性と技術の組合せの対応
+
+<span lang="en">The following tables connect the quality effects introduced above to specific Textus/CNCF mechanisms, including applicability conditions and verification points. Subsequent sections explain how these mechanisms work together along the execution path.</span><span lang="ja">次の表は、導入で示した品質への効果をTextus/CNCFの具体的な機構に対応付け、成立条件と確認点を示します。後続の節では、その機構が実行経路でどう連携するかを説明します。</span>
+
+#+CAPTION: <span lang="en">Quality attributes and combined mechanisms</span><span lang="ja">品質属性と技術の組合せ：実行と回復</span>
+| <span lang="en">Quality attribute</span><span lang="ja">品質属性</span> | <span lang="en">Combination and effect</span><span lang="ja">組合せと効果</span> | <span lang="en">Condition / verification</span><span lang="ja">成立条件・確認点</span> |
+| --- | --- | --- |
+| <span lang="en">Performance / responsiveness</span><span lang="ja">性能・応答性</span> | <span lang="en">Working Set + Views + Jobs reduce loading and waiting</span><span lang="ja">Working Set＋View＋Jobで取得と待機を減らす</span> | <span lang="en">Measure time to a result or admission response</span><span lang="ja">結果または受付状態を返すまでの時間を確認</span> |
+| <span lang="en">Scalability / elasticity</span><span lang="ja">拡張性・弾力性</span> | <span lang="en">Application scaling + Domain capacity + admission limits</span><span lang="ja">Applicationの伸縮＋Domain容量＋受付制御</span> | <span lang="en">Do not overload downstream tiers by scaling ingress</span><span lang="ja">入口の増加で下流を過負荷にしない</span> |
+| <span lang="en">Availability / resilience</span><span lang="ja">可用性・耐障害性</span> | <span lang="en">Component boundaries + Active/Standby + routing</span><span lang="ja">部品境界＋Active／Standby＋経路切替え</span> | <span lang="en">Include dependency failures such as DataStore</span><span lang="ja">DataStoreなど依存先の障害境界も含める</span> |
+| <span lang="en">Recoverability</span><span lang="ja">回復可能性</span> | <span lang="en">Durable records + reconstruction + retries / compensation</span><span lang="ja">永続記録＋メモリ再構築＋再試行・補償</span> | <span lang="en">Distinguish committed and unknown outcomes</span><span lang="ja">確定済み・結果不明を分け、重複実行を抑える</span> |
+| <span lang="en">Consistency / correctness</span><span lang="ja">データ整合性・正確性</span> | <span lang="en">Aggregate / state machine + UoW + View updates</span><span lang="ja">Aggregate・状態機械＋UoW＋View更新</span> | <span lang="en">Define conflict checks and asynchronous freshness</span><span lang="ja">競合検査と、非同期反映時の鮮度を定める</span> |
+
+#+CAPTION: <span lang="en">Quality attributes and combined mechanisms</span><span lang="ja">品質属性と技術の組合せ：安全な継続と変更</span>
+| <span lang="en">Quality attribute</span><span lang="ja">品質属性</span> | <span lang="en">Combination and effect</span><span lang="ja">組合せと効果</span> | <span lang="en">Condition / verification</span><span lang="ja">成立条件・確認点</span> |
+| --- | --- | --- |
+| <span lang="en">Security</span><span lang="ja">セキュリティ</span> | <span lang="en">Tier authority + Operation / Entity checks + limits</span><span lang="ja">ティア権限＋Operation／Entity認可＋資源上限</span> | <span lang="en">Carry execution context into Jobs and follow-up work</span><span lang="ja">Jobや後続処理にも実行文脈を引き継ぐ</span> |
+| <span lang="en">Observability</span><span lang="ja">観測可能性</span> | <span lang="en">Correlation IDs + Job / Task / UoW records</span><span lang="ja">相関ID＋Job／Task／UoWの記録</span> | <span lang="en">Separate waiting, execution, retry and dispatch</span><span lang="ja">待機・実行・再試行・配送を区別する</span> |
+| <span lang="en">Maintainability / modifiability</span><span lang="ja">保守性・変更容易性</span> | <span lang="en">Models / types + Free Monad + shared execution</span><span lang="ja">モデル・型＋Free Monad＋共通実行機構</span> | <span lang="en">Separate business changes from execution controls</span><span lang="ja">業務の意味と実行制御の変更を分担する</span> |
+| <span lang="en">Testability</span><span lang="ja">検証容易性</span> | <span lang="en">Pure functions / types + executable specs + failure scenarios</span><span lang="ja">純粋関数・型＋実行仕様＋障害シナリオ</span> | <span lang="en">Connect local checks with system behavior</span><span lang="ja">局所的な検査と全体の動作確認を接続する</span> |
+| <span lang="en">Resource efficiency / cost</span><span lang="ja">資源効率・運用コスト</span> | <span lang="en">Residency scope + execution budgets + cleanup + HA choice</span><span lang="ja">常駐範囲＋実行枠＋解放＋HA構成の選択</span> | <span lang="en">Match resources to performance and recovery needs</span><span lang="ja">必要な性能・復旧範囲に合わせて費用を調整</span> |
+
+## Separating Application and Domain Tier Responsibilities｜Application tierとDomain tierの役割を分ける
+
+<span lang="en">The UI tier owns user interaction. The Application tier handles request admission, authentication and input binding, use-case coordination, Domain Operation invocation, and responses. The Domain tier owns business rules, invariants, state transitions, and authoritative updates. Applications invoke public Domain operations instead of updating its DataStore directly, preserving business consistency across additional UIs and ingress paths.</span><span lang="ja">UI tierは利用者との対話を、Application tierは要求の受付、認証情報と入力の接続、ユースケースの調整、DomainのOperation呼出し、結果の返却を担当します。Domain tierは業務規則、不変条件、状態遷移、更新の確定を担当します。Application tierからDomain内部のDataStoreを直接更新せず、公開された操作を通すことで、UIや受付方式が増えても業務の整合性を同じ経路で維持します。</span>
+
+<span lang="en">The Application tier prefers Cloud Functions where appropriate, using short-lived execution and demand-dependent concurrency. The Domain tier runs as long-lived Subsystems that reuse resident data and indexes. DataStores retain persistent data. Avoiding Domain initialization for each request while adjusting public-side processing capacity supports performance and operating cost.</span><span lang="ja">Application tierは、適した処理にCloud Functionを優先し、短命な実行と要求量に応じた実行数の調整を利用します。Domain tierは、メモリ上のデータや索引を継続利用する長寿命のSubsystemとして構成します。永続データはDataStoreが保持します。要求ごとにDomainを初期化する費用を避けつつ、公開側の処理量を調整する構成が、性能と運用コストを支えます。</span>
+
+<span lang="en">Scaling the Application tier alone does not increase Domain or DataStore capacity. Ingress concurrency, admission limits, and pending Job capacity must be designed against downstream capacity. Elasticity combines capacity adjustment with load control to maintain response time and stability; it does not mean accepting unlimited work. Coordinating Application scaling with Domain admission is what makes scalability and elasticity compatible with responsiveness.</span><span lang="ja">Application tierだけを増やしても、DomainやDataStoreの処理能力は増えません。入口の同時実行数、受付制限、Jobの待機容量をDomainの容量と合わせて設計します。弾力性は無制限に仕事を受け付けることではなく、容量の増減と負荷の抑制を組み合わせ、応答時間と安定性を維持することとして扱います。 Applicationの伸縮とDomainの受付制御を連動させることが、拡張性・弾力性を性能・応答性と両立させる条件です。</span>
+
+<span lang="ja">[[images/reactive-tier-map-ja.png]]</span><span lang="en">[[images/reactive-tier-map-en.png]]</span>
+
+<span lang="en">Figure 1. Tiers and capacity. Application scaling is coordinated with Domain admission limits; durable state remains in DataStore.</span><span lang="ja">図1　ティア構成と容量の調整。Applicationの伸縮とDomainの受付上限を合わせ、永続状態はDataStoreに保持します。</span>
+
+# Placing Business State and Read Models｜業務状態と参照を配置する
+
+<span lang="en">The Domain tier combines fast resident execution, recovery from persistent state, and CQRS separation of writes and reads. Performance and consistency result from connecting these mechanisms while retaining their separate responsibilities.</span><span lang="ja">Domain tierでは、メモリによる高速な実行、永続状態による復旧、CQRSによる更新・参照の分担を組み合わせます。どれか一つだけで性能と整合性を満たすのではなく、それぞれの責務を保ったまま接続します。</span>
+
+## Using Memory to Accelerate Execution and Reads｜メモリを軸に実行と参照を高速化する
+
+<span lang="en">Domain Subsystems retain EntitySpace, Entity Realms, indexes, dictionaries, and caches in memory to reduce repeated retrieval and reconstruction. Residency depends on Entity purpose and state: stable master data is a candidate, while stateful business Entities may remain resident while active. Large document bodies and media use separate storage and read paths. Linking model classifications to residency policy balances responsiveness and memory consumption.</span><span lang="ja">Domain SubsystemはEntitySpace、Entity Realm、索引、辞書、キャッシュなどをメモリに保持し、繰り返しの取得と再構成を減らします。常駐範囲はEntityの用途と状態で定めます。安定したマスターは常駐候補、状態を持つ業務Entityは実行中のものを候補とし、文書本文や画像などの大きな内容は別の保存・参照経路へ分けます。モデル上の分類と常駐方針を結び付け、応答性とメモリ使用量を両立させます。</span>
+
+<span lang="en">Memory residency is a performance mechanism, not a substitute for durability. Domain rules and UoW govern committed storage updates, whose outcomes then update or invalidate Working Sets and Views. A resident revision does not bypass authoritative concurrency checks. This combines fast reads with update consistency and reconstructability after failure.</span><span lang="ja">メモリ常駐は性能の仕組みであり、永続性の代わりではありません。更新はDomainの規則とUoWを通して保存先へ確定し、その結果に従ってWorking SetやViewを更新・無効化します。常駐している古いリビジョンを根拠に保存先の競合検査を省略しません。これにより、高速な参照経路を使いながら、更新の整合性と障害後の再構築可能性を保ちます。</span>
+
+<span lang="en">While a Working Set loads, eligible searches fall back to persistent storage instead of treating an unloaded set as empty business data. Long-running servers amortize warm-up costs through reuse, while short-lived command invocations can use store-first paths. The design therefore addresses startup responsiveness and recovery time as well as steady-state performance. Residency, persistence, and reconstruction are designed together to balance responsiveness, consistency, recoverability, and resource efficiency.</span><span lang="ja">Working Setの読込み中は、適用対象の検索を永続ストアへフォールバックさせ、未読込みの集合を空の業務データとして扱わないようにします。長時間動作するサーバーはウォームアップの費用を継続利用で回収し、短命なコマンド実行はストア中心の経路を選べます。通常時の性能だけでなく、起動時の応答と復旧時間も含めた設計です。 常駐範囲、永続化、再構築を一緒に定めることで、性能・応答性、データ整合性、回復可能性、資源効率を調整します。</span>
+
+## Separating Command and Query Paths with CQRS｜CQRSで更新と参照の経路を分ける
+
+<span lang="en">In CQRS, Commands change business state and Queries read it. Textus/CNCF models Entity as the authoritative business data, Aggregate as the write-side operations and invariants, and View as the read-side information structure. Updates follow Aggregate business operations rather than presentation-oriented View shapes. This allows consistency-sensitive writes and responsiveness-oriented reads to be tuned separately.</span><span lang="ja">CQRSでは、Commandが業務状態を変更し、Queryが状態を参照します。Textus/CNCFのモデルでは、Entityを業務データの正本とし、Aggregateが更新側の操作と不変条件を、Viewが参照側の情報構成を担います。画面に便利なViewの形で更新規則を決めず、Aggregateの業務操作を通して変更します。整合性を守る更新経路と、応答性を高める参照経路を別々に調整できます。</span>
+
+<span lang="en">Events produced by updates can trigger View reconstruction or invalidation and subsequent work. Read-side projections are reconstructable derived state. With asynchronous refresh, a committed update and a refreshed View need not become visible simultaneously, so freshness and reread conditions must be explicit. These consistency conditions connect CQRS and message-driven processing to responsiveness.</span><span lang="ja">更新から生じたEventを、Viewの再構成や無効化、後続処理の契機へ接続します。参照側の投影は再構築可能な派生状態として扱います。非同期で反映する場合には、更新の確定とViewの反映完了が同時とは限らないため、必要な鮮度と更新後の再参照条件を定めます。CQRSとメッセージ駆動を組み合わせる際は、この整合性の条件が応答性との接点になります。</span>
+
+<span lang="en">Queries normally execute directly and return results. Under the current execution contract, Commands explicitly select direct responses or Job management. Neither mandatory Jobs for every Command nor separate distributed stores for every Query are assumed. Choosing the separation required by the use case limits waiting and execution-management overhead. The Aggregate/View/Event division provides a structure for tuning read performance while preserving data consistency.</span><span lang="ja">Queryは通常、直接実行して結果を返します。Commandについても、現在の実行契約では直接応答とJob管理を明示的に選択します。すべてのCommandを必ずJobにすることや、すべての参照を別の分散ストアへ移すことを前提にしません。業務の要求に応じて必要な分離を選び、待ち時間と実行管理の費用を抑えます。 Aggregate・View・Eventの分担が、データ整合性を保ちつつ参照の性能を調整するための構造になります。</span>
+
+<span lang="ja">[[images/reactive-cqrs-memory-ja.png]]</span><span lang="en">[[images/reactive-cqrs-memory-en.png]]</span>
+
+<span lang="en">Figure 2. Write and read paths. Memory and Views are reconstructible and follow committed updates.</span><span lang="ja">図2　更新と参照の経路。メモリとViewは再構築可能な状態として、確定した更新に追随させます。</span>
+
+# Connecting Program Descriptions to Shared Execution｜処理の記述を共通の実行機構へつなぐ
+
+<span lang="en">Types and pure functional composition make computation semantics explicit and hand effectful execution to shared infrastructure. This reduces individually implemented control logic and establishes the boundary for applying reactive execution controls.</span><span lang="ja">型と純粋関数型の合成によって処理の意味を明示し、外部作用を含む実行を共通基盤へ渡します。この分担が、複雑な制御の個別実装を減らし、リアクティブな実行に必要な制御を適用する接点になります。</span>
+
+## Aligning Computation Semantics with Types and Consequence｜型とConsequenceで処理の意味を揃える
+
+<span lang="en">Consequence represents outcomes and structured failures. Dependent computations compose through flatMap and stop progressing after failure. Independent input checks compose applicatively through zip APIs to aggregate errors across fields. Expressing this distinction through types and APIs lets business logic and infrastructure share failure semantics, reducing ad hoc exception handling and review effort.</span><span lang="ja">Consequenceは、処理結果と構造化された失敗を扱います。前の結果に依存する処理はflatMapによって順につなぎ、失敗した場合に後続へ進まない構造にします。独立した入力検査はzip系APIでアプリカティブに合成し、複数項目のエラーをまとめます。この区別を型とAPIへ表すことで、業務処理と実行基盤が失敗の意味を共有でき、個別の例外処理とレビューの負担を減らします。</span>
+
+<span lang="en">Pure functions compute outputs from explicit inputs, reducing hidden-state dependencies. Monadic composition expresses dependency; applicative composition expresses independent structure. Neither automatically guarantees asynchronous or parallel execution. Types and composition rules widen the scope of checkable properties and make computations easier to hand to shared execution mechanisms, connecting maintainability and testability to reactive execution.</span><span lang="ja">純粋関数は、明示した入力から出力を求める計算として扱い、隠れた状態への依存を減らします。モナドは依存関係を、アプリカティブは独立して組み合わせられる構造を表します。これらは非同期化や並列実行を自動的に保証するものではありません。型と合成規則で検査できる範囲を広げ、共通の実行機構へ処理を渡しやすくすることが、保守性・検証容易性とリアクティブな実行をつなぐ役割です。</span>
+
+#+CAPTION: <span lang="en">Responsibilities of types and functional composition</span><span lang="ja">型と関数型の合成が担う範囲</span>
+| <span lang="en">Mechanism</span><span lang="ja">仕組み</span> | <span lang="en">What it describes</span><span lang="ja">表すもの</span> | <span lang="en">Relation to execution</span><span lang="ja">実行基盤との関係</span> |
+| --- | --- | --- |
+| <span lang="en">Pure functions / types</span><span lang="ja">純粋関数・型</span> | <span lang="en">Inputs, outputs and valid connections</span><span lang="ja">入力と出力、接続できる処理</span> | <span lang="en">Check computation and composition locally</span><span lang="ja">計算と接続を局所的に検査する</span> |
+| <span lang="en">Consequence / flatMap</span><span lang="ja">Consequence／flatMap</span> | <span lang="en">Dependent sequencing and failures</span><span lang="ja">結果に依存する順序と失敗</span> | <span lang="en">Stop subsequent processing on failure</span><span lang="ja">失敗時に後続へ進まない</span> |
+| <span lang="en">Applicative / zip</span><span lang="ja">アプリカティブ／zip</span> | <span lang="en">Independent checks</span><span lang="ja">独立した検査の合成</span> | <span lang="en">Accumulate multiple input errors</span><span lang="ja">複数の入力エラーを集める</span> |
+| <span lang="en">Free Monad / UoW</span><span lang="ja">Free Monad／UoW</span> | <span lang="en">Operation descriptions separate from execution</span><span lang="ja">操作の記述と実行の分離</span> | <span lang="en">Share execution, commit and resource cleanup</span><span lang="ja">実行・確定・資源解放を共通化する</span> |
+
+## Separating Description and Execution with Free Monad and UoW｜Free MonadとUoWで記述と実行を分ける
+
+<span lang="en">A Free Monad Program composes descriptions of reads, writes, and external calls. ConsequenceT incorporates Consequence outcome and failure rules into that description. Consequence owns outcome semantics, the Free Monad owns operation description and composition, and the interpreter connects them to execution. This avoids embedding transport, resource management, and failure control together in business code.</span><span lang="ja">Free MonadによるProgramは、保存、参照、外部呼出しなどの操作を記述として組み合わせます。ConsequenceTは、その記述へConsequenceの結果・失敗の規則を組み込みます。Consequenceが結果の意味を、Free Monadが操作の記述と合成を担当し、インタープリタが実際の実行経路へ接続します。業務コードへ通信、資源管理、失敗処理を一体で埋め込まずに済む構造です。</span>
+
+<span lang="en">An ActionCall is an execution unit bound to an execution context. ActionEngine and UoW coordinate authorization, execution observation, commit and abort, and resource termination. Job-managed execution uses this same path. Security, consistency, and observability controls can therefore apply to the same operation without separate business implementations for synchronous and asynchronous execution. This boundary between operation descriptions and execution control supports maintainability, modifiability, and testability as well as security and consistency.</span><span lang="ja">ActionCallは実行コンテキストに結び付いた処理単位であり、ActionEngineとUoWが認可との連携、実行の観測、commit・abort、資源の終了処理を担当します。Jobから実行する場合も、この共通経路を利用します。同期・非同期ごとに別の業務実装を用意せず、同じ操作へ安全性・整合性・観測可能性の制御を適用することができます。 操作の記述と実行制御を分離したこの境界は、セキュリティと整合性に加えて、保守性・変更容易性、検証容易性にも寄与します。</span>
+
+<span lang="ja">[[images/reactive-uow-path-ja.png]]</span><span lang="en">[[images/reactive-uow-path-en.png]]</span>
+
+<span lang="en">Figure 3. From business descriptions to shared execution. Consequence describes outcomes, Free Monad describes operations, and UoW owns commit and resource boundaries.</span><span lang="ja">図3　業務の記述から共通実行へ。Consequenceは結果、Free Monadは操作の記述、UoWは確定と資源の境界を担当します。</span>
+
+# Connecting Load and Business Progression to Execution Management｜負荷と業務進行を実行管理へ接続する
+
+<span lang="en">Jobs retain work identity and outcomes, capacity controls bound admitted work, and Events and business models define conditions for progression. Connecting admission to completion keeps asynchronous processing traceable and controllable.</span><span lang="ja">Job管理で処理の所在と結果を保持し、容量制御で受け入れられる仕事を限定し、Eventと業務モデルで次に進む条件を定めます。受付から完了までをつなぐことで、非同期化した処理を追跡可能で制御可能なものとして扱います。</span>
+
+## Tracking Work from Admission to Completion through Job Management｜ジョブ管理で受付から完了までを追跡する
+
+<span lang="en">Long-running work can be admitted as a Job and continue after a Job identifier is returned. A synchronous interface can instead await its result. A Job is a managed work instance, and a Task is an observable execution step within it. Admission success is not business success; status and results establish completion. This distinction supports both UI responsiveness and traceability.</span><span lang="ja">長時間の処理はJobとして受け付け、Jobの識別子を返してから実行を継続できます。同期インターフェースではJobの完了を待って結果を返す構成も選べます。Jobは実行単位、Taskはその中の観測可能な処理段階です。受付の成功は業務処理の成功ではなく、Jobの状態と結果を通して完了を確認します。この区別が、UIの応答性と処理の追跡可能性を両立させます。</span>
+
+<span lang="en">JobEngine manages queueing, start, results, retries, cancellation, and selected persistence for explicitly Job-managed work. Built-in asynchronous Commands and Event continuations connect to its scheduler path. Reducing separately launched asynchronous work keeps processing visible and subjects it to common load controls and operational inspection.</span><span lang="ja">JobEngineは、明示的にJob管理を選択した処理の待機、開始、結果、再試行、取消し、必要な永続化を管理します。組込みの非同期CommandやEventの後続処理は、このスケジューラーの経路へ接続します。個別に非同期処理を起動する実装を減らすことで、処理中の仕事を見失わず、負荷制御と運用上の確認を同じ対象へ適用できます。</span>
+
+<span lang="en">Tasks follow UoW commit and abort rules, but an entire Job is not necessarily one database transaction. A later Task can fail after an earlier Task has committed. Recording admission, individual Task outcomes, and the final Job result separately retains the facts required for retries, compensation, and user-facing results. Combining Job tracking with UoW commit management supports observability, recoverability, and consistency alongside responsiveness.</span><span lang="ja">Taskの実行はUoWの確定・中止の規則に従いますが、Job全体が一つのデータベース・トランザクションとは限りません。前のTaskが確定した後に後続が失敗する場合があります。処理の受付、各Taskの確定、Jobの最終結果を区別して記録することで、再試行や補償、利用者への結果表示に必要な事実を保持します。 Jobの追跡とUoWの確定管理を組み合わせることで、応答性だけでなく、観測可能性・回復可能性・データ整合性を支えます。</span>
+
+## Applying Load and Resource Limits to Execution｜負荷と資源の上限を実行制御へ反映する
+
+<span lang="en">Worker concurrency is limited, and pending work, inputs, and retained results also require bounds. Requests beyond capacity are handled as refusals or waiting according to admission policy, distinct from accepted work. A queue alone does not solve overload; waiting time, memory, and execution slots must be managed together.</span><span lang="ja">ワーカーの並行実行数を制限し、待機する処理や入力、結果などの保持量にも上限を設けます。処理能力を超える要求は、選択した受付方針に従って拒否や待機として扱い、受付できた仕事と区別します。キューを置くだけでは過負荷を解決できないため、待機時間、メモリ、実行枠を合わせて管理することが必要です。</span>
+
+<span lang="en">In message-driven systems, back-pressure adjusts sending or admission to receiver capacity. For Textus/CNCF, Job admission outcomes, backlog, and worker saturation provide inputs for Application-tier and operational control. Bounded admission should not be confused with implemented stream-demand control across every path.</span><span lang="ja">メッセージ駆動の構成では、受信側の処理能力に合わせて送信や受付を調整することがバックプレッシャーの役割です。Textus/CNCFでは、Jobの受付結果、待機量、ワーカーの飽和状態を、Application tierや運用側の制御へ接続する設計が重要になります。受付制限があることと、全経路にストリーム型の需要制御が実装されていることは区別します。</span>
+
+<span lang="en">Admission rate, queue time, execution time, retained memory, and failure rate inform Application concurrency and Domain capacity. Functional Subsystem boundaries, read-side Views, and authorized read-only Standby workloads provide additional controls. Maintaining responsiveness requires limiting contention and resource consumption rather than maximizing parallelism without bounds.</span><span lang="ja">受付率、待機時間、実行時間、保持メモリ、失敗率を観測し、Applicationの実行数とDomainの容量を調整します。Subsystemの機能分割、参照用View、許可されたStandbyへの読取り分散も調整手段です。応答性を維持するために、無制限な並列化ではなく、競合と資源消費を抑えた構成を選びます。</span>
+
+<span lang="ja">[[images/reactive-job-admission-ja.png]]</span><span lang="en">[[images/reactive-job-admission-en.png]]</span>
+
+<span lang="en">Figure 4. Job admission and execution. Admission, Task commit and Job completion are distinct; both queue size and concurrency are bounded.</span><span lang="ja">図4　Job受付と実行管理。受付・Taskの確定・Jobの完了を分け、待機量と実行数を合わせて制御します。</span>
+
+## Connecting Events, Workflows, and State Machines｜イベント・Workflow・状態機械を接続する
+
+<span lang="en">Messages and business models describe different concerns. Their roles are connected explicitly, choosing synchronous execution, follow-up within the same Job, or a separate Job according to transaction relationships and response timing.</span><span lang="ja">メッセージと業務モデルは、それぞれ異なる対象を記述します。役割を区別した上で接続し、必要なトランザクション関係と応答時点に応じて、同期・同一Job内の後続・別Jobでの実行を選びます。</span>
+
+<span lang="en">Workflows describe business progression, while state machines define allowed states and transitions. Binding execution steps to Operations and Jobs distinguishes business waiting, approval, and transitions from execution queueing, retries, and completion. Connecting model-defined progression to shared execution paths combines message-driven flexibility with business correctness.</span><span lang="ja">Workflowは業務の進行を、状態機械は対象が取り得る状態と許される遷移を記述します。その中の実行をOperationやJobへ結び付けることで、業務上の待機・承認・遷移と、処理の待機・再試行・完了を区別します。モデルで許された進行を共通の実行経路へ渡すことが、メッセージ駆動の柔軟性と業務の正しさを両立させます。</span>
+
+<span lang="en">Failure to dispatch follow-up work after a committed update does not undo that update. Commit and delivery outcomes are recorded separately for redelivery or recovery decisions. State consistency and resilient delivery depend on coordinating distinct boundaries. Connecting Event delivery to business transition rules makes message-driven flexibility compatible with data consistency and correctness.</span><span lang="ja">データ更新が確定した後で後続処理の投入に失敗した場合、その失敗によって既に確定した更新が取り消されたとは扱いません。更新の確定と配送の結果を別々に記録し、再配送や回復の判断へつなぎます。状態の整合性と配送の耐障害性は、異なる境界を連携させて確保します。 Eventの配送と業務の遷移規則を接続することで、メッセージ駆動の柔軟性をデータ整合性・正確性と両立させます。</span>
+
+#+CAPTION: <span lang="en">Distinguishing requests, facts, execution and business progression</span><span lang="ja">要求・事実・実行管理・業務進行の区別</span>
+| <span lang="en">Element</span><span lang="ja">要素</span> | <span lang="en">Concern</span><span lang="ja">記述する対象</span> | <span lang="en">Connection</span><span lang="ja">接続する先</span> |
+| --- | --- | --- |
+| <span lang="en">Command</span><span lang="ja">Command</span> | <span lang="en">Requested business action</span><span lang="ja">実行してほしい業務処理</span> | <span lang="en">Operation; direct response or Job</span><span lang="ja">Operation／直接応答またはJob</span> |
+| <span lang="en">Event</span><span lang="ja">Event</span> | <span lang="en">A fact that has occurred</span><span lang="ja">既に発生した事実</span> | <span lang="en">View update, follow-up work and dispatch record</span><span lang="ja">Viewの更新、後続処理、配送記録</span> |
+| <span lang="en">Job / Task</span><span lang="ja">Job／Task</span> | <span lang="en">Execution and observable stages</span><span lang="ja">実行全体と観測できる処理段階</span> | <span lang="en">UoW, retry, cancellation and outcomes</span><span lang="ja">UoW、再試行、取消し、結果記録</span> |
+| <span lang="en">Workflow / state machine</span><span lang="ja">Workflow／状態機械</span> | <span lang="en">Business progression / permitted transitions</span><span lang="ja">業務の進行／許される状態遷移</span> | <span lang="en">Operations and Jobs</span><span lang="ja">Operation・Jobによる実行</span> |
+
+# Including Failure and Replacement in the Execution Design｜失敗と交換を通常の実行設計に含める
+
+<span lang="en">The design spans individual failures, resource termination, recovery from durable records, and runtime replacement. Retaining committed facts at each boundary and isolating failed parts supports resilience and continued responsiveness.</span><span lang="ja">一つの処理の失敗から、資源の終了、永続記録に基づく回復、実行環境の交代までを扱います。各段階の確定済み事実を保持し、失敗した部分を切り離して回復することが、耐障害性と継続的な応答を支えます。</span>
+
+## Classifying Failures to Select Retry and Recovery｜失敗を分類し再試行と回復を選ぶ
+
+#+CAPTION: <span lang="en">Recovery decisions based on execution outcome</span><span lang="ja">実行結果に応じた回復判断</span>
+| <span lang="en">State</span><span lang="ja">状態</span> | <span lang="en">Preserved fact</span><span lang="ja">保持する事実</span> | <span lang="en">Action</span><span lang="ja">対応</span> |
+| --- | --- | --- |
+| <span lang="en">Input / authority / rule rejection</span><span lang="ja">入力・認可・条件拒否</span> | <span lang="en">Reason for rejection</span><span lang="ja">処理を拒否した理由</span> | <span lang="en">Correct or verify conditions</span><span lang="ja">条件を修正・確認</span> |
+| <span lang="en">Execution failure before commit</span><span lang="ja">未確定の実行失敗</span> | <span lang="en">Execution progress</span><span lang="ja">どこまで実行したか</span> | <span lang="en">Check conditions, then retry</span><span lang="ja">条件を確認して再試行</span> |
+| <span lang="en">Earlier Task committed</span><span lang="ja">前段Task確定済み</span> | <span lang="en">Committed update</span><span lang="ja">確定した更新</span> | <span lang="en">Explicitly modeled compensation</span><span lang="ja">モデル化した補償</span> |
+| <span lang="en">Started, outcome unknown</span><span lang="ja">開始済み・結果不明</span> | <span lang="en">Do not assume no execution</span><span lang="ja">未実行とは判断しない</span> | <span lang="en">Confirm effects and decide recovery</span><span lang="ja">結果確認と回復判断</span> |
+| <span lang="en">Post-commit dispatch failure</span><span lang="ja">確定後の配送失敗</span> | <span lang="en">Update already committed</span><span lang="ja">更新は確定済み</span> | <span lang="en">Recover dispatch only</span><span lang="ja">配送だけを回復</span> |
+
+<span lang="en">Consequence and Conclusion carry structured outcomes such as invalid input, authorization refusal, unmet business conditions, and execution failure. Work that did not start is distinguished from work that failed after execution and correlated with Job and Task results. Retaining how far execution progressed, beyond catching exceptions, is essential to resilience and observability.</span><span lang="ja">Consequence／Conclusionによって、入力の誤り、認可の拒否、業務条件の不成立、実行時の失敗などを構造化して伝えます。実行されなかった処理と、実行後に失敗した処理を区別し、JobやTaskの結果に関連付けます。単に例外を捕捉するだけでなく、どこまで処理したかを保持することが、耐障害性と観測可能性の前提です。</span>
+
+<span lang="en">A retry is another execution attempt for the same logical work. Eligible failures, attempt counts, delays, and idempotency conditions must be defined. Where earlier Tasks have committed, business undo requires explicitly modeled compensation operations. Infrastructure does not infer undo semantics from changed data. Missing or failed compensation leaves an explicit recovery-required state.</span><span lang="ja">再試行は同じ論理的な仕事に対する新しい実行試行です。対象となる失敗、回数、待機、冪等性の条件を定めます。前のTaskが確定済みの場合は、業務上の取消しに相当する補償操作を明示的にモデル化します。基盤が更新内容から自動的に取消しの意味を推測することはありません。補償できない場合や補償が失敗した場合は、回復が必要な状態として残します。</span>
+
+<span lang="en">Persisting a Job record does not by itself make external effects safe to replay. Resumption requires conditions concerning input, definitions, authority, providers, compatibility, and idempotency. Started work with an uncertain outcome is subject to recovery decisions rather than being treated as unstarted and automatically resubmitted. Durable records combined with resumption conditions reduce duplicate effects during recovery.</span><span lang="ja">Jobの記録を保存しても、外部作用を安全に再実行できるとは限りません。再開には入力、定義、権限、プロバイダー、互換性、冪等性などの条件を確認します。開始済みで結果が確定できない仕事は、未実行とみなして自動再投入せず、回復判断の対象にします。永続記録と再開条件を組み合わせることで、復旧による重複実行を抑えます。</span>
+
+## Managing Cancellation and Resource Release Centrally｜取消しと資源解放を共通管理する
+
+<span lang="en">UoW manages operational resources acquired during execution and releases them on success, failure, abort, or disposal. Transaction commit and abort are coordinated with, but distinct from, releasing processes or temporary streams. Remaining releases are attempted after a release failure, preserving both primary and cleanup failures. This limits resource leaks that would otherwise degrade performance over time.</span><span lang="ja">UoWは、処理中に取得した実行用資源を管理し、成功、失敗、中止、破棄の終端で解放します。トランザクションのcommit・abortと、プロセスや一時ストリーム等の解放は別の責務として接続します。一つの解放が失敗しても残りを試み、元の失敗原因と解放時の失敗を保持します。資源の漏れによる継続的な性能低下を抑えるための仕組みです。</span>
+
+<span lang="en">Job cancellation signals running work to stop, while termination confirmation and resource collection follow the resource lifecycle. An await timeout, a cancellation request, and actual termination are different events. Distinguishing them prevents reporting completion with resources still active or treating committed work as unexecuted. Cancellation and cleanup management preserve resource efficiency and limit the accumulated unfinished work that can undermine responsiveness and resilience.</span><span lang="ja">Jobの取消しは実行中の処理へ停止を伝え、資源の終了確認と回収はそのライフサイクルに従って行います。応答の待機がタイムアウトしたこと、取消しを要求したこと、実際に処理が止まったことは同じではありません。これらを区別することで、資源を残したまま完了扱いすることや、既に確定した処理を未実行として扱うことを防ぎます。 取消しと解放の管理は資源効率を保ち、蓄積した未終了処理が応答性や耐障害性を損なうことを抑えます。</span>
+
+## Combining Memory Residency with Active/Standby Operation｜メモリ常駐とActive／Standbyを組み合わせる
+
+<span lang="en">Domain Subsystem availability design assigns mutations to Active, while a ready Standby may serve read-only or cache workloads permitted by consistency requirements. Standby is not implicitly another writer. Extending CQRS distinctions into deployment and authority supports read performance and consistent writes while preparing a replacement.</span><span lang="ja">Domain Subsystemの可用性設計では、Activeが更新を担当し、Standbyは準備状態を保ちながら、整合性条件が許す読取りやキャッシュ処理を担当できます。Standbyを無条件に第二の更新系とは扱いません。CQRSによる読取り・更新の区別を配備と権限へつなぎ、参照性能と更新の一貫性を保ちながら交代先を準備します。</span>
+
+<span lang="en">A replacement starts from admitted CAR artifacts, configuration, and persistent state, warms required memory, and establishes readiness. Routing and mutation authority switch before the old runtime drains and terminates. The architecture uses common paths for rotation, releases, and failover, exercising recovery during normal operation and combining long-lived memory use with replaceability.</span><span lang="ja">交代先は、受け入れたCARと設定、永続状態から起動し、必要なメモリをウォームアップして準備状態を確認します。新規要求の経路と更新権限を切り替え、旧系の処理をドレインして終了します。定期交換、リリース、障害時の交代に共通する経路を使う構想によって、復旧手順を通常運用でも確認し、長寿命のメモリ利用と交換可能性を両立させます。</span>
+
+<span lang="en">Select an HA topology for the required recovery time and cost. Reconstructible memory, transfer of write authority and available dependencies together support availability, resilience and recoverability.</span><span lang="ja">HA構成は、必要な復旧時間と費用に合わせて選びます。再構築可能なメモリ、更新権限の切替え、依存先の可用性を揃えることが、可用性・耐障害性と回復可能性を支える条件です。</span>
+
+<span lang="ja">[[images/reactive-replacement-path-ja.png]]</span><span lang="en">[[images/reactive-replacement-path-en.png]]</span>
+
+<span lang="en">Figure 5. Planned replacement design. Prepare from durable state, then switch routing and write authority. Failure recovery also uses surviving execution records.</span><span lang="ja">図5　計画的な交代の設計。永続状態から準備した交代先へ経路と更新権限を切り替えます。障害時は残存する実行記録も使って復旧を判断します。</span>
+
+#+CAPTION: <span lang="en">Deployment and failure boundaries</span><span lang="ja">配備構成と障害の範囲</span>
+| <span lang="en">Topology</span><span lang="ja">構成</span> | <span lang="en">Main failure scope</span><span lang="ja">主に扱う障害</span> | <span lang="en">Additional consideration</span><span lang="ja">合わせて確認する範囲</span> |
+| --- | --- | --- |
+| <span lang="en">Single instance</span><span lang="ja">単一実行</span> | <span lang="en">Recovery through restart</span><span lang="ja">再起動による回復</span> | <span lang="en">No replacement instance during recovery</span><span lang="ja">復旧中は代替実行先がない</span> |
+| <span lang="en">HA on one host</span><span lang="ja">同一ホストのHA</span> | <span lang="en">Process replacement</span><span lang="ja">実行プロセスの交代</span> | <span lang="en">The host remains a shared failure point</span><span lang="ja">ホスト障害は共有する</span> |
+| <span lang="en">HA across hosts</span><span lang="ja">別ホストのHA</span> | <span lang="en">Instance and host replacement</span><span lang="ja">実行先・ホストの交代</span> | <span lang="en">Shared DataStore, authentication and network dependencies</span><span lang="ja">DataStore、認証、通信の共通障害点</span> |
+
+# Verifying Qualities and Using Shared Infrastructure｜品質を確認し共通基盤を利用する
+
+<span lang="en">Both specifications and execution checks establish shared mechanism behavior and system performance and availability. Application-defined business conditions and infrastructure-owned execution controls remain explicit.</span><span lang="ja">共通機構の動作と、対象システムの性能・可用性は、仕様と実行の両方で確認します。開発側が定める業務の条件と、基盤へ委ねる実行制御を明確にして利用します。</span>
+
+## Connecting Quality Attributes to Observation and Verification｜品質属性を実行の記録と検証へつなぐ
+
+#+CAPTION: <span lang="en">Evidence and scenarios for quality verification</span><span lang="ja">品質の確認に使う記録とシナリオ</span>
+| <span lang="en">Concern</span><span lang="ja">観点</span> | <span lang="en">Observe</span><span lang="ja">観測するもの</span> | <span lang="en">Verify</span><span lang="ja">確認するシナリオ</span> |
+| --- | --- | --- |
+| <span lang="en">Response / capacity</span><span lang="ja">応答性・容量</span> | <span lang="en">Admission rate, wait/run time, saturation</span><span lang="ja">受付率、待機・実行時間、飽和</span> | <span lang="en">Overload and admission limits</span><span lang="ja">過負荷と受付制限</span> |
+| <span lang="en">Consistency</span><span lang="ja">整合性</span> | <span lang="en">Revisions, UoW commit and View projection</span><span lang="ja">リビジョン、UoW確定、View反映</span> | <span lang="en">Concurrent updates and re-read</span><span lang="ja">競合更新と再参照</span> |
+| <span lang="en">Recovery / resilience</span><span lang="ja">回復・耐障害性</span> | <span lang="en">Task outcomes, retries and dispatch</span><span lang="ja">Task結果、再試行、配送記録</span> | <span lang="en">Disconnection, restart and replacement</span><span lang="ja">通信断、再起動、交代</span> |
+| <span lang="en">Resource efficiency</span><span lang="ja">資源効率</span> | <span lang="en">Memory, execution slots and cleanup</span><span lang="ja">保持メモリ、実行枠、解放結果</span> | <span lang="en">Cancellation and terminal cleanup</span><span lang="ja">取消しと終了時の回収</span> |
+
+<span lang="en">Identifiers and correlation across requests, Operations, Jobs, Tasks, UoWs, and Events trace work from admission to completion. Distinguishing queue time, execution time, worker saturation, retries, and post-commit dispatch failure helps locate delay in ingress, execution, storage, or continuations. Observability supports elasticity tuning and operational resilience decisions.</span><span lang="ja">要求、Operation、Job、Task、UoW、Eventの識別子と相関を用いて、受付から完了までをたどります。待機時間と実行時間、ワーカーの飽和、再試行、確定後の配送失敗を区別して記録すると、遅延が入口、実行、保存、後続処理のどこで生じたかを確認できます。観測可能性は、弾力性の調整と耐障害性の運用判断を支えます。</span>
+
+<span lang="en">Beyond properties checked by types and execution specifications, scenarios cover overload admission, conflicting updates, cleanup on failure, cancellation, retries, process restart, and Standby takeover. Latency and throughput are measured with representative data volumes, residency, concurrency, and external dependencies. This connects available mechanisms to the qualities required of a particular system.</span><span lang="ja">型と実行仕様で確認する性質に加え、過負荷での受付、競合更新、失敗時の解放、取消し、再試行、プロセス再起動、Standbyへの交代をシナリオとして検証します。応答時間や処理量は、実際のデータ量、常駐範囲、並行数、外部依存を使って測定します。機構の存在と、対象システムが必要な品質を満たすことを結び付ける作業です。</span>
+
+## Shared Infrastructure and Application Responsibilities｜共通基盤の利用範囲と開発側の役割
+
+<span lang="en">Developers define Entities, Aggregates, Views, Workflows, state machines, and public Operations in CML, and build business processing with standard CNCF facilities. Model operations and standard APIs connect to shared execution paths, making asynchronous scheduling, progress tracking, and resource management available without application-specific implementations. Developers normally follow these conventions and adjust deployment and configuration to the required throughput and availability. Business-specific compensation and acceptable data freshness remain business requirements to define.</span><span lang="ja">開発者は、CMLでEntity、Aggregate、View、Workflow、状態機械、公開Operationを定義し、CNCFの標準機能で業務処理を組み立てます。モデル操作と標準APIが共通の実行経路につながるため、非同期処理のスケジューリング、進行の追跡、資源の管理などを個別に実装せずに利用できます。通常はこの作法に従い、必要な処理量や可用性に応じて配備と設定を調整します。業務固有の補償や許容するデータの鮮度などは、業務の条件として定めます。</span>
+
+<span lang="en">This guide covers the overall technology system supporting reactive qualities. Consequence and Free Monad representations, common Action/UoW execution, Job scheduling and control, and Working Set reads have implementations. Detailed durable-Job resumption, resource budgets, and UoW integration have individual implementation and acceptance stages; availability profiles and replacement paths also require release-specific scope checks. Distributed active-active, multisite availability, and automatic end-to-end back-pressure are not presented as a single delivered capability set.</span><span lang="ja">本書はリアクティブ性を支える技術体系の全体を扱います。ConsequenceとFree Monadの実装、共通のAction／UoW経路、Jobのスケジューリング・制御、Working Setの参照経路には実装があります。永続Jobの詳細な再開・資源予算・UoW連携には個別の実装・受入れ段階があり、可用性Profileや交代の全経路についても採用する版の対応範囲を確認します。分散Active-Active、複数拠点の可用性、全通信経路の自動的なバックプレッシャーを一括した提供済み機能とは扱いません。</span>
+
+<span lang="en">The security technical guide explains authority and protection across layers. The UI technical guide explains presentation, interaction, and how acceptance and completion appear to users. This guide explains the execution architecture behind them, sustaining work while handling load and failure. The same tiers, components, models, and execution boundaries support multiple quality attributes.</span><span lang="ja">セキュリティ技術ガイドは、各層の権限と保護を説明します。UI技術ガイドは、表示、操作、受付・完了の見せ方を説明します。本書は、それらの背後で処理を継続し、負荷と失敗を扱う実行アーキテクチャを説明します。同じティア、コンポーネント、モデル、実行境界を複数の品質属性に活用する関係です。</span>
+
+# Conclusion｜まとめ
+
+<span lang="en">Textus/CNCF connects model and component structures to shared execution mechanisms, centralizing the complex controls required for asynchronous processing. By using CML models and standard CNCF facilities, developers can use the mechanisms supporting reactive qualities without implementing them individually. The architecture combines development focused on business meaning with execution supporting responsiveness, resilience, and elasticity.</span><span lang="ja">Textus/CNCFは、モデルとコンポーネントの構造を共通の実行機構へ接続し、非同期処理の複雑な制御を基盤に集約します。開発者はCMLのモデルとCNCFの標準機能を使うことで、リアクティブ性を支える仕組みを個別に実装せずに利用できます。業務に集中できる開発方法と、応答性・耐障害性・弾力性を支える実行を一体にすることが、このアーキテクチャの効果です。</span>

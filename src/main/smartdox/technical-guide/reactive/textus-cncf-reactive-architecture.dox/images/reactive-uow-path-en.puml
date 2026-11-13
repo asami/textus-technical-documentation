@@ -1,0 +1,32 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBorderColor #899DA9
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam sequenceParticipantBackgroundColor #F0F6F8
+skinparam sequenceLifeLineBorderColor #899DA9
+skinparam sequenceMessageAlign center
+skinparam noteBackgroundColor #FFF8E9
+skinparam noteBorderColor #C5B88B
+skinparam dpi 170
+skinparam ranksep 15
+skinparam nodesep 20
+rectangle "Business computation\nTypes / pure functions" as code
+rectangle "Program (Free Monad)\nConsequenceT composes outcomes and failures" as program
+rectangle "Interpreter / ActionCall\nConnect to execution context" as interpreter
+rectangle "ActionEngine / UoW\nAuthorization / observation / commit / cleanup" as engine
+rectangle "Persist / read / external call" as effects
+rectangle "Direct invocation / Job" as entry
+code -right-> program
+program -down-> interpreter
+interpreter -left-> engine
+entry --> engine : Shared execution path
+engine -down-> effects
+@enduml

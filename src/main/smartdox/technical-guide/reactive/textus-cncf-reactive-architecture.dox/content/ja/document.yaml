@@ -1,0 +1,2957 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-reactive-architecture-document-ja",
+  "core": {
+    "id": "textus-cncf-reactive-architecture"
+  },
+  "locale": "ja",
+  "document": {
+    "title": "Textus/CNCF リアクティブ・アーキテクチャ技術ガイド",
+    "sections": [
+      {
+        "id": "textus-cncf-reactive-architecture-section",
+        "heading": "Textus/CNCF リアクティブ・アーキテクチャ技術ガイド",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-reactive-architecture"
+          ],
+          "claims": [
+            "textus-cncf-reactive-architecture-claim-1"
+          ],
+          "nodes": [
+            "textus-cncf-reactive-architecture-node-1",
+            "textus-cncf-reactive-architecture-node-effect"
+          ],
+          "relations": [
+            "textus-cncf-reactive-architecture-relation-effect"
+          ],
+          "flows": [
+            "textus-cncf-reactive-architecture-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "textus-cncf-reactive-architecture-paragraph-1",
+            "kind": "paragraph",
+            "text": "クラウドアプリケーションには、負荷に応じた処理能力の拡大、機能の拡張や変更への柔軟性、高可用性が求められます。Textus/CNCFは、これらを支える複雑な実行制御を共通基盤に組み込み、CMLのモデルとCNCFの標準機能を使う開発からリアクティブな動作を得られるようにしています。本書では、この分担を実現するアーキテクチャと技術の組合せを説明します。",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-reactive-architecture"
+              ],
+              "claims": [
+                "textus-cncf-reactive-architecture-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-reactive-architecture-node-1",
+                "textus-cncf-reactive-architecture-node-effect"
+              ],
+              "relations": [
+                "textus-cncf-reactive-architecture-relation-effect"
+              ],
+              "flows": [
+                "textus-cncf-reactive-architecture-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "reactive-foundation-section",
+            "heading": "リアクティブ性を全体アーキテクチャで実現する",
+            "coreRefs": {
+              "steps": [
+                "reactive-foundation"
+              ],
+              "claims": [
+                "reactive-foundation-claim-1"
+              ],
+              "nodes": [
+                "reactive-foundation-node-1",
+                "reactive-foundation-node-complexity",
+                "reactive-foundation-node-effect"
+              ],
+              "relations": [
+                "reactive-foundation-relation-complexity",
+                "reactive-foundation-relation-effect"
+              ],
+              "flows": [
+                "reactive-foundation-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "reactive-foundation-paragraph-1",
+                "kind": "paragraph",
+                "text": "バックエンドの処理を非同期のメッセージで連携させると、呼出し側と処理側が同時に動作し続ける必要がなくなり、部品ごとに処理能力や配置を調整しやすくなります。この分離に、容量の調整、負荷制御、障害の隔離と回復を組み合わせることで、次の品質改善につながります。",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-foundation"
+                  ],
+                  "claims": [
+                    "reactive-foundation-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-foundation-node-1",
+                    "reactive-foundation-node-complexity",
+                    "reactive-foundation-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-foundation-relation-complexity",
+                    "reactive-foundation-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-foundation-flow"
+                  ]
+                }
+              },
+              {
+                "id": "reactive-quality-benefits",
+                "kind": "table",
+                "caption": "表1　リアクティブな構成による品質属性の改善",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "品質属性"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "得られる改善"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "リアクティブな構成での対応"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "reactive-quality-benefits-row-1",
+                    "cells": [
+                      "スケーラビリティ（処理能力の拡張）",
+                      "負荷の高い処理の能力を増やしやすい",
+                      "処理を分離し、複数の実行先へ負荷を分散する"
+                    ]
+                  },
+                  {
+                    "id": "reactive-quality-benefits-row-2",
+                    "cells": [
+                      "弾力性",
+                      "需要の変動に応じて処理能力を調整できる",
+                      "実行数の増減と、下流の容量に応じた受付制御を組み合わせる"
+                    ]
+                  },
+                  {
+                    "id": "reactive-quality-benefits-row-3",
+                    "cells": [
+                      "高可用性",
+                      "一部が停止してもサービスを継続しやすい",
+                      "障害を区画内に抑え、冗長化と実行先の切替えを組み合わせる"
+                    ]
+                  },
+                  {
+                    "id": "reactive-quality-benefits-row-4",
+                    "cells": [
+                      "耐障害性・回復可能性",
+                      "障害の波及を抑え、処理を回復しやすい",
+                      "失敗を分離して記録し、再試行・再開を管理する"
+                    ]
+                  },
+                  {
+                    "id": "reactive-quality-benefits-row-5",
+                    "cells": [
+                      "応答性",
+                      "長時間処理や過負荷による応答の停滞を抑える",
+                      "受付と完了を分け、待機量と並行実行数を制御する"
+                    ]
+                  },
+                  {
+                    "id": "reactive-quality-benefits-row-6",
+                    "cells": [
+                      "機能拡張・変更の柔軟性",
+                      "部品の追加・変更の影響を限定しやすい",
+                      "メッセージの契約を保ち、各部品の処理と実行時期を分離する"
+                    ]
+                  },
+                  {
+                    "id": "reactive-quality-benefits-row-7",
+                    "cells": [
+                      "資源効率・運用コスト",
+                      "待機中の資源占有や過剰な常時配備を減らせる",
+                      "非ブロッキングな実行と負荷に応じた資源配分を組み合わせる"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "reactive-foundation"
+                  ],
+                  "claims": [
+                    "reactive-foundation-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-foundation-node-1",
+                    "reactive-foundation-node-complexity",
+                    "reactive-foundation-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-foundation-relation-complexity",
+                    "reactive-foundation-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-foundation-flow"
+                  ]
+                }
+              },
+              {
+                "id": "reactive-foundation-paragraph-complexity",
+                "kind": "paragraph",
+                "text": "非同期化すると、処理の順序や完了の確認、データの整合性、再試行に伴う重複実行など、管理すべき事項が増えます。これらの制御を業務処理ごとに実装すると、処理間で方式が異なり、システム全体で一貫した動作を保つことが難しくなります。",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-foundation"
+                  ],
+                  "claims": [
+                    "reactive-foundation-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-foundation-node-1",
+                    "reactive-foundation-node-complexity",
+                    "reactive-foundation-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-foundation-relation-complexity",
+                    "reactive-foundation-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-foundation-flow"
+                  ]
+                }
+              },
+              {
+                "id": "reactive-foundation-paragraph-runtime",
+                "kind": "paragraph",
+                "text": "Textus/CNCFでは、CMLで定義したモデルとCNCFの標準機能を使って業務処理を構成すると、その処理が共通の実行機構へ接続されます。ティアとコンポーネントの分担、メッセージによる連携、ジョブ管理、資源管理、障害対応がこの実行経路で働くため、開発者が業務処理ごとに非同期制御を組み立てる必要を減らせます。通常の開発では業務のモデルと処理に集中しながら、実行基盤によるリアクティブ性の支援を受けられます。技術的に難しい制御を基盤が引き受け、標準的な作法に沿う実装へ適用することが、このアーキテクチャの要点です。",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-foundation"
+                  ],
+                  "claims": [
+                    "reactive-foundation-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-foundation-node-1",
+                    "reactive-foundation-node-complexity",
+                    "reactive-foundation-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-foundation-relation-complexity",
+                    "reactive-foundation-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-foundation-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "reactive-qualities-section",
+                "heading": "四つの特性と品質属性を関連付ける",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-qualities"
+                  ],
+                  "claims": [
+                    "reactive-qualities-claim-1",
+                    "reactive-qualities-claim-2",
+                    "reactive-qualities-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-qualities-node-1",
+                    "reactive-qualities-node-2",
+                    "reactive-qualities-node-3"
+                  ],
+                  "relations": [
+                    "reactive-qualities-relation-1",
+                    "reactive-qualities-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-qualities-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-qualities-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "リアクティブ宣言は、応答性、耐障害性、弾力性、メッセージ駆動を相互に関連する四つの特性として整理しています。Textus/CNCFでは、負荷の変動や部分的な障害があっても、要求に対して適切な時間で結果、受付状態、失敗を返せることを目指します。単に処理を非同期化するだけでなく、その処理を受け入れ、実行し、結果を確認できる経路を設計します。参考：リアクティブ宣言（https://www.reactivemanifesto.org/）。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-qualities"
+                      ],
+                      "claims": [
+                        "reactive-qualities-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-qualities-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-qualities-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-qualities-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "メッセージ駆動は、処理間の時間的な依存を減らし、負荷や障害を分離して扱うための構成です。Textus/CNCFでは、Command、Event、Jobで要求、発生した事実、実行管理を区別します。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-qualities"
+                      ],
+                      "claims": [
+                        "reactive-qualities-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-qualities-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-qualities-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-qualities-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "非同期な構成の利点を活かすには、データ整合性やセキュリティを保ち、分離した処理を観測・検証できることも必要です。以下では、こうした制御を含め、Textus/CNCFの技術の組合せを十の品質属性から整理します。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-qualities"
+                      ],
+                      "claims": [
+                        "reactive-qualities-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-qualities-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-qualities-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "reactive-quality-attributes-section",
+                "heading": "品質属性と技術の組合せの対応",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-quality-attributes"
+                  ],
+                  "claims": [
+                    "reactive-quality-attributes-claim-overview"
+                  ],
+                  "nodes": [
+                    "reactive-quality-attributes-node-combination",
+                    "reactive-quality-attributes-node-quality"
+                  ],
+                  "relations": [
+                    "reactive-quality-attributes-relation-overview"
+                  ],
+                  "flows": [
+                    "reactive-quality-attributes-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-quality-attributes-paragraph-overview",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-quality-attributes"
+                      ],
+                      "claims": [
+                        "reactive-quality-attributes-claim-overview"
+                      ],
+                      "nodes": [
+                        "reactive-quality-attributes-node-combination",
+                        "reactive-quality-attributes-node-quality"
+                      ],
+                      "relations": [
+                        "reactive-quality-attributes-relation-overview"
+                      ],
+                      "flows": [
+                        "reactive-quality-attributes-flow"
+                      ]
+                    },
+                    "text": "次の表は、導入で示した品質への効果をTextus/CNCFの具体的な機構に対応付け、成立条件と確認点を示します。後続の節では、その機構が実行経路でどう連携するかを説明します。"
+                  },
+                  {
+                    "id": "reactive-quality-execution",
+                    "kind": "table",
+                    "caption": "表2　品質属性と技術の組合せ：実行と回復",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "品質属性"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "組合せと効果"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "成立条件・確認点"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "reactive-quality-execution-row-1",
+                        "cells": [
+                          "性能・応答性",
+                          "Working Set＋View＋Jobで取得と待機を減らす",
+                          "結果または受付状態を返すまでの時間を確認"
+                        ]
+                      },
+                      {
+                        "id": "reactive-quality-execution-row-2",
+                        "cells": [
+                          "拡張性・弾力性",
+                          "Applicationの伸縮＋Domain容量＋受付制御",
+                          "入口の増加で下流を過負荷にしない"
+                        ]
+                      },
+                      {
+                        "id": "reactive-quality-execution-row-3",
+                        "cells": [
+                          "可用性・耐障害性",
+                          "部品境界＋Active／Standby＋経路切替え",
+                          "DataStoreなど依存先の障害境界も含める"
+                        ]
+                      },
+                      {
+                        "id": "reactive-quality-execution-row-4",
+                        "cells": [
+                          "回復可能性",
+                          "永続記録＋メモリ再構築＋再試行・補償",
+                          "確定済み・結果不明を分け、重複実行を抑える"
+                        ]
+                      },
+                      {
+                        "id": "reactive-quality-execution-row-5",
+                        "cells": [
+                          "データ整合性・正確性",
+                          "Aggregate・状態機械＋UoW＋View更新",
+                          "競合検査と、非同期反映時の鮮度を定める"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-quality-attributes-performance",
+                        "reactive-quality-attributes-elasticity",
+                        "reactive-quality-attributes-availability",
+                        "reactive-quality-attributes-recoverability",
+                        "reactive-quality-attributes-consistency"
+                      ],
+                      "claims": [
+                        "reactive-quality-attributes-claim-performance",
+                        "reactive-quality-attributes-claim-elasticity",
+                        "reactive-quality-attributes-claim-availability",
+                        "reactive-quality-attributes-claim-recoverability",
+                        "reactive-quality-attributes-claim-consistency"
+                      ],
+                      "nodes": [
+                        "reactive-quality-attributes-mechanisms-performance",
+                        "reactive-quality-attributes-quality-performance",
+                        "reactive-quality-attributes-mechanisms-elasticity",
+                        "reactive-quality-attributes-quality-elasticity",
+                        "reactive-quality-attributes-mechanisms-availability",
+                        "reactive-quality-attributes-quality-availability",
+                        "reactive-quality-attributes-mechanisms-recoverability",
+                        "reactive-quality-attributes-quality-recoverability",
+                        "reactive-quality-attributes-mechanisms-consistency",
+                        "reactive-quality-attributes-quality-consistency"
+                      ],
+                      "relations": [
+                        "reactive-quality-attributes-mapping-performance",
+                        "reactive-quality-attributes-mapping-elasticity",
+                        "reactive-quality-attributes-mapping-availability",
+                        "reactive-quality-attributes-mapping-recoverability",
+                        "reactive-quality-attributes-mapping-consistency"
+                      ],
+                      "flows": [
+                        "reactive-quality-attributes-performance-flow",
+                        "reactive-quality-attributes-elasticity-flow",
+                        "reactive-quality-attributes-availability-flow",
+                        "reactive-quality-attributes-recoverability-flow",
+                        "reactive-quality-attributes-consistency-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-quality-continuity",
+                    "kind": "table",
+                    "caption": "表3　品質属性と技術の組合せ：安全な継続と変更",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "品質属性"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "組合せと効果"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "成立条件・確認点"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "reactive-quality-continuity-row-1",
+                        "cells": [
+                          "セキュリティ",
+                          "ティア権限＋Operation／Entity認可＋資源上限",
+                          "Jobや後続処理にも実行文脈を引き継ぐ"
+                        ]
+                      },
+                      {
+                        "id": "reactive-quality-continuity-row-2",
+                        "cells": [
+                          "観測可能性",
+                          "相関ID＋Job／Task／UoWの記録",
+                          "待機・実行・再試行・配送を区別する"
+                        ]
+                      },
+                      {
+                        "id": "reactive-quality-continuity-row-3",
+                        "cells": [
+                          "保守性・変更容易性",
+                          "モデル・型＋Free Monad＋共通実行機構",
+                          "業務の意味と実行制御の変更を分担する"
+                        ]
+                      },
+                      {
+                        "id": "reactive-quality-continuity-row-4",
+                        "cells": [
+                          "検証容易性",
+                          "純粋関数・型＋実行仕様＋障害シナリオ",
+                          "局所的な検査と全体の動作確認を接続する"
+                        ]
+                      },
+                      {
+                        "id": "reactive-quality-continuity-row-5",
+                        "cells": [
+                          "資源効率・運用コスト",
+                          "常駐範囲＋実行枠＋解放＋HA構成の選択",
+                          "必要な性能・復旧範囲に合わせて費用を調整"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-quality-attributes-security",
+                        "reactive-quality-attributes-observability",
+                        "reactive-quality-attributes-maintainability",
+                        "reactive-quality-attributes-testability",
+                        "reactive-quality-attributes-efficiency"
+                      ],
+                      "claims": [
+                        "reactive-quality-attributes-claim-security",
+                        "reactive-quality-attributes-claim-observability",
+                        "reactive-quality-attributes-claim-maintainability",
+                        "reactive-quality-attributes-claim-testability",
+                        "reactive-quality-attributes-claim-efficiency"
+                      ],
+                      "nodes": [
+                        "reactive-quality-attributes-mechanisms-security",
+                        "reactive-quality-attributes-quality-security",
+                        "reactive-quality-attributes-mechanisms-observability",
+                        "reactive-quality-attributes-quality-observability",
+                        "reactive-quality-attributes-mechanisms-maintainability",
+                        "reactive-quality-attributes-quality-maintainability",
+                        "reactive-quality-attributes-mechanisms-testability",
+                        "reactive-quality-attributes-quality-testability",
+                        "reactive-quality-attributes-mechanisms-efficiency",
+                        "reactive-quality-attributes-quality-efficiency"
+                      ],
+                      "relations": [
+                        "reactive-quality-attributes-mapping-security",
+                        "reactive-quality-attributes-mapping-observability",
+                        "reactive-quality-attributes-mapping-maintainability",
+                        "reactive-quality-attributes-mapping-testability",
+                        "reactive-quality-attributes-mapping-efficiency"
+                      ],
+                      "flows": [
+                        "reactive-quality-attributes-security-flow",
+                        "reactive-quality-attributes-observability-flow",
+                        "reactive-quality-attributes-maintainability-flow",
+                        "reactive-quality-attributes-testability-flow",
+                        "reactive-quality-attributes-efficiency-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "reactive-tiers-section",
+                "heading": "Application tierとDomain tierの役割を分ける",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-tiers"
+                  ],
+                  "claims": [
+                    "reactive-tiers-claim-1",
+                    "reactive-tiers-claim-2",
+                    "reactive-tiers-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-tiers-node-1",
+                    "reactive-tiers-node-2",
+                    "reactive-tiers-node-3"
+                  ],
+                  "relations": [
+                    "reactive-tiers-relation-1",
+                    "reactive-tiers-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-tiers-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-tiers-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "UI tierは利用者との対話を、Application tierは要求の受付、認証情報と入力の接続、ユースケースの調整、DomainのOperation呼出し、結果の返却を担当します。Domain tierは業務規則、不変条件、状態遷移、更新の確定を担当します。Application tierからDomain内部のDataStoreを直接更新せず、公開された操作を通すことで、UIや受付方式が増えても業務の整合性を同じ経路で維持します。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-tiers"
+                      ],
+                      "claims": [
+                        "reactive-tiers-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-tiers-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-tiers-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-tiers-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Application tierは、適した処理にCloud Functionを優先し、短命な実行と要求量に応じた実行数の調整を利用します。Domain tierは、メモリ上のデータや索引を継続利用する長寿命のSubsystemとして構成します。永続データはDataStoreが保持します。要求ごとにDomainを初期化する費用を避けつつ、公開側の処理量を調整する構成が、性能と運用コストを支えます。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-tiers"
+                      ],
+                      "claims": [
+                        "reactive-tiers-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-tiers-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-tiers-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-tiers-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Application tierだけを増やしても、DomainやDataStoreの処理能力は増えません。入口の同時実行数、受付制限、Jobの待機容量をDomainの容量と合わせて設計します。弾力性は無制限に仕事を受け付けることではなく、容量の増減と負荷の抑制を組み合わせ、応答時間と安定性を維持することとして扱います。 Applicationの伸縮とDomainの受付制御を連動させることが、拡張性・弾力性を性能・応答性と両立させる条件です。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-tiers"
+                      ],
+                      "claims": [
+                        "reactive-tiers-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-tiers-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-tiers-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-tier-map",
+                    "kind": "figure",
+                    "asset": "images/reactive-tier-map-ja.png",
+                    "caption": "図1　ティア構成と容量の調整。Applicationの伸縮とDomainの受付上限を合わせ、永続状態はDataStoreに保持します。",
+                    "alt": "図1　ティア構成と容量の調整。Applicationの伸縮とDomainの受付上限を合わせ、永続状態はDataStoreに保持します。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-tiers"
+                      ],
+                      "claims": [
+                        "reactive-tiers-claim-1",
+                        "reactive-tiers-claim-2",
+                        "reactive-tiers-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-tiers-node-1",
+                        "reactive-tiers-node-2",
+                        "reactive-tiers-node-3"
+                      ],
+                      "relations": [
+                        "reactive-tiers-relation-1",
+                        "reactive-tiers-relation-2"
+                      ],
+                      "flows": [
+                        "reactive-tiers-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "reactive-state-section",
+            "heading": "業務状態と参照を配置する",
+            "coreRefs": {
+              "steps": [
+                "reactive-state"
+              ],
+              "claims": [
+                "reactive-state-claim-1"
+              ],
+              "nodes": [
+                "reactive-state-node-1",
+                "reactive-state-node-effect"
+              ],
+              "relations": [
+                "reactive-state-relation-effect"
+              ],
+              "flows": [
+                "reactive-state-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "reactive-state-paragraph-1",
+                "kind": "paragraph",
+                "text": "Domain tierでは、メモリによる高速な実行、永続状態による復旧、CQRSによる更新・参照の分担を組み合わせます。どれか一つだけで性能と整合性を満たすのではなく、それぞれの責務を保ったまま接続します。",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-state"
+                  ],
+                  "claims": [
+                    "reactive-state-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-state-node-1",
+                    "reactive-state-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-state-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-state-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "reactive-memory-section",
+                "heading": "メモリを軸に実行と参照を高速化する",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-memory"
+                  ],
+                  "claims": [
+                    "reactive-memory-claim-1",
+                    "reactive-memory-claim-2",
+                    "reactive-memory-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-memory-node-1",
+                    "reactive-memory-node-2",
+                    "reactive-memory-node-3"
+                  ],
+                  "relations": [
+                    "reactive-memory-relation-1",
+                    "reactive-memory-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-memory-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-memory-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Domain SubsystemはEntitySpace、Entity Realm、索引、辞書、キャッシュなどをメモリに保持し、繰り返しの取得と再構成を減らします。常駐範囲はEntityの用途と状態で定めます。安定したマスターは常駐候補、状態を持つ業務Entityは実行中のものを候補とし、文書本文や画像などの大きな内容は別の保存・参照経路へ分けます。モデル上の分類と常駐方針を結び付け、応答性とメモリ使用量を両立させます。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-memory"
+                      ],
+                      "claims": [
+                        "reactive-memory-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-memory-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-memory-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-memory-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "メモリ常駐は性能の仕組みであり、永続性の代わりではありません。更新はDomainの規則とUoWを通して保存先へ確定し、その結果に従ってWorking SetやViewを更新・無効化します。常駐している古いリビジョンを根拠に保存先の競合検査を省略しません。これにより、高速な参照経路を使いながら、更新の整合性と障害後の再構築可能性を保ちます。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-memory"
+                      ],
+                      "claims": [
+                        "reactive-memory-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-memory-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-memory-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-memory-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Working Setの読込み中は、適用対象の検索を永続ストアへフォールバックさせ、未読込みの集合を空の業務データとして扱わないようにします。長時間動作するサーバーはウォームアップの費用を継続利用で回収し、短命なコマンド実行はストア中心の経路を選べます。通常時の性能だけでなく、起動時の応答と復旧時間も含めた設計です。 常駐範囲、永続化、再構築を一緒に定めることで、性能・応答性、データ整合性、回復可能性、資源効率を調整します。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-memory"
+                      ],
+                      "claims": [
+                        "reactive-memory-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-memory-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-memory-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "reactive-cqrs-section",
+                "heading": "CQRSで更新と参照の経路を分ける",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-cqrs"
+                  ],
+                  "claims": [
+                    "reactive-cqrs-claim-1",
+                    "reactive-cqrs-claim-2",
+                    "reactive-cqrs-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-cqrs-node-1",
+                    "reactive-cqrs-node-2",
+                    "reactive-cqrs-node-3"
+                  ],
+                  "relations": [
+                    "reactive-cqrs-relation-1",
+                    "reactive-cqrs-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-cqrs-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-cqrs-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "CQRSでは、Commandが業務状態を変更し、Queryが状態を参照します。Textus/CNCFのモデルでは、Entityを業務データの正本とし、Aggregateが更新側の操作と不変条件を、Viewが参照側の情報構成を担います。画面に便利なViewの形で更新規則を決めず、Aggregateの業務操作を通して変更します。整合性を守る更新経路と、応答性を高める参照経路を別々に調整できます。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-cqrs"
+                      ],
+                      "claims": [
+                        "reactive-cqrs-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-cqrs-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-cqrs-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-cqrs-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "更新から生じたEventを、Viewの再構成や無効化、後続処理の契機へ接続します。参照側の投影は再構築可能な派生状態として扱います。非同期で反映する場合には、更新の確定とViewの反映完了が同時とは限らないため、必要な鮮度と更新後の再参照条件を定めます。CQRSとメッセージ駆動を組み合わせる際は、この整合性の条件が応答性との接点になります。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-cqrs"
+                      ],
+                      "claims": [
+                        "reactive-cqrs-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-cqrs-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-cqrs-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-cqrs-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Queryは通常、直接実行して結果を返します。Commandについても、現在の実行契約では直接応答とJob管理を明示的に選択します。すべてのCommandを必ずJobにすることや、すべての参照を別の分散ストアへ移すことを前提にしません。業務の要求に応じて必要な分離を選び、待ち時間と実行管理の費用を抑えます。 Aggregate・View・Eventの分担が、データ整合性を保ちつつ参照の性能を調整するための構造になります。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-cqrs"
+                      ],
+                      "claims": [
+                        "reactive-cqrs-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-cqrs-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-cqrs-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-cqrs-memory",
+                    "kind": "figure",
+                    "asset": "images/reactive-cqrs-memory-ja.png",
+                    "caption": "図2　更新と参照の経路。メモリとViewは再構築可能な状態として、確定した更新に追随させます。",
+                    "alt": "図2　更新と参照の経路。メモリとViewは再構築可能な状態として、確定した更新に追随させます。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-cqrs",
+                        "reactive-memory"
+                      ],
+                      "claims": [
+                        "reactive-cqrs-claim-1",
+                        "reactive-cqrs-claim-2",
+                        "reactive-cqrs-claim-3",
+                        "reactive-memory-claim-1",
+                        "reactive-memory-claim-2",
+                        "reactive-memory-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-cqrs-node-1",
+                        "reactive-cqrs-node-2",
+                        "reactive-cqrs-node-3",
+                        "reactive-memory-node-1",
+                        "reactive-memory-node-2",
+                        "reactive-memory-node-3"
+                      ],
+                      "relations": [
+                        "reactive-cqrs-relation-1",
+                        "reactive-cqrs-relation-2",
+                        "reactive-memory-relation-1",
+                        "reactive-memory-relation-2"
+                      ],
+                      "flows": [
+                        "reactive-cqrs-flow",
+                        "reactive-memory-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "reactive-program-section",
+            "heading": "処理の記述を共通の実行機構へつなぐ",
+            "coreRefs": {
+              "steps": [
+                "reactive-program"
+              ],
+              "claims": [
+                "reactive-program-claim-1"
+              ],
+              "nodes": [
+                "reactive-program-node-1",
+                "reactive-program-node-effect"
+              ],
+              "relations": [
+                "reactive-program-relation-effect"
+              ],
+              "flows": [
+                "reactive-program-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "reactive-program-paragraph-1",
+                "kind": "paragraph",
+                "text": "型と純粋関数型の合成によって処理の意味を明示し、外部作用を含む実行を共通基盤へ渡します。この分担が、複雑な制御の個別実装を減らし、リアクティブな実行に必要な制御を適用する接点になります。",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-program"
+                  ],
+                  "claims": [
+                    "reactive-program-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-program-node-1",
+                    "reactive-program-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-program-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-program-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "reactive-composition-section",
+                "heading": "型とConsequenceで処理の意味を揃える",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-composition"
+                  ],
+                  "claims": [
+                    "reactive-composition-claim-1",
+                    "reactive-composition-claim-2"
+                  ],
+                  "nodes": [
+                    "reactive-composition-node-1",
+                    "reactive-composition-node-2"
+                  ],
+                  "relations": [
+                    "reactive-composition-relation-1"
+                  ],
+                  "flows": [
+                    "reactive-composition-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-composition-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Consequenceは、処理結果と構造化された失敗を扱います。前の結果に依存する処理はflatMapによって順につなぎ、失敗した場合に後続へ進まない構造にします。独立した入力検査はzip系APIでアプリカティブに合成し、複数項目のエラーをまとめます。この区別を型とAPIへ表すことで、業務処理と実行基盤が失敗の意味を共有でき、個別の例外処理とレビューの負担を減らします。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-composition"
+                      ],
+                      "claims": [
+                        "reactive-composition-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-composition-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-composition-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-composition-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "純粋関数は、明示した入力から出力を求める計算として扱い、隠れた状態への依存を減らします。モナドは依存関係を、アプリカティブは独立して組み合わせられる構造を表します。これらは非同期化や並列実行を自動的に保証するものではありません。型と合成規則で検査できる範囲を広げ、共通の実行機構へ処理を渡しやすくすることが、保守性・検証容易性とリアクティブな実行をつなぐ役割です。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-composition"
+                      ],
+                      "claims": [
+                        "reactive-composition-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-composition-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-composition-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-composition-roles",
+                    "kind": "table",
+                    "caption": "表4　型と関数型の合成が担う範囲",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "仕組み"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "表すもの"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "実行基盤との関係"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "reactive-composition-roles-row-1",
+                        "cells": [
+                          "純粋関数・型",
+                          "入力と出力、接続できる処理",
+                          "計算と接続を局所的に検査する"
+                        ]
+                      },
+                      {
+                        "id": "reactive-composition-roles-row-2",
+                        "cells": [
+                          "Consequence／flatMap",
+                          "結果に依存する順序と失敗",
+                          "失敗時に後続へ進まない"
+                        ]
+                      },
+                      {
+                        "id": "reactive-composition-roles-row-3",
+                        "cells": [
+                          "アプリカティブ／zip",
+                          "独立した検査の合成",
+                          "複数の入力エラーを集める"
+                        ]
+                      },
+                      {
+                        "id": "reactive-composition-roles-row-4",
+                        "cells": [
+                          "Free Monad／UoW",
+                          "操作の記述と実行の分離",
+                          "実行・確定・資源解放を共通化する"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-composition",
+                        "reactive-uow"
+                      ],
+                      "claims": [
+                        "reactive-composition-claim-1",
+                        "reactive-composition-claim-2",
+                        "reactive-uow-claim-1",
+                        "reactive-uow-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-composition-node-1",
+                        "reactive-composition-node-2",
+                        "reactive-uow-node-1",
+                        "reactive-uow-node-2"
+                      ],
+                      "relations": [
+                        "reactive-composition-relation-1",
+                        "reactive-uow-relation-1"
+                      ],
+                      "flows": [
+                        "reactive-composition-flow",
+                        "reactive-uow-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "reactive-uow-section",
+                "heading": "Free MonadとUoWで記述と実行を分ける",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-uow"
+                  ],
+                  "claims": [
+                    "reactive-uow-claim-1",
+                    "reactive-uow-claim-2"
+                  ],
+                  "nodes": [
+                    "reactive-uow-node-1",
+                    "reactive-uow-node-2"
+                  ],
+                  "relations": [
+                    "reactive-uow-relation-1"
+                  ],
+                  "flows": [
+                    "reactive-uow-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-uow-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Free MonadによるProgramは、保存、参照、外部呼出しなどの操作を記述として組み合わせます。ConsequenceTは、その記述へConsequenceの結果・失敗の規則を組み込みます。Consequenceが結果の意味を、Free Monadが操作の記述と合成を担当し、インタープリタが実際の実行経路へ接続します。業務コードへ通信、資源管理、失敗処理を一体で埋め込まずに済む構造です。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-uow"
+                      ],
+                      "claims": [
+                        "reactive-uow-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-uow-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-uow-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-uow-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "ActionCallは実行コンテキストに結び付いた処理単位であり、ActionEngineとUoWが認可との連携、実行の観測、commit・abort、資源の終了処理を担当します。Jobから実行する場合も、この共通経路を利用します。同期・非同期ごとに別の業務実装を用意せず、同じ操作へ安全性・整合性・観測可能性の制御を適用することができます。 操作の記述と実行制御を分離したこの境界は、セキュリティと整合性に加えて、保守性・変更容易性、検証容易性にも寄与します。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-uow"
+                      ],
+                      "claims": [
+                        "reactive-uow-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-uow-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-uow-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-uow-path",
+                    "kind": "figure",
+                    "asset": "images/reactive-uow-path-ja.png",
+                    "caption": "図3　業務の記述から共通実行へ。Consequenceは結果、Free Monadは操作の記述、UoWは確定と資源の境界を担当します。",
+                    "alt": "図3　業務の記述から共通実行へ。Consequenceは結果、Free Monadは操作の記述、UoWは確定と資源の境界を担当します。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-uow"
+                      ],
+                      "claims": [
+                        "reactive-uow-claim-1",
+                        "reactive-uow-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-uow-node-1",
+                        "reactive-uow-node-2"
+                      ],
+                      "relations": [
+                        "reactive-uow-relation-1"
+                      ],
+                      "flows": [
+                        "reactive-uow-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "reactive-coordination-section",
+            "heading": "負荷と業務進行を実行管理へ接続する",
+            "coreRefs": {
+              "steps": [
+                "reactive-coordination"
+              ],
+              "claims": [
+                "reactive-coordination-claim-1"
+              ],
+              "nodes": [
+                "reactive-coordination-node-1",
+                "reactive-coordination-node-effect"
+              ],
+              "relations": [
+                "reactive-coordination-relation-effect"
+              ],
+              "flows": [
+                "reactive-coordination-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "reactive-coordination-paragraph-1",
+                "kind": "paragraph",
+                "text": "Job管理で処理の所在と結果を保持し、容量制御で受け入れられる仕事を限定し、Eventと業務モデルで次に進む条件を定めます。受付から完了までをつなぐことで、非同期化した処理を追跡可能で制御可能なものとして扱います。",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-coordination"
+                  ],
+                  "claims": [
+                    "reactive-coordination-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-coordination-node-1",
+                    "reactive-coordination-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-coordination-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-coordination-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "reactive-jobs-section",
+                "heading": "ジョブ管理で受付から完了までを追跡する",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-jobs"
+                  ],
+                  "claims": [
+                    "reactive-jobs-claim-1",
+                    "reactive-jobs-claim-2",
+                    "reactive-jobs-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-jobs-node-1",
+                    "reactive-jobs-node-2",
+                    "reactive-jobs-node-3"
+                  ],
+                  "relations": [
+                    "reactive-jobs-relation-1",
+                    "reactive-jobs-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-jobs-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-jobs-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "長時間の処理はJobとして受け付け、Jobの識別子を返してから実行を継続できます。同期インターフェースではJobの完了を待って結果を返す構成も選べます。Jobは実行単位、Taskはその中の観測可能な処理段階です。受付の成功は業務処理の成功ではなく、Jobの状態と結果を通して完了を確認します。この区別が、UIの応答性と処理の追跡可能性を両立させます。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-jobs"
+                      ],
+                      "claims": [
+                        "reactive-jobs-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-jobs-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-jobs-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-jobs-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "JobEngineは、明示的にJob管理を選択した処理の待機、開始、結果、再試行、取消し、必要な永続化を管理します。組込みの非同期CommandやEventの後続処理は、このスケジューラーの経路へ接続します。個別に非同期処理を起動する実装を減らすことで、処理中の仕事を見失わず、負荷制御と運用上の確認を同じ対象へ適用できます。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-jobs"
+                      ],
+                      "claims": [
+                        "reactive-jobs-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-jobs-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-jobs-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-jobs-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Taskの実行はUoWの確定・中止の規則に従いますが、Job全体が一つのデータベース・トランザクションとは限りません。前のTaskが確定した後に後続が失敗する場合があります。処理の受付、各Taskの確定、Jobの最終結果を区別して記録することで、再試行や補償、利用者への結果表示に必要な事実を保持します。 Jobの追跡とUoWの確定管理を組み合わせることで、応答性だけでなく、観測可能性・回復可能性・データ整合性を支えます。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-jobs"
+                      ],
+                      "claims": [
+                        "reactive-jobs-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-jobs-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-jobs-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "reactive-load-section",
+                "heading": "負荷と資源の上限を実行制御へ反映する",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-load"
+                  ],
+                  "claims": [
+                    "reactive-load-claim-1",
+                    "reactive-load-claim-2",
+                    "reactive-load-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-load-node-1",
+                    "reactive-load-node-2",
+                    "reactive-load-node-3"
+                  ],
+                  "relations": [
+                    "reactive-load-relation-1",
+                    "reactive-load-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-load-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-load-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "ワーカーの並行実行数を制限し、待機する処理や入力、結果などの保持量にも上限を設けます。処理能力を超える要求は、選択した受付方針に従って拒否や待機として扱い、受付できた仕事と区別します。キューを置くだけでは過負荷を解決できないため、待機時間、メモリ、実行枠を合わせて管理することが必要です。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-load"
+                      ],
+                      "claims": [
+                        "reactive-load-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-load-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-load-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-load-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "メッセージ駆動の構成では、受信側の処理能力に合わせて送信や受付を調整することがバックプレッシャーの役割です。Textus/CNCFでは、Jobの受付結果、待機量、ワーカーの飽和状態を、Application tierや運用側の制御へ接続する設計が重要になります。受付制限があることと、全経路にストリーム型の需要制御が実装されていることは区別します。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-load"
+                      ],
+                      "claims": [
+                        "reactive-load-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-load-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-load-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-load-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "受付率、待機時間、実行時間、保持メモリ、失敗率を観測し、Applicationの実行数とDomainの容量を調整します。Subsystemの機能分割、参照用View、許可されたStandbyへの読取り分散も調整手段です。応答性を維持するために、無制限な並列化ではなく、競合と資源消費を抑えた構成を選びます。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-load"
+                      ],
+                      "claims": [
+                        "reactive-load-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-load-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-load-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-job-admission",
+                    "kind": "figure",
+                    "asset": "images/reactive-job-admission-ja.png",
+                    "caption": "図4　Job受付と実行管理。受付・Taskの確定・Jobの完了を分け、待機量と実行数を合わせて制御します。",
+                    "alt": "図4　Job受付と実行管理。受付・Taskの確定・Jobの完了を分け、待機量と実行数を合わせて制御します。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-jobs",
+                        "reactive-load"
+                      ],
+                      "claims": [
+                        "reactive-jobs-claim-1",
+                        "reactive-jobs-claim-2",
+                        "reactive-jobs-claim-3",
+                        "reactive-load-claim-1",
+                        "reactive-load-claim-2",
+                        "reactive-load-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-jobs-node-1",
+                        "reactive-jobs-node-2",
+                        "reactive-jobs-node-3",
+                        "reactive-load-node-1",
+                        "reactive-load-node-2",
+                        "reactive-load-node-3"
+                      ],
+                      "relations": [
+                        "reactive-jobs-relation-1",
+                        "reactive-jobs-relation-2",
+                        "reactive-load-relation-1",
+                        "reactive-load-relation-2"
+                      ],
+                      "flows": [
+                        "reactive-jobs-flow",
+                        "reactive-load-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "reactive-events-section",
+                "heading": "イベント・Workflow・状態機械を接続する",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-events"
+                  ],
+                  "claims": [
+                    "reactive-events-claim-1",
+                    "reactive-events-claim-2",
+                    "reactive-events-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-events-node-1",
+                    "reactive-events-node-2",
+                    "reactive-events-node-3"
+                  ],
+                  "relations": [
+                    "reactive-events-relation-1",
+                    "reactive-events-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-events-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-events-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "メッセージと業務モデルは、それぞれ異なる対象を記述します。役割を区別した上で接続し、必要なトランザクション関係と応答時点に応じて、同期・同一Job内の後続・別Jobでの実行を選びます。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-events"
+                      ],
+                      "claims": [
+                        "reactive-events-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-events-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-events-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-events-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Workflowは業務の進行を、状態機械は対象が取り得る状態と許される遷移を記述します。その中の実行をOperationやJobへ結び付けることで、業務上の待機・承認・遷移と、処理の待機・再試行・完了を区別します。モデルで許された進行を共通の実行経路へ渡すことが、メッセージ駆動の柔軟性と業務の正しさを両立させます。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-events"
+                      ],
+                      "claims": [
+                        "reactive-events-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-events-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-events-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-events-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "データ更新が確定した後で後続処理の投入に失敗した場合、その失敗によって既に確定した更新が取り消されたとは扱いません。更新の確定と配送の結果を別々に記録し、再配送や回復の判断へつなぎます。状態の整合性と配送の耐障害性は、異なる境界を連携させて確保します。 Eventの配送と業務の遷移規則を接続することで、メッセージ駆動の柔軟性をデータ整合性・正確性と両立させます。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-events"
+                      ],
+                      "claims": [
+                        "reactive-events-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-events-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-events-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-coordination-roles",
+                    "kind": "table",
+                    "caption": "表5　要求・事実・実行管理・業務進行の区別",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "要素"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "記述する対象"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "接続する先"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "reactive-coordination-roles-row-1",
+                        "cells": [
+                          "Command",
+                          "実行してほしい業務処理",
+                          "Operation／直接応答またはJob"
+                        ]
+                      },
+                      {
+                        "id": "reactive-coordination-roles-row-2",
+                        "cells": [
+                          "Event",
+                          "既に発生した事実",
+                          "Viewの更新、後続処理、配送記録"
+                        ]
+                      },
+                      {
+                        "id": "reactive-coordination-roles-row-3",
+                        "cells": [
+                          "Job／Task",
+                          "実行全体と観測できる処理段階",
+                          "UoW、再試行、取消し、結果記録"
+                        ]
+                      },
+                      {
+                        "id": "reactive-coordination-roles-row-4",
+                        "cells": [
+                          "Workflow／状態機械",
+                          "業務の進行／許される状態遷移",
+                          "Operation・Jobによる実行"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-events"
+                      ],
+                      "claims": [
+                        "reactive-events-claim-1",
+                        "reactive-events-claim-2",
+                        "reactive-events-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-events-node-1",
+                        "reactive-events-node-2",
+                        "reactive-events-node-3"
+                      ],
+                      "relations": [
+                        "reactive-events-relation-1",
+                        "reactive-events-relation-2"
+                      ],
+                      "flows": [
+                        "reactive-events-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "reactive-resilience-section",
+            "heading": "失敗と交換を通常の実行設計に含める",
+            "coreRefs": {
+              "steps": [
+                "reactive-resilience"
+              ],
+              "claims": [
+                "reactive-resilience-claim-1"
+              ],
+              "nodes": [
+                "reactive-resilience-node-1",
+                "reactive-resilience-node-effect"
+              ],
+              "relations": [
+                "reactive-resilience-relation-effect"
+              ],
+              "flows": [
+                "reactive-resilience-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "reactive-resilience-paragraph-1",
+                "kind": "paragraph",
+                "text": "一つの処理の失敗から、資源の終了、永続記録に基づく回復、実行環境の交代までを扱います。各段階の確定済み事実を保持し、失敗した部分を切り離して回復することが、耐障害性と継続的な応答を支えます。",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-resilience"
+                  ],
+                  "claims": [
+                    "reactive-resilience-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-resilience-node-1",
+                    "reactive-resilience-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-resilience-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-resilience-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "reactive-recovery-section",
+                "heading": "失敗を分類し再試行と回復を選ぶ",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-recovery"
+                  ],
+                  "claims": [
+                    "reactive-recovery-claim-1",
+                    "reactive-recovery-claim-2",
+                    "reactive-recovery-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-recovery-node-1",
+                    "reactive-recovery-node-2",
+                    "reactive-recovery-node-3"
+                  ],
+                  "relations": [
+                    "reactive-recovery-relation-1",
+                    "reactive-recovery-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-recovery-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-recovery-decisions",
+                    "kind": "table",
+                    "caption": "表6　実行結果に応じた回復判断",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "状態"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "保持する事実"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "対応"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "reactive-recovery-decisions-row-1",
+                        "cells": [
+                          "入力・認可・条件拒否",
+                          "処理を拒否した理由",
+                          "条件を修正・確認"
+                        ]
+                      },
+                      {
+                        "id": "reactive-recovery-decisions-row-2",
+                        "cells": [
+                          "未確定の実行失敗",
+                          "どこまで実行したか",
+                          "条件を確認して再試行"
+                        ]
+                      },
+                      {
+                        "id": "reactive-recovery-decisions-row-3",
+                        "cells": [
+                          "前段Task確定済み",
+                          "確定した更新",
+                          "モデル化した補償"
+                        ]
+                      },
+                      {
+                        "id": "reactive-recovery-decisions-row-4",
+                        "cells": [
+                          "開始済み・結果不明",
+                          "未実行とは判断しない",
+                          "結果確認と回復判断"
+                        ]
+                      },
+                      {
+                        "id": "reactive-recovery-decisions-row-5",
+                        "cells": [
+                          "確定後の配送失敗",
+                          "更新は確定済み",
+                          "配送だけを回復"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-recovery",
+                        "reactive-events"
+                      ],
+                      "claims": [
+                        "reactive-recovery-claim-1",
+                        "reactive-recovery-claim-2",
+                        "reactive-recovery-claim-3",
+                        "reactive-events-claim-1",
+                        "reactive-events-claim-2",
+                        "reactive-events-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-recovery-node-1",
+                        "reactive-recovery-node-2",
+                        "reactive-recovery-node-3",
+                        "reactive-events-node-1",
+                        "reactive-events-node-2",
+                        "reactive-events-node-3"
+                      ],
+                      "relations": [
+                        "reactive-recovery-relation-1",
+                        "reactive-recovery-relation-2",
+                        "reactive-events-relation-1",
+                        "reactive-events-relation-2"
+                      ],
+                      "flows": [
+                        "reactive-recovery-flow",
+                        "reactive-events-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-recovery-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Consequence／Conclusionによって、入力の誤り、認可の拒否、業務条件の不成立、実行時の失敗などを構造化して伝えます。実行されなかった処理と、実行後に失敗した処理を区別し、JobやTaskの結果に関連付けます。単に例外を捕捉するだけでなく、どこまで処理したかを保持することが、耐障害性と観測可能性の前提です。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-recovery"
+                      ],
+                      "claims": [
+                        "reactive-recovery-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-recovery-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-recovery-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-recovery-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "再試行は同じ論理的な仕事に対する新しい実行試行です。対象となる失敗、回数、待機、冪等性の条件を定めます。前のTaskが確定済みの場合は、業務上の取消しに相当する補償操作を明示的にモデル化します。基盤が更新内容から自動的に取消しの意味を推測することはありません。補償できない場合や補償が失敗した場合は、回復が必要な状態として残します。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-recovery"
+                      ],
+                      "claims": [
+                        "reactive-recovery-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-recovery-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-recovery-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-recovery-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Jobの記録を保存しても、外部作用を安全に再実行できるとは限りません。再開には入力、定義、権限、プロバイダー、互換性、冪等性などの条件を確認します。開始済みで結果が確定できない仕事は、未実行とみなして自動再投入せず、回復判断の対象にします。永続記録と再開条件を組み合わせることで、復旧による重複実行を抑えます。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-recovery"
+                      ],
+                      "claims": [
+                        "reactive-recovery-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-recovery-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-recovery-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "reactive-resources-section",
+                "heading": "取消しと資源解放を共通管理する",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-resources"
+                  ],
+                  "claims": [
+                    "reactive-resources-claim-1",
+                    "reactive-resources-claim-2"
+                  ],
+                  "nodes": [
+                    "reactive-resources-node-1",
+                    "reactive-resources-node-2"
+                  ],
+                  "relations": [
+                    "reactive-resources-relation-1"
+                  ],
+                  "flows": [
+                    "reactive-resources-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-resources-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "UoWは、処理中に取得した実行用資源を管理し、成功、失敗、中止、破棄の終端で解放します。トランザクションのcommit・abortと、プロセスや一時ストリーム等の解放は別の責務として接続します。一つの解放が失敗しても残りを試み、元の失敗原因と解放時の失敗を保持します。資源の漏れによる継続的な性能低下を抑えるための仕組みです。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-resources"
+                      ],
+                      "claims": [
+                        "reactive-resources-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-resources-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-resources-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-resources-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Jobの取消しは実行中の処理へ停止を伝え、資源の終了確認と回収はそのライフサイクルに従って行います。応答の待機がタイムアウトしたこと、取消しを要求したこと、実際に処理が止まったことは同じではありません。これらを区別することで、資源を残したまま完了扱いすることや、既に確定した処理を未実行として扱うことを防ぎます。 取消しと解放の管理は資源効率を保ち、蓄積した未終了処理が応答性や耐障害性を損なうことを抑えます。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-resources"
+                      ],
+                      "claims": [
+                        "reactive-resources-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-resources-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-resources-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "reactive-availability-section",
+                "heading": "メモリ常駐とActive／Standbyを組み合わせる",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-availability"
+                  ],
+                  "claims": [
+                    "reactive-availability-claim-1",
+                    "reactive-availability-claim-2",
+                    "reactive-availability-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-availability-node-1",
+                    "reactive-availability-node-2",
+                    "reactive-availability-node-3"
+                  ],
+                  "relations": [
+                    "reactive-availability-relation-1",
+                    "reactive-availability-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-availability-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-availability-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Domain Subsystemの可用性設計では、Activeが更新を担当し、Standbyは準備状態を保ちながら、整合性条件が許す読取りやキャッシュ処理を担当できます。Standbyを無条件に第二の更新系とは扱いません。CQRSによる読取り・更新の区別を配備と権限へつなぎ、参照性能と更新の一貫性を保ちながら交代先を準備します。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-availability"
+                      ],
+                      "claims": [
+                        "reactive-availability-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-availability-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-availability-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-availability-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "交代先は、受け入れたCARと設定、永続状態から起動し、必要なメモリをウォームアップして準備状態を確認します。新規要求の経路と更新権限を切り替え、旧系の処理をドレインして終了します。定期交換、リリース、障害時の交代に共通する経路を使う構想によって、復旧手順を通常運用でも確認し、長寿命のメモリ利用と交換可能性を両立させます。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-availability"
+                      ],
+                      "claims": [
+                        "reactive-availability-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-availability-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-availability-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-availability-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "HA構成は、必要な復旧時間と費用に合わせて選びます。再構築可能なメモリ、更新権限の切替え、依存先の可用性を揃えることが、可用性・耐障害性と回復可能性を支える条件です。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-availability"
+                      ],
+                      "claims": [
+                        "reactive-availability-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-availability-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-availability-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-replacement-path",
+                    "kind": "figure",
+                    "asset": "images/reactive-replacement-path-ja.png",
+                    "caption": "図5　計画的な交代の設計。永続状態から準備した交代先へ経路と更新権限を切り替えます。障害時は残存する実行記録も使って復旧を判断します。",
+                    "alt": "図5　計画的な交代の設計。永続状態から準備した交代先へ経路と更新権限を切り替えます。障害時は残存する実行記録も使って復旧を判断します。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-availability"
+                      ],
+                      "claims": [
+                        "reactive-availability-claim-1",
+                        "reactive-availability-claim-2",
+                        "reactive-availability-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-availability-node-1",
+                        "reactive-availability-node-2",
+                        "reactive-availability-node-3"
+                      ],
+                      "relations": [
+                        "reactive-availability-relation-1",
+                        "reactive-availability-relation-2"
+                      ],
+                      "flows": [
+                        "reactive-availability-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-ha-boundaries",
+                    "kind": "table",
+                    "caption": "表7　配備構成と障害の範囲",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "構成"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "主に扱う障害"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "合わせて確認する範囲"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "reactive-ha-boundaries-row-1",
+                        "cells": [
+                          "単一実行",
+                          "再起動による回復",
+                          "復旧中は代替実行先がない"
+                        ]
+                      },
+                      {
+                        "id": "reactive-ha-boundaries-row-2",
+                        "cells": [
+                          "同一ホストのHA",
+                          "実行プロセスの交代",
+                          "ホスト障害は共有する"
+                        ]
+                      },
+                      {
+                        "id": "reactive-ha-boundaries-row-3",
+                        "cells": [
+                          "別ホストのHA",
+                          "実行先・ホストの交代",
+                          "DataStore、認証、通信の共通障害点"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-availability"
+                      ],
+                      "claims": [
+                        "reactive-availability-claim-1",
+                        "reactive-availability-claim-2",
+                        "reactive-availability-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-availability-node-1",
+                        "reactive-availability-node-2",
+                        "reactive-availability-node-3"
+                      ],
+                      "relations": [
+                        "reactive-availability-relation-1",
+                        "reactive-availability-relation-2"
+                      ],
+                      "flows": [
+                        "reactive-availability-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "reactive-adoption-section",
+            "heading": "品質を確認し共通基盤を利用する",
+            "coreRefs": {
+              "steps": [
+                "reactive-adoption"
+              ],
+              "claims": [
+                "reactive-adoption-claim-1"
+              ],
+              "nodes": [
+                "reactive-adoption-node-1",
+                "reactive-adoption-node-effect"
+              ],
+              "relations": [
+                "reactive-adoption-relation-effect"
+              ],
+              "flows": [
+                "reactive-adoption-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "reactive-adoption-paragraph-1",
+                "kind": "paragraph",
+                "text": "共通機構の動作と、対象システムの性能・可用性は、仕様と実行の両方で確認します。開発側が定める業務の条件と、基盤へ委ねる実行制御を明確にして利用します。",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-adoption"
+                  ],
+                  "claims": [
+                    "reactive-adoption-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-adoption-node-1",
+                    "reactive-adoption-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-adoption-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-adoption-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "reactive-observability-section",
+                "heading": "品質属性を実行の記録と検証へつなぐ",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-observability"
+                  ],
+                  "claims": [
+                    "reactive-observability-claim-1",
+                    "reactive-observability-claim-2"
+                  ],
+                  "nodes": [
+                    "reactive-observability-node-1",
+                    "reactive-observability-node-2"
+                  ],
+                  "relations": [
+                    "reactive-observability-relation-1"
+                  ],
+                  "flows": [
+                    "reactive-observability-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-observation-matrix",
+                    "kind": "table",
+                    "caption": "表8　品質の確認に使う記録とシナリオ",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "観点"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "観測するもの"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "確認するシナリオ"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "reactive-observation-matrix-row-1",
+                        "cells": [
+                          "応答性・容量",
+                          "受付率、待機・実行時間、飽和",
+                          "過負荷と受付制限"
+                        ]
+                      },
+                      {
+                        "id": "reactive-observation-matrix-row-2",
+                        "cells": [
+                          "整合性",
+                          "リビジョン、UoW確定、View反映",
+                          "競合更新と再参照"
+                        ]
+                      },
+                      {
+                        "id": "reactive-observation-matrix-row-3",
+                        "cells": [
+                          "回復・耐障害性",
+                          "Task結果、再試行、配送記録",
+                          "通信断、再起動、交代"
+                        ]
+                      },
+                      {
+                        "id": "reactive-observation-matrix-row-4",
+                        "cells": [
+                          "資源効率",
+                          "保持メモリ、実行枠、解放結果",
+                          "取消しと終了時の回収"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-observability"
+                      ],
+                      "claims": [
+                        "reactive-observability-claim-1",
+                        "reactive-observability-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-observability-node-1",
+                        "reactive-observability-node-2"
+                      ],
+                      "relations": [
+                        "reactive-observability-relation-1"
+                      ],
+                      "flows": [
+                        "reactive-observability-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-observability-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "要求、Operation、Job、Task、UoW、Eventの識別子と相関を用いて、受付から完了までをたどります。待機時間と実行時間、ワーカーの飽和、再試行、確定後の配送失敗を区別して記録すると、遅延が入口、実行、保存、後続処理のどこで生じたかを確認できます。観測可能性は、弾力性の調整と耐障害性の運用判断を支えます。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-observability"
+                      ],
+                      "claims": [
+                        "reactive-observability-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-observability-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-observability-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-observability-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "型と実行仕様で確認する性質に加え、過負荷での受付、競合更新、失敗時の解放、取消し、再試行、プロセス再起動、Standbyへの交代をシナリオとして検証します。応答時間や処理量は、実際のデータ量、常駐範囲、並行数、外部依存を使って測定します。機構の存在と、対象システムが必要な品質を満たすことを結び付ける作業です。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-observability"
+                      ],
+                      "claims": [
+                        "reactive-observability-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-observability-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-observability-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "reactive-scope-section",
+                "heading": "共通基盤の利用範囲と開発側の役割",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-scope"
+                  ],
+                  "claims": [
+                    "reactive-scope-claim-1",
+                    "reactive-scope-claim-2",
+                    "reactive-scope-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-scope-node-1",
+                    "reactive-scope-node-2",
+                    "reactive-scope-node-3"
+                  ],
+                  "relations": [
+                    "reactive-scope-relation-1",
+                    "reactive-scope-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-scope-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-scope-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "開発者は、CMLでEntity、Aggregate、View、Workflow、状態機械、公開Operationを定義し、CNCFの標準機能で業務処理を組み立てます。モデル操作と標準APIが共通の実行経路につながるため、非同期処理のスケジューリング、進行の追跡、資源の管理などを個別に実装せずに利用できます。通常はこの作法に従い、必要な処理量や可用性に応じて配備と設定を調整します。業務固有の補償や許容するデータの鮮度などは、業務の条件として定めます。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-scope"
+                      ],
+                      "claims": [
+                        "reactive-scope-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-scope-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-scope-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-scope-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "本書はリアクティブ性を支える技術体系の全体を扱います。ConsequenceとFree Monadの実装、共通のAction／UoW経路、Jobのスケジューリング・制御、Working Setの参照経路には実装があります。永続Jobの詳細な再開・資源予算・UoW連携には個別の実装・受入れ段階があり、可用性Profileや交代の全経路についても採用する版の対応範囲を確認します。分散Active-Active、複数拠点の可用性、全通信経路の自動的なバックプレッシャーを一括した提供済み機能とは扱いません。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-scope"
+                      ],
+                      "claims": [
+                        "reactive-scope-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-scope-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-scope-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-scope-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "セキュリティ技術ガイドは、各層の権限と保護を説明します。UI技術ガイドは、表示、操作、受付・完了の見せ方を説明します。本書は、それらの背後で処理を継続し、負荷と失敗を扱う実行アーキテクチャを説明します。同じティア、コンポーネント、モデル、実行境界を複数の品質属性に活用する関係です。",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-scope"
+                      ],
+                      "claims": [
+                        "reactive-scope-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-scope-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-scope-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "reactive-conclusion-section",
+            "heading": "まとめ",
+            "coreRefs": {
+              "steps": [
+                "reactive-conclusion"
+              ],
+              "claims": [
+                "reactive-conclusion-claim-1"
+              ],
+              "nodes": [
+                "reactive-conclusion-node-1",
+                "reactive-conclusion-node-effect"
+              ],
+              "relations": [
+                "reactive-conclusion-relation-effect"
+              ],
+              "flows": [
+                "reactive-conclusion-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "reactive-conclusion-paragraph-1",
+                "kind": "paragraph",
+                "text": "Textus/CNCFは、モデルとコンポーネントの構造を共通の実行機構へ接続し、非同期処理の複雑な制御を基盤に集約します。開発者はCMLのモデルとCNCFの標準機能を使うことで、リアクティブ性を支える仕組みを個別に実装せずに利用できます。業務に集中できる開発方法と、応答性・耐障害性・弾力性を支える実行を一体にすることが、このアーキテクチャの効果です。",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-conclusion"
+                  ],
+                  "claims": [
+                    "reactive-conclusion-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-conclusion-node-1",
+                    "reactive-conclusion-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-conclusion-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-conclusion-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "textus-cncf-reactive-architecture",
+        "text": "Textus/CNCF リアクティブ・アーキテクチャ技術ガイド"
+      },
+      {
+        "stepRef": "reactive-foundation",
+        "text": "リアクティブ性を全体アーキテクチャで実現する"
+      },
+      {
+        "stepRef": "reactive-qualities",
+        "text": "四つの特性と品質属性を関連付ける"
+      },
+      {
+        "stepRef": "reactive-tiers",
+        "text": "Application tierとDomain tierの役割を分ける"
+      },
+      {
+        "stepRef": "reactive-state",
+        "text": "業務状態と参照を配置する"
+      },
+      {
+        "stepRef": "reactive-memory",
+        "text": "メモリを軸に実行と参照を高速化する"
+      },
+      {
+        "stepRef": "reactive-cqrs",
+        "text": "CQRSで更新と参照の経路を分ける"
+      },
+      {
+        "stepRef": "reactive-program",
+        "text": "処理の記述を共通の実行機構へつなぐ"
+      },
+      {
+        "stepRef": "reactive-composition",
+        "text": "型とConsequenceで処理の意味を揃える"
+      },
+      {
+        "stepRef": "reactive-uow",
+        "text": "Free MonadとUoWで記述と実行を分ける"
+      },
+      {
+        "stepRef": "reactive-coordination",
+        "text": "負荷と業務進行を実行管理へ接続する"
+      },
+      {
+        "stepRef": "reactive-jobs",
+        "text": "ジョブ管理で受付から完了までを追跡する"
+      },
+      {
+        "stepRef": "reactive-load",
+        "text": "負荷と資源の上限を実行制御へ反映する"
+      },
+      {
+        "stepRef": "reactive-events",
+        "text": "イベント・Workflow・状態機械を接続する"
+      },
+      {
+        "stepRef": "reactive-resilience",
+        "text": "失敗と交換を通常の実行設計に含める"
+      },
+      {
+        "stepRef": "reactive-recovery",
+        "text": "失敗を分類し再試行と回復を選ぶ"
+      },
+      {
+        "stepRef": "reactive-resources",
+        "text": "取消しと資源解放を共通管理する"
+      },
+      {
+        "stepRef": "reactive-availability",
+        "text": "メモリ常駐とActive／Standbyを組み合わせる"
+      },
+      {
+        "stepRef": "reactive-adoption",
+        "text": "品質を確認し共通基盤を利用する"
+      },
+      {
+        "stepRef": "reactive-observability",
+        "text": "品質属性を実行の記録と検証へつなぐ"
+      },
+      {
+        "stepRef": "reactive-scope",
+        "text": "共通基盤の利用範囲と開発側の役割"
+      },
+      {
+        "stepRef": "reactive-conclusion",
+        "text": "まとめ"
+      },
+      {
+        "stepRef": "reactive-quality-attributes",
+        "text": "品質属性と技術の組合せの対応"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-performance",
+        "text": "性能・応答性"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-elasticity",
+        "text": "拡張性・弾力性"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-availability",
+        "text": "可用性・耐障害性"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-recoverability",
+        "text": "回復可能性"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-consistency",
+        "text": "データ整合性・正確性"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-security",
+        "text": "セキュリティ"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-observability",
+        "text": "観測可能性"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-maintainability",
+        "text": "保守性・変更容易性"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-testability",
+        "text": "検証容易性"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-efficiency",
+        "text": "資源効率・運用コスト"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "textus-cncf-reactive-architecture-node-1",
+        "text": "負荷の変動や部分的な障害があっても応答を維持する"
+      },
+      {
+        "nodeRef": "reactive-foundation-node-1",
+        "text": "非同期な分離と実行制御で品質を改善する"
+      },
+      {
+        "nodeRef": "reactive-qualities-node-1",
+        "text": "応答性を全体の目的として扱う"
+      },
+      {
+        "nodeRef": "reactive-qualities-node-2",
+        "text": "四特性を支える仕組みを組み合わせる"
+      },
+      {
+        "nodeRef": "reactive-qualities-node-3",
+        "text": "品質属性の両立条件を明示する"
+      },
+      {
+        "nodeRef": "reactive-tiers-node-1",
+        "text": "要求の変動と業務状態の管理を分ける"
+      },
+      {
+        "nodeRef": "reactive-tiers-node-2",
+        "text": "寿命の異なる実行基盤を組み合わせる"
+      },
+      {
+        "nodeRef": "reactive-tiers-node-3",
+        "text": "入口の伸縮をDomainの容量に接続する"
+      },
+      {
+        "nodeRef": "reactive-state-node-1",
+        "text": "常駐・永続化・CQRSを組み合わせる"
+      },
+      {
+        "nodeRef": "reactive-memory-node-1",
+        "text": "必要なWorking Setを常駐させる"
+      },
+      {
+        "nodeRef": "reactive-memory-node-2",
+        "text": "高速な常駐状態と永続的な正本を区別する"
+      },
+      {
+        "nodeRef": "reactive-memory-node-3",
+        "text": "起動と再構築を応答経路へ組み込む"
+      },
+      {
+        "nodeRef": "reactive-cqrs-node-1",
+        "text": "更新の整合性と参照の形を分担する"
+      },
+      {
+        "nodeRef": "reactive-cqrs-node-2",
+        "text": "イベントで変更と参照反映を接続する"
+      },
+      {
+        "nodeRef": "reactive-cqrs-node-3",
+        "text": "Queryを軽量に保ち実行方式を明示する"
+      },
+      {
+        "nodeRef": "reactive-program-node-1",
+        "text": "処理の意味を型と合成規則で明示する"
+      },
+      {
+        "nodeRef": "reactive-composition-node-1",
+        "text": "結果と失敗を共通の型で扱う"
+      },
+      {
+        "nodeRef": "reactive-composition-node-2",
+        "text": "合成規則と実行方式を分ける"
+      },
+      {
+        "nodeRef": "reactive-uow-node-1",
+        "text": "外部操作をその場で実行せず記述する"
+      },
+      {
+        "nodeRef": "reactive-uow-node-2",
+        "text": "共通の実行境界で品質上の制御を適用する"
+      },
+      {
+        "nodeRef": "reactive-coordination-node-1",
+        "text": "Job・容量制御・Eventを接続する"
+      },
+      {
+        "nodeRef": "reactive-jobs-node-1",
+        "text": "受付と完了を区別して応答する"
+      },
+      {
+        "nodeRef": "reactive-jobs-node-2",
+        "text": "待機・実行・制御を同じ管理機構に集約する"
+      },
+      {
+        "nodeRef": "reactive-jobs-node-3",
+        "text": "Jobとトランザクションを同一視しない"
+      },
+      {
+        "nodeRef": "reactive-load-node-1",
+        "text": "並行実行と待機の量を制御する"
+      },
+      {
+        "nodeRef": "reactive-load-node-2",
+        "text": "下流の負荷を上流の受付へ伝える"
+      },
+      {
+        "nodeRef": "reactive-load-node-3",
+        "text": "容量・応答時間・コストを一緒に調整する"
+      },
+      {
+        "nodeRef": "reactive-events-node-1",
+        "text": "要求・事実・実行管理を分ける"
+      },
+      {
+        "nodeRef": "reactive-events-node-2",
+        "text": "業務の進行と実行の進行を分ける"
+      },
+      {
+        "nodeRef": "reactive-events-node-3",
+        "text": "確定後の配送失敗を更新の失敗と分ける"
+      },
+      {
+        "nodeRef": "reactive-resilience-node-1",
+        "text": "確定事実を保持して失敗を切り離す"
+      },
+      {
+        "nodeRef": "reactive-recovery-node-1",
+        "text": "失敗の原因と実行済み範囲を保持する"
+      },
+      {
+        "nodeRef": "reactive-recovery-node-2",
+        "text": "再試行と補償を明示する"
+      },
+      {
+        "nodeRef": "reactive-recovery-node-3",
+        "text": "永続化と安全な再開を分けて設計する"
+      },
+      {
+        "nodeRef": "reactive-resources-node-1",
+        "text": "業務結果と資源の終了処理を両立する"
+      },
+      {
+        "nodeRef": "reactive-resources-node-2",
+        "text": "取消し要求と完了を区別する"
+      },
+      {
+        "nodeRef": "reactive-availability-node-1",
+        "text": "更新権限と読取り負荷を分ける"
+      },
+      {
+        "nodeRef": "reactive-availability-node-2",
+        "text": "再構築と交代を通常運用の経路にする"
+      },
+      {
+        "nodeRef": "reactive-availability-node-3",
+        "text": "必要な障害境界に合わせて費用を選ぶ"
+      },
+      {
+        "nodeRef": "reactive-adoption-node-1",
+        "text": "業務の条件と基盤の責務を明示する"
+      },
+      {
+        "nodeRef": "reactive-observability-node-1",
+        "text": "負荷と失敗を同じ仕事の流れで追う"
+      },
+      {
+        "nodeRef": "reactive-observability-node-2",
+        "text": "動作仕様と実環境の品質確認を組み合わせる"
+      },
+      {
+        "nodeRef": "reactive-scope-node-1",
+        "text": "モデルと標準APIを使い実行制御を共通基盤へ委ねる"
+      },
+      {
+        "nodeRef": "reactive-scope-node-2",
+        "text": "設計・実装・確認済みの範囲を区別する"
+      },
+      {
+        "nodeRef": "reactive-scope-node-3",
+        "text": "security・UI技術解説と役割をつなぐ"
+      },
+      {
+        "nodeRef": "reactive-conclusion-node-1",
+        "text": "アーキテクチャから実装までの機構を統合する"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-performance",
+        "text": "Working Set＋CQRS＋Job応答"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-performance",
+        "text": "性能・応答性"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-elasticity",
+        "text": "Application伸縮＋Domain容量＋受付制御"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-elasticity",
+        "text": "拡張性・弾力性"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-availability",
+        "text": "コンポーネント境界＋Active／Standby＋交代"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-availability",
+        "text": "可用性・耐障害性"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-recoverability",
+        "text": "永続記録＋再構築＋再試行・補償"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-recoverability",
+        "text": "回復可能性"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-consistency",
+        "text": "Aggregate＋状態機械＋UoW＋View整合"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-consistency",
+        "text": "データ整合性・正確性"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-security",
+        "text": "ティア分担＋認可＋実行コンテキスト＋資源制限"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-security",
+        "text": "セキュリティ"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-observability",
+        "text": "相関ID＋Job／Task記録＋負荷・失敗の計測"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-observability",
+        "text": "観測可能性"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-maintainability",
+        "text": "モデル駆動＋型付き契約＋Free Monad／共通実行"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-maintainability",
+        "text": "保守性・変更容易性"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-testability",
+        "text": "純粋関数＋型＋実行仕様＋障害シナリオ"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-testability",
+        "text": "検証容易性"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-efficiency",
+        "text": "選択的常駐＋実行枠・保持量制御＋資源解放＋HA選択"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-efficiency",
+        "text": "資源効率・運用コスト"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-node-combination",
+        "text": "技術の組合せ"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-node-quality",
+        "text": "品質属性への効果と適用条件"
+      },
+      {
+        "nodeRef": "textus-cncf-reactive-architecture-node-effect",
+        "text": "CMLのモデルと標準機能の利用からリアクティブな動作を得る"
+      },
+      {
+        "nodeRef": "reactive-foundation-node-effect",
+        "text": "通常の実装を共通実行機構へ接続し複雑な制御を基盤へ委ねる"
+      },
+      {
+        "nodeRef": "reactive-state-node-effect",
+        "text": "性能と整合性を両立する"
+      },
+      {
+        "nodeRef": "reactive-program-node-effect",
+        "text": "実行制御を共通基盤へ委ねる"
+      },
+      {
+        "nodeRef": "reactive-coordination-node-effect",
+        "text": "非同期処理を追跡・制御する"
+      },
+      {
+        "nodeRef": "reactive-resilience-node-effect",
+        "text": "処理と環境を回復して応答を継続する"
+      },
+      {
+        "nodeRef": "reactive-adoption-node-effect",
+        "text": "仕様と実行で必要な品質を確認する"
+      },
+      {
+        "nodeRef": "reactive-conclusion-node-effect",
+        "text": "業務中心の開発とリアクティブな実行を一体にする"
+      },
+      {
+        "nodeRef": "reactive-foundation-node-complexity",
+        "text": "順序・完了・整合性・再試行の管理が複雑になる"
+      }
+    ]
+  }
+}

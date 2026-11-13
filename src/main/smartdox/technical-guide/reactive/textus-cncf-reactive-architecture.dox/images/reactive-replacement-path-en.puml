@@ -1,0 +1,38 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBorderColor #899DA9
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam sequenceParticipantBackgroundColor #F0F6F8
+skinparam sequenceLifeLineBorderColor #899DA9
+skinparam sequenceMessageAlign center
+skinparam noteBackgroundColor #FFF8E9
+skinparam noteBorderColor #C5B88B
+skinparam dpi 170
+skinparam ranksep 15
+skinparam nodesep 20
+rectangle "Accepted CAR / configuration\nDurable state" as source
+rectangle "Start replacement\nReconstruct / warm up memory" as warm
+rectangle "Confirm readiness" as ready
+rectangle "Switch routing and write authority" as switch
+rectangle "Drain and stop former instance" as drain
+source -right-> warm
+warm -down-> ready
+ready -left-> switch
+switch -down-> drain
+note right of warm
+ Standby reads follow
+ consistency conditions.
+end note
+note right of switch
+ Do not create two
+ unrestricted writers.
+end note
+@enduml

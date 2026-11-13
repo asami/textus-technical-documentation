@@ -1,0 +1,2957 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-reactive-architecture-document-en",
+  "core": {
+    "id": "textus-cncf-reactive-architecture"
+  },
+  "locale": "en",
+  "document": {
+    "title": "Textus/CNCF Reactive Architecture — Technical Guide",
+    "sections": [
+      {
+        "id": "textus-cncf-reactive-architecture-section",
+        "heading": "Textus/CNCF Reactive Architecture — Technical Guide",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-reactive-architecture"
+          ],
+          "claims": [
+            "textus-cncf-reactive-architecture-claim-1"
+          ],
+          "nodes": [
+            "textus-cncf-reactive-architecture-node-1",
+            "textus-cncf-reactive-architecture-node-effect"
+          ],
+          "relations": [
+            "textus-cncf-reactive-architecture-relation-effect"
+          ],
+          "flows": [
+            "textus-cncf-reactive-architecture-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "textus-cncf-reactive-architecture-paragraph-1",
+            "kind": "paragraph",
+            "text": "Cloud applications require scalable processing capacity, flexibility to extend and change functionality, and high availability. Textus/CNCF embeds the complex execution controls supporting these qualities in shared infrastructure, so that development using CML models and standard CNCF facilities can obtain reactive behavior. This guide explains the architecture and combinations of mechanisms that make this division of responsibilities possible.",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-reactive-architecture"
+              ],
+              "claims": [
+                "textus-cncf-reactive-architecture-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-reactive-architecture-node-1",
+                "textus-cncf-reactive-architecture-node-effect"
+              ],
+              "relations": [
+                "textus-cncf-reactive-architecture-relation-effect"
+              ],
+              "flows": [
+                "textus-cncf-reactive-architecture-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "reactive-foundation-section",
+            "heading": "Realizing Reactive Qualities through the Whole Architecture",
+            "coreRefs": {
+              "steps": [
+                "reactive-foundation"
+              ],
+              "claims": [
+                "reactive-foundation-claim-1"
+              ],
+              "nodes": [
+                "reactive-foundation-node-1",
+                "reactive-foundation-node-complexity",
+                "reactive-foundation-node-effect"
+              ],
+              "relations": [
+                "reactive-foundation-relation-complexity",
+                "reactive-foundation-relation-effect"
+              ],
+              "flows": [
+                "reactive-foundation-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "reactive-foundation-paragraph-1",
+                "kind": "paragraph",
+                "text": "Connecting backend processes through asynchronous messages removes the need for callers and receivers to remain active together, making capacity and placement easier to adjust for each component. Combining this separation with capacity adjustment, load control, failure isolation, and recovery supports the following quality improvements.",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-foundation"
+                  ],
+                  "claims": [
+                    "reactive-foundation-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-foundation-node-1",
+                    "reactive-foundation-node-complexity",
+                    "reactive-foundation-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-foundation-relation-complexity",
+                    "reactive-foundation-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-foundation-flow"
+                  ]
+                }
+              },
+              {
+                "id": "reactive-quality-benefits",
+                "kind": "table",
+                "caption": "Table 1. Quality improvements supported by reactive architecture",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Quality attribute"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Improvement"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "Reactive architectural response"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "reactive-quality-benefits-row-1",
+                    "cells": [
+                      "Scalability",
+                      "Increase capacity for heavily loaded processing",
+                      "Separate processing and distribute load across execution instances"
+                    ]
+                  },
+                  {
+                    "id": "reactive-quality-benefits-row-2",
+                    "cells": [
+                      "Elasticity",
+                      "Adjust capacity as demand changes",
+                      "Combine instance scaling with admission control based on downstream capacity"
+                    ]
+                  },
+                  {
+                    "id": "reactive-quality-benefits-row-3",
+                    "cells": [
+                      "High availability",
+                      "Continue service when part of the system stops",
+                      "Contain failures and combine redundancy with routing to available instances"
+                    ]
+                  },
+                  {
+                    "id": "reactive-quality-benefits-row-4",
+                    "cells": [
+                      "Resilience / recoverability",
+                      "Limit failure propagation and recover work",
+                      "Isolate and record failures; manage retries and resumption"
+                    ]
+                  },
+                  {
+                    "id": "reactive-quality-benefits-row-5",
+                    "cells": [
+                      "Responsiveness",
+                      "Limit response delays from long-running work and overload",
+                      "Separate acceptance from completion; bound pending and concurrent work"
+                    ]
+                  },
+                  {
+                    "id": "reactive-quality-benefits-row-6",
+                    "cells": [
+                      "Extensibility / flexibility",
+                      "Limit the impact of adding or changing components",
+                      "Preserve message contracts while separating component processing and timing"
+                    ]
+                  },
+                  {
+                    "id": "reactive-quality-benefits-row-7",
+                    "cells": [
+                      "Resource efficiency / cost",
+                      "Reduce resources held while waiting and excessive standing capacity",
+                      "Combine non-blocking execution with demand-dependent resource allocation"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "reactive-foundation"
+                  ],
+                  "claims": [
+                    "reactive-foundation-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-foundation-node-1",
+                    "reactive-foundation-node-complexity",
+                    "reactive-foundation-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-foundation-relation-complexity",
+                    "reactive-foundation-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-foundation-flow"
+                  ]
+                }
+              },
+              {
+                "id": "reactive-foundation-paragraph-complexity",
+                "kind": "paragraph",
+                "text": "Asynchronous processing introduces additional concerns: ordering, completion tracking, data consistency, and duplicate execution during retries. Implementing these controls separately for each business process leads to different conventions and makes consistent system-wide behavior harder to maintain.",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-foundation"
+                  ],
+                  "claims": [
+                    "reactive-foundation-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-foundation-node-1",
+                    "reactive-foundation-node-complexity",
+                    "reactive-foundation-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-foundation-relation-complexity",
+                    "reactive-foundation-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-foundation-flow"
+                  ]
+                }
+              },
+              {
+                "id": "reactive-foundation-paragraph-runtime",
+                "kind": "paragraph",
+                "text": "Business processing built with CML models and standard CNCF facilities connects to shared execution mechanisms. Tier and component responsibilities, message-based communication, Job management, resource management, and failure handling operate along this execution path, reducing the need to construct asynchronous controls for each business process. In ordinary development, developers can concentrate on business models and logic while receiving reactive support from the runtime. Having the infrastructure take responsibility for technically demanding controls and apply them to implementations following standard conventions is a central feature of this architecture.",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-foundation"
+                  ],
+                  "claims": [
+                    "reactive-foundation-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-foundation-node-1",
+                    "reactive-foundation-node-complexity",
+                    "reactive-foundation-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-foundation-relation-complexity",
+                    "reactive-foundation-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-foundation-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "reactive-qualities-section",
+                "heading": "Relating the Four Characteristics to Quality Attributes",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-qualities"
+                  ],
+                  "claims": [
+                    "reactive-qualities-claim-1",
+                    "reactive-qualities-claim-2",
+                    "reactive-qualities-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-qualities-node-1",
+                    "reactive-qualities-node-2",
+                    "reactive-qualities-node-3"
+                  ],
+                  "relations": [
+                    "reactive-qualities-relation-1",
+                    "reactive-qualities-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-qualities-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-qualities-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "The Reactive Manifesto identifies responsiveness, resilience, elasticity, and message-driven communication as interrelated characteristics. Textus/CNCF aims to return a result, acceptance state, or failure within an appropriate time despite changing load or partial failures. This requires a path for admission, execution, and outcome inspection, rather than asynchronous execution alone. Reference: The Reactive Manifesto (https://www.reactivemanifesto.org/).",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-qualities"
+                      ],
+                      "claims": [
+                        "reactive-qualities-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-qualities-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-qualities-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-qualities-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Message-driven communication reduces temporal dependencies so that load and failures can be managed separately. Textus/CNCF distinguishes requests, facts, and execution management through Commands, Events, and Jobs.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-qualities"
+                      ],
+                      "claims": [
+                        "reactive-qualities-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-qualities-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-qualities-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-qualities-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Using the benefits of asynchronous architecture also requires preserving consistency and security, and making separated processing observable and testable. The following mapping covers these controls and organizes combinations of Textus/CNCF mechanisms through ten quality perspectives.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-qualities"
+                      ],
+                      "claims": [
+                        "reactive-qualities-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-qualities-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-qualities-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "reactive-quality-attributes-section",
+                "heading": "Quality Attributes and Their Supporting Combinations",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-quality-attributes"
+                  ],
+                  "claims": [
+                    "reactive-quality-attributes-claim-overview"
+                  ],
+                  "nodes": [
+                    "reactive-quality-attributes-node-combination",
+                    "reactive-quality-attributes-node-quality"
+                  ],
+                  "relations": [
+                    "reactive-quality-attributes-relation-overview"
+                  ],
+                  "flows": [
+                    "reactive-quality-attributes-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-quality-attributes-paragraph-overview",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-quality-attributes"
+                      ],
+                      "claims": [
+                        "reactive-quality-attributes-claim-overview"
+                      ],
+                      "nodes": [
+                        "reactive-quality-attributes-node-combination",
+                        "reactive-quality-attributes-node-quality"
+                      ],
+                      "relations": [
+                        "reactive-quality-attributes-relation-overview"
+                      ],
+                      "flows": [
+                        "reactive-quality-attributes-flow"
+                      ]
+                    },
+                    "text": "The following tables connect the quality effects introduced above to specific Textus/CNCF mechanisms, including applicability conditions and verification points. Subsequent sections explain how these mechanisms work together along the execution path."
+                  },
+                  {
+                    "id": "reactive-quality-execution",
+                    "kind": "table",
+                    "caption": "Table 2. Quality attributes and combined mechanisms",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Quality attribute"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Combination and effect"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Condition / verification"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "reactive-quality-execution-row-1",
+                        "cells": [
+                          "Performance / responsiveness",
+                          "Working Set + Views + Jobs reduce loading and waiting",
+                          "Measure time to a result or admission response"
+                        ]
+                      },
+                      {
+                        "id": "reactive-quality-execution-row-2",
+                        "cells": [
+                          "Scalability / elasticity",
+                          "Application scaling + Domain capacity + admission limits",
+                          "Do not overload downstream tiers by scaling ingress"
+                        ]
+                      },
+                      {
+                        "id": "reactive-quality-execution-row-3",
+                        "cells": [
+                          "Availability / resilience",
+                          "Component boundaries + Active/Standby + routing",
+                          "Include dependency failures such as DataStore"
+                        ]
+                      },
+                      {
+                        "id": "reactive-quality-execution-row-4",
+                        "cells": [
+                          "Recoverability",
+                          "Durable records + reconstruction + retries / compensation",
+                          "Distinguish committed and unknown outcomes"
+                        ]
+                      },
+                      {
+                        "id": "reactive-quality-execution-row-5",
+                        "cells": [
+                          "Consistency / correctness",
+                          "Aggregate / state machine + UoW + View updates",
+                          "Define conflict checks and asynchronous freshness"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-quality-attributes-performance",
+                        "reactive-quality-attributes-elasticity",
+                        "reactive-quality-attributes-availability",
+                        "reactive-quality-attributes-recoverability",
+                        "reactive-quality-attributes-consistency"
+                      ],
+                      "claims": [
+                        "reactive-quality-attributes-claim-performance",
+                        "reactive-quality-attributes-claim-elasticity",
+                        "reactive-quality-attributes-claim-availability",
+                        "reactive-quality-attributes-claim-recoverability",
+                        "reactive-quality-attributes-claim-consistency"
+                      ],
+                      "nodes": [
+                        "reactive-quality-attributes-mechanisms-performance",
+                        "reactive-quality-attributes-quality-performance",
+                        "reactive-quality-attributes-mechanisms-elasticity",
+                        "reactive-quality-attributes-quality-elasticity",
+                        "reactive-quality-attributes-mechanisms-availability",
+                        "reactive-quality-attributes-quality-availability",
+                        "reactive-quality-attributes-mechanisms-recoverability",
+                        "reactive-quality-attributes-quality-recoverability",
+                        "reactive-quality-attributes-mechanisms-consistency",
+                        "reactive-quality-attributes-quality-consistency"
+                      ],
+                      "relations": [
+                        "reactive-quality-attributes-mapping-performance",
+                        "reactive-quality-attributes-mapping-elasticity",
+                        "reactive-quality-attributes-mapping-availability",
+                        "reactive-quality-attributes-mapping-recoverability",
+                        "reactive-quality-attributes-mapping-consistency"
+                      ],
+                      "flows": [
+                        "reactive-quality-attributes-performance-flow",
+                        "reactive-quality-attributes-elasticity-flow",
+                        "reactive-quality-attributes-availability-flow",
+                        "reactive-quality-attributes-recoverability-flow",
+                        "reactive-quality-attributes-consistency-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-quality-continuity",
+                    "kind": "table",
+                    "caption": "Table 3. Quality attributes and combined mechanisms",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Quality attribute"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Combination and effect"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Condition / verification"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "reactive-quality-continuity-row-1",
+                        "cells": [
+                          "Security",
+                          "Tier authority + Operation / Entity checks + limits",
+                          "Carry execution context into Jobs and follow-up work"
+                        ]
+                      },
+                      {
+                        "id": "reactive-quality-continuity-row-2",
+                        "cells": [
+                          "Observability",
+                          "Correlation IDs + Job / Task / UoW records",
+                          "Separate waiting, execution, retry and dispatch"
+                        ]
+                      },
+                      {
+                        "id": "reactive-quality-continuity-row-3",
+                        "cells": [
+                          "Maintainability / modifiability",
+                          "Models / types + Free Monad + shared execution",
+                          "Separate business changes from execution controls"
+                        ]
+                      },
+                      {
+                        "id": "reactive-quality-continuity-row-4",
+                        "cells": [
+                          "Testability",
+                          "Pure functions / types + executable specs + failure scenarios",
+                          "Connect local checks with system behavior"
+                        ]
+                      },
+                      {
+                        "id": "reactive-quality-continuity-row-5",
+                        "cells": [
+                          "Resource efficiency / cost",
+                          "Residency scope + execution budgets + cleanup + HA choice",
+                          "Match resources to performance and recovery needs"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-quality-attributes-security",
+                        "reactive-quality-attributes-observability",
+                        "reactive-quality-attributes-maintainability",
+                        "reactive-quality-attributes-testability",
+                        "reactive-quality-attributes-efficiency"
+                      ],
+                      "claims": [
+                        "reactive-quality-attributes-claim-security",
+                        "reactive-quality-attributes-claim-observability",
+                        "reactive-quality-attributes-claim-maintainability",
+                        "reactive-quality-attributes-claim-testability",
+                        "reactive-quality-attributes-claim-efficiency"
+                      ],
+                      "nodes": [
+                        "reactive-quality-attributes-mechanisms-security",
+                        "reactive-quality-attributes-quality-security",
+                        "reactive-quality-attributes-mechanisms-observability",
+                        "reactive-quality-attributes-quality-observability",
+                        "reactive-quality-attributes-mechanisms-maintainability",
+                        "reactive-quality-attributes-quality-maintainability",
+                        "reactive-quality-attributes-mechanisms-testability",
+                        "reactive-quality-attributes-quality-testability",
+                        "reactive-quality-attributes-mechanisms-efficiency",
+                        "reactive-quality-attributes-quality-efficiency"
+                      ],
+                      "relations": [
+                        "reactive-quality-attributes-mapping-security",
+                        "reactive-quality-attributes-mapping-observability",
+                        "reactive-quality-attributes-mapping-maintainability",
+                        "reactive-quality-attributes-mapping-testability",
+                        "reactive-quality-attributes-mapping-efficiency"
+                      ],
+                      "flows": [
+                        "reactive-quality-attributes-security-flow",
+                        "reactive-quality-attributes-observability-flow",
+                        "reactive-quality-attributes-maintainability-flow",
+                        "reactive-quality-attributes-testability-flow",
+                        "reactive-quality-attributes-efficiency-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "reactive-tiers-section",
+                "heading": "Separating Application and Domain Tier Responsibilities",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-tiers"
+                  ],
+                  "claims": [
+                    "reactive-tiers-claim-1",
+                    "reactive-tiers-claim-2",
+                    "reactive-tiers-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-tiers-node-1",
+                    "reactive-tiers-node-2",
+                    "reactive-tiers-node-3"
+                  ],
+                  "relations": [
+                    "reactive-tiers-relation-1",
+                    "reactive-tiers-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-tiers-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-tiers-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "The UI tier owns user interaction. The Application tier handles request admission, authentication and input binding, use-case coordination, Domain Operation invocation, and responses. The Domain tier owns business rules, invariants, state transitions, and authoritative updates. Applications invoke public Domain operations instead of updating its DataStore directly, preserving business consistency across additional UIs and ingress paths.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-tiers"
+                      ],
+                      "claims": [
+                        "reactive-tiers-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-tiers-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-tiers-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-tiers-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "The Application tier prefers Cloud Functions where appropriate, using short-lived execution and demand-dependent concurrency. The Domain tier runs as long-lived Subsystems that reuse resident data and indexes. DataStores retain persistent data. Avoiding Domain initialization for each request while adjusting public-side processing capacity supports performance and operating cost.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-tiers"
+                      ],
+                      "claims": [
+                        "reactive-tiers-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-tiers-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-tiers-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-tiers-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Scaling the Application tier alone does not increase Domain or DataStore capacity. Ingress concurrency, admission limits, and pending Job capacity must be designed against downstream capacity. Elasticity combines capacity adjustment with load control to maintain response time and stability; it does not mean accepting unlimited work. Coordinating Application scaling with Domain admission is what makes scalability and elasticity compatible with responsiveness.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-tiers"
+                      ],
+                      "claims": [
+                        "reactive-tiers-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-tiers-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-tiers-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-tier-map",
+                    "kind": "figure",
+                    "asset": "images/reactive-tier-map-en.png",
+                    "caption": "Figure 1. Tiers and capacity. Application scaling is coordinated with Domain admission limits; durable state remains in DataStore.",
+                    "alt": "Figure 1. Tiers and capacity. Application scaling is coordinated with Domain admission limits; durable state remains in DataStore.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-tiers"
+                      ],
+                      "claims": [
+                        "reactive-tiers-claim-1",
+                        "reactive-tiers-claim-2",
+                        "reactive-tiers-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-tiers-node-1",
+                        "reactive-tiers-node-2",
+                        "reactive-tiers-node-3"
+                      ],
+                      "relations": [
+                        "reactive-tiers-relation-1",
+                        "reactive-tiers-relation-2"
+                      ],
+                      "flows": [
+                        "reactive-tiers-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "reactive-state-section",
+            "heading": "Placing Business State and Read Models",
+            "coreRefs": {
+              "steps": [
+                "reactive-state"
+              ],
+              "claims": [
+                "reactive-state-claim-1"
+              ],
+              "nodes": [
+                "reactive-state-node-1",
+                "reactive-state-node-effect"
+              ],
+              "relations": [
+                "reactive-state-relation-effect"
+              ],
+              "flows": [
+                "reactive-state-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "reactive-state-paragraph-1",
+                "kind": "paragraph",
+                "text": "The Domain tier combines fast resident execution, recovery from persistent state, and CQRS separation of writes and reads. Performance and consistency result from connecting these mechanisms while retaining their separate responsibilities.",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-state"
+                  ],
+                  "claims": [
+                    "reactive-state-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-state-node-1",
+                    "reactive-state-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-state-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-state-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "reactive-memory-section",
+                "heading": "Using Memory to Accelerate Execution and Reads",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-memory"
+                  ],
+                  "claims": [
+                    "reactive-memory-claim-1",
+                    "reactive-memory-claim-2",
+                    "reactive-memory-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-memory-node-1",
+                    "reactive-memory-node-2",
+                    "reactive-memory-node-3"
+                  ],
+                  "relations": [
+                    "reactive-memory-relation-1",
+                    "reactive-memory-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-memory-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-memory-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Domain Subsystems retain EntitySpace, Entity Realms, indexes, dictionaries, and caches in memory to reduce repeated retrieval and reconstruction. Residency depends on Entity purpose and state: stable master data is a candidate, while stateful business Entities may remain resident while active. Large document bodies and media use separate storage and read paths. Linking model classifications to residency policy balances responsiveness and memory consumption.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-memory"
+                      ],
+                      "claims": [
+                        "reactive-memory-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-memory-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-memory-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-memory-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Memory residency is a performance mechanism, not a substitute for durability. Domain rules and UoW govern committed storage updates, whose outcomes then update or invalidate Working Sets and Views. A resident revision does not bypass authoritative concurrency checks. This combines fast reads with update consistency and reconstructability after failure.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-memory"
+                      ],
+                      "claims": [
+                        "reactive-memory-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-memory-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-memory-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-memory-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "While a Working Set loads, eligible searches fall back to persistent storage instead of treating an unloaded set as empty business data. Long-running servers amortize warm-up costs through reuse, while short-lived command invocations can use store-first paths. The design therefore addresses startup responsiveness and recovery time as well as steady-state performance. Residency, persistence, and reconstruction are designed together to balance responsiveness, consistency, recoverability, and resource efficiency.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-memory"
+                      ],
+                      "claims": [
+                        "reactive-memory-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-memory-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-memory-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "reactive-cqrs-section",
+                "heading": "Separating Command and Query Paths with CQRS",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-cqrs"
+                  ],
+                  "claims": [
+                    "reactive-cqrs-claim-1",
+                    "reactive-cqrs-claim-2",
+                    "reactive-cqrs-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-cqrs-node-1",
+                    "reactive-cqrs-node-2",
+                    "reactive-cqrs-node-3"
+                  ],
+                  "relations": [
+                    "reactive-cqrs-relation-1",
+                    "reactive-cqrs-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-cqrs-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-cqrs-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "In CQRS, Commands change business state and Queries read it. Textus/CNCF models Entity as the authoritative business data, Aggregate as the write-side operations and invariants, and View as the read-side information structure. Updates follow Aggregate business operations rather than presentation-oriented View shapes. This allows consistency-sensitive writes and responsiveness-oriented reads to be tuned separately.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-cqrs"
+                      ],
+                      "claims": [
+                        "reactive-cqrs-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-cqrs-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-cqrs-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-cqrs-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Events produced by updates can trigger View reconstruction or invalidation and subsequent work. Read-side projections are reconstructable derived state. With asynchronous refresh, a committed update and a refreshed View need not become visible simultaneously, so freshness and reread conditions must be explicit. These consistency conditions connect CQRS and message-driven processing to responsiveness.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-cqrs"
+                      ],
+                      "claims": [
+                        "reactive-cqrs-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-cqrs-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-cqrs-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-cqrs-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Queries normally execute directly and return results. Under the current execution contract, Commands explicitly select direct responses or Job management. Neither mandatory Jobs for every Command nor separate distributed stores for every Query are assumed. Choosing the separation required by the use case limits waiting and execution-management overhead. The Aggregate/View/Event division provides a structure for tuning read performance while preserving data consistency.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-cqrs"
+                      ],
+                      "claims": [
+                        "reactive-cqrs-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-cqrs-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-cqrs-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-cqrs-memory",
+                    "kind": "figure",
+                    "asset": "images/reactive-cqrs-memory-en.png",
+                    "caption": "Figure 2. Write and read paths. Memory and Views are reconstructible and follow committed updates.",
+                    "alt": "Figure 2. Write and read paths. Memory and Views are reconstructible and follow committed updates.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-cqrs",
+                        "reactive-memory"
+                      ],
+                      "claims": [
+                        "reactive-cqrs-claim-1",
+                        "reactive-cqrs-claim-2",
+                        "reactive-cqrs-claim-3",
+                        "reactive-memory-claim-1",
+                        "reactive-memory-claim-2",
+                        "reactive-memory-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-cqrs-node-1",
+                        "reactive-cqrs-node-2",
+                        "reactive-cqrs-node-3",
+                        "reactive-memory-node-1",
+                        "reactive-memory-node-2",
+                        "reactive-memory-node-3"
+                      ],
+                      "relations": [
+                        "reactive-cqrs-relation-1",
+                        "reactive-cqrs-relation-2",
+                        "reactive-memory-relation-1",
+                        "reactive-memory-relation-2"
+                      ],
+                      "flows": [
+                        "reactive-cqrs-flow",
+                        "reactive-memory-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "reactive-program-section",
+            "heading": "Connecting Program Descriptions to Shared Execution",
+            "coreRefs": {
+              "steps": [
+                "reactive-program"
+              ],
+              "claims": [
+                "reactive-program-claim-1"
+              ],
+              "nodes": [
+                "reactive-program-node-1",
+                "reactive-program-node-effect"
+              ],
+              "relations": [
+                "reactive-program-relation-effect"
+              ],
+              "flows": [
+                "reactive-program-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "reactive-program-paragraph-1",
+                "kind": "paragraph",
+                "text": "Types and pure functional composition make computation semantics explicit and hand effectful execution to shared infrastructure. This reduces individually implemented control logic and establishes the boundary for applying reactive execution controls.",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-program"
+                  ],
+                  "claims": [
+                    "reactive-program-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-program-node-1",
+                    "reactive-program-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-program-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-program-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "reactive-composition-section",
+                "heading": "Aligning Computation Semantics with Types and Consequence",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-composition"
+                  ],
+                  "claims": [
+                    "reactive-composition-claim-1",
+                    "reactive-composition-claim-2"
+                  ],
+                  "nodes": [
+                    "reactive-composition-node-1",
+                    "reactive-composition-node-2"
+                  ],
+                  "relations": [
+                    "reactive-composition-relation-1"
+                  ],
+                  "flows": [
+                    "reactive-composition-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-composition-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Consequence represents outcomes and structured failures. Dependent computations compose through flatMap and stop progressing after failure. Independent input checks compose applicatively through zip APIs to aggregate errors across fields. Expressing this distinction through types and APIs lets business logic and infrastructure share failure semantics, reducing ad hoc exception handling and review effort.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-composition"
+                      ],
+                      "claims": [
+                        "reactive-composition-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-composition-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-composition-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-composition-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Pure functions compute outputs from explicit inputs, reducing hidden-state dependencies. Monadic composition expresses dependency; applicative composition expresses independent structure. Neither automatically guarantees asynchronous or parallel execution. Types and composition rules widen the scope of checkable properties and make computations easier to hand to shared execution mechanisms, connecting maintainability and testability to reactive execution.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-composition"
+                      ],
+                      "claims": [
+                        "reactive-composition-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-composition-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-composition-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-composition-roles",
+                    "kind": "table",
+                    "caption": "Table 4. Responsibilities of types and functional composition",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Mechanism"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "What it describes"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Relation to execution"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "reactive-composition-roles-row-1",
+                        "cells": [
+                          "Pure functions / types",
+                          "Inputs, outputs and valid connections",
+                          "Check computation and composition locally"
+                        ]
+                      },
+                      {
+                        "id": "reactive-composition-roles-row-2",
+                        "cells": [
+                          "Consequence / flatMap",
+                          "Dependent sequencing and failures",
+                          "Stop subsequent processing on failure"
+                        ]
+                      },
+                      {
+                        "id": "reactive-composition-roles-row-3",
+                        "cells": [
+                          "Applicative / zip",
+                          "Independent checks",
+                          "Accumulate multiple input errors"
+                        ]
+                      },
+                      {
+                        "id": "reactive-composition-roles-row-4",
+                        "cells": [
+                          "Free Monad / UoW",
+                          "Operation descriptions separate from execution",
+                          "Share execution, commit and resource cleanup"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-composition",
+                        "reactive-uow"
+                      ],
+                      "claims": [
+                        "reactive-composition-claim-1",
+                        "reactive-composition-claim-2",
+                        "reactive-uow-claim-1",
+                        "reactive-uow-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-composition-node-1",
+                        "reactive-composition-node-2",
+                        "reactive-uow-node-1",
+                        "reactive-uow-node-2"
+                      ],
+                      "relations": [
+                        "reactive-composition-relation-1",
+                        "reactive-uow-relation-1"
+                      ],
+                      "flows": [
+                        "reactive-composition-flow",
+                        "reactive-uow-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "reactive-uow-section",
+                "heading": "Separating Description and Execution with Free Monad and UoW",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-uow"
+                  ],
+                  "claims": [
+                    "reactive-uow-claim-1",
+                    "reactive-uow-claim-2"
+                  ],
+                  "nodes": [
+                    "reactive-uow-node-1",
+                    "reactive-uow-node-2"
+                  ],
+                  "relations": [
+                    "reactive-uow-relation-1"
+                  ],
+                  "flows": [
+                    "reactive-uow-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-uow-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "A Free Monad Program composes descriptions of reads, writes, and external calls. ConsequenceT incorporates Consequence outcome and failure rules into that description. Consequence owns outcome semantics, the Free Monad owns operation description and composition, and the interpreter connects them to execution. This avoids embedding transport, resource management, and failure control together in business code.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-uow"
+                      ],
+                      "claims": [
+                        "reactive-uow-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-uow-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-uow-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-uow-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "An ActionCall is an execution unit bound to an execution context. ActionEngine and UoW coordinate authorization, execution observation, commit and abort, and resource termination. Job-managed execution uses this same path. Security, consistency, and observability controls can therefore apply to the same operation without separate business implementations for synchronous and asynchronous execution. This boundary between operation descriptions and execution control supports maintainability, modifiability, and testability as well as security and consistency.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-uow"
+                      ],
+                      "claims": [
+                        "reactive-uow-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-uow-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-uow-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-uow-path",
+                    "kind": "figure",
+                    "asset": "images/reactive-uow-path-en.png",
+                    "caption": "Figure 3. From business descriptions to shared execution. Consequence describes outcomes, Free Monad describes operations, and UoW owns commit and resource boundaries.",
+                    "alt": "Figure 3. From business descriptions to shared execution. Consequence describes outcomes, Free Monad describes operations, and UoW owns commit and resource boundaries.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-uow"
+                      ],
+                      "claims": [
+                        "reactive-uow-claim-1",
+                        "reactive-uow-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-uow-node-1",
+                        "reactive-uow-node-2"
+                      ],
+                      "relations": [
+                        "reactive-uow-relation-1"
+                      ],
+                      "flows": [
+                        "reactive-uow-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "reactive-coordination-section",
+            "heading": "Connecting Load and Business Progression to Execution Management",
+            "coreRefs": {
+              "steps": [
+                "reactive-coordination"
+              ],
+              "claims": [
+                "reactive-coordination-claim-1"
+              ],
+              "nodes": [
+                "reactive-coordination-node-1",
+                "reactive-coordination-node-effect"
+              ],
+              "relations": [
+                "reactive-coordination-relation-effect"
+              ],
+              "flows": [
+                "reactive-coordination-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "reactive-coordination-paragraph-1",
+                "kind": "paragraph",
+                "text": "Jobs retain work identity and outcomes, capacity controls bound admitted work, and Events and business models define conditions for progression. Connecting admission to completion keeps asynchronous processing traceable and controllable.",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-coordination"
+                  ],
+                  "claims": [
+                    "reactive-coordination-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-coordination-node-1",
+                    "reactive-coordination-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-coordination-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-coordination-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "reactive-jobs-section",
+                "heading": "Tracking Work from Admission to Completion through Job Management",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-jobs"
+                  ],
+                  "claims": [
+                    "reactive-jobs-claim-1",
+                    "reactive-jobs-claim-2",
+                    "reactive-jobs-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-jobs-node-1",
+                    "reactive-jobs-node-2",
+                    "reactive-jobs-node-3"
+                  ],
+                  "relations": [
+                    "reactive-jobs-relation-1",
+                    "reactive-jobs-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-jobs-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-jobs-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Long-running work can be admitted as a Job and continue after a Job identifier is returned. A synchronous interface can instead await its result. A Job is a managed work instance, and a Task is an observable execution step within it. Admission success is not business success; status and results establish completion. This distinction supports both UI responsiveness and traceability.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-jobs"
+                      ],
+                      "claims": [
+                        "reactive-jobs-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-jobs-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-jobs-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-jobs-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "JobEngine manages queueing, start, results, retries, cancellation, and selected persistence for explicitly Job-managed work. Built-in asynchronous Commands and Event continuations connect to its scheduler path. Reducing separately launched asynchronous work keeps processing visible and subjects it to common load controls and operational inspection.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-jobs"
+                      ],
+                      "claims": [
+                        "reactive-jobs-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-jobs-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-jobs-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-jobs-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Tasks follow UoW commit and abort rules, but an entire Job is not necessarily one database transaction. A later Task can fail after an earlier Task has committed. Recording admission, individual Task outcomes, and the final Job result separately retains the facts required for retries, compensation, and user-facing results. Combining Job tracking with UoW commit management supports observability, recoverability, and consistency alongside responsiveness.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-jobs"
+                      ],
+                      "claims": [
+                        "reactive-jobs-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-jobs-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-jobs-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "reactive-load-section",
+                "heading": "Applying Load and Resource Limits to Execution",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-load"
+                  ],
+                  "claims": [
+                    "reactive-load-claim-1",
+                    "reactive-load-claim-2",
+                    "reactive-load-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-load-node-1",
+                    "reactive-load-node-2",
+                    "reactive-load-node-3"
+                  ],
+                  "relations": [
+                    "reactive-load-relation-1",
+                    "reactive-load-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-load-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-load-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Worker concurrency is limited, and pending work, inputs, and retained results also require bounds. Requests beyond capacity are handled as refusals or waiting according to admission policy, distinct from accepted work. A queue alone does not solve overload; waiting time, memory, and execution slots must be managed together.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-load"
+                      ],
+                      "claims": [
+                        "reactive-load-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-load-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-load-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-load-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "In message-driven systems, back-pressure adjusts sending or admission to receiver capacity. For Textus/CNCF, Job admission outcomes, backlog, and worker saturation provide inputs for Application-tier and operational control. Bounded admission should not be confused with implemented stream-demand control across every path.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-load"
+                      ],
+                      "claims": [
+                        "reactive-load-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-load-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-load-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-load-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Admission rate, queue time, execution time, retained memory, and failure rate inform Application concurrency and Domain capacity. Functional Subsystem boundaries, read-side Views, and authorized read-only Standby workloads provide additional controls. Maintaining responsiveness requires limiting contention and resource consumption rather than maximizing parallelism without bounds.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-load"
+                      ],
+                      "claims": [
+                        "reactive-load-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-load-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-load-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-job-admission",
+                    "kind": "figure",
+                    "asset": "images/reactive-job-admission-en.png",
+                    "caption": "Figure 4. Job admission and execution. Admission, Task commit and Job completion are distinct; both queue size and concurrency are bounded.",
+                    "alt": "Figure 4. Job admission and execution. Admission, Task commit and Job completion are distinct; both queue size and concurrency are bounded.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-jobs",
+                        "reactive-load"
+                      ],
+                      "claims": [
+                        "reactive-jobs-claim-1",
+                        "reactive-jobs-claim-2",
+                        "reactive-jobs-claim-3",
+                        "reactive-load-claim-1",
+                        "reactive-load-claim-2",
+                        "reactive-load-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-jobs-node-1",
+                        "reactive-jobs-node-2",
+                        "reactive-jobs-node-3",
+                        "reactive-load-node-1",
+                        "reactive-load-node-2",
+                        "reactive-load-node-3"
+                      ],
+                      "relations": [
+                        "reactive-jobs-relation-1",
+                        "reactive-jobs-relation-2",
+                        "reactive-load-relation-1",
+                        "reactive-load-relation-2"
+                      ],
+                      "flows": [
+                        "reactive-jobs-flow",
+                        "reactive-load-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "reactive-events-section",
+                "heading": "Connecting Events, Workflows, and State Machines",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-events"
+                  ],
+                  "claims": [
+                    "reactive-events-claim-1",
+                    "reactive-events-claim-2",
+                    "reactive-events-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-events-node-1",
+                    "reactive-events-node-2",
+                    "reactive-events-node-3"
+                  ],
+                  "relations": [
+                    "reactive-events-relation-1",
+                    "reactive-events-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-events-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-events-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Messages and business models describe different concerns. Their roles are connected explicitly, choosing synchronous execution, follow-up within the same Job, or a separate Job according to transaction relationships and response timing.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-events"
+                      ],
+                      "claims": [
+                        "reactive-events-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-events-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-events-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-events-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Workflows describe business progression, while state machines define allowed states and transitions. Binding execution steps to Operations and Jobs distinguishes business waiting, approval, and transitions from execution queueing, retries, and completion. Connecting model-defined progression to shared execution paths combines message-driven flexibility with business correctness.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-events"
+                      ],
+                      "claims": [
+                        "reactive-events-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-events-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-events-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-events-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Failure to dispatch follow-up work after a committed update does not undo that update. Commit and delivery outcomes are recorded separately for redelivery or recovery decisions. State consistency and resilient delivery depend on coordinating distinct boundaries. Connecting Event delivery to business transition rules makes message-driven flexibility compatible with data consistency and correctness.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-events"
+                      ],
+                      "claims": [
+                        "reactive-events-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-events-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-events-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-coordination-roles",
+                    "kind": "table",
+                    "caption": "Table 5. Distinguishing requests, facts, execution and business progression",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Element"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Concern"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Connection"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "reactive-coordination-roles-row-1",
+                        "cells": [
+                          "Command",
+                          "Requested business action",
+                          "Operation; direct response or Job"
+                        ]
+                      },
+                      {
+                        "id": "reactive-coordination-roles-row-2",
+                        "cells": [
+                          "Event",
+                          "A fact that has occurred",
+                          "View update, follow-up work and dispatch record"
+                        ]
+                      },
+                      {
+                        "id": "reactive-coordination-roles-row-3",
+                        "cells": [
+                          "Job / Task",
+                          "Execution and observable stages",
+                          "UoW, retry, cancellation and outcomes"
+                        ]
+                      },
+                      {
+                        "id": "reactive-coordination-roles-row-4",
+                        "cells": [
+                          "Workflow / state machine",
+                          "Business progression / permitted transitions",
+                          "Operations and Jobs"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-events"
+                      ],
+                      "claims": [
+                        "reactive-events-claim-1",
+                        "reactive-events-claim-2",
+                        "reactive-events-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-events-node-1",
+                        "reactive-events-node-2",
+                        "reactive-events-node-3"
+                      ],
+                      "relations": [
+                        "reactive-events-relation-1",
+                        "reactive-events-relation-2"
+                      ],
+                      "flows": [
+                        "reactive-events-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "reactive-resilience-section",
+            "heading": "Including Failure and Replacement in the Execution Design",
+            "coreRefs": {
+              "steps": [
+                "reactive-resilience"
+              ],
+              "claims": [
+                "reactive-resilience-claim-1"
+              ],
+              "nodes": [
+                "reactive-resilience-node-1",
+                "reactive-resilience-node-effect"
+              ],
+              "relations": [
+                "reactive-resilience-relation-effect"
+              ],
+              "flows": [
+                "reactive-resilience-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "reactive-resilience-paragraph-1",
+                "kind": "paragraph",
+                "text": "The design spans individual failures, resource termination, recovery from durable records, and runtime replacement. Retaining committed facts at each boundary and isolating failed parts supports resilience and continued responsiveness.",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-resilience"
+                  ],
+                  "claims": [
+                    "reactive-resilience-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-resilience-node-1",
+                    "reactive-resilience-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-resilience-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-resilience-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "reactive-recovery-section",
+                "heading": "Classifying Failures to Select Retry and Recovery",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-recovery"
+                  ],
+                  "claims": [
+                    "reactive-recovery-claim-1",
+                    "reactive-recovery-claim-2",
+                    "reactive-recovery-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-recovery-node-1",
+                    "reactive-recovery-node-2",
+                    "reactive-recovery-node-3"
+                  ],
+                  "relations": [
+                    "reactive-recovery-relation-1",
+                    "reactive-recovery-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-recovery-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-recovery-decisions",
+                    "kind": "table",
+                    "caption": "Table 6. Recovery decisions based on execution outcome",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "State"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Preserved fact"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Action"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "reactive-recovery-decisions-row-1",
+                        "cells": [
+                          "Input / authority / rule rejection",
+                          "Reason for rejection",
+                          "Correct or verify conditions"
+                        ]
+                      },
+                      {
+                        "id": "reactive-recovery-decisions-row-2",
+                        "cells": [
+                          "Execution failure before commit",
+                          "Execution progress",
+                          "Check conditions, then retry"
+                        ]
+                      },
+                      {
+                        "id": "reactive-recovery-decisions-row-3",
+                        "cells": [
+                          "Earlier Task committed",
+                          "Committed update",
+                          "Explicitly modeled compensation"
+                        ]
+                      },
+                      {
+                        "id": "reactive-recovery-decisions-row-4",
+                        "cells": [
+                          "Started, outcome unknown",
+                          "Do not assume no execution",
+                          "Confirm effects and decide recovery"
+                        ]
+                      },
+                      {
+                        "id": "reactive-recovery-decisions-row-5",
+                        "cells": [
+                          "Post-commit dispatch failure",
+                          "Update already committed",
+                          "Recover dispatch only"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-recovery",
+                        "reactive-events"
+                      ],
+                      "claims": [
+                        "reactive-recovery-claim-1",
+                        "reactive-recovery-claim-2",
+                        "reactive-recovery-claim-3",
+                        "reactive-events-claim-1",
+                        "reactive-events-claim-2",
+                        "reactive-events-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-recovery-node-1",
+                        "reactive-recovery-node-2",
+                        "reactive-recovery-node-3",
+                        "reactive-events-node-1",
+                        "reactive-events-node-2",
+                        "reactive-events-node-3"
+                      ],
+                      "relations": [
+                        "reactive-recovery-relation-1",
+                        "reactive-recovery-relation-2",
+                        "reactive-events-relation-1",
+                        "reactive-events-relation-2"
+                      ],
+                      "flows": [
+                        "reactive-recovery-flow",
+                        "reactive-events-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-recovery-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Consequence and Conclusion carry structured outcomes such as invalid input, authorization refusal, unmet business conditions, and execution failure. Work that did not start is distinguished from work that failed after execution and correlated with Job and Task results. Retaining how far execution progressed, beyond catching exceptions, is essential to resilience and observability.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-recovery"
+                      ],
+                      "claims": [
+                        "reactive-recovery-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-recovery-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-recovery-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-recovery-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "A retry is another execution attempt for the same logical work. Eligible failures, attempt counts, delays, and idempotency conditions must be defined. Where earlier Tasks have committed, business undo requires explicitly modeled compensation operations. Infrastructure does not infer undo semantics from changed data. Missing or failed compensation leaves an explicit recovery-required state.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-recovery"
+                      ],
+                      "claims": [
+                        "reactive-recovery-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-recovery-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-recovery-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-recovery-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Persisting a Job record does not by itself make external effects safe to replay. Resumption requires conditions concerning input, definitions, authority, providers, compatibility, and idempotency. Started work with an uncertain outcome is subject to recovery decisions rather than being treated as unstarted and automatically resubmitted. Durable records combined with resumption conditions reduce duplicate effects during recovery.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-recovery"
+                      ],
+                      "claims": [
+                        "reactive-recovery-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-recovery-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-recovery-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "reactive-resources-section",
+                "heading": "Managing Cancellation and Resource Release Centrally",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-resources"
+                  ],
+                  "claims": [
+                    "reactive-resources-claim-1",
+                    "reactive-resources-claim-2"
+                  ],
+                  "nodes": [
+                    "reactive-resources-node-1",
+                    "reactive-resources-node-2"
+                  ],
+                  "relations": [
+                    "reactive-resources-relation-1"
+                  ],
+                  "flows": [
+                    "reactive-resources-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-resources-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "UoW manages operational resources acquired during execution and releases them on success, failure, abort, or disposal. Transaction commit and abort are coordinated with, but distinct from, releasing processes or temporary streams. Remaining releases are attempted after a release failure, preserving both primary and cleanup failures. This limits resource leaks that would otherwise degrade performance over time.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-resources"
+                      ],
+                      "claims": [
+                        "reactive-resources-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-resources-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-resources-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-resources-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Job cancellation signals running work to stop, while termination confirmation and resource collection follow the resource lifecycle. An await timeout, a cancellation request, and actual termination are different events. Distinguishing them prevents reporting completion with resources still active or treating committed work as unexecuted. Cancellation and cleanup management preserve resource efficiency and limit the accumulated unfinished work that can undermine responsiveness and resilience.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-resources"
+                      ],
+                      "claims": [
+                        "reactive-resources-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-resources-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-resources-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "reactive-availability-section",
+                "heading": "Combining Memory Residency with Active/Standby Operation",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-availability"
+                  ],
+                  "claims": [
+                    "reactive-availability-claim-1",
+                    "reactive-availability-claim-2",
+                    "reactive-availability-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-availability-node-1",
+                    "reactive-availability-node-2",
+                    "reactive-availability-node-3"
+                  ],
+                  "relations": [
+                    "reactive-availability-relation-1",
+                    "reactive-availability-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-availability-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-availability-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Domain Subsystem availability design assigns mutations to Active, while a ready Standby may serve read-only or cache workloads permitted by consistency requirements. Standby is not implicitly another writer. Extending CQRS distinctions into deployment and authority supports read performance and consistent writes while preparing a replacement.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-availability"
+                      ],
+                      "claims": [
+                        "reactive-availability-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-availability-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-availability-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-availability-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "A replacement starts from admitted CAR artifacts, configuration, and persistent state, warms required memory, and establishes readiness. Routing and mutation authority switch before the old runtime drains and terminates. The architecture uses common paths for rotation, releases, and failover, exercising recovery during normal operation and combining long-lived memory use with replaceability.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-availability"
+                      ],
+                      "claims": [
+                        "reactive-availability-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-availability-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-availability-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-availability-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Select an HA topology for the required recovery time and cost. Reconstructible memory, transfer of write authority and available dependencies together support availability, resilience and recoverability.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-availability"
+                      ],
+                      "claims": [
+                        "reactive-availability-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-availability-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-availability-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-replacement-path",
+                    "kind": "figure",
+                    "asset": "images/reactive-replacement-path-en.png",
+                    "caption": "Figure 5. Planned replacement design. Prepare from durable state, then switch routing and write authority. Failure recovery also uses surviving execution records.",
+                    "alt": "Figure 5. Planned replacement design. Prepare from durable state, then switch routing and write authority. Failure recovery also uses surviving execution records.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-availability"
+                      ],
+                      "claims": [
+                        "reactive-availability-claim-1",
+                        "reactive-availability-claim-2",
+                        "reactive-availability-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-availability-node-1",
+                        "reactive-availability-node-2",
+                        "reactive-availability-node-3"
+                      ],
+                      "relations": [
+                        "reactive-availability-relation-1",
+                        "reactive-availability-relation-2"
+                      ],
+                      "flows": [
+                        "reactive-availability-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-ha-boundaries",
+                    "kind": "table",
+                    "caption": "Table 7. Deployment and failure boundaries",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Topology"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Main failure scope"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Additional consideration"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "reactive-ha-boundaries-row-1",
+                        "cells": [
+                          "Single instance",
+                          "Recovery through restart",
+                          "No replacement instance during recovery"
+                        ]
+                      },
+                      {
+                        "id": "reactive-ha-boundaries-row-2",
+                        "cells": [
+                          "HA on one host",
+                          "Process replacement",
+                          "The host remains a shared failure point"
+                        ]
+                      },
+                      {
+                        "id": "reactive-ha-boundaries-row-3",
+                        "cells": [
+                          "HA across hosts",
+                          "Instance and host replacement",
+                          "Shared DataStore, authentication and network dependencies"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-availability"
+                      ],
+                      "claims": [
+                        "reactive-availability-claim-1",
+                        "reactive-availability-claim-2",
+                        "reactive-availability-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-availability-node-1",
+                        "reactive-availability-node-2",
+                        "reactive-availability-node-3"
+                      ],
+                      "relations": [
+                        "reactive-availability-relation-1",
+                        "reactive-availability-relation-2"
+                      ],
+                      "flows": [
+                        "reactive-availability-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "reactive-adoption-section",
+            "heading": "Verifying Qualities and Using Shared Infrastructure",
+            "coreRefs": {
+              "steps": [
+                "reactive-adoption"
+              ],
+              "claims": [
+                "reactive-adoption-claim-1"
+              ],
+              "nodes": [
+                "reactive-adoption-node-1",
+                "reactive-adoption-node-effect"
+              ],
+              "relations": [
+                "reactive-adoption-relation-effect"
+              ],
+              "flows": [
+                "reactive-adoption-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "reactive-adoption-paragraph-1",
+                "kind": "paragraph",
+                "text": "Both specifications and execution checks establish shared mechanism behavior and system performance and availability. Application-defined business conditions and infrastructure-owned execution controls remain explicit.",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-adoption"
+                  ],
+                  "claims": [
+                    "reactive-adoption-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-adoption-node-1",
+                    "reactive-adoption-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-adoption-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-adoption-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "reactive-observability-section",
+                "heading": "Connecting Quality Attributes to Observation and Verification",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-observability"
+                  ],
+                  "claims": [
+                    "reactive-observability-claim-1",
+                    "reactive-observability-claim-2"
+                  ],
+                  "nodes": [
+                    "reactive-observability-node-1",
+                    "reactive-observability-node-2"
+                  ],
+                  "relations": [
+                    "reactive-observability-relation-1"
+                  ],
+                  "flows": [
+                    "reactive-observability-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-observation-matrix",
+                    "kind": "table",
+                    "caption": "Table 8. Evidence and scenarios for quality verification",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Concern"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Observe"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Verify"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "reactive-observation-matrix-row-1",
+                        "cells": [
+                          "Response / capacity",
+                          "Admission rate, wait/run time, saturation",
+                          "Overload and admission limits"
+                        ]
+                      },
+                      {
+                        "id": "reactive-observation-matrix-row-2",
+                        "cells": [
+                          "Consistency",
+                          "Revisions, UoW commit and View projection",
+                          "Concurrent updates and re-read"
+                        ]
+                      },
+                      {
+                        "id": "reactive-observation-matrix-row-3",
+                        "cells": [
+                          "Recovery / resilience",
+                          "Task outcomes, retries and dispatch",
+                          "Disconnection, restart and replacement"
+                        ]
+                      },
+                      {
+                        "id": "reactive-observation-matrix-row-4",
+                        "cells": [
+                          "Resource efficiency",
+                          "Memory, execution slots and cleanup",
+                          "Cancellation and terminal cleanup"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-observability"
+                      ],
+                      "claims": [
+                        "reactive-observability-claim-1",
+                        "reactive-observability-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-observability-node-1",
+                        "reactive-observability-node-2"
+                      ],
+                      "relations": [
+                        "reactive-observability-relation-1"
+                      ],
+                      "flows": [
+                        "reactive-observability-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-observability-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Identifiers and correlation across requests, Operations, Jobs, Tasks, UoWs, and Events trace work from admission to completion. Distinguishing queue time, execution time, worker saturation, retries, and post-commit dispatch failure helps locate delay in ingress, execution, storage, or continuations. Observability supports elasticity tuning and operational resilience decisions.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-observability"
+                      ],
+                      "claims": [
+                        "reactive-observability-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-observability-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-observability-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-observability-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Beyond properties checked by types and execution specifications, scenarios cover overload admission, conflicting updates, cleanup on failure, cancellation, retries, process restart, and Standby takeover. Latency and throughput are measured with representative data volumes, residency, concurrency, and external dependencies. This connects available mechanisms to the qualities required of a particular system.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-observability"
+                      ],
+                      "claims": [
+                        "reactive-observability-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-observability-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-observability-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "reactive-scope-section",
+                "heading": "Shared Infrastructure and Application Responsibilities",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-scope"
+                  ],
+                  "claims": [
+                    "reactive-scope-claim-1",
+                    "reactive-scope-claim-2",
+                    "reactive-scope-claim-3"
+                  ],
+                  "nodes": [
+                    "reactive-scope-node-1",
+                    "reactive-scope-node-2",
+                    "reactive-scope-node-3"
+                  ],
+                  "relations": [
+                    "reactive-scope-relation-1",
+                    "reactive-scope-relation-2"
+                  ],
+                  "flows": [
+                    "reactive-scope-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "reactive-scope-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Developers define Entities, Aggregates, Views, Workflows, state machines, and public Operations in CML, and build business processing with standard CNCF facilities. Model operations and standard APIs connect to shared execution paths, making asynchronous scheduling, progress tracking, and resource management available without application-specific implementations. Developers normally follow these conventions and adjust deployment and configuration to the required throughput and availability. Business-specific compensation and acceptable data freshness remain business requirements to define.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-scope"
+                      ],
+                      "claims": [
+                        "reactive-scope-claim-1"
+                      ],
+                      "nodes": [
+                        "reactive-scope-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-scope-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-scope-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "This guide covers the overall technology system supporting reactive qualities. Consequence and Free Monad representations, common Action/UoW execution, Job scheduling and control, and Working Set reads have implementations. Detailed durable-Job resumption, resource budgets, and UoW integration have individual implementation and acceptance stages; availability profiles and replacement paths also require release-specific scope checks. Distributed active-active, multisite availability, and automatic end-to-end back-pressure are not presented as a single delivered capability set.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-scope"
+                      ],
+                      "claims": [
+                        "reactive-scope-claim-2"
+                      ],
+                      "nodes": [
+                        "reactive-scope-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-scope-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-scope-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "The security technical guide explains authority and protection across layers. The UI technical guide explains presentation, interaction, and how acceptance and completion appear to users. This guide explains the execution architecture behind them, sustaining work while handling load and failure. The same tiers, components, models, and execution boundaries support multiple quality attributes.",
+                    "coreRefs": {
+                      "steps": [
+                        "reactive-scope"
+                      ],
+                      "claims": [
+                        "reactive-scope-claim-3"
+                      ],
+                      "nodes": [
+                        "reactive-scope-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "reactive-scope-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "reactive-conclusion-section",
+            "heading": "Conclusion",
+            "coreRefs": {
+              "steps": [
+                "reactive-conclusion"
+              ],
+              "claims": [
+                "reactive-conclusion-claim-1"
+              ],
+              "nodes": [
+                "reactive-conclusion-node-1",
+                "reactive-conclusion-node-effect"
+              ],
+              "relations": [
+                "reactive-conclusion-relation-effect"
+              ],
+              "flows": [
+                "reactive-conclusion-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "reactive-conclusion-paragraph-1",
+                "kind": "paragraph",
+                "text": "Textus/CNCF connects model and component structures to shared execution mechanisms, centralizing the complex controls required for asynchronous processing. By using CML models and standard CNCF facilities, developers can use the mechanisms supporting reactive qualities without implementing them individually. The architecture combines development focused on business meaning with execution supporting responsiveness, resilience, and elasticity.",
+                "coreRefs": {
+                  "steps": [
+                    "reactive-conclusion"
+                  ],
+                  "claims": [
+                    "reactive-conclusion-claim-1"
+                  ],
+                  "nodes": [
+                    "reactive-conclusion-node-1",
+                    "reactive-conclusion-node-effect"
+                  ],
+                  "relations": [
+                    "reactive-conclusion-relation-effect"
+                  ],
+                  "flows": [
+                    "reactive-conclusion-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "textus-cncf-reactive-architecture",
+        "text": "Textus/CNCF Reactive Architecture — Technical Guide"
+      },
+      {
+        "stepRef": "reactive-foundation",
+        "text": "Realizing Reactive Qualities through the Whole Architecture"
+      },
+      {
+        "stepRef": "reactive-qualities",
+        "text": "Relating the Four Characteristics to Quality Attributes"
+      },
+      {
+        "stepRef": "reactive-tiers",
+        "text": "Separating Application and Domain Tier Responsibilities"
+      },
+      {
+        "stepRef": "reactive-state",
+        "text": "Placing Business State and Read Models"
+      },
+      {
+        "stepRef": "reactive-memory",
+        "text": "Using Memory to Accelerate Execution and Reads"
+      },
+      {
+        "stepRef": "reactive-cqrs",
+        "text": "Separating Command and Query Paths with CQRS"
+      },
+      {
+        "stepRef": "reactive-program",
+        "text": "Connecting Program Descriptions to Shared Execution"
+      },
+      {
+        "stepRef": "reactive-composition",
+        "text": "Aligning Computation Semantics with Types and Consequence"
+      },
+      {
+        "stepRef": "reactive-uow",
+        "text": "Separating Description and Execution with Free Monad and UoW"
+      },
+      {
+        "stepRef": "reactive-coordination",
+        "text": "Connecting Load and Business Progression to Execution Management"
+      },
+      {
+        "stepRef": "reactive-jobs",
+        "text": "Tracking Work from Admission to Completion through Job Management"
+      },
+      {
+        "stepRef": "reactive-load",
+        "text": "Applying Load and Resource Limits to Execution"
+      },
+      {
+        "stepRef": "reactive-events",
+        "text": "Connecting Events, Workflows, and State Machines"
+      },
+      {
+        "stepRef": "reactive-resilience",
+        "text": "Including Failure and Replacement in the Execution Design"
+      },
+      {
+        "stepRef": "reactive-recovery",
+        "text": "Classifying Failures to Select Retry and Recovery"
+      },
+      {
+        "stepRef": "reactive-resources",
+        "text": "Managing Cancellation and Resource Release Centrally"
+      },
+      {
+        "stepRef": "reactive-availability",
+        "text": "Combining Memory Residency with Active/Standby Operation"
+      },
+      {
+        "stepRef": "reactive-adoption",
+        "text": "Verifying Qualities and Using Shared Infrastructure"
+      },
+      {
+        "stepRef": "reactive-observability",
+        "text": "Connecting Quality Attributes to Observation and Verification"
+      },
+      {
+        "stepRef": "reactive-scope",
+        "text": "Shared Infrastructure and Application Responsibilities"
+      },
+      {
+        "stepRef": "reactive-conclusion",
+        "text": "Conclusion"
+      },
+      {
+        "stepRef": "reactive-quality-attributes",
+        "text": "Quality Attributes and Their Supporting Combinations"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-performance",
+        "text": "Performance and responsiveness"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-elasticity",
+        "text": "Scalability and elasticity"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-availability",
+        "text": "Availability and resilience"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-recoverability",
+        "text": "Recoverability"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-consistency",
+        "text": "Data consistency and correctness"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-security",
+        "text": "Security"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-observability",
+        "text": "Observability"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-maintainability",
+        "text": "Maintainability and modifiability"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-testability",
+        "text": "Testability"
+      },
+      {
+        "stepRef": "reactive-quality-attributes-efficiency",
+        "text": "Resource efficiency and operating cost"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "textus-cncf-reactive-architecture-node-1",
+        "text": "Maintain responsiveness under changing load and partial failures"
+      },
+      {
+        "nodeRef": "reactive-foundation-node-1",
+        "text": "Improve quality through asynchronous separation and execution control"
+      },
+      {
+        "nodeRef": "reactive-qualities-node-1",
+        "text": "Treat responsiveness as a system-wide objective"
+      },
+      {
+        "nodeRef": "reactive-qualities-node-2",
+        "text": "Combine mechanisms supporting the four characteristics"
+      },
+      {
+        "nodeRef": "reactive-qualities-node-3",
+        "text": "Make quality tradeoffs explicit"
+      },
+      {
+        "nodeRef": "reactive-tiers-node-1",
+        "text": "Separate variable demand from business-state management"
+      },
+      {
+        "nodeRef": "reactive-tiers-node-2",
+        "text": "Combine execution environments with different lifetimes"
+      },
+      {
+        "nodeRef": "reactive-tiers-node-3",
+        "text": "Connect ingress scaling to Domain capacity"
+      },
+      {
+        "nodeRef": "reactive-state-node-1",
+        "text": "Combine residency, persistence, and CQRS"
+      },
+      {
+        "nodeRef": "reactive-memory-node-1",
+        "text": "Keep the relevant Working Set resident"
+      },
+      {
+        "nodeRef": "reactive-memory-node-2",
+        "text": "Distinguish resident execution state from durable authority"
+      },
+      {
+        "nodeRef": "reactive-memory-node-3",
+        "text": "Include startup and reconstruction in the response design"
+      },
+      {
+        "nodeRef": "reactive-cqrs-node-1",
+        "text": "Separate update consistency from read presentation"
+      },
+      {
+        "nodeRef": "reactive-cqrs-node-2",
+        "text": "Connect updates and read-model maintenance through Events"
+      },
+      {
+        "nodeRef": "reactive-cqrs-node-3",
+        "text": "Keep Queries lightweight and select execution modes explicitly"
+      },
+      {
+        "nodeRef": "reactive-program-node-1",
+        "text": "Express computation meaning through types and composition"
+      },
+      {
+        "nodeRef": "reactive-composition-node-1",
+        "text": "Represent outcomes and failures through a common type"
+      },
+      {
+        "nodeRef": "reactive-composition-node-2",
+        "text": "Separate composition rules from execution policy"
+      },
+      {
+        "nodeRef": "reactive-uow-node-1",
+        "text": "Describe external operations before interpreting them"
+      },
+      {
+        "nodeRef": "reactive-uow-node-2",
+        "text": "Apply quality controls at shared execution boundaries"
+      },
+      {
+        "nodeRef": "reactive-coordination-node-1",
+        "text": "Connect Jobs, capacity controls, and Events"
+      },
+      {
+        "nodeRef": "reactive-jobs-node-1",
+        "text": "Distinguish acceptance from completion"
+      },
+      {
+        "nodeRef": "reactive-jobs-node-2",
+        "text": "Centralize queueing, execution, and control"
+      },
+      {
+        "nodeRef": "reactive-jobs-node-3",
+        "text": "Keep Jobs distinct from transactions"
+      },
+      {
+        "nodeRef": "reactive-load-node-1",
+        "text": "Bound concurrent and pending work"
+      },
+      {
+        "nodeRef": "reactive-load-node-2",
+        "text": "Connect downstream pressure to upstream admission"
+      },
+      {
+        "nodeRef": "reactive-load-node-3",
+        "text": "Tune capacity, latency, and cost together"
+      },
+      {
+        "nodeRef": "reactive-events-node-1",
+        "text": "Separate requests, facts, and execution management"
+      },
+      {
+        "nodeRef": "reactive-events-node-2",
+        "text": "Separate business progression from execution progression"
+      },
+      {
+        "nodeRef": "reactive-events-node-3",
+        "text": "Distinguish post-commit delivery failure from update failure"
+      },
+      {
+        "nodeRef": "reactive-resilience-node-1",
+        "text": "Retain committed facts and isolate failures"
+      },
+      {
+        "nodeRef": "reactive-recovery-node-1",
+        "text": "Retain failure causes and completed effects"
+      },
+      {
+        "nodeRef": "reactive-recovery-node-2",
+        "text": "Make retries and compensation explicit"
+      },
+      {
+        "nodeRef": "reactive-recovery-node-3",
+        "text": "Design persistence and safe resumption separately"
+      },
+      {
+        "nodeRef": "reactive-resources-node-1",
+        "text": "Preserve outcomes while terminating resources"
+      },
+      {
+        "nodeRef": "reactive-resources-node-2",
+        "text": "Distinguish cancellation requests from termination"
+      },
+      {
+        "nodeRef": "reactive-availability-node-1",
+        "text": "Separate mutation authority from read workloads"
+      },
+      {
+        "nodeRef": "reactive-availability-node-2",
+        "text": "Use reconstruction and replacement as ordinary operational paths"
+      },
+      {
+        "nodeRef": "reactive-availability-node-3",
+        "text": "Choose cost according to the required failure boundary"
+      },
+      {
+        "nodeRef": "reactive-adoption-node-1",
+        "text": "Define business conditions and infrastructure responsibilities"
+      },
+      {
+        "nodeRef": "reactive-observability-node-1",
+        "text": "Trace load and failure through the same work flow"
+      },
+      {
+        "nodeRef": "reactive-observability-node-2",
+        "text": "Combine behavioral specifications with environmental quality checks"
+      },
+      {
+        "nodeRef": "reactive-scope-node-1",
+        "text": "Use models and standard APIs to delegate execution control to shared infrastructure"
+      },
+      {
+        "nodeRef": "reactive-scope-node-2",
+        "text": "Distinguish architectural design, implementation, and verification"
+      },
+      {
+        "nodeRef": "reactive-scope-node-3",
+        "text": "Connect the security and UI guides"
+      },
+      {
+        "nodeRef": "reactive-conclusion-node-1",
+        "text": "Integrate architecture and implementation mechanisms"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-performance",
+        "text": "Working Sets + CQRS + Job responses"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-performance",
+        "text": "Performance and responsiveness"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-elasticity",
+        "text": "Application scaling + Domain capacity + admission control"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-elasticity",
+        "text": "Scalability and elasticity"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-availability",
+        "text": "Component boundaries + Active/Standby + replacement"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-availability",
+        "text": "Availability and resilience"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-recoverability",
+        "text": "Durable records + reconstruction + retry/compensation"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-recoverability",
+        "text": "Recoverability"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-consistency",
+        "text": "Aggregates + state machines + UoW + View coherence"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-consistency",
+        "text": "Data consistency and correctness"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-security",
+        "text": "Tier responsibilities + authorization + execution context + limits"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-security",
+        "text": "Security"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-observability",
+        "text": "Correlation IDs + Job/Task records + load/failure measurements"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-observability",
+        "text": "Observability"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-maintainability",
+        "text": "Model-driven development + typed contracts + Free Monad/shared execution"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-maintainability",
+        "text": "Maintainability and modifiability"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-testability",
+        "text": "Pure functions + types + execution specifications + failure scenarios"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-testability",
+        "text": "Testability"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-mechanisms-efficiency",
+        "text": "Selective residency + execution/retention limits + cleanup + HA selection"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-quality-efficiency",
+        "text": "Resource efficiency and operating cost"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-node-combination",
+        "text": "Combinations of mechanisms"
+      },
+      {
+        "nodeRef": "reactive-quality-attributes-node-quality",
+        "text": "Quality effects and applicability conditions"
+      },
+      {
+        "nodeRef": "textus-cncf-reactive-architecture-node-effect",
+        "text": "Obtain reactive behavior through CML models and standard facilities"
+      },
+      {
+        "nodeRef": "reactive-foundation-node-effect",
+        "text": "Connect ordinary implementations to shared execution and delegate complex controls"
+      },
+      {
+        "nodeRef": "reactive-state-node-effect",
+        "text": "Balance performance and consistency"
+      },
+      {
+        "nodeRef": "reactive-program-node-effect",
+        "text": "Delegate execution control to shared infrastructure"
+      },
+      {
+        "nodeRef": "reactive-coordination-node-effect",
+        "text": "Track and control asynchronous processing"
+      },
+      {
+        "nodeRef": "reactive-resilience-node-effect",
+        "text": "Recover work and runtimes to sustain responses"
+      },
+      {
+        "nodeRef": "reactive-adoption-node-effect",
+        "text": "Verify required qualities through specifications and execution"
+      },
+      {
+        "nodeRef": "reactive-conclusion-node-effect",
+        "text": "Combine business-focused development with reactive execution"
+      },
+      {
+        "nodeRef": "reactive-foundation-node-complexity",
+        "text": "Manage added complexity in ordering, completion, consistency, and retries"
+      }
+    ]
+  }
+}

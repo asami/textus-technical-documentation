@@ -1,0 +1,39 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBorderColor #899DA9
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam sequenceParticipantBackgroundColor #F0F6F8
+skinparam sequenceLifeLineBorderColor #899DA9
+skinparam sequenceMessageAlign center
+skinparam noteBackgroundColor #FFF8E9
+skinparam noteBorderColor #C5B88B
+skinparam dpi 170
+skinparam ranksep 15
+skinparam nodesep 20
+rectangle "要求" as request
+rectangle "受付判定\n容量・権限・入力" as admit
+rectangle "拒否／待機の案内" as reject
+rectangle "受付済みJob\n識別子・状態を返す" as job
+rectangle "上限のある待機／実行枠" as queue
+rectangle "Task実行 → UoWの確定／中止" as task
+rectangle "Jobの結果・実行記録" as result
+request --> admit
+admit --> reject : 受付不可
+admit --> job : 受付可
+job --> queue
+queue --> task
+task --> result
+queue ..> admit : 待機量・飽和
+note right of task
+ Job全体が一つの
+ トランザクションとは限らない
+end note
+@enduml

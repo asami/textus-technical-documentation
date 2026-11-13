@@ -1,0 +1,38 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBorderColor #899DA9
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam sequenceParticipantBackgroundColor #F0F6F8
+skinparam sequenceLifeLineBorderColor #899DA9
+skinparam sequenceMessageAlign center
+skinparam noteBackgroundColor #FFF8E9
+skinparam noteBorderColor #C5B88B
+skinparam dpi 170
+skinparam ranksep 15
+skinparam nodesep 20
+rectangle "受入れ済みCAR・設定\n永続状態" as source
+rectangle "交代先を起動\nメモリ再構築・ウォームアップ" as warm
+rectangle "準備状態を確認" as ready
+rectangle "経路と更新権限を切替え" as switch
+rectangle "旧系をドレイン・終了" as drain
+source -right-> warm
+warm -down-> ready
+ready -left-> switch
+switch -down-> drain
+note right of warm
+ Standbyの読取りは
+ 整合性条件の範囲内
+end note
+note right of switch
+ 更新系を無条件に
+ 二重化しない
+end note
+@enduml
