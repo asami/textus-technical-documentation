@@ -1,0 +1,6 @@
+# Hidden files are local by default. Force-add only those intentionally shared.
+.*
+
+# Generated build products and local command-session evidence
+target/
+.codex-workflow/
