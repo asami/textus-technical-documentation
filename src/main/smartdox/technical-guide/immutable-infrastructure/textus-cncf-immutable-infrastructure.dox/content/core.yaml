@@ -1,0 +1,765 @@
+{
+  "schema": "cozy.content-core.logic-tree.v1",
+  "id": "textus-cncf-immutable-infrastructure",
+  "root": {
+    "id": "textus-cncf-immutable-infrastructure",
+    "semanticRole": "explanation",
+    "claims": [
+      "im-purpose-claim",
+      "im-reading-boundary-claim"
+    ],
+    "structure": {
+      "pattern": "sequence",
+      "nodes": [
+        {
+          "id": "im-purpose-node",
+          "role": "step"
+        },
+        {
+          "id": "im-reading-boundary-node",
+          "role": "step"
+        }
+      ],
+      "relations": [
+        {
+          "id": "textus-cncf-immutable-infrastructure-local-next-1",
+          "relationType": "next",
+          "from": "im-purpose-node",
+          "to": "im-reading-boundary-node"
+        }
+      ]
+    },
+    "flow": {
+      "id": "textus-cncf-immutable-infrastructure-flow",
+      "transitions": [
+        {
+          "id": "textus-cncf-immutable-infrastructure-reading-order-1",
+          "relationType": "next",
+          "fromStepId": "im-why",
+          "toStepId": "im-concepts"
+        },
+        {
+          "id": "textus-cncf-immutable-infrastructure-reading-order-2",
+          "relationType": "next",
+          "fromStepId": "im-concepts",
+          "toStepId": "im-architecture"
+        },
+        {
+          "id": "textus-cncf-immutable-infrastructure-reading-order-3",
+          "relationType": "next",
+          "fromStepId": "im-architecture",
+          "toStepId": "im-memory"
+        },
+        {
+          "id": "textus-cncf-immutable-infrastructure-reading-order-4",
+          "relationType": "next",
+          "fromStepId": "im-memory",
+          "toStepId": "im-operation"
+        },
+        {
+          "id": "textus-cncf-immutable-infrastructure-reading-order-5",
+          "relationType": "next",
+          "fromStepId": "im-operation",
+          "toStepId": "im-security"
+        },
+        {
+          "id": "textus-cncf-immutable-infrastructure-reading-order-6",
+          "relationType": "next",
+          "fromStepId": "im-security",
+          "toStepId": "im-policy"
+        },
+        {
+          "id": "textus-cncf-immutable-infrastructure-reading-order-7",
+          "relationType": "next",
+          "fromStepId": "im-policy",
+          "toStepId": "im-adopt"
+        },
+        {
+          "id": "textus-cncf-immutable-infrastructure-reading-order-8",
+          "relationType": "next",
+          "fromStepId": "im-adopt",
+          "toStepId": "im-references"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "im-why",
+        "semanticRole": "explanation",
+        "claims": [
+          "im-why-purpose-claim",
+          "im-why-replace-claim",
+          "im-design-harness-claim",
+          "im-component-design-harness-claim",
+          "im-cicd-design-connection-claim",
+          "im-why-adoption-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "im-why-purpose-node",
+              "role": "step"
+            },
+            {
+              "id": "im-why-replace-node",
+              "role": "step"
+            },
+            {
+              "id": "im-design-harness-node",
+              "role": "step"
+            },
+            {
+              "id": "im-component-design-harness-node",
+              "role": "step"
+            },
+            {
+              "id": "im-cicd-design-connection-node",
+              "role": "step"
+            },
+            {
+              "id": "im-why-adoption-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "im-why-local-next-1",
+              "relationType": "next",
+              "from": "im-why-purpose-node",
+              "to": "im-why-replace-node"
+            },
+            {
+              "id": "im-why-local-next-2",
+              "relationType": "next",
+              "from": "im-why-replace-node",
+              "to": "im-design-harness-node"
+            },
+            {
+              "id": "im-why-local-next-3",
+              "relationType": "next",
+              "from": "im-design-harness-node",
+              "to": "im-component-design-harness-node"
+            },
+            {
+              "id": "im-why-local-next-4",
+              "relationType": "next",
+              "from": "im-component-design-harness-node",
+              "to": "im-cicd-design-connection-node"
+            },
+            {
+              "id": "im-why-local-next-5",
+              "relationType": "next",
+              "from": "im-cicd-design-connection-node",
+              "to": "im-why-adoption-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "im-why-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "im-concepts",
+        "semanticRole": "explanation",
+        "claims": [
+          "im-concept-table-claim",
+          "im-concepts-example-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "im-concept-table-node",
+              "role": "step"
+            },
+            {
+              "id": "im-concepts-example-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "im-concepts-local-next-1",
+              "relationType": "next",
+              "from": "im-concept-table-node",
+              "to": "im-concepts-example-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "im-concepts-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "im-architecture",
+        "semanticRole": "explanation",
+        "claims": [
+          "im-architecture-scope-claim",
+          "im-architecture-elements-claim",
+          "im-architecture-construction-claim",
+          "im-architecture-service-claim",
+          "im-architecture-control-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "im-architecture-scope-node",
+              "role": "step"
+            },
+            {
+              "id": "im-architecture-elements-node",
+              "role": "step"
+            },
+            {
+              "id": "im-architecture-construction-node",
+              "role": "step"
+            },
+            {
+              "id": "im-architecture-service-node",
+              "role": "step"
+            },
+            {
+              "id": "im-architecture-control-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "im-architecture-local-next-1",
+              "relationType": "next",
+              "from": "im-architecture-scope-node",
+              "to": "im-architecture-elements-node"
+            },
+            {
+              "id": "im-architecture-local-next-2",
+              "relationType": "next",
+              "from": "im-architecture-elements-node",
+              "to": "im-architecture-construction-node"
+            },
+            {
+              "id": "im-architecture-local-next-3",
+              "relationType": "next",
+              "from": "im-architecture-construction-node",
+              "to": "im-architecture-service-node"
+            },
+            {
+              "id": "im-architecture-local-next-4",
+              "relationType": "next",
+              "from": "im-architecture-service-node",
+              "to": "im-architecture-control-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "im-architecture-flow",
+          "transitions": []
+        },
+        "steps": [
+          {
+            "id": "im-platform",
+            "semanticRole": "explanation",
+            "claims": [
+              "im-platform-principle-claim",
+              "im-owner-table-claim",
+              "im-platform-tiers-claim",
+              "im-application-implementation-contract-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "im-platform-principle-node",
+                  "role": "step"
+                },
+                {
+                  "id": "im-owner-table-node",
+                  "role": "step"
+                },
+                {
+                  "id": "im-platform-tiers-node",
+                  "role": "step"
+                },
+                {
+                  "id": "im-application-implementation-contract-node",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "im-platform-local-next-1",
+                  "relationType": "next",
+                  "from": "im-platform-principle-node",
+                  "to": "im-owner-table-node"
+                },
+                {
+                  "id": "im-platform-local-next-2",
+                  "relationType": "next",
+                  "from": "im-owner-table-node",
+                  "to": "im-platform-tiers-node"
+                },
+                {
+                  "id": "im-platform-local-next-3",
+                  "relationType": "next",
+                  "from": "im-platform-tiers-node",
+                  "to": "im-application-implementation-contract-node"
+                }
+              ]
+            },
+            "flow": {
+              "id": "im-platform-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "im-memory",
+        "semanticRole": "explanation",
+        "claims": [
+          "im-memory-purpose-claim",
+          "im-memory-commit-claim",
+          "im-state-table-claim",
+          "im-memory-recovery-claim",
+          "im-memory-crash-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "im-memory-purpose-node",
+              "role": "step"
+            },
+            {
+              "id": "im-memory-commit-node",
+              "role": "step"
+            },
+            {
+              "id": "im-state-table-node",
+              "role": "step"
+            },
+            {
+              "id": "im-memory-recovery-node",
+              "role": "step"
+            },
+            {
+              "id": "im-memory-crash-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "im-memory-local-next-1",
+              "relationType": "next",
+              "from": "im-memory-purpose-node",
+              "to": "im-memory-commit-node"
+            },
+            {
+              "id": "im-memory-local-next-2",
+              "relationType": "next",
+              "from": "im-memory-commit-node",
+              "to": "im-state-table-node"
+            },
+            {
+              "id": "im-memory-local-next-3",
+              "relationType": "next",
+              "from": "im-state-table-node",
+              "to": "im-memory-recovery-node"
+            },
+            {
+              "id": "im-memory-local-next-4",
+              "relationType": "next",
+              "from": "im-memory-recovery-node",
+              "to": "im-memory-crash-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "im-memory-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "im-operation",
+        "semanticRole": "explanation",
+        "claims": [
+          "im-operation-scope-claim",
+          "im-operation-example-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "im-operation-scope-node",
+              "role": "step"
+            },
+            {
+              "id": "im-operation-example-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "im-operation-local-next-1",
+              "relationType": "next",
+              "from": "im-operation-scope-node",
+              "to": "im-operation-example-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "im-operation-flow",
+          "transitions": [
+            {
+              "id": "im-operation-reading-order-1",
+              "relationType": "next",
+              "fromStepId": "im-plan",
+              "toStepId": "im-rotation"
+            },
+            {
+              "id": "im-operation-reading-order-2",
+              "relationType": "next",
+              "fromStepId": "im-rotation",
+              "toStepId": "im-incidents"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "im-plan",
+            "semanticRole": "explanation",
+            "claims": [
+              "im-plan-start-claim",
+              "im-plan-progress-claim",
+              "im-plan-table-claim",
+              "im-plan-stop-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "im-plan-start-node",
+                  "role": "step"
+                },
+                {
+                  "id": "im-plan-progress-node",
+                  "role": "step"
+                },
+                {
+                  "id": "im-plan-table-node",
+                  "role": "step"
+                },
+                {
+                  "id": "im-plan-stop-node",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "im-plan-local-next-1",
+                  "relationType": "next",
+                  "from": "im-plan-start-node",
+                  "to": "im-plan-progress-node"
+                },
+                {
+                  "id": "im-plan-local-next-2",
+                  "relationType": "next",
+                  "from": "im-plan-progress-node",
+                  "to": "im-plan-table-node"
+                },
+                {
+                  "id": "im-plan-local-next-3",
+                  "relationType": "next",
+                  "from": "im-plan-table-node",
+                  "to": "im-plan-stop-node"
+                }
+              ]
+            },
+            "flow": {
+              "id": "im-plan-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "im-rotation",
+            "semanticRole": "explanation",
+            "claims": [
+              "im-rotation-cadence-claim",
+              "im-rotation-update-claim",
+              "im-rotation-fallback-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "im-rotation-cadence-node",
+                  "role": "step"
+                },
+                {
+                  "id": "im-rotation-update-node",
+                  "role": "step"
+                },
+                {
+                  "id": "im-rotation-fallback-node",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "im-rotation-local-next-1",
+                  "relationType": "next",
+                  "from": "im-rotation-cadence-node",
+                  "to": "im-rotation-update-node"
+                },
+                {
+                  "id": "im-rotation-local-next-2",
+                  "relationType": "next",
+                  "from": "im-rotation-update-node",
+                  "to": "im-rotation-fallback-node"
+                }
+              ]
+            },
+            "flow": {
+              "id": "im-rotation-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "im-incidents",
+            "semanticRole": "explanation",
+            "claims": [
+              "im-incident-table-claim",
+              "im-incidents-distinction-claim",
+              "im-incidents-unavailable-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "im-incident-table-node",
+                  "role": "step"
+                },
+                {
+                  "id": "im-incidents-distinction-node",
+                  "role": "step"
+                },
+                {
+                  "id": "im-incidents-unavailable-node",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "im-incidents-local-next-1",
+                  "relationType": "next",
+                  "from": "im-incident-table-node",
+                  "to": "im-incidents-distinction-node"
+                },
+                {
+                  "id": "im-incidents-local-next-2",
+                  "relationType": "next",
+                  "from": "im-incidents-distinction-node",
+                  "to": "im-incidents-unavailable-node"
+                }
+              ]
+            },
+            "flow": {
+              "id": "im-incidents-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "im-security",
+        "semanticRole": "explanation",
+        "claims": [
+          "im-security-effect-claim",
+          "im-security-limits-claim",
+          "im-security-guides-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "im-security-effect-node",
+              "role": "step"
+            },
+            {
+              "id": "im-security-limits-node",
+              "role": "step"
+            },
+            {
+              "id": "im-security-guides-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "im-security-local-next-1",
+              "relationType": "next",
+              "from": "im-security-effect-node",
+              "to": "im-security-limits-node"
+            },
+            {
+              "id": "im-security-local-next-2",
+              "relationType": "next",
+              "from": "im-security-limits-node",
+              "to": "im-security-guides-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "im-security-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "im-policy",
+        "semanticRole": "explanation",
+        "claims": [
+          "im-policy-targets-claim",
+          "im-policy-table-claim",
+          "im-policy-observe-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "im-policy-targets-node",
+              "role": "step"
+            },
+            {
+              "id": "im-policy-table-node",
+              "role": "step"
+            },
+            {
+              "id": "im-policy-observe-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "im-policy-local-next-1",
+              "relationType": "next",
+              "from": "im-policy-targets-node",
+              "to": "im-policy-table-node"
+            },
+            {
+              "id": "im-policy-local-next-2",
+              "relationType": "next",
+              "from": "im-policy-table-node",
+              "to": "im-policy-observe-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "im-policy-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "im-adopt",
+        "semanticRole": "explanation",
+        "claims": [
+          "im-adopt-priority-claim",
+          "im-adopt-proof-claim",
+          "im-adopt-knowledge-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "im-adopt-priority-node",
+              "role": "step"
+            },
+            {
+              "id": "im-adopt-proof-node",
+              "role": "step"
+            },
+            {
+              "id": "im-adopt-knowledge-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "im-adopt-local-next-1",
+              "relationType": "next",
+              "from": "im-adopt-priority-node",
+              "to": "im-adopt-proof-node"
+            },
+            {
+              "id": "im-adopt-local-next-2",
+              "relationType": "next",
+              "from": "im-adopt-proof-node",
+              "to": "im-adopt-knowledge-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "im-adopt-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "im-references",
+        "semanticRole": "explanation",
+        "claims": [
+          "im-reference-guides-claim",
+          "im-reference-authority-claim",
+          "im-reference-design-harness-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "im-reference-guides-node",
+              "role": "step"
+            },
+            {
+              "id": "im-reference-authority-node",
+              "role": "step"
+            },
+            {
+              "id": "im-reference-design-harness-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "im-references-local-next-1",
+              "relationType": "next",
+              "from": "im-reference-guides-node",
+              "to": "im-reference-authority-node"
+            },
+            {
+              "id": "im-references-local-next-2",
+              "relationType": "next",
+              "from": "im-reference-authority-node",
+              "to": "im-reference-design-harness-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "im-references-flow",
+          "transitions": []
+        },
+        "steps": []
+      }
+    ]
+  }
+}

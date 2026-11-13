@@ -1,0 +1,1170 @@
+{
+  "schema": "cozy.content-core.logic-tree.v1",
+  "id": "textus-cncf-availability-architecture",
+  "root": {
+    "id": "textus-cncf-availability-architecture",
+    "semanticRole": "explanation",
+    "claims": [
+      "ha-purpose-claim",
+      "ha-reading-map-claim"
+    ],
+    "structure": {
+      "pattern": "sequence",
+      "nodes": [
+        {
+          "id": "ha-purpose-node",
+          "role": "step"
+        },
+        {
+          "id": "ha-reading-map-node",
+          "role": "step"
+        }
+      ],
+      "relations": []
+    },
+    "flow": {
+      "id": "textus-cncf-availability-architecture-flow",
+      "transitions": [
+        {
+          "id": "textus-cncf-availability-architecture-next-1",
+          "relationType": "next",
+          "fromStepId": "ha-purpose-area",
+          "toStepId": "ha-overview-area"
+        },
+        {
+          "id": "textus-cncf-availability-architecture-next-2",
+          "relationType": "next",
+          "fromStepId": "ha-overview-area",
+          "toStepId": "ha-execution-area"
+        },
+        {
+          "id": "textus-cncf-availability-architecture-next-3",
+          "relationType": "next",
+          "fromStepId": "ha-execution-area",
+          "toStepId": "ha-state-area"
+        },
+        {
+          "id": "textus-cncf-availability-architecture-next-4",
+          "relationType": "next",
+          "fromStepId": "ha-state-area",
+          "toStepId": "ha-control-area"
+        },
+        {
+          "id": "textus-cncf-availability-architecture-next-5",
+          "relationType": "next",
+          "fromStepId": "ha-control-area",
+          "toStepId": "ha-behavior-area"
+        },
+        {
+          "id": "textus-cncf-availability-architecture-next-6",
+          "relationType": "next",
+          "fromStepId": "ha-behavior-area",
+          "toStepId": "ha-deployment-area"
+        },
+        {
+          "id": "textus-cncf-availability-architecture-next-7",
+          "relationType": "next",
+          "fromStepId": "ha-deployment-area",
+          "toStepId": "ha-appendix-area"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "ha-purpose-area",
+        "semanticRole": "explanation",
+        "claims": [
+          "ha-purpose-area-intro-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ha-purpose-area-intro-node",
+              "role": "step"
+            }
+          ],
+          "relations": []
+        },
+        "flow": {
+          "id": "ha-purpose-area-flow",
+          "transitions": [
+            {
+              "id": "ha-purpose-area-next-1",
+              "relationType": "next",
+              "fromStepId": "ha-goals",
+              "toStepId": "ha-target-level"
+            },
+            {
+              "id": "ha-purpose-area-next-2",
+              "relationType": "next",
+              "fromStepId": "ha-target-level",
+              "toStepId": "ha-quality"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ha-goals",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-business-purpose-claim",
+              "ha-application-goal-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-business-purpose-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-application-goal-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-goals-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ha-target-level",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-sme-target-claim",
+              "ha-target-interpretation-claim",
+              "ha-target-level-table-claim",
+              "ha-target-service-window-claim",
+              "ha-readonly-goal-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-sme-target-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-target-interpretation-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-target-level-table-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-target-service-window-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-readonly-goal-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-target-level-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ha-quality",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-quality-table-claim",
+              "ha-quality-contract-claim",
+              "ha-failure-boundary-intro-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-quality-table-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-quality-contract-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-failure-boundary-intro-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-quality-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ha-overview-area",
+        "semanticRole": "explanation",
+        "claims": [
+          "ha-architecture-map-claim",
+          "ha-concern-tree-claim",
+          "ha-area-table-claim",
+          "ha-overview-figure-claim",
+          "ha-overview-boundary-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ha-architecture-map-node",
+              "role": "step"
+            },
+            {
+              "id": "ha-concern-tree-node",
+              "role": "step"
+            },
+            {
+              "id": "ha-area-table-node",
+              "role": "step"
+            },
+            {
+              "id": "ha-overview-figure-node",
+              "role": "step"
+            },
+            {
+              "id": "ha-overview-boundary-node",
+              "role": "step"
+            }
+          ],
+          "relations": []
+        },
+        "flow": {
+          "id": "ha-overview-area-flow",
+          "transitions": [
+            {
+              "id": "ha-overview-area-next-1",
+              "relationType": "next",
+              "fromStepId": "ha-request-path",
+              "toStepId": "ha-immutable"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ha-request-path",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-request-write-claim",
+              "ha-request-read-claim",
+              "ha-request-control-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-request-write-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-request-read-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-request-control-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-request-path-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ha-immutable",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-immutable-relation-claim",
+              "ha-immutable-purpose-claim",
+              "ha-platform-responsibility-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-immutable-relation-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-immutable-purpose-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-platform-responsibility-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-immutable-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ha-execution-area",
+        "semanticRole": "explanation",
+        "claims": [
+          "ha-execution-intro-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ha-execution-intro-node",
+              "role": "step"
+            }
+          ],
+          "relations": []
+        },
+        "flow": {
+          "id": "ha-execution-area-flow",
+          "transitions": [
+            {
+              "id": "ha-execution-area-next-1",
+              "relationType": "next",
+              "fromStepId": "ha-roles",
+              "toStepId": "ha-lifecycle"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ha-roles",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-role-table-claim",
+              "ha-role-composition-claim",
+              "ha-retained-role-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-role-table-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-role-composition-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-retained-role-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-roles-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ha-lifecycle",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-lifecycle-separation-claim",
+              "ha-lifecycle-table-claim",
+              "ha-lifecycle-state-names-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-lifecycle-separation-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-lifecycle-table-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-lifecycle-state-names-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-lifecycle-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ha-state-area",
+        "semanticRole": "explanation",
+        "claims": [
+          "ha-state-intro-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ha-state-intro-node",
+              "role": "step"
+            }
+          ],
+          "relations": []
+        },
+        "flow": {
+          "id": "ha-state-area-flow",
+          "transitions": [
+            {
+              "id": "ha-state-area-next-1",
+              "relationType": "next",
+              "fromStepId": "ha-memory",
+              "toStepId": "ha-cache"
+            },
+            {
+              "id": "ha-state-area-next-2",
+              "relationType": "next",
+              "fromStepId": "ha-cache",
+              "toStepId": "ha-updates"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ha-memory",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-state-separation-claim",
+              "ha-state-table-claim",
+              "ha-memory-performance-claim",
+              "ha-working-set-selection-claim",
+              "ha-working-set-user-context-claim",
+              "ha-memory-availability-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-state-separation-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-state-table-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-memory-performance-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-working-set-selection-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-working-set-user-context-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-memory-availability-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-memory-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ha-cache",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-cache-structure-claim",
+              "ha-cache-commit-claim",
+              "ha-cache-version-claim",
+              "ha-cache-progress-claim",
+              "ha-cache-bootstrap-claim",
+              "ha-read-consistency-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-cache-structure-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-cache-commit-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-cache-version-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-cache-progress-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-cache-bootstrap-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-read-consistency-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-cache-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ha-updates",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-update-conflict-claim",
+              "ha-update-settlement-claim",
+              "ha-long-work-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-update-conflict-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-update-settlement-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-long-work-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-updates-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ha-control-area",
+        "semanticRole": "explanation",
+        "claims": [
+          "ha-control-intro-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ha-control-intro-node",
+              "role": "step"
+            }
+          ],
+          "relations": []
+        },
+        "flow": {
+          "id": "ha-control-area-flow",
+          "transitions": [
+            {
+              "id": "ha-control-area-next-1",
+              "relationType": "next",
+              "fromStepId": "ha-control",
+              "toStepId": "ha-authority"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ha-control",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-control-table-claim",
+              "ha-control-reuse-claim",
+              "ha-fencing-boundary-claim",
+              "ha-control-topology-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-control-table-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-control-reuse-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-fencing-boundary-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-control-topology-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-control-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ha-authority",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-authority-model-claim",
+              "ha-switchover-scope-claim",
+              "ha-authority-loss-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-authority-model-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-switchover-scope-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-authority-loss-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-authority-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ha-behavior-area",
+        "semanticRole": "explanation",
+        "claims": [
+          "ha-behavior-intro-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ha-behavior-intro-node",
+              "role": "step"
+            }
+          ],
+          "relations": []
+        },
+        "flow": {
+          "id": "ha-behavior-area-flow",
+          "transitions": [
+            {
+              "id": "ha-behavior-area-next-1",
+              "relationType": "next",
+              "fromStepId": "ha-normal",
+              "toStepId": "ha-switchover"
+            },
+            {
+              "id": "ha-behavior-area-next-2",
+              "relationType": "next",
+              "fromStepId": "ha-switchover",
+              "toStepId": "ha-failover"
+            },
+            {
+              "id": "ha-behavior-area-next-3",
+              "relationType": "next",
+              "fromStepId": "ha-failover",
+              "toStepId": "ha-emergency-readonly"
+            },
+            {
+              "id": "ha-behavior-area-next-4",
+              "relationType": "next",
+              "fromStepId": "ha-emergency-readonly",
+              "toStepId": "ha-retention"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ha-normal",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-normal-composition-claim",
+              "ha-normal-transitions-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-normal-composition-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-normal-transitions-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-normal-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ha-switchover",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-switchover-purpose-claim",
+              "ha-abc-table-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-switchover-purpose-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-abc-table-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-switchover-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ha-failover",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-failover-purpose-claim",
+              "ha-failover-no-drain-claim",
+              "ha-protocol-table-claim",
+              "ha-failover-loss-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-failover-purpose-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-failover-no-drain-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-protocol-table-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-failover-loss-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-failover-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ha-emergency-readonly",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-readonly-scope-claim",
+              "ha-readonly-maintenance-claim",
+              "ha-readonly-admission-claim",
+              "ha-readonly-transition-claim",
+              "ha-readonly-data-claim",
+              "ha-readonly-resident-data-claim",
+              "ha-readonly-cache-retention-claim",
+              "ha-readonly-cache-validity-claim",
+              "ha-service-mode-table-claim",
+              "ha-readonly-activation-claim",
+              "ha-readonly-recovery-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-readonly-scope-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-readonly-maintenance-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-readonly-admission-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-readonly-transition-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-readonly-data-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-readonly-resident-data-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-readonly-cache-retention-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-readonly-cache-validity-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-service-mode-table-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-readonly-activation-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-readonly-recovery-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-emergency-readonly-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ha-retention",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-fallback-current-claim",
+              "ha-retirement-table-claim",
+              "ha-retirement-scope-claim",
+              "ha-car-compatibility-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-fallback-current-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-retirement-table-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-retirement-scope-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-car-compatibility-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-retention-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ha-deployment-area",
+        "semanticRole": "explanation",
+        "claims": [
+          "ha-deployment-intro-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ha-deployment-intro-node",
+              "role": "step"
+            }
+          ],
+          "relations": []
+        },
+        "flow": {
+          "id": "ha-deployment-area-flow",
+          "transitions": [
+            {
+              "id": "ha-deployment-area-next-1",
+              "relationType": "next",
+              "fromStepId": "ha-profiles",
+              "toStepId": "ha-operation"
+            },
+            {
+              "id": "ha-deployment-area-next-2",
+              "relationType": "next",
+              "fromStepId": "ha-operation",
+              "toStepId": "ha-policy"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ha-profiles",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-profile-table-claim",
+              "ha-profile-driver-claim",
+              "ha-profile-dependencies-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-profile-table-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-profile-driver-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-profile-dependencies-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-profiles-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ha-operation",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-native-evidence-claim",
+              "ha-observation-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-native-evidence-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-observation-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-operation-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ha-policy",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-policy-profiles-claim",
+              "ha-policy-cost-claim",
+              "ha-policy-observation-owner-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-policy-profiles-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-policy-cost-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-policy-observation-owner-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-policy-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ha-appendix-area",
+        "semanticRole": "explanation",
+        "claims": [
+          "ha-appendix-intro-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ha-appendix-intro-node",
+              "role": "step"
+            }
+          ],
+          "relations": []
+        },
+        "flow": {
+          "id": "ha-appendix-area-flow",
+          "transitions": [
+            {
+              "id": "ha-appendix-area-next-1",
+              "relationType": "next",
+              "fromStepId": "ha-delivery",
+              "toStepId": "ha-references"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ha-delivery",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-first-delivery-claim",
+              "ha-priority-table-claim",
+              "ha-safety-first-claim",
+              "ha-first-deployment-claim",
+              "ha-guide-status-claim",
+              "ha-registered-data-service-plans-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-first-delivery-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-priority-table-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-safety-first-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-first-deployment-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-guide-status-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-registered-data-service-plans-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-delivery-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ha-references",
+            "semanticRole": "explanation",
+            "claims": [
+              "ha-companion-guides-claim",
+              "ha-local-sources-claim",
+              "ha-election-reference-claim",
+              "ha-fencing-reference-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ha-companion-guides-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-local-sources-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-election-reference-node",
+                  "role": "step"
+                },
+                {
+                  "id": "ha-fencing-reference-node",
+                  "role": "step"
+                }
+              ],
+              "relations": []
+            },
+            "flow": {
+              "id": "ha-references-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,362 @@
+Textus/CNCF Availability and HA — Technical Guide｜Textus/CNCF 可用性・HA 技術ガイド
+====================================================================================================
+
+# HEAD
+
+status=draft
+created_at=2026-11-12
+document=textus-cncf-availability-architecture
+
+## SUMMARY
+
+<span lang="ja">本書は、Textus/CNCFが業務サービスの継続をどのような構造で支えるかを説明する技術ガイドです。まずHAの目的と品質目標を示し、全体構成を実行系、データ・同期系、制御系、配備・運用系へ分けて説明します。その構造を踏まえて、通常運転、計画切替え、障害切替えを読み解きます。イミュータブルインフラストラクチャの採用判断と日常運用は専用ガイドが扱い、本書はHAを構成する責務と相互関係に重点を置きます。</span><span lang="en">This technical guide explains the structure through which Textus/CNCF supports business-service continuity. It starts with HA purpose and quality targets, then separates execution, data/synchronization, control, and deployment/operation. Normal service, planned switchover and failover are explained in terms of that structure. The companion immutable-infrastructure guide covers adoption and everyday replacement operation; this guide focuses on HA responsibilities and their relationships.</span>
+
+<span lang="ja">第1章で目的、第2章で全体像、第3〜5章で分野別の構造、第6章で状態変化、第7章で配備と運用を扱います。実装順序と参照元は付録へ分けます。本書は設計を説明するもので、記載した機能すべての実装・実環境での検証完了を意味しません。</span><span lang="en">Chapter 1 establishes purpose; Chapter 2 presents the whole architecture; Chapters 3–5 explain its structural areas; Chapter 6 covers changes of state; Chapter 7 covers deployment and operation. Delivery order and sources are separated into the appendix. This is an architectural explanation, not a claim that every described capability has been implemented and qualified.</span>
+
+# HA Purpose and Design Goals｜HAの目的と設計目標
+
+<span lang="ja">本章では、構成や手順に先立ち、何を継続し、何を守るためにHAを設けるかを整理します。サービスの継続と更新結果の保全を両立させることが、後の構造を選ぶ基準です。</span><span lang="en">Before topology or procedures, establish what must remain usable and what must be preserved. Business-service continuity together with safe update outcomes determines the architecture that follows.</span>
+
+## Why Business Continuity Needs HA｜業務を継続するためにHAを設ける
+
+<span lang="ja">HA（High Availability、高可用性）の目的は、必要な業務機能を、要求した時間と条件で使い続けられるようにすることです。プロセスの故障だけでなく、実行環境や部品の更新、保守のための交換も継続性へ影響します。Textusでは、通常運転の構成と、環境を交換・復旧する構成を一体として設計します。</span><span lang="en">High availability means keeping required business functions usable within their specified time and operating conditions. Process failures, runtime/component updates and maintenance replacement all affect continuity. Textus designs ordinary service and replacement/recovery as one architecture.</span>
+
+<span lang="ja">業務アプリケーションには安定したOperationの境界を提供し、どの物理インスタンスが処理するか、いつ交代するかを基盤が扱います。開発者が業務処理ごとに切替えやReplica管理を作り込まず、業務の規則と必要な品質を指定できることを目標にします。</span><span lang="en">Applications use a stable Operation boundary while the platform manages physical instances and role changes. The goal is to let developers specify business rules and required quality without implementing replica management and switchover in each business handler.</span>
+
+## Target Workloads and Intended HA Level｜想定する業務とHAの到達範囲
+
+<span lang="ja">中心的な対象は、中小企業の一般的な業務システムです。通常の設定で利用できる標準構成として、必要なサービス継続性を得られることを目指します。利用者が選出、同期、切替えなどの詳細を個別に設計・設定し直すことを、通常の導入の前提にはしません。使いやすさは、このHA水準を現実的な費用と運用負担で利用できるための条件です。</span><span lang="en">The central target is ordinary business systems in small and medium-sized enterprises. A standard configuration should provide the required service continuity through ordinary settings, without making users individually redesign or configure election, synchronization and transfer for routine adoption. Ease of use makes this HA level accessible at realistic cost and operational burden.</span>
+
+<span lang="ja">狙う水準は、機体の台数やHAという名称ではなく、どの停止・障害まで業務を継続するかで示します。最初の実用化はlocal-haによる計画交換です。実行環境の障害への対応も設計対象ですが、自動障害切替えは別途実装・検証して提供する順序です。ホスト障害への対応はhost-haで必要に応じて選びます。</span><span lang="en">Express the intended level by which maintenance and failure conditions preserve business service, not by instance count or an HA label. The first operational delivery is planned replacement with local-ha. Runtime failure handling is also an architectural target, but automatic failover follows its own implementation and qualification. Select host-ha where host-failure tolerance is required.</span>
+
+<span lang="ja">狙うHA水準と対象範囲</span><span lang="en">Intended HA Levels and Boundaries</span>
+
+| <span lang="ja">到達範囲</span><span lang="en">Intended Boundary</span> | <span lang="ja">狙う業務継続性</span><span lang="en">Target Business Continuity</span> | <span lang="ja">構成と提供の順序</span><span lang="en">Configuration and Delivery Order</span> |
+| --- | --- | --- |
+| <span lang="ja">実行環境・計画保守</span><span lang="en">Runtime and planned maintenance</span> | <span lang="ja">中小企業の一般的な業務を、更新・交換のたびに止めず継続できることを狙う。実行環境障害への対応も含む</span><span lang="en">Target continuity through updates/replacement for ordinary SME business, and runtime-failure handling</span> | <span lang="ja">local-ha。計画交換を先行し、自動障害切替えを後続で検証する</span><span lang="en">local-ha; planned replacement first, automatic failover qualified subsequently</span> |
+| <span lang="ja">ホスト障害</span><span lang="en">Host failure</span> | <span lang="ja">ホスト喪失後も別ホストで引き継ぐ水準を、業務の要求に応じて選ぶ</span><span lang="en">Select takeover on another host according to business requirements</span> | <span lang="ja">host-ha。実行系と依存基盤の障害範囲を揃える</span><span lang="en">host-ha, with aligned runtime and dependency failure boundaries</span> |
+| <span lang="ja">AZ・拠点障害</span><span lang="en">AZ or site failure</span> | <span lang="ja">拠点喪失を含む広い継続性を別の構成として設計する</span><span lang="en">Design broader continuity including site loss as a separate configuration</span> | <span lang="ja">将来範囲。現段階の標準提供やPhase 108の完了条件には含めない</span><span lang="en">Future scope; not current standard delivery or a Phase 108 completion condition</span> |
+
+<span lang="ja">一般的な業務で必要な水準は、利用時間帯、許容停止時間、確定データの保全、応答性と費用から選びます。全用途へ同じ稼働率や無条件の無停止を約束するものではありません。ホストや拠点まで保護範囲を広げる場合は、保存先・調停・通信なども同じ条件を満たす構成と確認が必要です。</span><span lang="en">Choose the business-appropriate level from service hours, tolerated downtime, committed-data preservation, responsiveness and cost. This does not promise one availability percentage or unconditional uninterrupted service for every use. Extending protection to hosts or sites requires storage, coordination, networking and other dependencies to meet the same qualified boundary.</span>
+
+<span lang="ja">障害時や保守時に更新を止め、条件を満たす参照を残すRead-onlyモードも、業務継続の設計候補に含めます。メモリに常駐した業務データや索引を活かし、永続化先が不調でも広い範囲の参照業務を続けられることを狙います。通常の全機能を提供できない場合にも利用できる範囲を明示し、参照まで安全に提供できない範囲は利用不可にします。</span><span lang="en">Read-only for failure or maintenance is a proposed continuity level that stops mutations while preserving qualified reads. Resident business data and indexes are intended to sustain a broad range of read work even when persistence access is impaired. Make the available scope explicit when full service cannot continue, and leave unavailable any read scope that cannot be served safely.</span>
+
+## Separate Availability, Responsiveness and Data Preservation｜可用性・応答性・データ保全を別々の目標として捉える
+
+<span lang="ja">HAで同時に確認する品質</span><span lang="en">Quality Concerns to Qualify Together</span>
+
+| <span lang="ja">観点</span><span lang="en">Concern</span> | <span lang="ja">設計上の問い</span><span lang="en">Architectural Question</span> |
+| --- | --- |
+| <span lang="ja">可用性</span><span lang="en">Availability</span> | <span lang="ja">どの業務を、どの障害・保守の条件でも利用可能にするか</span><span lang="en">Which business functions remain usable under which failures and maintenance conditions?</span> |
+| <span lang="ja">応答性と処理能力</span><span lang="en">Responsiveness and capacity</span> | <span lang="ja">交代や再構築の間も、どの程度の応答と処理量を維持するか</span><span lang="en">What latency and throughput must remain available during replacement and reconstruction?</span> |
+| <span lang="ja">データ保全と整合性</span><span lang="en">Data preservation and consistency</span> | <span lang="ja">確定済みの更新をどう保ち、参照にどの鮮度を求めるか</span><span lang="en">How are committed changes preserved, and what read freshness is required?</span> |
+| <span lang="ja">復旧と運用負担</span><span lang="en">Recovery and operational burden</span> | <span lang="ja">許容停止時間と許容データ損失をどう定め、どの費用で確認するか</span><span lang="en">What downtime and data loss are tolerable, and at what cost are they qualified?</span> |
+
+<span lang="ja">短時間で切り替わること、更新が失われないこと、キャッシュが最新であることは、それぞれ異なる条件です。メモリ常駐は応答性を、正本の永続化は確定状態の保全を、HAは利用継続を支えます。構成を選んだだけで達成したとはせず、保存先と実行経路を含めて、業務の要求に対応する水準を確認します。</span><span lang="en">Fast takeover, preservation of updates and fresh caches are separate conditions. Memory residency supports responsiveness, authoritative persistence preserves committed state, and HA supports service continuity. Selecting a configuration is not proof of achievement; qualify the required level across storage and execution paths.</span>
+
+<span lang="ja">対象とする故障の範囲も先に定めます。同一ホスト上の複数実行環境はプロセス交換には役立ちますが、ホスト全体の停止への対策にはなりません。ホスト障害や拠点障害を扱うには、実行系に加えて保存、調停、ネットワークなどの配置と可用性を揃える必要があります。</span><span lang="en">Define the failure boundary first. Multiple runtimes on one host help process replacement but do not protect against loss of that host. Host or site failures require compatible availability and placement of storage, coordination, networking and execution.</span>
+
+# Overall Architecture｜全体アーキテクチャ
+
+<span lang="ja">TextusのHAは、二台の機体を用意するだけの構成ではありません。業務を実行する構造、状態を保持・同期する構造、処理してよい主体を決める構造、実行環境を配置・観測する構造を組み合わせます。以下の分野は、説明上の責務の分割です。各分野が必ず独立したプロセスや製品になるという意味ではありません。</span><span lang="en">Textus HA is more than two machines. It combines business execution, state preservation/synchronization, authority control, and environment deployment/observation. These are divisions of responsibility; each need not be a separate process or product.</span>
+
+<span lang="ja">[[images/ha-concern-tree-ja.png]]</span><span lang="en">[[images/ha-concern-tree-en.png]]</span>
+
+<span lang="ja">HAを構成する分野と説明の階層</span><span lang="en">HA Concern Hierarchy</span>
+
+<span lang="ja">分野ごとの責務と接続先</span><span lang="en">Responsibilities and Connections by Area</span>
+
+| <span lang="ja">分野</span><span lang="en">Area</span> | <span lang="ja">主な構成要素</span><span lang="en">Principal Elements</span> | <span lang="ja">他の分野へ渡すもの</span><span lang="en">Connection to Other Areas</span> |
+| --- | --- | --- |
+| <span lang="ja">実行系</span><span lang="en">Execution</span> | <span lang="ja">Applicationの入口、Domain Subsystem、Primary、Read Replica</span><span lang="en">Application entry, Domain Subsystems, Primary and Read Replicas</span> | <span lang="ja">受付済みの処理、準備状態、業務操作の結果</span><span lang="en">Admitted work, readiness and operation outcomes</span> |
+| <span lang="ja">データ・同期系</span><span lang="en">Data and synchronization</span> | <span lang="ja">正本DataStore、メモリ常駐状態、共通キャッシュ同期</span><span lang="en">Authoritative DataStore, resident state and common cache synchronization</span> | <span lang="ja">確定結果、反映位置、再構築と参照の準備状態</span><span lang="en">Committed outcomes, applied progress, reconstruction/read readiness</span> |
+| <span lang="ja">制御系</span><span lang="en">Control</span> | <span lang="ja">選出・Lease・Fencing、受付権限、ライフサイクル管理</span><span lang="en">Election/Lease/fencing, admission authority and lifecycle management</span> | <span lang="ja">新規受付の所有者、旧処理の完了範囲、切替え可否</span><span lang="en">New-admission owner, old-work scope and transfer eligibility</span> |
+| <span lang="ja">配備・運用系</span><span lang="en">Deployment and operation</span> | <span lang="ja">Deployment Driver、配備構成、観測、Control Center</span><span lang="en">Deployment Driver, deployment configuration, observation and Control Center</span> | <span lang="ja">実行環境の配置、資源、観測された状態と運用判断</span><span lang="en">Runtime placement, resources, observed state and operational decisions</span> |
+
+<span lang="ja">[[images/ha-overview-ja.png]]</span><span lang="en">[[images/ha-overview-en.png]]</span>
+
+<span lang="ja">実行・データ・制御・配備の接続</span><span lang="en">Execution, Data, Control and Deployment Connections</span>
+
+<span lang="ja">図は一つのDomain Subsystemに対する論理構成です。枠は物理ホストや障害区画ではありません。実線は業務要求・データの経路、破線は制御・配備・観測の関係を示します。Replicaはメモリ状態を共有する別名ではなく、それぞれ独立した実行環境です。制御サービスの内部リーダーと業務処理のPrimaryも別の概念です。図は主要な関係に絞っています。初期構築や保持中の旧機への同期は、データ構造と切替えの章で説明します。</span><span lang="en">The figure shows the logical architecture for one Domain Subsystem. Boxes are not host or failure-domain boundaries. Solid lines are request/data paths; dashed lines are control, deployment and observation relationships. Replicas are separate runtimes, not aliases for shared memory. The coordination service internal leader is distinct from the business Primary. The figure selects principal relationships. The data and transition chapters explain initial construction and synchronization of retained former runtimes.</span>
+
+## How Ordinary Requests Use the Architecture｜通常の要求はこの構造をどう通るか
+
+<span lang="ja">更新要求は、安定した業務APIから、正当な新規受付権限を持つPrimaryへ渡されます。Domainの規則とUnitOfWorkで正本への更新結果を確定し、その確定結果が常駐状態や参照用の投影へ反映されます。Application側で接続先を選べることと、更新してよいことの判定は分けます。</span><span lang="en">A stable business API sends a mutation to the Primary holding valid new-admission authority. Domain rules and UnitOfWork establish the authoritative outcome; committed results update resident state and read projections. Selecting an endpoint is distinct from authorization to mutate.</span>
+
+<span lang="ja">参照要求は、許可された範囲と必要な鮮度を満たすPrimaryまたはRead Replicaへ渡します。Read Replicaが参照に使えることは、更新処理の開始やPrimaryへの昇格を許可されたことを意味しません。参照の利用可否は、認可に加えて、必要なデータが反映済みかという条件でも判断します。</span><span lang="en">Reads use a Primary or Read Replica meeting authorization and freshness requirements. Eligibility to serve reads grants neither mutation admission nor promotion. Read eligibility therefore depends on both authorization and required applied data state.</span>
+
+<span lang="ja">制御系は、現在の受付主体、各機の準備と同期状態を使い、切替え・保持・退役の可否を判断します。配備系はその判断に対応して実行環境を生成・停止し、観測系は実際の状態と失敗理由を提示します。業務データの確定と制御系の状態更新を、同じ記録や同じ版番号として扱いません。</span><span lang="en">Control consumes admission ownership, readiness and synchronization to decide transfer, retention and retirement. Deployment realizes runtime creation/stop, and observation exposes actual state and failure reasons. Business commits and control-state changes are not one record or one revision sequence.</span>
+
+## HA and Immutable Infrastructure｜HAとイミュータブルインフラストラクチャの関係
+
+<span lang="ja">HAはサービスを使い続けるための設計であり、イミュータブルインフラストラクチャは実行環境を変更せず交換する運用です。両者は目的が異なりますが、準備済みの別環境へ仕事を引き継ぐ構造を共有します。採用理由や定期交換の運用判断は[[../../immutable-infrastructure/textus-cncf-immutable-infrastructure.dox/index.dox][専用ガイド]]で扱います。</span><span lang="en">HA concerns service continuity; immutable infrastructure concerns replacing environments rather than modifying them in place. Their purposes differ, but they share the structure for handing work to prepared runtimes. The [[../../immutable-infrastructure/textus-cncf-immutable-infrastructure.dox/index.dox][companion guide]] covers adoption and regular-replacement policy.</span>
+
+<span lang="ja">イミュータブルインフラストラクチャでは、稼働中の環境へ変更を積み重ねず、受入れ済みの成果物と構成から新しい環境を作って交換します。更新時の再現性と構成の明確さを保ち、異常な環境を使い続ける期間も抑えます。定期交代によって、起動、準備、切替え、排出を日常の運用でも確かめます。</span><span lang="en">Immutable infrastructure replaces an environment from admitted artifacts and configuration instead of accumulating in-place changes. It preserves reproducibility and a known configuration while limiting continued use of an unhealthy environment. Regular rotation exercises startup, preparation, transfer and drain during ordinary operation.</span>
+
+<span lang="ja">この交代はアプリケーション固有の起動スクリプトや切替え処理ではなく、CNCF Runtimeと配備ドライバーが担う設計です。アプリケーションは業務契約と永続化の条件を定め、基盤が準備確認、受付先の変更、キャッシュ追随、排出と退役を管理します。短命であることと変更せず交換することは別の性質です。</span><span lang="en">CNCF Runtime and deployment drivers own rotation rather than application-specific startup scripts and switching logic. Applications define business and persistence contracts; the infrastructure manages readiness, admission routing, cache catch-up, drain and retirement. A short lifetime and replacement without in-place modification are distinct properties.</span>
+
+# Execution Structure｜実行系の構造
+
+<span lang="ja">実行系は、同じ業務契約を実行できる複数のSubsystemと、それらへ要求を渡す安定した入口から構成します。機体の役割と準備状態を明示し、通常の業務呼出しを、環境の生成・交換の管理から分離します。</span><span lang="en">Execution consists of multiple Subsystems implementing the same business contract and a stable entry that routes work to them. Explicit roles and readiness separate ordinary business calls from environment creation and replacement.</span>
+
+## Primary, Read Replica and Standby Roles｜Primary・Read Replica・Standbyの役割
+
+<span lang="ja">可用性構成の役割</span><span lang="en">Availability roles</span>
+
+| <span lang="ja">用語</span><span lang="en">Term</span> | <span lang="ja">責務</span><span lang="en">Responsibility</span> |
+| --- | --- |
+| <span lang="ja">Primary</span><span lang="en">Primary</span> | <span lang="ja">新規の更新処理を受け付ける主系</span><span lang="en">Admit new authoritative mutations</span> |
+| <span lang="ja">Read Replica</span><span lang="en">Read Replica</span> | <span lang="ja">同期済みのキャッシュや参照用投影を使って読取りを提供する</span><span lang="en">Serve reads from synchronized caches or projections</span> |
+| <span lang="ja">Standby</span><span lang="en">Standby</span> | <span lang="ja">Primaryへの昇格に必要な準備と適格性を備える</span><span lang="en">Be qualified and ready for promotion to Primary</span> |
+| <span lang="ja">Draining Former Primary</span><span lang="en">Draining Former Primary</span> | <span lang="ja">切替え前に受け付けた処理だけを完了させる旧Primary</span><span lang="en">Complete only work admitted before the transfer</span> |
+
+<span lang="ja">Read Replicaは参照サービスの役割、Standbyは昇格に備える役割です。同じ機体が両方を兼ねられますが、読取り可能であるだけでは昇格可能とは限りません。最小構成はPrimaryとStandbyを兼ねるRead Replicaの二台で、将来は複数のRead Replicaを同じ同期基盤へ参加させます。</span><span lang="en">Read Replica describes read service; Standby describes promotion readiness. One instance may hold both roles, but read availability alone does not qualify it for promotion. The minimal topology has a Primary and a Standby-capable Read Replica, with additional Read Replicas joining the same synchronization infrastructure later.</span>
+
+<span lang="ja">更新の排出が終わった旧Primaryは、保持期間が残っているだけでDrainingとは呼びません。同期を続ける切戻し用の環境として保持します。既存のACTIVE、STANDBY、DRAININGというライフサイクル状態名の変更と、説明用語の採用は別の作業です。</span><span lang="en">After its admitted work has settled, a former Primary is no longer draining merely because its retention window remains open. It remains a synchronized fallback. Adopting explanatory role names is separate from renaming existing ACTIVE, STANDBY or DRAINING lifecycle states.</span>
+
+## Liveness, Readiness, Authority and Runtime Lifetime｜生存・準備・権限と実行環境の寿命
+
+<span lang="ja">生存はプロセスが応答すること、準備は必要な版・接続・データを備えること、権限は特定の処理を開始・完了してよいことです。これらを独立して捉えることで、起動しただけの機体が更新を始めたり、参照可能なReplicaが勝手にPrimaryになったりすることを防ぎます。</span><span lang="en">Liveness means a process responds; readiness means it has required versions, connections and data; authority means it may start or finish particular work. Keeping them separate prevents a merely running instance from admitting mutations or a readable replica from promoting itself.</span>
+
+<span lang="ja">実行環境の状態と判断</span><span lang="en">Runtime State and Decisions</span>
+
+| <span lang="ja">段階</span><span lang="en">Stage</span> | <span lang="ja">状態の意味</span><span lang="en">Meaning</span> | <span lang="ja">権限との関係</span><span lang="en">Relation to Authority</span> |
+| --- | --- | --- |
+| <span lang="ja">起動・構築</span><span lang="en">Startup and warm-up</span> | <span lang="ja">成果物と正本から環境・キャッシュを作る</span><span lang="en">Build runtime/cache from artifacts and authoritative state</span> | <span lang="ja">未準備のまま通常業務へ投入しない</span><span lang="en">Do not admit ordinary use while unready</span> |
+| <span lang="ja">準備済み</span><span lang="en">Ready</span> | <span lang="ja">利用経路に必要な互換性・同期等を満たす</span><span lang="en">Meet compatibility, synchronization and other use requirements</span> | <span lang="ja">参照可否と昇格可否を個別に判定する</span><span lang="en">Qualify read service and promotion separately</span> |
+| <span lang="ja">Primary・参照提供</span><span lang="en">Primary or read service</span> | <span lang="ja">認められた役割で業務を処理する</span><span lang="en">Serve business work in admitted roles</span> | <span lang="ja">更新は正当な受付・実行権限を必要とする</span><span lang="en">Mutations require valid admission/execution authority</span> |
+| <span lang="ja">完了待ち・保持・退役</span><span lang="en">Drain, retention and retirement</span> | <span lang="ja">旧処理の結果と代替容量、保持条件を確認する</span><span lang="en">Check old outcomes, replacement capacity and retention</span> | <span lang="ja">旧Primaryだったことは新規受付の根拠にならない</span><span lang="en">Former Primary status grants no new admission</span> |
+
+<span lang="ja">既存のACTIVE・STANDBY・DRAININGは実行状態の名前です。本文のPrimary、Read Replica、Standbyは責務や適格性を説明する用語であり、文書上の用語整理だけでAPIや設定の状態名を変更しません。完了待ちが終わった旧機を同期した切戻し用環境として保持する場合、その保持を処理中のDrainingと区別します。</span><span lang="en">Existing ACTIVE, STANDBY and DRAINING names describe lifecycle states. Primary, Read Replica and Standby explain responsibilities and eligibility; prose does not rename APIs or configuration tokens. After draining ends, synchronized fallback retention is distinct from still executing old work.</span>
+
+# Data and Synchronization Structure｜データと同期の構造
+
+<span lang="ja">データの保全と高速な参照は、役割の異なる状態を接続して実現します。正本の永続化、メモリ常駐、Replica間の反映、実行中の業務処理を分けて説明し、それぞれが切替えへ提供する条件を明確にします。</span><span lang="en">Data preservation and fast reads connect different categories of state. This chapter distinguishes authoritative persistence, memory residency, replica application and running business work, and states the conditions each supplies to transfer.</span>
+
+## Committed, Resident and Transient State｜確定状態・常駐状態・一時状態
+
+<span lang="ja">CNCFは、メモリ常駐で応答性を高めながら、業務の継続に必要な状態を特定プロセスのメモリだけに残さない構造を意図しています。更新はDomainの規則とUnitOfWorkを通して正本へ確定し、キャッシュやViewはその結果に従います。交換するのは実行環境であり、確定した業務データや対応済みのJob・Workflow継続記録は別に保持します。一時状態や結果不明の処理は別に扱い、旧メモリのコピーをデータ保全の根拠にしません。</span><span lang="en">CNCF deliberately combines memory-resident responsiveness with an architecture that does not leave continuity-critical state solely in one process. Domain rules and UnitOfWork govern authoritative commits; caches and Views follow their outcomes. Replacement concerns the runtime, while committed business data and supported durable Job/Workflow records remain independent. Treat transient and uncertain work separately; an old memory copy is not proof of durability.</span>
+
+<span lang="ja">状態の所有者と再構築</span><span lang="en">State Ownership and Reconstruction</span>
+
+| <span lang="ja">状態</span><span lang="en">State</span> | <span lang="ja">正本と寿命</span><span lang="en">Authority and Lifetime</span> | <span lang="ja">HAとの接続</span><span lang="en">HA Connection</span> |
+| --- | --- | --- |
+| <span lang="ja">確定した業務データ</span><span lang="en">Committed business data</span> | <span lang="ja">正本DataStoreで、実行環境とは別に保持する</span><span lang="en">Authoritative DataStore, independent of runtime lifetime</span> | <span lang="ja">確定結果と保存側の障害範囲を保全条件にする</span><span lang="en">Use committed outcomes and storage failure boundaries as preservation conditions</span> |
+| <span lang="ja">Entity・索引・Working Set・View</span><span lang="en">Entities, indexes, Working Sets and Views</span> | <span lang="ja">正本と確定差分から構築する常駐状態</span><span lang="en">Resident state built from authoritative baseline and committed changes</span> | <span lang="ja">喪失しても再構築し、必要な反映位置で準備を判定する</span><span lang="en">Rebuild after loss and qualify readiness from required applied progress</span> |
+| <span lang="ja">受付済みの処理・途中の計算</span><span lang="en">Admitted work and intermediate computation</span> | <span lang="ja">処理の実行範囲と対応する永続記録</span><span lang="en">Execution scope and its supported durable records</span> | <span lang="ja">計画切替えの完了待ちと、障害時の結果照合を分ける</span><span lang="en">Separate planned drain from failure outcome reconciliation</span> |
+
+<span lang="ja">CNCFは、業務処理で利用するデータの多くをメモリに載せることを志向します。EntitySpace、Entity Realm、索引やViewを常駐させ、繰り返しの取得・構築を減らして応答性を高めます。業務の継続に必要な状態を特定プロセスのメモリだけに残さない構造と組み合わせることで、メモリの性能と環境の交換可能性を両立させます。メモリ常駐やReplica台数そのものを、データが永続化された証拠にはしません。</span><span lang="en">CNCF aims to keep much of the data used in business processing resident in memory. Resident EntitySpace, Entity Realms, indexes and Views reduce repeated retrieval/construction for responsiveness. Combining this with independent continuity-critical state supports both performance and replacement. Residency or replica count alone is not proof of durable data.</span>
+
+<span lang="ja">常駐対象は、Entityの分類とWorking Set方針で決めます。マスター系は有効な全件を常駐させます。トランザクション系では活動中の取引に加え、活動中の利用者とその業務に必要なデータをWorking Setとして保持することを想定します。全履歴の常駐を避けつつ、現在の活動に必要な範囲を選ぶ考え方です。現行の分類ではmasterが全件常駐の既定値を持ち、取引Entityのworkflowでは状態項目と活動中の条件を明示する方針が必要です。利用者の活動条件に応じた保持は、これとは別に定義・確認する方針です。</span><span lang="en">Entity classification and Working Set policy select resident data. Keep all valid master records resident. For transactional use, the intended Working Set includes active transactions and data required by active users and their business activity. Select current activity needs without retaining all historical data. Current master defaults select full residency; workflow business entities require explicit state-field and active-state policy. User-activity-based residency needs separately defined and qualified policy.</span>
+
+<span lang="ja">例えば、アクティブユーザーのカート内容、ユーザー自身の住所、配送先などがWorking Setの対象になります。住所のようにそれ自身は状態遷移しない情報も、現在の利用者や取引に必要であれば含めます。Working Setは「現在の業務活動に必要なデータのまとまり」として捉え、利用者の認可範囲を保って保持します。全件常駐するマスターを使う場合はその常駐データを利用します。活動が終わると常駐対象を見直し、正本のデータは独立して保持します。この利用者単位の方針が現行コードで自動適用済みとは扱いません。</span><span lang="en">Examples include an active user cart, the user own address and delivery destinations. Data such as an address need not itself undergo state transitions to be included when required by current users or transactions. Treat the Working Set as the data needed for current business activity, retaining per-user authorization boundaries. Reuse already resident master data where applicable. Re-evaluate residency when activity ends while retaining authoritative data independently. Do not claim this user-scoped policy is already applied automatically by current code.</span>
+
+<span lang="ja">メモリ常駐は、縮退運転の継続性にも寄与します。正本のディスクやDBへのアクセスが遅延・停止しても、既知の確定状態と必要な索引が常駐していれば、そのデータだけで完結する検索・一覧・照会を継続できる構造です。更新を止めて常駐データを活用するRead-onlyモードは、この特性をHAの利用継続へつなぐ設計です。実際に継続できる業務の範囲は、常駐範囲と依存先を含めて確認します。</span><span lang="en">Residency also supports degraded-service continuity. When authoritative disk or database access is slow or unavailable, known committed resident state and required indexes can support searches, lists and inquiries completed from that state. Read-only connects this property to HA by stopping mutations and using resident data. Qualify the actual supported business scope against resident coverage and dependencies.</span>
+
+## Common Cache Synchronization for Committed Changes｜確定更新を共有するキャッシュ同期基盤
+
+<span lang="ja">キャッシュ同期は、正本の確定変更を、現在のPrimary、参照提供中のReplica、構築中のReplica、保持中の旧機へ反映する共通基盤です。HA制御はその反映位置と準備状態を使います。同期基盤がPrimaryを選ぶのでも、HA制御が業務更新を再実行してReplicaを揃えるのでもありません。</span><span lang="en">Cache synchronization distributes authoritative committed changes to the current Primary, serving replicas, warming members and retained former runtimes. HA control consumes applied progress and readiness. Synchronization does not elect the Primary, and HA does not synchronize replicas by replaying business mutations.</span>
+
+<span lang="ja">同期基盤は、処理の受付やメモリ上の変更ではなく、永続化側で確定した更新を扱います。データ確定後、通知前にプロセスが停止しても、更新を取りこぼさず発見して追随できる接続が必要です。abortされた更新を成功した更新として配布しません。</span><span lang="en">Synchronization follows committed source changes, not request acceptance or speculative memory updates. If a process stops after commit but before notification, the owning persistence integration must allow the change to be discovered and applied. Aborted updates are not distributed as successful changes.</span>
+
+<span lang="ja">更新、削除、無効化、パージを共通に扱い、通知の重複や到着順の逆転で古い値が復活しないようにします。パージはキャッシュを捨てる操作であり、業務データの削除ではありません。パージ前に開始した読込みが遅れて完了しても、新しい世代のキャッシュへ古い値を戻してはいけません。</span><span lang="en">Handle updates, deletion, invalidation and scoped purge under common semantics. Duplicate or reordered notifications must not resurrect older values. Purge discards cache state rather than authoritative data, and a late load started before purge must not repopulate a newer cache generation with stale values.</span>
+
+<span lang="ja">各機の受信位置と反映済み位置を区別します。反映済み位置は、それ以前の必要な変更をすべて反映した範囲です。Aの遅い確定とBの新規確定も、送信元や到着時刻ではなく、永続化側の順序・版に対応付けます。異なる保存先に根拠のない単一の確定順序を与えません。</span><span lang="en">Track received progress separately from applied-through progress. Applied-through covers all required preceding changes. Late A commits and new B commits follow source-owned ordering/versions rather than publisher identity or arrival time. Do not invent a single commit order across independent stores that provide no such order.</span>
+
+<span lang="ja">Cの初期構築では、対応する整合点が分かる初期状態を取得し、その後の差分へ追随します。構築中の更新を落とさず、必要な反映位置に達してから参照先として利用します。履歴不足や通知の欠落を解消できない場合は、その範囲を未準備にして再構築します。</span><span lang="en">Build C from a consistent baseline with a corresponding source position, then catch up subsequent changes without losing updates during construction. Admit it for reads only after reaching the required state. An unrecoverable history gap makes the affected scope unready and requires reconstruction.</span>
+
+<span lang="ja">遅延を許容する読取りと、特定の確定状態を必要とする読取りを区別します。後者では必要な位置へ追随した機体を選ぶか、許可された正本読取り、制限付き待機、利用不可の応答を使います。新Primaryへ接続しただけで、切替え後のAの確定まで反映済みとは限りません。</span><span lang="en">Separate lag-tolerant reads from reads requiring a particular confirmed state. The latter need an eligible caught-up replica, an authorized authoritative read, bounded waiting or an unavailable outcome. Routing to the new Primary does not prove that A commits occurring after transfer have reached its cache.</span>
+
+## Update Processing and Job/Workflow Continuity｜更新処理とJob・Workflowの継続
+
+<span lang="ja">Aの受付済み更新とBの新規更新が同じデータに触れる場合、その競合は正本側のトランザクションや版の検査で扱います。受付順だけで確定順を保証したり、後から届いた値で上書きしたりしません。業務上の因果関係が必要なら、その処理契約で確保します。</span><span lang="en">If old admitted A work and new B work touch the same data, authoritative transactions/version checks handle the conflict. Admission order alone does not establish commit order, and last-arriving values must not overwrite newer state. Required business causal ordering belongs to the owning work contract.</span>
+
+<span lang="ja">更新の完走とは必ず成功することではなく、実際のcommit、abort、失敗などの結果を確定することです。HTTP応答を返したかだけでは排出完了を判断しません。確定の応答が失われた場合や外部送信の結果が不明な場合は、未実行と決めつけず照合します。</span><span lang="en">Completing admitted work does not guarantee business success; it establishes an actual commit, abort or failure disposition. HTTP response completion alone is not drain completion. A lost commit acknowledgement or uncertain external send requires reconciliation, not an assumption that nothing happened.</span>
+
+<span lang="ja">長時間のJobやWorkflowは、採用版で実際に対応する永続化済みの区切りと回復契約を使います。永続化されているだけで、実行途中のRunningタスクを別機へ移して再実行できるとは限りません。計画交代の時刻だけを理由に有効な受付済み処理を強制中断せず、長引く排出と不確実な結果を観測可能にします。</span><span lang="en">Long-running Jobs and Workflows use durable boundaries and recovery contracts actually supported by the selected version. Persistence alone does not make an interrupted Running task transferable or replayable. A rotation deadline must not force-interrupt valid admitted work; prolonged drain and uncertain outcomes remain observable.</span>
+
+# Control Structure｜制御系の構造
+
+<span lang="ja">制御系が決めるのは、どの機体が、どの範囲の処理を、どの条件で扱ってよいかです。経路の変更だけに依存せず、所有者の選出、期限付きの権限、実際の更新拒否、準備状態を組み合わせます。CNCFは既存の調停基盤と業務実行・保存の接続を担います。</span><span lang="en">Control determines which runtime may perform which work under which conditions. Ownership selection, bounded authority, actual refusal and readiness work together instead of relying only on routing. CNCF connects established coordination to business execution and persistence.</span>
+
+## Election, Lease, Fencing and Readiness Responsibilities｜選出・Lease・Fencing・Readinessの役割
+
+<span lang="ja">切替えを支える共通機構</span><span lang="en">Shared control mechanisms</span>
+
+| <span lang="ja">機構</span><span lang="en">Mechanism</span> | <span lang="ja">確認すること</span><span lang="en">What it establishes</span> |
+| --- | --- |
+| <span lang="ja">Leader Election</span><span lang="en">Leader Election</span> | <span lang="ja">新しいPrimaryの受付責任を持つ主体を選ぶ</span><span lang="en">Select the owner of new Primary admission</span> |
+| <span lang="ja">Lease</span><span lang="en">Lease</span> | <span lang="ja">期限付きの権限を維持し、更新できなければ失効させる</span><span lang="en">Maintain bounded ownership and expire it when renewal fails</span> |
+| <span lang="ja">Fencing</span><span lang="en">Fencing</span> | <span lang="ja">失効した権限で行う更新を実際の実行・保存境界で拒否する</span><span lang="en">Reject invalid-authority mutations at actual execution and storage boundaries</span> |
+| <span lang="ja">Readiness</span><span lang="en">Readiness</span> | <span lang="ja">互換性、永続状態への接続、同期とウォームアップを確認する</span><span lang="en">Check compatibility, persistent-state access, synchronization and warm-up</span> |
+
+<span lang="ja">選出や分散合意をCNCFで自作せず、既存の調停基盤を利用します。etcd Election／Leaseが最初の候補で、同等の契約を満たす既設基盤も利用できます。候補を選出できたことだけで、その機体に更新を開始させてはいけません。FencingとReadinessも揃える必要があります。</span><span lang="en">Reuse established coordination instead of implementing election or consensus inside CNCF. etcd Election/Lease is the first candidate, while an existing equivalent facility can qualify. Winning an election alone is insufficient to begin mutation service: effective fencing and readiness are also required.</span>
+
+<span lang="ja">ロードバランサーの切替えやLeaseの確認だけでは、古いPrimaryが保存先へ書き込むことを防げません。必要な境界で権限を強制し、確認から書込みまでの隙間も扱います。etcd内の権限確認は、PostgreSQLや外部サービスへの書込みを自動的には保護しません。</span><span lang="en">Changing load-balancer routing or checking a Lease does not itself prevent an old Primary from writing to storage. Enforce authority at each required boundary, including the race between a check and an effect. A leadership check within etcd does not automatically protect PostgreSQL commits or external-provider effects.</span>
+
+<span lang="ja">調停基盤の投票メンバー数とRead Replicaの台数は別です。二票の多数決構成は一票を失うと多数派を維持できません。ホスト障害を扱う配備では、独立した投票配置や既存の調停サービスも含めて設計します。Cをリードキャッシュとして追加しても、投票メンバーが自動で増えるわけではありません。</span><span lang="en">Control voters and Read Replicas are separate memberships. A two-voter majority system cannot retain a majority after losing one voter. Host-failure deployments must include suitable independent voters or an existing coordination service. Adding C as a read cache does not automatically add a voter.</span>
+
+## Separate New Admission from Old-work Completion｜新規受付と旧処理の完了を別の権限で扱う
+
+<span lang="ja">新規の独立した更新を受け付ける所有者は一つにします。一方、計画切替えでは、切替え前に受け付けた処理を完了するための限定した権限を旧Primaryへ残します。新Primaryが受付を始めた後も旧機が更新を確定できるのは、この限定された処理範囲によります。任意の更新を二台から始められるactive-active構成とは異なります。</span><span lang="en">There is one owner of new independent mutation admission. Planned transfer separately retains narrowly scoped authority for old admitted work. A former Primary may commit after the new Primary starts admission only within that retained scope. This is not unrestricted active-active mutation service.</span>
+
+<span lang="ja">Aから新規の独立した更新を受け付けないよう、古い経路、定期実行、イベント経由の入口も閉じます。一方、受付済み処理の完了権限は、その実際の処理範囲に限定して残します。単純な単一書込みLeaseを切り替えるだけでは、この限定した重なりは実現できません。</span><span lang="en">Close independent new mutation admission on A, including stale routes, scheduled work and event entry. Retain completion authority only for the actual already admitted work scope. Merely transferring an ordinary single-writer Lease does not implement this controlled overlap.</span>
+
+<span lang="ja">限定された完了権限も、権限が有効である範囲でのみ使います。権限喪失や障害で失効した機体には、以前の受付済みという理由だけで更新を許しません。実際の保存・外部作用の境界で旧権限を拒否し、すでに起きた作用や結果不明の処理は回復の対象として照合します。</span><span lang="en">Scoped completion authority remains usable only while valid. Lost authority or failure does not permit writes merely because work was admitted earlier. Reject invalid authority at actual storage/external-effect boundaries, and reconcile effects already performed or left uncertain.</span>
+
+# Normal and Transitional Behavior｜通常時と切替え時の振る舞い
+
+<span lang="ja">ここまでの構造を前提に、役割と状態がどう変化するかを説明します。A・B・Cは変化を説明するための名前であり、常に三台を運用する構成指定ではありません。具体的な操作コマンドではなく、各分野の責務が切替え時にどう協調するかを示します。</span><span lang="en">With the structure established, this chapter explains role and state changes. A/B/C are explanatory identities, not a requirement to run three permanent machines. The account concerns cooperation between responsibilities, not operator command instructions.</span>
+
+## Cooperation During Ordinary Service｜通常運転で各分野が協調する
+
+<span lang="ja">通常時は、Primaryが新規更新を受け付け、必要に応じてRead Replicaへ参照を分散します。正本の確定結果を共通の同期経路で反映し、制御系は所有権と準備状態を観測します。Standbyは待機しているだけの予備ではなく、許可された参照を処理しながら昇格準備を確認できる役割です。</span><span lang="en">Normally the Primary admits mutations and permitted reads may be distributed to Read Replicas. Common synchronization applies authoritative committed results while control observes ownership and readiness. A Standby may serve authorized reads and exercise promotion readiness rather than remaining unused.</span>
+
+<span lang="ja">この通常構造を保ったまま役割や機体を変更するのが切替えです。計画切替えは旧機が協調できる状態で権限を移す動作、障害切替えは旧機の状態や完了を前提にできない場合の動作です。共通の機構を利用しますが、安全条件と結果の扱いは同じではありません。</span><span lang="en">Transfer changes roles or instances while preserving this ordinary architecture. Planned switchover transfers ownership with a cooperating former runtime; failover cannot rely on its state or completion. They share mechanisms but have different safety and outcome conditions.</span>
+
+## Role and State Changes in Planned Switchover｜計画切替えで変わる役割と状態
+
+<span lang="ja">計画切替えは、協調動作できるPrimaryを、定期交代や互換CARへの交換のために入れ替える手順です。新規の参照・更新はBへ先に切り替えます。旧Primary Aでは切替え前に受け付けた更新と、その完了に必要な子処理を継続します。</span><span lang="en">Planned Switchover replaces a cooperating Primary for regular rotation or a compatible CAR change. New reads and updates move to B first. Former Primary A continues updates admitted before transfer and the child work needed to complete them.</span>
+
+<span lang="ja">計画切替えにおけるA・B・C</span><span lang="en">A/B/C during planned Switchover</span>
+
+| <span lang="ja">段階</span><span lang="en">Stage</span> | <span lang="ja">A</span><span lang="en">A</span> | <span lang="ja">B</span><span lang="en">B</span> | <span lang="ja">C</span><span lang="en">C</span> |
+| --- | --- | --- | --- |
+| <span lang="ja">通常運用</span><span lang="en">Normal operation</span> | <span lang="ja">Primary</span><span lang="en">Primary</span> | <span lang="ja">Read Replica＋Standby</span><span lang="en">Read Replica and Standby</span> | <span lang="ja">未起動</span><span lang="en">Not started</span> |
+| <span lang="ja">受付切替え</span><span lang="en">Admission transfer</span> | <span lang="ja">Draining Former Primary</span><span lang="en">Draining Former Primary</span> | <span lang="ja">新規受付を担うPrimary</span><span lang="en">Primary for new work</span> | <span lang="ja">起動・構築開始</span><span lang="en">Start initial build</span> |
+| <span lang="ja">追随と排出</span><span lang="en">Catch-up and drain</span> | <span lang="ja">受付済み更新を確定し、同期を継続</span><span lang="en">Settle admitted updates and stay synchronized</span> | <span lang="ja">新規更新を確定し、Aの確定にも追随</span><span lang="en">Commit new work and receive late A commits</span> | <span lang="ja">初期状態＋差分に追随</span><span lang="en">Apply baseline and delta</span> |
+| <span lang="ja">保持</span><span lang="en">Retention</span> | <span lang="ja">最新状態へ追随する切戻し用環境</span><span lang="en">Current synchronized fallback</span> | <span lang="ja">Primary</span><span lang="en">Primary</span> | <span lang="ja">準備済みRead Replica</span><span lang="en">Ready Read Replica</span> |
+| <span lang="ja">退役</span><span lang="en">Retirement</span> | <span lang="ja">全退役条件を満たして終了</span><span lang="en">Stop only after every retirement condition holds</span> | <span lang="ja">Primary</span><span lang="en">Primary</span> | <span lang="ja">Read Replica／適格ならStandby</span><span lang="en">Read Replica; Standby when qualified</span> |
+
+## Recovering Authority and Business State After Failure｜障害切替えで回復する権限と業務状態
+
+<span lang="ja">障害切替えは、Primaryの停止、権限更新の失敗、必要な接続の喪失などで計画的な引継ぎができない場合に使います。応答しないだけでは停止したと断定できません。調停基盤による有効な選出・権限、旧権限を拒否するFencing、候補のReadinessが揃ってから更新を開始します。</span><span lang="en">Failover applies when a crash, ownership-renewal failure or loss of required connectivity prevents cooperative transfer. Lack of response does not prove the process stopped. Mutation service begins only after valid takeover ownership, effective fencing of former authority and candidate readiness are established.</span>
+
+<span lang="ja">障害時には、応答しないAの排出完了を待ちません。失効した完了権限も継続させず、永続状態から確定済み・取消済み・結果不明を区別します。すでに確定した更新は保持し、結果不明の外部作用やRunning処理は、その回復契約で扱います。新Bでの無条件再実行は行いません。</span><span lang="en">Do not wait for an unreachable A to acknowledge drain. Do not preserve invalidated completion authority. Reconcile committed, aborted and uncertain outcomes from durable state. Preserve confirmed changes and use owning recovery contracts for uncertain effects and Running work instead of blindly executing them again on B.</span>
+
+<span lang="ja">二つの切替え手順</span><span lang="en">Two switching protocols</span>
+
+| <span lang="ja">観点</span><span lang="en">Concern</span> | <span lang="ja">Switchover</span><span lang="en">Switchover</span> | <span lang="ja">Failover</span><span lang="en">Failover</span> |
+| --- | --- | --- |
+| <span lang="ja">旧Primary</span><span lang="en">Former Primary</span> | <span lang="ja">協調可能で、限定した完了権限が有効</span><span lang="en">Cooperating; scoped completion remains valid</span> | <span lang="ja">停止・不達・権限喪失など</span><span lang="en">Failed, unreachable or no longer authorized</span> |
+| <span lang="ja">受付済み更新</span><span lang="en">Admitted work</span> | <span lang="ja">Aで結果を確定する</span><span lang="en">Settle its outcome on A</span> | <span lang="ja">正本の結果を照合し、許された回復だけ行う</span><span lang="en">Reconcile authoritative facts and perform only eligible recovery</span> |
+| <span lang="ja">昇格条件</span><span lang="en">Promotion</span> | <span lang="ja">準備確認と受付権限の引継ぎ</span><span lang="en">Readiness and controlled admission transfer</span> | <span lang="ja">選出・有効権限・Fencing・準備確認</span><span lang="en">Election, valid ownership, fencing and readiness</span> |
+| <span lang="ja">待機条件</span><span lang="en">Waiting</span> | <span lang="ja">排出、代替Read Replica、保持条件を確認</span><span lang="en">Drain, replacement Read Replica and retention conditions</span> | <span lang="ja">不達機の排出確認を待たず隔離・回復</span><span lang="en">No unreachable-node drain acknowledgement required</span> |
+| <span lang="ja">旧機の復帰</span><span lang="en">Former runtime returns</span> | <span lang="ja">同期済みの保持環境として扱う</span><span lang="en">Keep a synchronized fallback</span> | <span lang="ja">Replicaとして再参加し、勝手にPrimaryへ戻さない</span><span lang="en">Rejoin as replica; never self-restore Primary role</span> |
+
+<span lang="ja">多数派や必要な権限を得られない場合は、無理に新Primaryを作らず更新を利用不可にします。確定更新を失わない保証は、正本DataStoreの永続化・複製方式が担う条件です。選出成功やキャッシュ反映位置から、データ損失ゼロを推定してはいけません。</span><span lang="en">Without required control ownership/quorum, do not force a new Primary; report mutations unavailable. Preservation of acknowledged writes depends on the authoritative DataStore durability/replication contract. Election success or a cache position does not imply zero data loss.</span>
+
+## Read-only Mode for Failure and Maintenance｜障害時・保守時のRead-onlyモード
+
+<span lang="ja">Read-onlyモードは、対象Subsystemで業務データの更新を止め、条件を満たす参照を継続するための運転モードです。障害時の縮退運転と、計画的な保守作業の両方で利用する設計とします。Read Replicaは実行環境の役割、Read-onlyは業務の提供方針であり、別の軸として扱います。</span><span lang="en">Read-only is an operating mode that stops business-data mutations in the target Subsystem while retaining qualified reads. It is proposed for both failure-time degradation and planned maintenance. Read Replica is a runtime role; Read-only is a business-service mode. They are separate axes.</span>
+
+<span lang="ja">障害時には、更新の安全性や引継ぎを確認できない状況でも、許可できる参照を残すために使います。保守時には、作業前に新規更新を止め、受付済み処理の結果を確認してから、点検やデータ整備などを行うために使います。保守で必要な管理操作は明示した権限と範囲で別に扱います。作業によって安全な参照を維持できない範囲は停止し、保守中も必ず参照できるとは扱いません。</span><span lang="en">During failure, preserve permitted reads when safe mutations or takeover cannot be established. For maintenance, close new mutations before work, settle admitted outcomes, then perform inspection or data maintenance. Necessary administrative maintenance actions have separately explicit authority and scope. Stop any read scope that the work makes unsafe; read availability is not guaranteed during every maintenance task.</span>
+
+<span lang="ja">更新の停止は、画面のボタンだけでなく、API、定期処理、Job・Workflow、イベント経由など、業務更新を開始する共通の受付・実行境界で適用します。参照に見える操作が業務データを変更する場合も、その副作用は許可しません。監査記録、観測、キャッシュ管理など運転維持に必要な書込みは、業務更新とは分けた限定経路で扱います。Read-onlyを理由に認証・認可や必須の監査を省略しません。</span><span lang="en">Enforce the mutation stop at shared admission/execution boundaries for APIs, scheduled work, Jobs/Workflows and event-triggered business changes, not merely screen controls. Do not allow business mutations hidden in apparent read operations. Necessary audit, observation and cache-management writes use separately bounded operational paths. Read-only does not bypass authentication, authorization or required audit.</span>
+
+<span lang="ja">移行を要求した時点で、受付済みの更新が残ることがあります。新規受付を閉じ、有効な権限の下で残る処理の結果を確定させる間は「移行中」として表示し、業務更新が止まった状態と区別します。権限を失った機体の完走は前提にせず、Fencingと結果の照合を行います。応答しない旧機や古い経路から更新が続けられる状態を、参照専用が成立したとは扱いません。</span><span lang="en">Updates may already be admitted when transition is requested. Close new admission and show transition in progress while validly authorized remaining work settles; distinguish this from established business read-only service. Do not assume a runtime with lost authority can finish: enforce fencing and reconcile outcomes. Read-only is not established if unreachable former members or stale routes can still perform unauthorized mutations.</span>
+
+<span lang="ja">参照には、信頼できる正本またはキャッシュと、有効な認可が必要です。同期が遅れている場合は、その鮮度で利用してよい問い合わせだけを提供します。画面や応答には参照専用であること、更新を停止した理由、データの反映状況を示します。最新の確定状態が必要な操作、認可を確認できない操作、データの信頼性を確保できない操作は、参照であっても利用不可にします。</span><span lang="en">Reads require trusted authoritative or cached data and valid authorization. With synchronization lag, serve only queries whose freshness contract allows it. Responses/UI identify read-only service, the mutation-stop reason and data application status. Refuse even a read when it requires a newer confirmed state, authorization cannot be established or data trust cannot be maintained.</span>
+
+<span lang="ja">永続化先が不調な間は、常駐済みのデータで処理できる参照と、ディスクからの再読込みが必要な参照を分けます。キャッシュミスや未構築の索引が必要な場合は、不調な保存先を無制限に待たず、対応する利用不可の応答を返します。最後に確認できた反映状態と利用できる範囲を示し、認証・認可や必須監査などの依存条件も満たす参照を残します。プロセスが停止して常駐状態を失った後は、利用可能な正本や適格な他Replicaから再構築する経路が必要です。</span><span lang="en">While persistence access is impaired, separate reads completed from resident data from those requiring disk reload. A cache miss or unavailable index must not wait indefinitely for impaired storage; return the corresponding unavailable outcome. Expose the last qualified applied state and available scope, and retain only reads meeting authentication, authorization, required audit and other dependencies. After process loss removes resident state, reconstruction requires an available authoritative source or qualified replica.</span>
+
+<span lang="ja">Working Setの常駐方針に加えて、業務参照用キャッシュにはRead-only中の保持方針を設けます。通常のTTL切れや定期パージだけを理由に参照可能な値を破棄せず、最後に確認できた値を残します。鮮度の期限と反映状態は記録し続け、期限切れの値は古い可能性があることを示したうえで、許可された参照にだけ使います。保持対象とメモリ予算を明示します。</span><span lang="en">In addition to Working Set residency, business-read caches have a Read-only retention policy. Do not discard usable values merely because ordinary TTL expiry or scheduled purge occurs; retain the last qualified values. Keep freshness deadlines and applied-state metadata meaningful, mark expired values as potentially stale, and use them only for permitted reads. Declare retained scope and memory budget.</span>
+
+<span lang="ja">この保持方針は、認証セッションや権限の有効期限を延長するものではありません。明示された削除・無効化・失効や、適格な確定更新の同期は引き続き反映します。値を保持できても、無効化された範囲は必要な更新と確認が済むまで提供しません。通常運転への復帰では、必要な正本との同期・照合を行ってから通常のキャッシュ保持方針へ戻します。</span><span lang="en">Retention does not extend authentication-session or permission validity. Continue to apply explicit deletion, invalidation, revocation and qualified committed-change synchronization. Retaining bytes does not permit serving an invalidated scope before required refresh and checks. Before restoring normal cache retention, qualify required synchronization and reconciliation with authoritative state.</span>
+
+<span lang="ja">業務の提供モードと許可範囲</span><span lang="en">Business Service Modes and Permitted Work</span>
+
+| <span lang="ja">提供モード</span><span lang="en">Service Mode</span> | <span lang="ja">業務更新</span><span lang="en">Business Mutations</span> | <span lang="ja">参照</span><span lang="en">Reads</span> |
+| --- | --- | --- |
+| <span lang="ja">通常運転</span><span lang="en">Normal operation</span> | <span lang="ja">正当な権限と準備条件で受付・実行する</span><span lang="en">Admit/execute with valid authority and readiness</span> | <span lang="ja">認可と必要な鮮度を満たす範囲</span><span lang="en">Authorized reads with required freshness</span> |
+| <span lang="ja">Read-only（障害・保守）</span><span lang="en">Read-only (failure / maintenance)</span> | <span lang="ja">新規の業務更新を拒否する。移行中の旧処理は別に表示する</span><span lang="en">Refuse new business mutations; show draining old work separately during transition</span> | <span lang="ja">信頼・認可・鮮度条件を満たす参照を継続する</span><span lang="en">Continue only trusted, authorized, freshness-qualified reads</span> |
+| <span lang="ja">利用不可</span><span lang="en">Unavailable</span> | <span lang="ja">受付しない</span><span lang="en">Do not admit</span> | <span lang="ja">条件を満たせない参照は提供しない</span><span lang="en">Do not serve reads whose conditions cannot be met</span> |
+
+<span lang="ja">運用者が、障害対応または保守作業という理由を明示して切り替えられる構成を設計候補とします。障害検知に連動して自動移行する場合も、どの障害条件で、どの参照を残してよいかを明示します。更新できないことを検出しただけで、すべての参照を許可するものではありません。このモードは設計候補であり、CNCFに専用のモードやABIが実装済みという意味ではありません。</span><span lang="en">The proposal allows operator selection with an explicit reason: failure response or maintenance. Automatic transition from failure detection must specify eligible failure conditions and permitted reads. Detecting mutation unavailability does not authorize all reads. This is a design proposal, not an implemented dedicated CNCF mode or ABI.</span>
+
+<span lang="ja">通常運転へ戻すには、障害原因の解消または保守作業の完了に加え、正当なPrimary権限とFencing、必要なデータの同期・準備、受付済み更新や結果不明の処理の照合を確認し、復帰を判断します。Primaryが応答したことや保守予定時刻を過ぎたことだけでは解除しません。拒否した更新は未受付として利用者へ明示し、裏で蓄積して復帰後に無断実行しません。すでに受け付けた処理の回復は、その処理の契約に従います。</span><span lang="en">Return to normal operation after resolving the failure cause or completing maintenance, and qualifying Primary authority/fencing, synchronization/readiness and admitted or uncertain outcomes. A responding Primary or an elapsed maintenance window alone is insufficient. Identify refused mutations as unadmitted; do not silently accumulate and execute them after recovery. Previously admitted work follows its own recovery contract.</span>
+
+## Retention, Switch-back and Retirement Conditions｜保持・切戻し・退役の条件
+
+<span lang="ja">計画切替え後のAは、切戻しのために一定期間保持し、その間も新しい確定状態へ追随させます。切戻しは古いメモリへ戻す操作ではありません。保持していたCARの互換性と最新の準備状態を確認し、同じ受付引継ぎと排出の手順で再昇格させます。</span><span lang="en">Retain A for a configured fallback window after planned transfer and keep it synchronized. Switch-back is not restoration of old memory. Recheck retained CAR compatibility and current readiness, then use the same controlled admission-transfer and drain protocol for reactivation.</span>
+
+<span lang="ja">計画退役に必要な条件</span><span lang="en">Conditions for planned retirement</span>
+
+| <span lang="ja">条件</span><span lang="en">Condition</span> | <span lang="ja">必要な確認</span><span lang="en">Required observation</span> |
+| --- | --- |
+| <span lang="ja">受付済み更新</span><span lang="en">Admitted updates</span> | <span lang="ja">旧Primaryの更新結果が確定している</span><span lang="en">Former Primary outcomes are settled</span> |
+| <span lang="ja">代替Read Replica</span><span lang="en">Replacement Read Replica</span> | <span lang="ja">必要な参照・待機容量が準備済み</span><span lang="en">Required read/takeover capacity is ready</span> |
+| <span lang="ja">保持と観測</span><span lang="en">Retention and observation</span> | <span lang="ja">設定した保持期間と稼働確認条件を満たす</span><span lang="en">Configured window and health criteria are satisfied</span> |
+| <span lang="ja">未解決の作業</span><span lang="en">Outstanding work</span> | <span lang="ja">旧環境を必要とする切戻しや不確実な結果が残っていない</span><span lang="en">No switch-back or uncertain outcome requires the retained runtime</span> |
+
+<span lang="ja">退役はこれらすべての条件が揃ったときに行います。タイマー満了だけでは終了させません。障害機の隔離・停止は、この計画退役の待機条件とは別です。その場合も必要な処理結果や照合情報を機体の寿命と切り離して残します。</span><span lang="en">Planned retirement requires every condition, not merely timer expiry. Isolation or shutdown of a failed runtime is separate from these graceful-retirement waits. Required outcome and reconciliation information must survive independently of that runtime.</span>
+
+<span lang="ja">部品更新を伴う場合、保持した旧CARが現在の業務データを扱える互換性を、切戻しの前提にします。保存構造の破壊的変更が必要な場合は通常の自動交換へ無理に含めず、メンテナンス更新へ分けます。侵害が疑われる旧機には、通常の切戻し用保持を適用しません。</span><span lang="en">For a component update, fallback requires the retained CAR to remain compatible with current business data. Breaking storage changes leave the ordinary automatic route and require maintenance. Suspected compromised runtimes do not qualify for normal fallback retention.</span>
+
+# Deployment and Operation Structure｜配備と運用の構成
+
+<span lang="ja">論理構造を実際の環境へ置く段階では、障害区画、依存先、資源、観測と運用判断を対応付けます。どの範囲の可用性を提供するかを明示し、その範囲に必要な構成と確認を選びます。</span><span lang="en">Physical realization relates logical structure to failure domains, dependencies, resources, observation and operating decisions. Declare the offered availability boundary and select the configuration and qualification it requires.</span>
+
+## Deployment Profiles and Failure Domains｜配備プロファイルと障害区画
+
+<span lang="ja">構成ごとの確認対象</span><span lang="en">Qualification Boundaries by Configuration</span>
+
+| <span lang="ja">構成</span><span lang="en">Configuration</span> | <span lang="ja">提供を目指す範囲</span><span lang="en">Intended Boundary</span> | <span lang="ja">別に確認する範囲</span><span lang="en">Separate Qualification</span> |
+| --- | --- | --- |
+| <span lang="ja">single</span><span lang="en">single</span> | <span lang="ja">単一環境。停止を伴う再構築を許容する</span><span lang="en">One runtime; planned reconstruction may interrupt service</span> | <span lang="ja">継続提供や代替容量を備えるHAではない</span><span lang="en">No continuous-service or replacement-capacity HA claim</span> |
+| <span lang="ja">local-ha</span><span lang="en">local-ha</span> | <span lang="ja">同一ホスト上の複数実行環境。プロセス障害と計画交換</span><span lang="en">Multiple runtimes on one host; runtime failures and planned replacement</span> | <span lang="ja">ホスト・OS・電源の障害、正本や調停基盤の障害</span><span lang="en">Host/OS/power failure and storage/coordination failure</span> |
+| <span lang="ja">host-ha</span><span lang="en">host-ha</span> | <span lang="ja">別ホストへ配置し、ホスト喪失後の引継ぎを確認する</span><span lang="en">Separate hosts with qualified takeover after host loss</span> | <span lang="ja">保存・調停・通信・認証等も要求に対応する必要がある</span><span lang="en">Storage, coordination, network and identity must meet the same requirement</span> |
+
+<span lang="ja">CNCFは論理的な役割・準備・権限を管理し、Deployment Driverはプロセスやコンテナ、ホスト上の実体を扱います。最初の物理構成はDocker Composeによるlocal-haを対象とし、Kubernetesは必須の前提にしません。配備技術を変えても、準備と権限を満たしてから業務を引き継ぐという意味は維持します。</span><span lang="en">CNCF manages logical roles, readiness and authority; the Deployment Driver realizes processes, containers and host placement. The first physical route targets Docker Compose local-ha without requiring Kubernetes. Changing deployment technology does not change the readiness/authority conditions for handing over business work.</span>
+
+<span lang="ja">実行系を別ホストに置いても、DataStore、メッセージング、保存領域、調停、認証・秘密情報、ネットワークが単一障害点なら、システム全体の同じ障害耐性は主張できません。複数AZ・拠点も、これらを含めた整合性と回復方針が必要な将来の範囲です。構成図の箱の数で可用性を判定しません。</span><span lang="en">Separate runtime hosts do not establish system-wide host tolerance if DataStore, messaging, storage, coordination, identity/secrets or networking remain incompatible single points of failure. Multi-AZ/site availability is future scope requiring integrated consistency and recovery policy. Box count is not availability evidence.</span>
+
+## Observe Actual State and Qualify Continuity｜観測で実際の状態と継続性を確かめる
+
+<span lang="ja">確認では、更新を実行中のAからBへ受付を移し、Aの遅い確定がBとCへ反映されることを、独立した実行環境と正本データで確かめます。Cの準備不足、更新の未確定、保持期間、切戻し条件を個別に変え、条件を満たさないAが退役しないことも確認します。</span><span lang="en">Use separate runtime instances and authoritative data to demonstrate admission moving from A to B while an update remains active, followed by propagation of A’s late commit to B/C. Vary replacement readiness, unsettled work, retention and switch-back conditions independently and verify that A is not retired prematurely.</span>
+
+<span lang="ja">運用ではPrimaryの受付主体、各機の役割、LeaseとFencing、準備状態、同期の遅延・欠落、排出中の処理、保持期限と退役できない理由を観測します。定期交代、選択した互換CARへの交換、最新状態からの切戻しを反復します。交代間隔や保持期間は配備ポリシーであり、一日という固定値をCNCFへ埋め込みません。</span><span lang="en">Observe Primary admission ownership, member roles, Lease/fencing, readiness, replication lag/gaps, draining work, retention and unmet retirement conditions. Repeat scheduled rotation, selected compatible-CAR replacement and current-state switch-back. Cadence and retention are deployment policy, not hard-coded one-day CNCF constants.</span>
+
+## Choose Policy, Cost and Ownership｜運用方針・費用・担当範囲を選ぶ
+
+<span lang="ja">一般的な中小企業の業務では、標準の可用性構成を通常の設定で選び、必要なサービス継続性を利用できることを目指します。詳細設定は、参照鮮度、交換間隔、準備確認、完了待ち、保持期間などに意図的な変更が必要な場合の上書きとして扱います。これらを業務処理のコードへ散在させず、品質目標と構成を対応させます。具体的な設定項目や既定値の提供状況は、採用版の契約で確認します。</span><span lang="en">For ordinary SME workloads, the goal is to obtain the intended continuity level by selecting a standard availability configuration through ordinary settings. Detailed settings are overrides for intentional changes to read freshness, cadence, readiness, drain or retention. Relate quality targets to configuration rather than scattering these choices through business code. Actual settings and default availability depend on the selected version.</span>
+
+<span lang="ja">Replicaの常時稼働、再構築用の一時容量、長い保持期間、短い交換間隔には資源と運用の費用が伴います。用途が許容する停止時間、データ保全、応答性と合わせて選びます。基盤が仕組みを提供しても、業務の許容条件と採用構成を決める責任は残ります。</span><span lang="en">Standing replicas, temporary reconstruction capacity, longer retention and frequent rotation cost resources and operational effort. Choose them against tolerated downtime, data preservation and responsiveness. Platform mechanisms do not remove responsibility for business requirements and configuration decisions.</span>
+
+<span lang="ja">CNCF Runtimeは役割・権限・同期・切替えの実態を持ち、Control Centerはその運用上の表示を担います。画面で正常と表示されること自体を、更新の永続化や昇格権限の根拠にはしません。定期交換や実際の障害条件で得た結果を、選択した品質目標の根拠へ戻します。</span><span lang="en">CNCF Runtime owns role, authority, synchronization and transfer facts; Control Center presents them operationally. A healthy screen is not evidence of durable updates or promotion authority. Feed actual rotation and failure qualification back into evidence for the selected quality targets.</span>
+
+# Appendix: Delivery Plan and Sources｜付録：実装計画と参照元
+
+<span lang="ja">本編のアーキテクチャと、現在の実装順序・確認状況を区別します。この付録は2026年11月13日時点の計画と参照元を記録します。計画項目を本文の構造説明に先行させず、実装済みという誤解も避けます。</span><span lang="en">Keep architecture distinct from current delivery order and qualification. This appendix records planning and sources as of 2026-11-13, following the structural explanation and preserving the distinction between design and delivered capability.</span>
+
+## First Delivery and Qualification｜先行実装の範囲と確認
+
+<span lang="ja">最優先は、イミュータブルインフラを実運用へ載せる最小経路です。自動Failoverや多数台・多拠点の完成を待たず、計画切替え、キャッシュ追随、同期した切戻し環境、条件付き退役、定期交代と互換CAR交換を先に成立させます。</span><span lang="en">The highest priority is the minimum practical immutable-infrastructure path. Deliver planned transfer, cache catch-up, a current fallback, conditional retirement, scheduled rotation and compatible-CAR replacement before completing broad automatic Failover or large/multi-site topologies.</span>
+
+<span lang="ja">先行実装の順序</span><span lang="en">First operational implementation order</span>
+
+| <span lang="ja">順序</span><span lang="en">Order</span> | <span lang="ja">実装対象</span><span lang="en">Delivery</span> | <span lang="ja">確かめること</span><span lang="en">What to prove</span> |
+| --- | --- | --- |
+| <span lang="ja">IR-01</span><span lang="en">IR-01</span> | <span lang="ja">既存の受付・永続化・権限制御との接続</span><span lang="en">Owning admission/persistence/control integration</span> | <span lang="ja">新規受付と旧処理の完了権限、権限喪失時の拒否</span><span lang="en">New admission, scoped completion and authority-loss refusal</span> |
+| <span lang="ja">IR-02</span><span lang="en">IR-02</span> | <span lang="ja">汎用キャッシュ同期</span><span lang="en">Generic cache synchronization</span> | <span lang="ja">A・B・Cの版、反映位置、遅い確定、削除・パージと追随</span><span lang="en">Versions, applied progress, late commits, deletion/purge and catch-up across A/B/C</span> |
+| <span lang="ja">IR-03</span><span lang="en">IR-03</span> | <span lang="ja">計画切替え</span><span lang="en">Planned transfer</span> | <span lang="ja">Bの受付開始後もAの受付済み更新が完走する</span><span lang="en">A completes admitted updates after B begins new admission</span> |
+| <span lang="ja">IR-04</span><span lang="en">IR-04</span> | <span lang="ja">保持・反復運用</span><span lang="en">Retention and repeated operation</span> | <span lang="ja">切戻し、退役、定期交代、互換CARへの交換</span><span lang="en">Switch-back, retirement, scheduling and compatible-CAR change</span> |
+| <span lang="ja">IR-05</span><span lang="en">IR-05</span> | <span lang="ja">実機での運用確認</span><span lang="en">Operational qualification</span> | <span lang="ja">別プロセスと正本データで正常系・拒否・不確実性を確認</span><span lang="en">Real separate processes and authoritative data, including refusal and uncertainty</span> |
+
+<span lang="ja">先行実装でも、権限を失った機体の更新拒否や、準備不足の機体を昇格させない条件は省略しません。自動Failoverをまだ提供しない段階では、障害時に更新を安全に利用不可とし、その範囲を表示します。実装優先度は、安全条件を後回しにする意味ではありません。</span><span lang="en">The first route still refuses invalid-authority updates and promotion of unready instances. Before automatic Failover is qualified, report its absence and make mutations safely unavailable when necessary. Prioritization does not defer safety conditions.</span>
+
+<span lang="ja">最初の物理構成は既存方針に沿うlocal-ha／Docker Composeを対象とし、実際に確認した障害範囲を示します。同一ホスト上の複数プロセスでの確認は、ホスト停止への耐性を証明しません。host-ha、他の配備ドライバー、追加Replicaの規模検証、複数拠点は別の確認対象です。</span><span lang="en">The first physical route follows the existing local-ha/Docker Compose direction and declares its actual failure boundary. Multiple processes on one host do not prove host-failure tolerance. Host-ha, other deployment drivers, replica-scale qualification and multi-site operation need separate evidence.</span>
+
+<span lang="ja">本書は2026年11月12日時点で整理した設計方向と先行実装計画です。IR-01〜IR-05は未着手で、ガイドの作成は実装や受入れ完了を意味しません。既存のリアクティブ・セキュリティ技術ガイドと合わせ、採用する版、設定、依存基盤と実行結果を対応付けて利用します。</span><span lang="en">This guide records design direction and first-delivery planning as of 2026-11-12. IR-01 through IR-05 remain open; authoring this guide does not implement or accept the capability. Use it with the reactive/security guides and the actual selected versions, configuration, dependencies and execution evidence.</span>
+
+<span lang="ja">常駐データの拡張とRead-only運転は、別の開発計画として登録しました。Phase 123は、活動中の取引・利用者に必要なカート、ユーザー情報、住所などのWorking Setを扱います。Phase 124は、障害時・保守時の更新停止、条件を満たす参照の継続、キャッシュ保持と通常運転への復帰を扱います。両方とも計画段階で未着手です。まず既存の常駐機能を使う単一実行環境で確認し、利用者単位の拡張や複数実行環境との連携は、各基盤の確認済み機能に応じて検証します。Phase 108の完了条件は増やしていません。</span><span lang="en">Resident-data extensions and Read-only operation are registered as separate development plans. Phase 123 covers Working Sets for active transactions and users, including carts, user information and addresses. Phase 124 covers business-mutation refusal during failure or maintenance, qualified read continuity, cache retention and return to normal operation. Both are planned and unstarted. First qualify single-runtime routes using existing residency; qualify user-activity extensions and multi-runtime integration against the actual capabilities of their owning foundations. Phase 108 acceptance is unchanged.</span>
+
+## Design Sources and Companion Guides｜設計の参照元と関連ガイド
+
+<span lang="ja">イミュータブルインフラストラクチャの採用理由と運用は[[../../immutable-infrastructure/textus-cncf-immutable-infrastructure.dox/index.dox][専用ガイド]]、防御全体との関係は[[../../security/textus-cncf-security-architecture.dox/index.dox][Securityガイド]]、メモリ常駐とUoW・回復可能性は[[../../reactive/textus-cncf-reactive-architecture.dox/index.dox][リアクティブ技術ガイド]]を参照します。</span><span lang="en">See the [[../../immutable-infrastructure/textus-cncf-immutable-infrastructure.dox/index.dox][Immutable Infrastructure guide]] for adoption and operation, the [[../../security/textus-cncf-security-architecture.dox/index.dox][Security guide]] for defense, and the [[../../reactive/textus-cncf-reactive-architecture.dox/index.dox][Reactive guide]] for residency, UoW and recoverability.</span>
+
+<span lang="ja">Textus固有の設計根拠はCNCFのAvailability Architecture、Subsystem Runtime Architecture、Runtime Cache Synchronization、およびPhase 108の先行実装計画です。用語と方針の変更は新規ジャーナルへ記録し、過去のジャーナルを書き換えません。本書はそれらを読者向けに説明するガイドです。</span><span lang="en">Textus-specific sources are CNCF Availability Architecture, Subsystem Runtime Architecture, Runtime Cache Synchronization and the Phase 108 first-delivery plan. New journal entries record terminology and policy changes; historical journals remain unchanged. This guide explains those sources for readers.</span>
+
+<span lang="ja">etcd Election／Leaseは選出と期限付き権限の参照実装です。etcdでの権限判定と他の保存先の更新保護は別です。公式仕様：https://etcd.io/docs/v3.6/dev-guide/api_concurrency_reference_v3/ および https://etcd.io/docs/v3.6/learning/api/#lease-api 。</span><span lang="en">etcd Election/Lease provides reference mechanisms for election and bounded ownership. Guarding etcd operations and protecting mutations in other stores are separate responsibilities. Official specifications: https://etcd.io/docs/v3.6/dev-guide/api_concurrency_reference_v3/ and https://etcd.io/docs/v3.6/learning/api/#lease-api .</span>
+
+<span lang="ja">Kubernetes client-goのLeader Electionは、それ単体ではFencingを保証しないことを明記しています。PatroniのWatchdogは、権限を維持できない環境を停止する設計例です。参照：https://github.com/kubernetes/client-go/blob/master/tools/leaderelection/leaderelection.go および https://patroni.readthedocs.io/en/latest/watchdog.html 。これらをTextusの受付済み処理の完走契約そのものとは扱いません。</span><span lang="en">Kubernetes client-go explicitly states that leader election alone does not guarantee fencing. Patroni watchdog is an example of stopping an environment that cannot maintain ownership. References: https://github.com/kubernetes/client-go/blob/master/tools/leaderelection/leaderelection.go and https://patroni.readthedocs.io/en/latest/watchdog.html . Neither directly supplies the Textus scoped old-work completion contract.</span>

@@ -1,0 +1,3943 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-availability-architecture-document-ja",
+  "core": {
+    "id": "textus-cncf-availability-architecture"
+  },
+  "locale": "ja",
+  "document": {
+    "title": "Textus/CNCF 可用性・HA 技術ガイド",
+    "sections": [
+      {
+        "id": "textus-cncf-availability-architecture-section",
+        "heading": "Textus/CNCF 可用性・HA 技術ガイド",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-availability-architecture"
+          ],
+          "claims": [
+            "ha-purpose-claim",
+            "ha-reading-map-claim"
+          ],
+          "nodes": [
+            "ha-purpose-node",
+            "ha-reading-map-node"
+          ],
+          "relations": [],
+          "flows": [
+            "textus-cncf-availability-architecture-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "ha-purpose",
+            "kind": "paragraph",
+            "text": "本書は、Textus/CNCFが業務サービスの継続をどのような構造で支えるかを説明する技術ガイドです。まずHAの目的と品質目標を示し、全体構成を実行系、データ・同期系、制御系、配備・運用系へ分けて説明します。その構造を踏まえて、通常運転、計画切替え、障害切替えを読み解きます。イミュータブルインフラストラクチャの採用判断と日常運用は専用ガイドが扱い、本書はHAを構成する責務と相互関係に重点を置きます。",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-availability-architecture"
+              ],
+              "claims": [
+                "ha-purpose-claim"
+              ],
+              "nodes": [
+                "ha-purpose-node"
+              ],
+              "relations": [],
+              "flows": [
+                "textus-cncf-availability-architecture-flow"
+              ]
+            }
+          },
+          {
+            "id": "ha-reading-map",
+            "kind": "paragraph",
+            "text": "第1章で目的、第2章で全体像、第3〜5章で分野別の構造、第6章で状態変化、第7章で配備と運用を扱います。実装順序と参照元は付録へ分けます。本書は設計を説明するもので、記載した機能すべての実装・実環境での検証完了を意味しません。",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-availability-architecture"
+              ],
+              "claims": [
+                "ha-reading-map-claim"
+              ],
+              "nodes": [
+                "ha-reading-map-node"
+              ],
+              "relations": [],
+              "flows": [
+                "textus-cncf-availability-architecture-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "ha-purpose-area-section",
+            "heading": "HAの目的と設計目標",
+            "coreRefs": {
+              "steps": [
+                "ha-purpose-area"
+              ],
+              "claims": [
+                "ha-purpose-area-intro-claim"
+              ],
+              "nodes": [
+                "ha-purpose-area-intro-node"
+              ],
+              "relations": [],
+              "flows": [
+                "ha-purpose-area-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ha-purpose-area-intro",
+                "kind": "paragraph",
+                "text": "本章では、構成や手順に先立ち、何を継続し、何を守るためにHAを設けるかを整理します。サービスの継続と更新結果の保全を両立させることが、後の構造を選ぶ基準です。",
+                "coreRefs": {
+                  "steps": [
+                    "ha-purpose-area"
+                  ],
+                  "claims": [
+                    "ha-purpose-area-intro-claim"
+                  ],
+                  "nodes": [
+                    "ha-purpose-area-intro-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-purpose-area-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ha-goals-section",
+                "heading": "業務を継続するためにHAを設ける",
+                "coreRefs": {
+                  "steps": [
+                    "ha-goals"
+                  ],
+                  "claims": [
+                    "ha-business-purpose-claim",
+                    "ha-application-goal-claim"
+                  ],
+                  "nodes": [
+                    "ha-business-purpose-node",
+                    "ha-application-goal-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-goals-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-business-purpose",
+                    "kind": "paragraph",
+                    "text": "HA（High Availability、高可用性）の目的は、必要な業務機能を、要求した時間と条件で使い続けられるようにすることです。プロセスの故障だけでなく、実行環境や部品の更新、保守のための交換も継続性へ影響します。Textusでは、通常運転の構成と、環境を交換・復旧する構成を一体として設計します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-goals"
+                      ],
+                      "claims": [
+                        "ha-business-purpose-claim"
+                      ],
+                      "nodes": [
+                        "ha-business-purpose-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-goals-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-application-goal",
+                    "kind": "paragraph",
+                    "text": "業務アプリケーションには安定したOperationの境界を提供し、どの物理インスタンスが処理するか、いつ交代するかを基盤が扱います。開発者が業務処理ごとに切替えやReplica管理を作り込まず、業務の規則と必要な品質を指定できることを目標にします。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-goals"
+                      ],
+                      "claims": [
+                        "ha-application-goal-claim"
+                      ],
+                      "nodes": [
+                        "ha-application-goal-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-goals-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-target-level-section",
+                "heading": "想定する業務とHAの到達範囲",
+                "coreRefs": {
+                  "steps": [
+                    "ha-target-level"
+                  ],
+                  "claims": [
+                    "ha-sme-target-claim",
+                    "ha-target-interpretation-claim",
+                    "ha-target-level-table-claim",
+                    "ha-target-service-window-claim",
+                    "ha-readonly-goal-claim"
+                  ],
+                  "nodes": [
+                    "ha-sme-target-node",
+                    "ha-target-interpretation-node",
+                    "ha-target-level-table-node",
+                    "ha-target-service-window-node",
+                    "ha-readonly-goal-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-target-level-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-sme-target",
+                    "kind": "paragraph",
+                    "text": "中心的な対象は、中小企業の一般的な業務システムです。通常の設定で利用できる標準構成として、必要なサービス継続性を得られることを目指します。利用者が選出、同期、切替えなどの詳細を個別に設計・設定し直すことを、通常の導入の前提にはしません。使いやすさは、このHA水準を現実的な費用と運用負担で利用できるための条件です。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-target-level"
+                      ],
+                      "claims": [
+                        "ha-sme-target-claim"
+                      ],
+                      "nodes": [
+                        "ha-sme-target-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-target-level-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-target-interpretation",
+                    "kind": "paragraph",
+                    "text": "狙う水準は、機体の台数やHAという名称ではなく、どの停止・障害まで業務を継続するかで示します。最初の実用化はlocal-haによる計画交換です。実行環境の障害への対応も設計対象ですが、自動障害切替えは別途実装・検証して提供する順序です。ホスト障害への対応はhost-haで必要に応じて選びます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-target-level"
+                      ],
+                      "claims": [
+                        "ha-target-interpretation-claim"
+                      ],
+                      "nodes": [
+                        "ha-target-interpretation-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-target-level-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-target-level-table",
+                    "kind": "table",
+                    "caption": "狙うHA水準と対象範囲",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "到達範囲"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "狙う業務継続性"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "構成と提供の順序"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-target-level-table-row-1",
+                        "cells": [
+                          "実行環境・計画保守",
+                          "中小企業の一般的な業務を、更新・交換のたびに止めず継続できることを狙う。実行環境障害への対応も含む",
+                          "local-ha。計画交換を先行し、自動障害切替えを後続で検証する"
+                        ]
+                      },
+                      {
+                        "id": "ha-target-level-table-row-2",
+                        "cells": [
+                          "ホスト障害",
+                          "ホスト喪失後も別ホストで引き継ぐ水準を、業務の要求に応じて選ぶ",
+                          "host-ha。実行系と依存基盤の障害範囲を揃える"
+                        ]
+                      },
+                      {
+                        "id": "ha-target-level-table-row-3",
+                        "cells": [
+                          "AZ・拠点障害",
+                          "拠点喪失を含む広い継続性を別の構成として設計する",
+                          "将来範囲。現段階の標準提供やPhase 108の完了条件には含めない"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ha-target-level"
+                      ],
+                      "claims": [
+                        "ha-target-level-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-target-level-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-target-level-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-target-service-window",
+                    "kind": "paragraph",
+                    "text": "一般的な業務で必要な水準は、利用時間帯、許容停止時間、確定データの保全、応答性と費用から選びます。全用途へ同じ稼働率や無条件の無停止を約束するものではありません。ホストや拠点まで保護範囲を広げる場合は、保存先・調停・通信なども同じ条件を満たす構成と確認が必要です。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-target-level"
+                      ],
+                      "claims": [
+                        "ha-target-service-window-claim"
+                      ],
+                      "nodes": [
+                        "ha-target-service-window-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-target-level-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-goal",
+                    "kind": "paragraph",
+                    "text": "障害時や保守時に更新を止め、条件を満たす参照を残すRead-onlyモードも、業務継続の設計候補に含めます。メモリに常駐した業務データや索引を活かし、永続化先が不調でも広い範囲の参照業務を続けられることを狙います。通常の全機能を提供できない場合にも利用できる範囲を明示し、参照まで安全に提供できない範囲は利用不可にします。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-target-level"
+                      ],
+                      "claims": [
+                        "ha-readonly-goal-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-goal-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-target-level-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-quality-section",
+                "heading": "可用性・応答性・データ保全を別々の目標として捉える",
+                "coreRefs": {
+                  "steps": [
+                    "ha-quality"
+                  ],
+                  "claims": [
+                    "ha-quality-table-claim",
+                    "ha-quality-contract-claim",
+                    "ha-failure-boundary-intro-claim"
+                  ],
+                  "nodes": [
+                    "ha-quality-table-node",
+                    "ha-quality-contract-node",
+                    "ha-failure-boundary-intro-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-quality-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-quality-table",
+                    "kind": "table",
+                    "caption": "HAで同時に確認する品質",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "観点"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "設計上の問い"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-quality-table-row-1",
+                        "cells": [
+                          "可用性",
+                          "どの業務を、どの障害・保守の条件でも利用可能にするか"
+                        ]
+                      },
+                      {
+                        "id": "ha-quality-table-row-2",
+                        "cells": [
+                          "応答性と処理能力",
+                          "交代や再構築の間も、どの程度の応答と処理量を維持するか"
+                        ]
+                      },
+                      {
+                        "id": "ha-quality-table-row-3",
+                        "cells": [
+                          "データ保全と整合性",
+                          "確定済みの更新をどう保ち、参照にどの鮮度を求めるか"
+                        ]
+                      },
+                      {
+                        "id": "ha-quality-table-row-4",
+                        "cells": [
+                          "復旧と運用負担",
+                          "許容停止時間と許容データ損失をどう定め、どの費用で確認するか"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ha-quality"
+                      ],
+                      "claims": [
+                        "ha-quality-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-quality-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-quality-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-quality-contract",
+                    "kind": "paragraph",
+                    "text": "短時間で切り替わること、更新が失われないこと、キャッシュが最新であることは、それぞれ異なる条件です。メモリ常駐は応答性を、正本の永続化は確定状態の保全を、HAは利用継続を支えます。構成を選んだだけで達成したとはせず、保存先と実行経路を含めて、業務の要求に対応する水準を確認します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-quality"
+                      ],
+                      "claims": [
+                        "ha-quality-contract-claim"
+                      ],
+                      "nodes": [
+                        "ha-quality-contract-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-quality-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-failure-boundary-intro",
+                    "kind": "paragraph",
+                    "text": "対象とする故障の範囲も先に定めます。同一ホスト上の複数実行環境はプロセス交換には役立ちますが、ホスト全体の停止への対策にはなりません。ホスト障害や拠点障害を扱うには、実行系に加えて保存、調停、ネットワークなどの配置と可用性を揃える必要があります。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-quality"
+                      ],
+                      "claims": [
+                        "ha-failure-boundary-intro-claim"
+                      ],
+                      "nodes": [
+                        "ha-failure-boundary-intro-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-quality-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ha-overview-area-section",
+            "heading": "全体アーキテクチャ",
+            "coreRefs": {
+              "steps": [
+                "ha-overview-area"
+              ],
+              "claims": [
+                "ha-architecture-map-claim",
+                "ha-concern-tree-claim",
+                "ha-area-table-claim",
+                "ha-overview-figure-claim",
+                "ha-overview-boundary-claim"
+              ],
+              "nodes": [
+                "ha-architecture-map-node",
+                "ha-concern-tree-node",
+                "ha-area-table-node",
+                "ha-overview-figure-node",
+                "ha-overview-boundary-node"
+              ],
+              "relations": [],
+              "flows": [
+                "ha-overview-area-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ha-architecture-map",
+                "kind": "paragraph",
+                "text": "TextusのHAは、二台の機体を用意するだけの構成ではありません。業務を実行する構造、状態を保持・同期する構造、処理してよい主体を決める構造、実行環境を配置・観測する構造を組み合わせます。以下の分野は、説明上の責務の分割です。各分野が必ず独立したプロセスや製品になるという意味ではありません。",
+                "coreRefs": {
+                  "steps": [
+                    "ha-overview-area"
+                  ],
+                  "claims": [
+                    "ha-architecture-map-claim"
+                  ],
+                  "nodes": [
+                    "ha-architecture-map-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-overview-area-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ha-concern-tree",
+                "kind": "figure",
+                "asset": "images/ha-concern-tree-ja.png",
+                "caption": "HAを構成する分野と説明の階層",
+                "alt": "業務継続という目的の下で、実行系、データと同期、制御系、振る舞い、配備と運用を分ける。",
+                "coreRefs": {
+                  "steps": [
+                    "ha-overview-area"
+                  ],
+                  "claims": [
+                    "ha-concern-tree-claim"
+                  ],
+                  "nodes": [
+                    "ha-concern-tree-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-overview-area-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ha-area-table",
+                "kind": "table",
+                "caption": "分野ごとの責務と接続先",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "分野"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "主な構成要素"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "他の分野へ渡すもの"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "ha-area-table-row-1",
+                    "cells": [
+                      "実行系",
+                      "Applicationの入口、Domain Subsystem、Primary、Read Replica",
+                      "受付済みの処理、準備状態、業務操作の結果"
+                    ]
+                  },
+                  {
+                    "id": "ha-area-table-row-2",
+                    "cells": [
+                      "データ・同期系",
+                      "正本DataStore、メモリ常駐状態、共通キャッシュ同期",
+                      "確定結果、反映位置、再構築と参照の準備状態"
+                    ]
+                  },
+                  {
+                    "id": "ha-area-table-row-3",
+                    "cells": [
+                      "制御系",
+                      "選出・Lease・Fencing、受付権限、ライフサイクル管理",
+                      "新規受付の所有者、旧処理の完了範囲、切替え可否"
+                    ]
+                  },
+                  {
+                    "id": "ha-area-table-row-4",
+                    "cells": [
+                      "配備・運用系",
+                      "Deployment Driver、配備構成、観測、Control Center",
+                      "実行環境の配置、資源、観測された状態と運用判断"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ha-overview-area"
+                  ],
+                  "claims": [
+                    "ha-area-table-claim"
+                  ],
+                  "nodes": [
+                    "ha-area-table-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-overview-area-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ha-overview-figure",
+                "kind": "figure",
+                "asset": "images/ha-overview-ja.png",
+                "caption": "実行・データ・制御・配備の接続",
+                "alt": "安定した入口からPrimaryとRead Replicaへ接続し、正本の確定状態を共通同期で反映する。制御・配備・観測は別の責務として接続する。",
+                "coreRefs": {
+                  "steps": [
+                    "ha-overview-area"
+                  ],
+                  "claims": [
+                    "ha-overview-figure-claim"
+                  ],
+                  "nodes": [
+                    "ha-overview-figure-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-overview-area-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ha-overview-boundary",
+                "kind": "paragraph",
+                "text": "図は一つのDomain Subsystemに対する論理構成です。枠は物理ホストや障害区画ではありません。実線は業務要求・データの経路、破線は制御・配備・観測の関係を示します。Replicaはメモリ状態を共有する別名ではなく、それぞれ独立した実行環境です。制御サービスの内部リーダーと業務処理のPrimaryも別の概念です。図は主要な関係に絞っています。初期構築や保持中の旧機への同期は、データ構造と切替えの章で説明します。",
+                "coreRefs": {
+                  "steps": [
+                    "ha-overview-area"
+                  ],
+                  "claims": [
+                    "ha-overview-boundary-claim"
+                  ],
+                  "nodes": [
+                    "ha-overview-boundary-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-overview-area-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ha-request-path-section",
+                "heading": "通常の要求はこの構造をどう通るか",
+                "coreRefs": {
+                  "steps": [
+                    "ha-request-path"
+                  ],
+                  "claims": [
+                    "ha-request-write-claim",
+                    "ha-request-read-claim",
+                    "ha-request-control-claim"
+                  ],
+                  "nodes": [
+                    "ha-request-write-node",
+                    "ha-request-read-node",
+                    "ha-request-control-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-request-path-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-request-write",
+                    "kind": "paragraph",
+                    "text": "更新要求は、安定した業務APIから、正当な新規受付権限を持つPrimaryへ渡されます。Domainの規則とUnitOfWorkで正本への更新結果を確定し、その確定結果が常駐状態や参照用の投影へ反映されます。Application側で接続先を選べることと、更新してよいことの判定は分けます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-request-path"
+                      ],
+                      "claims": [
+                        "ha-request-write-claim"
+                      ],
+                      "nodes": [
+                        "ha-request-write-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-request-path-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-request-read",
+                    "kind": "paragraph",
+                    "text": "参照要求は、許可された範囲と必要な鮮度を満たすPrimaryまたはRead Replicaへ渡します。Read Replicaが参照に使えることは、更新処理の開始やPrimaryへの昇格を許可されたことを意味しません。参照の利用可否は、認可に加えて、必要なデータが反映済みかという条件でも判断します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-request-path"
+                      ],
+                      "claims": [
+                        "ha-request-read-claim"
+                      ],
+                      "nodes": [
+                        "ha-request-read-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-request-path-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-request-control",
+                    "kind": "paragraph",
+                    "text": "制御系は、現在の受付主体、各機の準備と同期状態を使い、切替え・保持・退役の可否を判断します。配備系はその判断に対応して実行環境を生成・停止し、観測系は実際の状態と失敗理由を提示します。業務データの確定と制御系の状態更新を、同じ記録や同じ版番号として扱いません。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-request-path"
+                      ],
+                      "claims": [
+                        "ha-request-control-claim"
+                      ],
+                      "nodes": [
+                        "ha-request-control-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-request-path-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-immutable-section",
+                "heading": "HAとイミュータブルインフラストラクチャの関係",
+                "coreRefs": {
+                  "steps": [
+                    "ha-immutable"
+                  ],
+                  "claims": [
+                    "ha-immutable-relation-claim",
+                    "ha-immutable-purpose-claim",
+                    "ha-platform-responsibility-claim"
+                  ],
+                  "nodes": [
+                    "ha-immutable-relation-node",
+                    "ha-immutable-purpose-node",
+                    "ha-platform-responsibility-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-immutable-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-immutable-relation",
+                    "kind": "paragraph",
+                    "text": "HAはサービスを使い続けるための設計であり、イミュータブルインフラストラクチャは実行環境を変更せず交換する運用です。両者は目的が異なりますが、準備済みの別環境へ仕事を引き継ぐ構造を共有します。採用理由や定期交換の運用判断は[[../../immutable-infrastructure/textus-cncf-immutable-infrastructure.dox/index.dox][専用ガイド]]で扱います。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-immutable"
+                      ],
+                      "claims": [
+                        "ha-immutable-relation-claim"
+                      ],
+                      "nodes": [
+                        "ha-immutable-relation-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-immutable-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-immutable-purpose",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-immutable"
+                      ],
+                      "claims": [
+                        "ha-immutable-purpose-claim"
+                      ],
+                      "nodes": [
+                        "ha-immutable-purpose-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-immutable-flow"
+                      ]
+                    },
+                    "text": "イミュータブルインフラストラクチャでは、稼働中の環境へ変更を積み重ねず、受入れ済みの成果物と構成から新しい環境を作って交換します。更新時の再現性と構成の明確さを保ち、異常な環境を使い続ける期間も抑えます。定期交代によって、起動、準備、切替え、排出を日常の運用でも確かめます。"
+                  },
+                  {
+                    "id": "ha-platform-responsibility",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-immutable"
+                      ],
+                      "claims": [
+                        "ha-platform-responsibility-claim"
+                      ],
+                      "nodes": [
+                        "ha-platform-responsibility-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-immutable-flow"
+                      ]
+                    },
+                    "text": "この交代はアプリケーション固有の起動スクリプトや切替え処理ではなく、CNCF Runtimeと配備ドライバーが担う設計です。アプリケーションは業務契約と永続化の条件を定め、基盤が準備確認、受付先の変更、キャッシュ追随、排出と退役を管理します。短命であることと変更せず交換することは別の性質です。"
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ha-execution-area-section",
+            "heading": "実行系の構造",
+            "coreRefs": {
+              "steps": [
+                "ha-execution-area"
+              ],
+              "claims": [
+                "ha-execution-intro-claim"
+              ],
+              "nodes": [
+                "ha-execution-intro-node"
+              ],
+              "relations": [],
+              "flows": [
+                "ha-execution-area-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ha-execution-intro",
+                "kind": "paragraph",
+                "text": "実行系は、同じ業務契約を実行できる複数のSubsystemと、それらへ要求を渡す安定した入口から構成します。機体の役割と準備状態を明示し、通常の業務呼出しを、環境の生成・交換の管理から分離します。",
+                "coreRefs": {
+                  "steps": [
+                    "ha-execution-area"
+                  ],
+                  "claims": [
+                    "ha-execution-intro-claim"
+                  ],
+                  "nodes": [
+                    "ha-execution-intro-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-execution-area-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ha-roles-section",
+                "heading": "Primary・Read Replica・Standbyの役割",
+                "coreRefs": {
+                  "steps": [
+                    "ha-roles"
+                  ],
+                  "claims": [
+                    "ha-role-table-claim",
+                    "ha-role-composition-claim",
+                    "ha-retained-role-claim"
+                  ],
+                  "nodes": [
+                    "ha-role-table-node",
+                    "ha-role-composition-node",
+                    "ha-retained-role-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-roles-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-role-table",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-roles"
+                      ],
+                      "claims": [
+                        "ha-role-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-role-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-roles-flow"
+                      ]
+                    },
+                    "caption": "可用性構成の役割",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "用語"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "責務"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-role-table-row-1",
+                        "cells": [
+                          "Primary",
+                          "新規の更新処理を受け付ける主系"
+                        ]
+                      },
+                      {
+                        "id": "ha-role-table-row-2",
+                        "cells": [
+                          "Read Replica",
+                          "同期済みのキャッシュや参照用投影を使って読取りを提供する"
+                        ]
+                      },
+                      {
+                        "id": "ha-role-table-row-3",
+                        "cells": [
+                          "Standby",
+                          "Primaryへの昇格に必要な準備と適格性を備える"
+                        ]
+                      },
+                      {
+                        "id": "ha-role-table-row-4",
+                        "cells": [
+                          "Draining Former Primary",
+                          "切替え前に受け付けた処理だけを完了させる旧Primary"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "ha-role-composition",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-roles"
+                      ],
+                      "claims": [
+                        "ha-role-composition-claim"
+                      ],
+                      "nodes": [
+                        "ha-role-composition-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-roles-flow"
+                      ]
+                    },
+                    "text": "Read Replicaは参照サービスの役割、Standbyは昇格に備える役割です。同じ機体が両方を兼ねられますが、読取り可能であるだけでは昇格可能とは限りません。最小構成はPrimaryとStandbyを兼ねるRead Replicaの二台で、将来は複数のRead Replicaを同じ同期基盤へ参加させます。"
+                  },
+                  {
+                    "id": "ha-retained-role",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-roles"
+                      ],
+                      "claims": [
+                        "ha-retained-role-claim"
+                      ],
+                      "nodes": [
+                        "ha-retained-role-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-roles-flow"
+                      ]
+                    },
+                    "text": "更新の排出が終わった旧Primaryは、保持期間が残っているだけでDrainingとは呼びません。同期を続ける切戻し用の環境として保持します。既存のACTIVE、STANDBY、DRAININGというライフサイクル状態名の変更と、説明用語の採用は別の作業です。"
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-lifecycle-section",
+                "heading": "生存・準備・権限と実行環境の寿命",
+                "coreRefs": {
+                  "steps": [
+                    "ha-lifecycle"
+                  ],
+                  "claims": [
+                    "ha-lifecycle-separation-claim",
+                    "ha-lifecycle-table-claim",
+                    "ha-lifecycle-state-names-claim"
+                  ],
+                  "nodes": [
+                    "ha-lifecycle-separation-node",
+                    "ha-lifecycle-table-node",
+                    "ha-lifecycle-state-names-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-lifecycle-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-lifecycle-separation",
+                    "kind": "paragraph",
+                    "text": "生存はプロセスが応答すること、準備は必要な版・接続・データを備えること、権限は特定の処理を開始・完了してよいことです。これらを独立して捉えることで、起動しただけの機体が更新を始めたり、参照可能なReplicaが勝手にPrimaryになったりすることを防ぎます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-lifecycle"
+                      ],
+                      "claims": [
+                        "ha-lifecycle-separation-claim"
+                      ],
+                      "nodes": [
+                        "ha-lifecycle-separation-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-lifecycle-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-lifecycle-table",
+                    "kind": "table",
+                    "caption": "実行環境の状態と判断",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "段階"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "状態の意味"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "権限との関係"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-lifecycle-table-row-1",
+                        "cells": [
+                          "起動・構築",
+                          "成果物と正本から環境・キャッシュを作る",
+                          "未準備のまま通常業務へ投入しない"
+                        ]
+                      },
+                      {
+                        "id": "ha-lifecycle-table-row-2",
+                        "cells": [
+                          "準備済み",
+                          "利用経路に必要な互換性・同期等を満たす",
+                          "参照可否と昇格可否を個別に判定する"
+                        ]
+                      },
+                      {
+                        "id": "ha-lifecycle-table-row-3",
+                        "cells": [
+                          "Primary・参照提供",
+                          "認められた役割で業務を処理する",
+                          "更新は正当な受付・実行権限を必要とする"
+                        ]
+                      },
+                      {
+                        "id": "ha-lifecycle-table-row-4",
+                        "cells": [
+                          "完了待ち・保持・退役",
+                          "旧処理の結果と代替容量、保持条件を確認する",
+                          "旧Primaryだったことは新規受付の根拠にならない"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ha-lifecycle"
+                      ],
+                      "claims": [
+                        "ha-lifecycle-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-lifecycle-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-lifecycle-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-lifecycle-state-names",
+                    "kind": "paragraph",
+                    "text": "既存のACTIVE・STANDBY・DRAININGは実行状態の名前です。本文のPrimary、Read Replica、Standbyは責務や適格性を説明する用語であり、文書上の用語整理だけでAPIや設定の状態名を変更しません。完了待ちが終わった旧機を同期した切戻し用環境として保持する場合、その保持を処理中のDrainingと区別します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-lifecycle"
+                      ],
+                      "claims": [
+                        "ha-lifecycle-state-names-claim"
+                      ],
+                      "nodes": [
+                        "ha-lifecycle-state-names-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-lifecycle-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ha-state-area-section",
+            "heading": "データと同期の構造",
+            "coreRefs": {
+              "steps": [
+                "ha-state-area"
+              ],
+              "claims": [
+                "ha-state-intro-claim"
+              ],
+              "nodes": [
+                "ha-state-intro-node"
+              ],
+              "relations": [],
+              "flows": [
+                "ha-state-area-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ha-state-intro",
+                "kind": "paragraph",
+                "text": "データの保全と高速な参照は、役割の異なる状態を接続して実現します。正本の永続化、メモリ常駐、Replica間の反映、実行中の業務処理を分けて説明し、それぞれが切替えへ提供する条件を明確にします。",
+                "coreRefs": {
+                  "steps": [
+                    "ha-state-area"
+                  ],
+                  "claims": [
+                    "ha-state-intro-claim"
+                  ],
+                  "nodes": [
+                    "ha-state-intro-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-state-area-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ha-memory-section",
+                "heading": "確定状態・常駐状態・一時状態",
+                "coreRefs": {
+                  "steps": [
+                    "ha-memory"
+                  ],
+                  "claims": [
+                    "ha-state-separation-claim",
+                    "ha-state-table-claim",
+                    "ha-memory-performance-claim",
+                    "ha-working-set-selection-claim",
+                    "ha-working-set-user-context-claim",
+                    "ha-memory-availability-claim"
+                  ],
+                  "nodes": [
+                    "ha-state-separation-node",
+                    "ha-state-table-node",
+                    "ha-memory-performance-node",
+                    "ha-working-set-selection-node",
+                    "ha-working-set-user-context-node",
+                    "ha-memory-availability-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-memory-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-state-separation",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-memory"
+                      ],
+                      "claims": [
+                        "ha-state-separation-claim"
+                      ],
+                      "nodes": [
+                        "ha-state-separation-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-memory-flow"
+                      ]
+                    },
+                    "text": "CNCFは、メモリ常駐で応答性を高めながら、業務の継続に必要な状態を特定プロセスのメモリだけに残さない構造を意図しています。更新はDomainの規則とUnitOfWorkを通して正本へ確定し、キャッシュやViewはその結果に従います。交換するのは実行環境であり、確定した業務データや対応済みのJob・Workflow継続記録は別に保持します。一時状態や結果不明の処理は別に扱い、旧メモリのコピーをデータ保全の根拠にしません。"
+                  },
+                  {
+                    "id": "ha-state-table",
+                    "kind": "table",
+                    "caption": "状態の所有者と再構築",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "状態"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "正本と寿命"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "HAとの接続"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-state-table-row-1",
+                        "cells": [
+                          "確定した業務データ",
+                          "正本DataStoreで、実行環境とは別に保持する",
+                          "確定結果と保存側の障害範囲を保全条件にする"
+                        ]
+                      },
+                      {
+                        "id": "ha-state-table-row-2",
+                        "cells": [
+                          "Entity・索引・Working Set・View",
+                          "正本と確定差分から構築する常駐状態",
+                          "喪失しても再構築し、必要な反映位置で準備を判定する"
+                        ]
+                      },
+                      {
+                        "id": "ha-state-table-row-3",
+                        "cells": [
+                          "受付済みの処理・途中の計算",
+                          "処理の実行範囲と対応する永続記録",
+                          "計画切替えの完了待ちと、障害時の結果照合を分ける"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ha-memory"
+                      ],
+                      "claims": [
+                        "ha-state-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-state-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-memory-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-memory-performance",
+                    "kind": "paragraph",
+                    "text": "CNCFは、業務処理で利用するデータの多くをメモリに載せることを志向します。EntitySpace、Entity Realm、索引やViewを常駐させ、繰り返しの取得・構築を減らして応答性を高めます。業務の継続に必要な状態を特定プロセスのメモリだけに残さない構造と組み合わせることで、メモリの性能と環境の交換可能性を両立させます。メモリ常駐やReplica台数そのものを、データが永続化された証拠にはしません。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-memory"
+                      ],
+                      "claims": [
+                        "ha-memory-performance-claim"
+                      ],
+                      "nodes": [
+                        "ha-memory-performance-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-memory-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-working-set-selection",
+                    "kind": "paragraph",
+                    "text": "常駐対象は、Entityの分類とWorking Set方針で決めます。マスター系は有効な全件を常駐させます。トランザクション系では活動中の取引に加え、活動中の利用者とその業務に必要なデータをWorking Setとして保持することを想定します。全履歴の常駐を避けつつ、現在の活動に必要な範囲を選ぶ考え方です。現行の分類ではmasterが全件常駐の既定値を持ち、取引Entityのworkflowでは状態項目と活動中の条件を明示する方針が必要です。利用者の活動条件に応じた保持は、これとは別に定義・確認する方針です。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-memory"
+                      ],
+                      "claims": [
+                        "ha-working-set-selection-claim"
+                      ],
+                      "nodes": [
+                        "ha-working-set-selection-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-memory-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-working-set-user-context",
+                    "kind": "paragraph",
+                    "text": "例えば、アクティブユーザーのカート内容、ユーザー自身の住所、配送先などがWorking Setの対象になります。住所のようにそれ自身は状態遷移しない情報も、現在の利用者や取引に必要であれば含めます。Working Setは「現在の業務活動に必要なデータのまとまり」として捉え、利用者の認可範囲を保って保持します。全件常駐するマスターを使う場合はその常駐データを利用します。活動が終わると常駐対象を見直し、正本のデータは独立して保持します。この利用者単位の方針が現行コードで自動適用済みとは扱いません。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-memory"
+                      ],
+                      "claims": [
+                        "ha-working-set-user-context-claim"
+                      ],
+                      "nodes": [
+                        "ha-working-set-user-context-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-memory-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-memory-availability",
+                    "kind": "paragraph",
+                    "text": "メモリ常駐は、縮退運転の継続性にも寄与します。正本のディスクやDBへのアクセスが遅延・停止しても、既知の確定状態と必要な索引が常駐していれば、そのデータだけで完結する検索・一覧・照会を継続できる構造です。更新を止めて常駐データを活用するRead-onlyモードは、この特性をHAの利用継続へつなぐ設計です。実際に継続できる業務の範囲は、常駐範囲と依存先を含めて確認します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-memory"
+                      ],
+                      "claims": [
+                        "ha-memory-availability-claim"
+                      ],
+                      "nodes": [
+                        "ha-memory-availability-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-memory-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-cache-section",
+                "heading": "確定更新を共有するキャッシュ同期基盤",
+                "coreRefs": {
+                  "steps": [
+                    "ha-cache"
+                  ],
+                  "claims": [
+                    "ha-cache-structure-claim",
+                    "ha-cache-commit-claim",
+                    "ha-cache-version-claim",
+                    "ha-cache-progress-claim",
+                    "ha-cache-bootstrap-claim",
+                    "ha-read-consistency-claim"
+                  ],
+                  "nodes": [
+                    "ha-cache-structure-node",
+                    "ha-cache-commit-node",
+                    "ha-cache-version-node",
+                    "ha-cache-progress-node",
+                    "ha-cache-bootstrap-node",
+                    "ha-read-consistency-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-cache-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-cache-structure",
+                    "kind": "paragraph",
+                    "text": "キャッシュ同期は、正本の確定変更を、現在のPrimary、参照提供中のReplica、構築中のReplica、保持中の旧機へ反映する共通基盤です。HA制御はその反映位置と準備状態を使います。同期基盤がPrimaryを選ぶのでも、HA制御が業務更新を再実行してReplicaを揃えるのでもありません。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-cache"
+                      ],
+                      "claims": [
+                        "ha-cache-structure-claim"
+                      ],
+                      "nodes": [
+                        "ha-cache-structure-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-cache-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-cache-commit",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-cache"
+                      ],
+                      "claims": [
+                        "ha-cache-commit-claim"
+                      ],
+                      "nodes": [
+                        "ha-cache-commit-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-cache-flow"
+                      ]
+                    },
+                    "text": "同期基盤は、処理の受付やメモリ上の変更ではなく、永続化側で確定した更新を扱います。データ確定後、通知前にプロセスが停止しても、更新を取りこぼさず発見して追随できる接続が必要です。abortされた更新を成功した更新として配布しません。"
+                  },
+                  {
+                    "id": "ha-cache-version",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-cache"
+                      ],
+                      "claims": [
+                        "ha-cache-version-claim"
+                      ],
+                      "nodes": [
+                        "ha-cache-version-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-cache-flow"
+                      ]
+                    },
+                    "text": "更新、削除、無効化、パージを共通に扱い、通知の重複や到着順の逆転で古い値が復活しないようにします。パージはキャッシュを捨てる操作であり、業務データの削除ではありません。パージ前に開始した読込みが遅れて完了しても、新しい世代のキャッシュへ古い値を戻してはいけません。"
+                  },
+                  {
+                    "id": "ha-cache-progress",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-cache"
+                      ],
+                      "claims": [
+                        "ha-cache-progress-claim"
+                      ],
+                      "nodes": [
+                        "ha-cache-progress-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-cache-flow"
+                      ]
+                    },
+                    "text": "各機の受信位置と反映済み位置を区別します。反映済み位置は、それ以前の必要な変更をすべて反映した範囲です。Aの遅い確定とBの新規確定も、送信元や到着時刻ではなく、永続化側の順序・版に対応付けます。異なる保存先に根拠のない単一の確定順序を与えません。"
+                  },
+                  {
+                    "id": "ha-cache-bootstrap",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-cache"
+                      ],
+                      "claims": [
+                        "ha-cache-bootstrap-claim"
+                      ],
+                      "nodes": [
+                        "ha-cache-bootstrap-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-cache-flow"
+                      ]
+                    },
+                    "text": "Cの初期構築では、対応する整合点が分かる初期状態を取得し、その後の差分へ追随します。構築中の更新を落とさず、必要な反映位置に達してから参照先として利用します。履歴不足や通知の欠落を解消できない場合は、その範囲を未準備にして再構築します。"
+                  },
+                  {
+                    "id": "ha-read-consistency",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-cache"
+                      ],
+                      "claims": [
+                        "ha-read-consistency-claim"
+                      ],
+                      "nodes": [
+                        "ha-read-consistency-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-cache-flow"
+                      ]
+                    },
+                    "text": "遅延を許容する読取りと、特定の確定状態を必要とする読取りを区別します。後者では必要な位置へ追随した機体を選ぶか、許可された正本読取り、制限付き待機、利用不可の応答を使います。新Primaryへ接続しただけで、切替え後のAの確定まで反映済みとは限りません。"
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-updates-section",
+                "heading": "更新処理とJob・Workflowの継続",
+                "coreRefs": {
+                  "steps": [
+                    "ha-updates"
+                  ],
+                  "claims": [
+                    "ha-update-conflict-claim",
+                    "ha-update-settlement-claim",
+                    "ha-long-work-claim"
+                  ],
+                  "nodes": [
+                    "ha-update-conflict-node",
+                    "ha-update-settlement-node",
+                    "ha-long-work-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-updates-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-update-conflict",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-updates"
+                      ],
+                      "claims": [
+                        "ha-update-conflict-claim"
+                      ],
+                      "nodes": [
+                        "ha-update-conflict-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-updates-flow"
+                      ]
+                    },
+                    "text": "Aの受付済み更新とBの新規更新が同じデータに触れる場合、その競合は正本側のトランザクションや版の検査で扱います。受付順だけで確定順を保証したり、後から届いた値で上書きしたりしません。業務上の因果関係が必要なら、その処理契約で確保します。"
+                  },
+                  {
+                    "id": "ha-update-settlement",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-updates"
+                      ],
+                      "claims": [
+                        "ha-update-settlement-claim"
+                      ],
+                      "nodes": [
+                        "ha-update-settlement-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-updates-flow"
+                      ]
+                    },
+                    "text": "更新の完走とは必ず成功することではなく、実際のcommit、abort、失敗などの結果を確定することです。HTTP応答を返したかだけでは排出完了を判断しません。確定の応答が失われた場合や外部送信の結果が不明な場合は、未実行と決めつけず照合します。"
+                  },
+                  {
+                    "id": "ha-long-work",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-updates"
+                      ],
+                      "claims": [
+                        "ha-long-work-claim"
+                      ],
+                      "nodes": [
+                        "ha-long-work-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-updates-flow"
+                      ]
+                    },
+                    "text": "長時間のJobやWorkflowは、採用版で実際に対応する永続化済みの区切りと回復契約を使います。永続化されているだけで、実行途中のRunningタスクを別機へ移して再実行できるとは限りません。計画交代の時刻だけを理由に有効な受付済み処理を強制中断せず、長引く排出と不確実な結果を観測可能にします。"
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ha-control-area-section",
+            "heading": "制御系の構造",
+            "coreRefs": {
+              "steps": [
+                "ha-control-area"
+              ],
+              "claims": [
+                "ha-control-intro-claim"
+              ],
+              "nodes": [
+                "ha-control-intro-node"
+              ],
+              "relations": [],
+              "flows": [
+                "ha-control-area-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ha-control-intro",
+                "kind": "paragraph",
+                "text": "制御系が決めるのは、どの機体が、どの範囲の処理を、どの条件で扱ってよいかです。経路の変更だけに依存せず、所有者の選出、期限付きの権限、実際の更新拒否、準備状態を組み合わせます。CNCFは既存の調停基盤と業務実行・保存の接続を担います。",
+                "coreRefs": {
+                  "steps": [
+                    "ha-control-area"
+                  ],
+                  "claims": [
+                    "ha-control-intro-claim"
+                  ],
+                  "nodes": [
+                    "ha-control-intro-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-control-area-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ha-control-section",
+                "heading": "選出・Lease・Fencing・Readinessの役割",
+                "coreRefs": {
+                  "steps": [
+                    "ha-control"
+                  ],
+                  "claims": [
+                    "ha-control-table-claim",
+                    "ha-control-reuse-claim",
+                    "ha-fencing-boundary-claim",
+                    "ha-control-topology-claim"
+                  ],
+                  "nodes": [
+                    "ha-control-table-node",
+                    "ha-control-reuse-node",
+                    "ha-fencing-boundary-node",
+                    "ha-control-topology-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-control-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-control-table",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-control"
+                      ],
+                      "claims": [
+                        "ha-control-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-control-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-control-flow"
+                      ]
+                    },
+                    "caption": "切替えを支える共通機構",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "機構"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "確認すること"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-control-table-row-1",
+                        "cells": [
+                          "Leader Election",
+                          "新しいPrimaryの受付責任を持つ主体を選ぶ"
+                        ]
+                      },
+                      {
+                        "id": "ha-control-table-row-2",
+                        "cells": [
+                          "Lease",
+                          "期限付きの権限を維持し、更新できなければ失効させる"
+                        ]
+                      },
+                      {
+                        "id": "ha-control-table-row-3",
+                        "cells": [
+                          "Fencing",
+                          "失効した権限で行う更新を実際の実行・保存境界で拒否する"
+                        ]
+                      },
+                      {
+                        "id": "ha-control-table-row-4",
+                        "cells": [
+                          "Readiness",
+                          "互換性、永続状態への接続、同期とウォームアップを確認する"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "ha-control-reuse",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-control"
+                      ],
+                      "claims": [
+                        "ha-control-reuse-claim"
+                      ],
+                      "nodes": [
+                        "ha-control-reuse-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-control-flow"
+                      ]
+                    },
+                    "text": "選出や分散合意をCNCFで自作せず、既存の調停基盤を利用します。etcd Election／Leaseが最初の候補で、同等の契約を満たす既設基盤も利用できます。候補を選出できたことだけで、その機体に更新を開始させてはいけません。FencingとReadinessも揃える必要があります。"
+                  },
+                  {
+                    "id": "ha-fencing-boundary",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-control"
+                      ],
+                      "claims": [
+                        "ha-fencing-boundary-claim"
+                      ],
+                      "nodes": [
+                        "ha-fencing-boundary-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-control-flow"
+                      ]
+                    },
+                    "text": "ロードバランサーの切替えやLeaseの確認だけでは、古いPrimaryが保存先へ書き込むことを防げません。必要な境界で権限を強制し、確認から書込みまでの隙間も扱います。etcd内の権限確認は、PostgreSQLや外部サービスへの書込みを自動的には保護しません。"
+                  },
+                  {
+                    "id": "ha-control-topology",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-control"
+                      ],
+                      "claims": [
+                        "ha-control-topology-claim"
+                      ],
+                      "nodes": [
+                        "ha-control-topology-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-control-flow"
+                      ]
+                    },
+                    "text": "調停基盤の投票メンバー数とRead Replicaの台数は別です。二票の多数決構成は一票を失うと多数派を維持できません。ホスト障害を扱う配備では、独立した投票配置や既存の調停サービスも含めて設計します。Cをリードキャッシュとして追加しても、投票メンバーが自動で増えるわけではありません。"
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-authority-section",
+                "heading": "新規受付と旧処理の完了を別の権限で扱う",
+                "coreRefs": {
+                  "steps": [
+                    "ha-authority"
+                  ],
+                  "claims": [
+                    "ha-authority-model-claim",
+                    "ha-switchover-scope-claim",
+                    "ha-authority-loss-claim"
+                  ],
+                  "nodes": [
+                    "ha-authority-model-node",
+                    "ha-switchover-scope-node",
+                    "ha-authority-loss-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-authority-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-authority-model",
+                    "kind": "paragraph",
+                    "text": "新規の独立した更新を受け付ける所有者は一つにします。一方、計画切替えでは、切替え前に受け付けた処理を完了するための限定した権限を旧Primaryへ残します。新Primaryが受付を始めた後も旧機が更新を確定できるのは、この限定された処理範囲によります。任意の更新を二台から始められるactive-active構成とは異なります。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-authority"
+                      ],
+                      "claims": [
+                        "ha-authority-model-claim"
+                      ],
+                      "nodes": [
+                        "ha-authority-model-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-authority-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-switchover-scope",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-authority"
+                      ],
+                      "claims": [
+                        "ha-switchover-scope-claim"
+                      ],
+                      "nodes": [
+                        "ha-switchover-scope-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-authority-flow"
+                      ]
+                    },
+                    "text": "Aから新規の独立した更新を受け付けないよう、古い経路、定期実行、イベント経由の入口も閉じます。一方、受付済み処理の完了権限は、その実際の処理範囲に限定して残します。単純な単一書込みLeaseを切り替えるだけでは、この限定した重なりは実現できません。"
+                  },
+                  {
+                    "id": "ha-authority-loss",
+                    "kind": "paragraph",
+                    "text": "限定された完了権限も、権限が有効である範囲でのみ使います。権限喪失や障害で失効した機体には、以前の受付済みという理由だけで更新を許しません。実際の保存・外部作用の境界で旧権限を拒否し、すでに起きた作用や結果不明の処理は回復の対象として照合します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-authority"
+                      ],
+                      "claims": [
+                        "ha-authority-loss-claim"
+                      ],
+                      "nodes": [
+                        "ha-authority-loss-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-authority-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ha-behavior-area-section",
+            "heading": "通常時と切替え時の振る舞い",
+            "coreRefs": {
+              "steps": [
+                "ha-behavior-area"
+              ],
+              "claims": [
+                "ha-behavior-intro-claim"
+              ],
+              "nodes": [
+                "ha-behavior-intro-node"
+              ],
+              "relations": [],
+              "flows": [
+                "ha-behavior-area-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ha-behavior-intro",
+                "kind": "paragraph",
+                "text": "ここまでの構造を前提に、役割と状態がどう変化するかを説明します。A・B・Cは変化を説明するための名前であり、常に三台を運用する構成指定ではありません。具体的な操作コマンドではなく、各分野の責務が切替え時にどう協調するかを示します。",
+                "coreRefs": {
+                  "steps": [
+                    "ha-behavior-area"
+                  ],
+                  "claims": [
+                    "ha-behavior-intro-claim"
+                  ],
+                  "nodes": [
+                    "ha-behavior-intro-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-behavior-area-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ha-normal-section",
+                "heading": "通常運転で各分野が協調する",
+                "coreRefs": {
+                  "steps": [
+                    "ha-normal"
+                  ],
+                  "claims": [
+                    "ha-normal-composition-claim",
+                    "ha-normal-transitions-claim"
+                  ],
+                  "nodes": [
+                    "ha-normal-composition-node",
+                    "ha-normal-transitions-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-normal-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-normal-composition",
+                    "kind": "paragraph",
+                    "text": "通常時は、Primaryが新規更新を受け付け、必要に応じてRead Replicaへ参照を分散します。正本の確定結果を共通の同期経路で反映し、制御系は所有権と準備状態を観測します。Standbyは待機しているだけの予備ではなく、許可された参照を処理しながら昇格準備を確認できる役割です。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-normal"
+                      ],
+                      "claims": [
+                        "ha-normal-composition-claim"
+                      ],
+                      "nodes": [
+                        "ha-normal-composition-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-normal-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-normal-transitions",
+                    "kind": "paragraph",
+                    "text": "この通常構造を保ったまま役割や機体を変更するのが切替えです。計画切替えは旧機が協調できる状態で権限を移す動作、障害切替えは旧機の状態や完了を前提にできない場合の動作です。共通の機構を利用しますが、安全条件と結果の扱いは同じではありません。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-normal"
+                      ],
+                      "claims": [
+                        "ha-normal-transitions-claim"
+                      ],
+                      "nodes": [
+                        "ha-normal-transitions-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-normal-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-switchover-section",
+                "heading": "計画切替えで変わる役割と状態",
+                "coreRefs": {
+                  "steps": [
+                    "ha-switchover"
+                  ],
+                  "claims": [
+                    "ha-switchover-purpose-claim",
+                    "ha-abc-table-claim"
+                  ],
+                  "nodes": [
+                    "ha-switchover-purpose-node",
+                    "ha-abc-table-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-switchover-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-switchover-purpose",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-switchover"
+                      ],
+                      "claims": [
+                        "ha-switchover-purpose-claim"
+                      ],
+                      "nodes": [
+                        "ha-switchover-purpose-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-switchover-flow"
+                      ]
+                    },
+                    "text": "計画切替えは、協調動作できるPrimaryを、定期交代や互換CARへの交換のために入れ替える手順です。新規の参照・更新はBへ先に切り替えます。旧Primary Aでは切替え前に受け付けた更新と、その完了に必要な子処理を継続します。"
+                  },
+                  {
+                    "id": "ha-abc-table",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-switchover"
+                      ],
+                      "claims": [
+                        "ha-abc-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-abc-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-switchover-flow"
+                      ]
+                    },
+                    "caption": "計画切替えにおけるA・B・C",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "段階"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "A"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "B"
+                      },
+                      {
+                        "id": "col-4",
+                        "heading": "C"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-abc-table-row-1",
+                        "cells": [
+                          "通常運用",
+                          "Primary",
+                          "Read Replica＋Standby",
+                          "未起動"
+                        ]
+                      },
+                      {
+                        "id": "ha-abc-table-row-2",
+                        "cells": [
+                          "受付切替え",
+                          "Draining Former Primary",
+                          "新規受付を担うPrimary",
+                          "起動・構築開始"
+                        ]
+                      },
+                      {
+                        "id": "ha-abc-table-row-3",
+                        "cells": [
+                          "追随と排出",
+                          "受付済み更新を確定し、同期を継続",
+                          "新規更新を確定し、Aの確定にも追随",
+                          "初期状態＋差分に追随"
+                        ]
+                      },
+                      {
+                        "id": "ha-abc-table-row-4",
+                        "cells": [
+                          "保持",
+                          "最新状態へ追随する切戻し用環境",
+                          "Primary",
+                          "準備済みRead Replica"
+                        ]
+                      },
+                      {
+                        "id": "ha-abc-table-row-5",
+                        "cells": [
+                          "退役",
+                          "全退役条件を満たして終了",
+                          "Primary",
+                          "Read Replica／適格ならStandby"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-failover-section",
+                "heading": "障害切替えで回復する権限と業務状態",
+                "coreRefs": {
+                  "steps": [
+                    "ha-failover"
+                  ],
+                  "claims": [
+                    "ha-failover-purpose-claim",
+                    "ha-failover-no-drain-claim",
+                    "ha-protocol-table-claim",
+                    "ha-failover-loss-claim"
+                  ],
+                  "nodes": [
+                    "ha-failover-purpose-node",
+                    "ha-failover-no-drain-node",
+                    "ha-protocol-table-node",
+                    "ha-failover-loss-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-failover-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-failover-purpose",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-failover"
+                      ],
+                      "claims": [
+                        "ha-failover-purpose-claim"
+                      ],
+                      "nodes": [
+                        "ha-failover-purpose-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-failover-flow"
+                      ]
+                    },
+                    "text": "障害切替えは、Primaryの停止、権限更新の失敗、必要な接続の喪失などで計画的な引継ぎができない場合に使います。応答しないだけでは停止したと断定できません。調停基盤による有効な選出・権限、旧権限を拒否するFencing、候補のReadinessが揃ってから更新を開始します。"
+                  },
+                  {
+                    "id": "ha-failover-no-drain",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-failover"
+                      ],
+                      "claims": [
+                        "ha-failover-no-drain-claim"
+                      ],
+                      "nodes": [
+                        "ha-failover-no-drain-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-failover-flow"
+                      ]
+                    },
+                    "text": "障害時には、応答しないAの排出完了を待ちません。失効した完了権限も継続させず、永続状態から確定済み・取消済み・結果不明を区別します。すでに確定した更新は保持し、結果不明の外部作用やRunning処理は、その回復契約で扱います。新Bでの無条件再実行は行いません。"
+                  },
+                  {
+                    "id": "ha-protocol-table",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-failover"
+                      ],
+                      "claims": [
+                        "ha-protocol-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-protocol-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-failover-flow"
+                      ]
+                    },
+                    "caption": "二つの切替え手順",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "観点"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Switchover"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Failover"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-protocol-table-row-1",
+                        "cells": [
+                          "旧Primary",
+                          "協調可能で、限定した完了権限が有効",
+                          "停止・不達・権限喪失など"
+                        ]
+                      },
+                      {
+                        "id": "ha-protocol-table-row-2",
+                        "cells": [
+                          "受付済み更新",
+                          "Aで結果を確定する",
+                          "正本の結果を照合し、許された回復だけ行う"
+                        ]
+                      },
+                      {
+                        "id": "ha-protocol-table-row-3",
+                        "cells": [
+                          "昇格条件",
+                          "準備確認と受付権限の引継ぎ",
+                          "選出・有効権限・Fencing・準備確認"
+                        ]
+                      },
+                      {
+                        "id": "ha-protocol-table-row-4",
+                        "cells": [
+                          "待機条件",
+                          "排出、代替Read Replica、保持条件を確認",
+                          "不達機の排出確認を待たず隔離・回復"
+                        ]
+                      },
+                      {
+                        "id": "ha-protocol-table-row-5",
+                        "cells": [
+                          "旧機の復帰",
+                          "同期済みの保持環境として扱う",
+                          "Replicaとして再参加し、勝手にPrimaryへ戻さない"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "ha-failover-loss",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-failover"
+                      ],
+                      "claims": [
+                        "ha-failover-loss-claim"
+                      ],
+                      "nodes": [
+                        "ha-failover-loss-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-failover-flow"
+                      ]
+                    },
+                    "text": "多数派や必要な権限を得られない場合は、無理に新Primaryを作らず更新を利用不可にします。確定更新を失わない保証は、正本DataStoreの永続化・複製方式が担う条件です。選出成功やキャッシュ反映位置から、データ損失ゼロを推定してはいけません。"
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-emergency-readonly-section",
+                "heading": "障害時・保守時のRead-onlyモード",
+                "coreRefs": {
+                  "steps": [
+                    "ha-emergency-readonly"
+                  ],
+                  "claims": [
+                    "ha-readonly-scope-claim",
+                    "ha-readonly-maintenance-claim",
+                    "ha-readonly-admission-claim",
+                    "ha-readonly-transition-claim",
+                    "ha-readonly-data-claim",
+                    "ha-readonly-resident-data-claim",
+                    "ha-readonly-cache-retention-claim",
+                    "ha-readonly-cache-validity-claim",
+                    "ha-service-mode-table-claim",
+                    "ha-readonly-activation-claim",
+                    "ha-readonly-recovery-claim"
+                  ],
+                  "nodes": [
+                    "ha-readonly-scope-node",
+                    "ha-readonly-maintenance-node",
+                    "ha-readonly-admission-node",
+                    "ha-readonly-transition-node",
+                    "ha-readonly-data-node",
+                    "ha-readonly-resident-data-node",
+                    "ha-readonly-cache-retention-node",
+                    "ha-readonly-cache-validity-node",
+                    "ha-service-mode-table-node",
+                    "ha-readonly-activation-node",
+                    "ha-readonly-recovery-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-emergency-readonly-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-readonly-scope",
+                    "kind": "paragraph",
+                    "text": "Read-onlyモードは、対象Subsystemで業務データの更新を止め、条件を満たす参照を継続するための運転モードです。障害時の縮退運転と、計画的な保守作業の両方で利用する設計とします。Read Replicaは実行環境の役割、Read-onlyは業務の提供方針であり、別の軸として扱います。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-scope-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-scope-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-maintenance",
+                    "kind": "paragraph",
+                    "text": "障害時には、更新の安全性や引継ぎを確認できない状況でも、許可できる参照を残すために使います。保守時には、作業前に新規更新を止め、受付済み処理の結果を確認してから、点検やデータ整備などを行うために使います。保守で必要な管理操作は明示した権限と範囲で別に扱います。作業によって安全な参照を維持できない範囲は停止し、保守中も必ず参照できるとは扱いません。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-maintenance-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-maintenance-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-admission",
+                    "kind": "paragraph",
+                    "text": "更新の停止は、画面のボタンだけでなく、API、定期処理、Job・Workflow、イベント経由など、業務更新を開始する共通の受付・実行境界で適用します。参照に見える操作が業務データを変更する場合も、その副作用は許可しません。監査記録、観測、キャッシュ管理など運転維持に必要な書込みは、業務更新とは分けた限定経路で扱います。Read-onlyを理由に認証・認可や必須の監査を省略しません。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-admission-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-admission-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-transition",
+                    "kind": "paragraph",
+                    "text": "移行を要求した時点で、受付済みの更新が残ることがあります。新規受付を閉じ、有効な権限の下で残る処理の結果を確定させる間は「移行中」として表示し、業務更新が止まった状態と区別します。権限を失った機体の完走は前提にせず、Fencingと結果の照合を行います。応答しない旧機や古い経路から更新が続けられる状態を、参照専用が成立したとは扱いません。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-transition-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-transition-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-data",
+                    "kind": "paragraph",
+                    "text": "参照には、信頼できる正本またはキャッシュと、有効な認可が必要です。同期が遅れている場合は、その鮮度で利用してよい問い合わせだけを提供します。画面や応答には参照専用であること、更新を停止した理由、データの反映状況を示します。最新の確定状態が必要な操作、認可を確認できない操作、データの信頼性を確保できない操作は、参照であっても利用不可にします。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-data-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-data-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-resident-data",
+                    "kind": "paragraph",
+                    "text": "永続化先が不調な間は、常駐済みのデータで処理できる参照と、ディスクからの再読込みが必要な参照を分けます。キャッシュミスや未構築の索引が必要な場合は、不調な保存先を無制限に待たず、対応する利用不可の応答を返します。最後に確認できた反映状態と利用できる範囲を示し、認証・認可や必須監査などの依存条件も満たす参照を残します。プロセスが停止して常駐状態を失った後は、利用可能な正本や適格な他Replicaから再構築する経路が必要です。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-resident-data-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-resident-data-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-cache-retention",
+                    "kind": "paragraph",
+                    "text": "Working Setの常駐方針に加えて、業務参照用キャッシュにはRead-only中の保持方針を設けます。通常のTTL切れや定期パージだけを理由に参照可能な値を破棄せず、最後に確認できた値を残します。鮮度の期限と反映状態は記録し続け、期限切れの値は古い可能性があることを示したうえで、許可された参照にだけ使います。保持対象とメモリ予算を明示します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-cache-retention-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-cache-retention-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-cache-validity",
+                    "kind": "paragraph",
+                    "text": "この保持方針は、認証セッションや権限の有効期限を延長するものではありません。明示された削除・無効化・失効や、適格な確定更新の同期は引き続き反映します。値を保持できても、無効化された範囲は必要な更新と確認が済むまで提供しません。通常運転への復帰では、必要な正本との同期・照合を行ってから通常のキャッシュ保持方針へ戻します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-cache-validity-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-cache-validity-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-service-mode-table",
+                    "kind": "table",
+                    "caption": "業務の提供モードと許可範囲",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "提供モード"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "業務更新"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "参照"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-service-mode-table-row-1",
+                        "cells": [
+                          "通常運転",
+                          "正当な権限と準備条件で受付・実行する",
+                          "認可と必要な鮮度を満たす範囲"
+                        ]
+                      },
+                      {
+                        "id": "ha-service-mode-table-row-2",
+                        "cells": [
+                          "Read-only（障害・保守）",
+                          "新規の業務更新を拒否する。移行中の旧処理は別に表示する",
+                          "信頼・認可・鮮度条件を満たす参照を継続する"
+                        ]
+                      },
+                      {
+                        "id": "ha-service-mode-table-row-3",
+                        "cells": [
+                          "利用不可",
+                          "受付しない",
+                          "条件を満たせない参照は提供しない"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-service-mode-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-service-mode-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-activation",
+                    "kind": "paragraph",
+                    "text": "運用者が、障害対応または保守作業という理由を明示して切り替えられる構成を設計候補とします。障害検知に連動して自動移行する場合も、どの障害条件で、どの参照を残してよいかを明示します。更新できないことを検出しただけで、すべての参照を許可するものではありません。このモードは設計候補であり、CNCFに専用のモードやABIが実装済みという意味ではありません。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-activation-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-activation-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-recovery",
+                    "kind": "paragraph",
+                    "text": "通常運転へ戻すには、障害原因の解消または保守作業の完了に加え、正当なPrimary権限とFencing、必要なデータの同期・準備、受付済み更新や結果不明の処理の照合を確認し、復帰を判断します。Primaryが応答したことや保守予定時刻を過ぎたことだけでは解除しません。拒否した更新は未受付として利用者へ明示し、裏で蓄積して復帰後に無断実行しません。すでに受け付けた処理の回復は、その処理の契約に従います。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-recovery-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-recovery-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-retention-section",
+                "heading": "保持・切戻し・退役の条件",
+                "coreRefs": {
+                  "steps": [
+                    "ha-retention"
+                  ],
+                  "claims": [
+                    "ha-fallback-current-claim",
+                    "ha-retirement-table-claim",
+                    "ha-retirement-scope-claim",
+                    "ha-car-compatibility-claim"
+                  ],
+                  "nodes": [
+                    "ha-fallback-current-node",
+                    "ha-retirement-table-node",
+                    "ha-retirement-scope-node",
+                    "ha-car-compatibility-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-retention-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-fallback-current",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-retention"
+                      ],
+                      "claims": [
+                        "ha-fallback-current-claim"
+                      ],
+                      "nodes": [
+                        "ha-fallback-current-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-retention-flow"
+                      ]
+                    },
+                    "text": "計画切替え後のAは、切戻しのために一定期間保持し、その間も新しい確定状態へ追随させます。切戻しは古いメモリへ戻す操作ではありません。保持していたCARの互換性と最新の準備状態を確認し、同じ受付引継ぎと排出の手順で再昇格させます。"
+                  },
+                  {
+                    "id": "ha-retirement-table",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-retention"
+                      ],
+                      "claims": [
+                        "ha-retirement-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-retirement-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-retention-flow"
+                      ]
+                    },
+                    "caption": "計画退役に必要な条件",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "条件"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "必要な確認"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-retirement-table-row-1",
+                        "cells": [
+                          "受付済み更新",
+                          "旧Primaryの更新結果が確定している"
+                        ]
+                      },
+                      {
+                        "id": "ha-retirement-table-row-2",
+                        "cells": [
+                          "代替Read Replica",
+                          "必要な参照・待機容量が準備済み"
+                        ]
+                      },
+                      {
+                        "id": "ha-retirement-table-row-3",
+                        "cells": [
+                          "保持と観測",
+                          "設定した保持期間と稼働確認条件を満たす"
+                        ]
+                      },
+                      {
+                        "id": "ha-retirement-table-row-4",
+                        "cells": [
+                          "未解決の作業",
+                          "旧環境を必要とする切戻しや不確実な結果が残っていない"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "ha-retirement-scope",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-retention"
+                      ],
+                      "claims": [
+                        "ha-retirement-scope-claim"
+                      ],
+                      "nodes": [
+                        "ha-retirement-scope-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-retention-flow"
+                      ]
+                    },
+                    "text": "退役はこれらすべての条件が揃ったときに行います。タイマー満了だけでは終了させません。障害機の隔離・停止は、この計画退役の待機条件とは別です。その場合も必要な処理結果や照合情報を機体の寿命と切り離して残します。"
+                  },
+                  {
+                    "id": "ha-car-compatibility",
+                    "kind": "paragraph",
+                    "text": "部品更新を伴う場合、保持した旧CARが現在の業務データを扱える互換性を、切戻しの前提にします。保存構造の破壊的変更が必要な場合は通常の自動交換へ無理に含めず、メンテナンス更新へ分けます。侵害が疑われる旧機には、通常の切戻し用保持を適用しません。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-retention"
+                      ],
+                      "claims": [
+                        "ha-car-compatibility-claim"
+                      ],
+                      "nodes": [
+                        "ha-car-compatibility-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-retention-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ha-deployment-area-section",
+            "heading": "配備と運用の構成",
+            "coreRefs": {
+              "steps": [
+                "ha-deployment-area"
+              ],
+              "claims": [
+                "ha-deployment-intro-claim"
+              ],
+              "nodes": [
+                "ha-deployment-intro-node"
+              ],
+              "relations": [],
+              "flows": [
+                "ha-deployment-area-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ha-deployment-intro",
+                "kind": "paragraph",
+                "text": "論理構造を実際の環境へ置く段階では、障害区画、依存先、資源、観測と運用判断を対応付けます。どの範囲の可用性を提供するかを明示し、その範囲に必要な構成と確認を選びます。",
+                "coreRefs": {
+                  "steps": [
+                    "ha-deployment-area"
+                  ],
+                  "claims": [
+                    "ha-deployment-intro-claim"
+                  ],
+                  "nodes": [
+                    "ha-deployment-intro-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-deployment-area-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ha-profiles-section",
+                "heading": "配備プロファイルと障害区画",
+                "coreRefs": {
+                  "steps": [
+                    "ha-profiles"
+                  ],
+                  "claims": [
+                    "ha-profile-table-claim",
+                    "ha-profile-driver-claim",
+                    "ha-profile-dependencies-claim"
+                  ],
+                  "nodes": [
+                    "ha-profile-table-node",
+                    "ha-profile-driver-node",
+                    "ha-profile-dependencies-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-profiles-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-profile-table",
+                    "kind": "table",
+                    "caption": "構成ごとの確認対象",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "構成"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "提供を目指す範囲"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "別に確認する範囲"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-profile-table-row-1",
+                        "cells": [
+                          "single",
+                          "単一環境。停止を伴う再構築を許容する",
+                          "継続提供や代替容量を備えるHAではない"
+                        ]
+                      },
+                      {
+                        "id": "ha-profile-table-row-2",
+                        "cells": [
+                          "local-ha",
+                          "同一ホスト上の複数実行環境。プロセス障害と計画交換",
+                          "ホスト・OS・電源の障害、正本や調停基盤の障害"
+                        ]
+                      },
+                      {
+                        "id": "ha-profile-table-row-3",
+                        "cells": [
+                          "host-ha",
+                          "別ホストへ配置し、ホスト喪失後の引継ぎを確認する",
+                          "保存・調停・通信・認証等も要求に対応する必要がある"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ha-profiles"
+                      ],
+                      "claims": [
+                        "ha-profile-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-profile-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-profiles-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-profile-driver",
+                    "kind": "paragraph",
+                    "text": "CNCFは論理的な役割・準備・権限を管理し、Deployment Driverはプロセスやコンテナ、ホスト上の実体を扱います。最初の物理構成はDocker Composeによるlocal-haを対象とし、Kubernetesは必須の前提にしません。配備技術を変えても、準備と権限を満たしてから業務を引き継ぐという意味は維持します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-profiles"
+                      ],
+                      "claims": [
+                        "ha-profile-driver-claim"
+                      ],
+                      "nodes": [
+                        "ha-profile-driver-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-profiles-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-profile-dependencies",
+                    "kind": "paragraph",
+                    "text": "実行系を別ホストに置いても、DataStore、メッセージング、保存領域、調停、認証・秘密情報、ネットワークが単一障害点なら、システム全体の同じ障害耐性は主張できません。複数AZ・拠点も、これらを含めた整合性と回復方針が必要な将来の範囲です。構成図の箱の数で可用性を判定しません。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-profiles"
+                      ],
+                      "claims": [
+                        "ha-profile-dependencies-claim"
+                      ],
+                      "nodes": [
+                        "ha-profile-dependencies-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-profiles-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-operation-section",
+                "heading": "観測で実際の状態と継続性を確かめる",
+                "coreRefs": {
+                  "steps": [
+                    "ha-operation"
+                  ],
+                  "claims": [
+                    "ha-native-evidence-claim",
+                    "ha-observation-claim"
+                  ],
+                  "nodes": [
+                    "ha-native-evidence-node",
+                    "ha-observation-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-operation-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-native-evidence",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-operation"
+                      ],
+                      "claims": [
+                        "ha-native-evidence-claim"
+                      ],
+                      "nodes": [
+                        "ha-native-evidence-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-operation-flow"
+                      ]
+                    },
+                    "text": "確認では、更新を実行中のAからBへ受付を移し、Aの遅い確定がBとCへ反映されることを、独立した実行環境と正本データで確かめます。Cの準備不足、更新の未確定、保持期間、切戻し条件を個別に変え、条件を満たさないAが退役しないことも確認します。"
+                  },
+                  {
+                    "id": "ha-observation",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-operation"
+                      ],
+                      "claims": [
+                        "ha-observation-claim"
+                      ],
+                      "nodes": [
+                        "ha-observation-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-operation-flow"
+                      ]
+                    },
+                    "text": "運用ではPrimaryの受付主体、各機の役割、LeaseとFencing、準備状態、同期の遅延・欠落、排出中の処理、保持期限と退役できない理由を観測します。定期交代、選択した互換CARへの交換、最新状態からの切戻しを反復します。交代間隔や保持期間は配備ポリシーであり、一日という固定値をCNCFへ埋め込みません。"
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-policy-section",
+                "heading": "運用方針・費用・担当範囲を選ぶ",
+                "coreRefs": {
+                  "steps": [
+                    "ha-policy"
+                  ],
+                  "claims": [
+                    "ha-policy-profiles-claim",
+                    "ha-policy-cost-claim",
+                    "ha-policy-observation-owner-claim"
+                  ],
+                  "nodes": [
+                    "ha-policy-profiles-node",
+                    "ha-policy-cost-node",
+                    "ha-policy-observation-owner-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-policy-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-policy-profiles",
+                    "kind": "paragraph",
+                    "text": "一般的な中小企業の業務では、標準の可用性構成を通常の設定で選び、必要なサービス継続性を利用できることを目指します。詳細設定は、参照鮮度、交換間隔、準備確認、完了待ち、保持期間などに意図的な変更が必要な場合の上書きとして扱います。これらを業務処理のコードへ散在させず、品質目標と構成を対応させます。具体的な設定項目や既定値の提供状況は、採用版の契約で確認します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-policy"
+                      ],
+                      "claims": [
+                        "ha-policy-profiles-claim"
+                      ],
+                      "nodes": [
+                        "ha-policy-profiles-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-policy-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-policy-cost",
+                    "kind": "paragraph",
+                    "text": "Replicaの常時稼働、再構築用の一時容量、長い保持期間、短い交換間隔には資源と運用の費用が伴います。用途が許容する停止時間、データ保全、応答性と合わせて選びます。基盤が仕組みを提供しても、業務の許容条件と採用構成を決める責任は残ります。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-policy"
+                      ],
+                      "claims": [
+                        "ha-policy-cost-claim"
+                      ],
+                      "nodes": [
+                        "ha-policy-cost-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-policy-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-policy-observation-owner",
+                    "kind": "paragraph",
+                    "text": "CNCF Runtimeは役割・権限・同期・切替えの実態を持ち、Control Centerはその運用上の表示を担います。画面で正常と表示されること自体を、更新の永続化や昇格権限の根拠にはしません。定期交換や実際の障害条件で得た結果を、選択した品質目標の根拠へ戻します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-policy"
+                      ],
+                      "claims": [
+                        "ha-policy-observation-owner-claim"
+                      ],
+                      "nodes": [
+                        "ha-policy-observation-owner-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-policy-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ha-appendix-area-section",
+            "heading": "付録：実装計画と参照元",
+            "coreRefs": {
+              "steps": [
+                "ha-appendix-area"
+              ],
+              "claims": [
+                "ha-appendix-intro-claim"
+              ],
+              "nodes": [
+                "ha-appendix-intro-node"
+              ],
+              "relations": [],
+              "flows": [
+                "ha-appendix-area-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ha-appendix-intro",
+                "kind": "paragraph",
+                "text": "本編のアーキテクチャと、現在の実装順序・確認状況を区別します。この付録は2026年11月13日時点の計画と参照元を記録します。計画項目を本文の構造説明に先行させず、実装済みという誤解も避けます。",
+                "coreRefs": {
+                  "steps": [
+                    "ha-appendix-area"
+                  ],
+                  "claims": [
+                    "ha-appendix-intro-claim"
+                  ],
+                  "nodes": [
+                    "ha-appendix-intro-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-appendix-area-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ha-delivery-section",
+                "heading": "先行実装の範囲と確認",
+                "coreRefs": {
+                  "steps": [
+                    "ha-delivery"
+                  ],
+                  "claims": [
+                    "ha-first-delivery-claim",
+                    "ha-priority-table-claim",
+                    "ha-safety-first-claim",
+                    "ha-first-deployment-claim",
+                    "ha-guide-status-claim",
+                    "ha-registered-data-service-plans-claim"
+                  ],
+                  "nodes": [
+                    "ha-first-delivery-node",
+                    "ha-priority-table-node",
+                    "ha-safety-first-node",
+                    "ha-first-deployment-node",
+                    "ha-guide-status-node",
+                    "ha-registered-data-service-plans-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-delivery-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-first-delivery",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-delivery"
+                      ],
+                      "claims": [
+                        "ha-first-delivery-claim"
+                      ],
+                      "nodes": [
+                        "ha-first-delivery-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-delivery-flow"
+                      ]
+                    },
+                    "text": "最優先は、イミュータブルインフラを実運用へ載せる最小経路です。自動Failoverや多数台・多拠点の完成を待たず、計画切替え、キャッシュ追随、同期した切戻し環境、条件付き退役、定期交代と互換CAR交換を先に成立させます。"
+                  },
+                  {
+                    "id": "ha-priority-table",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-delivery"
+                      ],
+                      "claims": [
+                        "ha-priority-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-priority-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-delivery-flow"
+                      ]
+                    },
+                    "caption": "先行実装の順序",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "順序"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "実装対象"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "確かめること"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-priority-table-row-1",
+                        "cells": [
+                          "IR-01",
+                          "既存の受付・永続化・権限制御との接続",
+                          "新規受付と旧処理の完了権限、権限喪失時の拒否"
+                        ]
+                      },
+                      {
+                        "id": "ha-priority-table-row-2",
+                        "cells": [
+                          "IR-02",
+                          "汎用キャッシュ同期",
+                          "A・B・Cの版、反映位置、遅い確定、削除・パージと追随"
+                        ]
+                      },
+                      {
+                        "id": "ha-priority-table-row-3",
+                        "cells": [
+                          "IR-03",
+                          "計画切替え",
+                          "Bの受付開始後もAの受付済み更新が完走する"
+                        ]
+                      },
+                      {
+                        "id": "ha-priority-table-row-4",
+                        "cells": [
+                          "IR-04",
+                          "保持・反復運用",
+                          "切戻し、退役、定期交代、互換CARへの交換"
+                        ]
+                      },
+                      {
+                        "id": "ha-priority-table-row-5",
+                        "cells": [
+                          "IR-05",
+                          "実機での運用確認",
+                          "別プロセスと正本データで正常系・拒否・不確実性を確認"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "ha-safety-first",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-delivery"
+                      ],
+                      "claims": [
+                        "ha-safety-first-claim"
+                      ],
+                      "nodes": [
+                        "ha-safety-first-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-delivery-flow"
+                      ]
+                    },
+                    "text": "先行実装でも、権限を失った機体の更新拒否や、準備不足の機体を昇格させない条件は省略しません。自動Failoverをまだ提供しない段階では、障害時に更新を安全に利用不可とし、その範囲を表示します。実装優先度は、安全条件を後回しにする意味ではありません。"
+                  },
+                  {
+                    "id": "ha-first-deployment",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-delivery"
+                      ],
+                      "claims": [
+                        "ha-first-deployment-claim"
+                      ],
+                      "nodes": [
+                        "ha-first-deployment-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-delivery-flow"
+                      ]
+                    },
+                    "text": "最初の物理構成は既存方針に沿うlocal-ha／Docker Composeを対象とし、実際に確認した障害範囲を示します。同一ホスト上の複数プロセスでの確認は、ホスト停止への耐性を証明しません。host-ha、他の配備ドライバー、追加Replicaの規模検証、複数拠点は別の確認対象です。"
+                  },
+                  {
+                    "id": "ha-guide-status",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-delivery"
+                      ],
+                      "claims": [
+                        "ha-guide-status-claim"
+                      ],
+                      "nodes": [
+                        "ha-guide-status-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-delivery-flow"
+                      ]
+                    },
+                    "text": "本書は2026年11月12日時点で整理した設計方向と先行実装計画です。IR-01〜IR-05は未着手で、ガイドの作成は実装や受入れ完了を意味しません。既存のリアクティブ・セキュリティ技術ガイドと合わせ、採用する版、設定、依存基盤と実行結果を対応付けて利用します。"
+                  },
+                  {
+                    "id": "ha-registered-data-service-plans",
+                    "kind": "paragraph",
+                    "text": "常駐データの拡張とRead-only運転は、別の開発計画として登録しました。Phase 123は、活動中の取引・利用者に必要なカート、ユーザー情報、住所などのWorking Setを扱います。Phase 124は、障害時・保守時の更新停止、条件を満たす参照の継続、キャッシュ保持と通常運転への復帰を扱います。両方とも計画段階で未着手です。まず既存の常駐機能を使う単一実行環境で確認し、利用者単位の拡張や複数実行環境との連携は、各基盤の確認済み機能に応じて検証します。Phase 108の完了条件は増やしていません。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-delivery"
+                      ],
+                      "claims": [
+                        "ha-registered-data-service-plans-claim"
+                      ],
+                      "nodes": [
+                        "ha-registered-data-service-plans-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-delivery-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-references-section",
+                "heading": "設計の参照元と関連ガイド",
+                "coreRefs": {
+                  "steps": [
+                    "ha-references"
+                  ],
+                  "claims": [
+                    "ha-companion-guides-claim",
+                    "ha-local-sources-claim",
+                    "ha-election-reference-claim",
+                    "ha-fencing-reference-claim"
+                  ],
+                  "nodes": [
+                    "ha-companion-guides-node",
+                    "ha-local-sources-node",
+                    "ha-election-reference-node",
+                    "ha-fencing-reference-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-references-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-companion-guides",
+                    "kind": "paragraph",
+                    "text": "イミュータブルインフラストラクチャの採用理由と運用は[[../../immutable-infrastructure/textus-cncf-immutable-infrastructure.dox/index.dox][専用ガイド]]、防御全体との関係は[[../../security/textus-cncf-security-architecture.dox/index.dox][Securityガイド]]、メモリ常駐とUoW・回復可能性は[[../../reactive/textus-cncf-reactive-architecture.dox/index.dox][リアクティブ技術ガイド]]を参照します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-references"
+                      ],
+                      "claims": [
+                        "ha-companion-guides-claim"
+                      ],
+                      "nodes": [
+                        "ha-companion-guides-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-references-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-local-sources",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-references"
+                      ],
+                      "claims": [
+                        "ha-local-sources-claim"
+                      ],
+                      "nodes": [
+                        "ha-local-sources-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-references-flow"
+                      ]
+                    },
+                    "text": "Textus固有の設計根拠はCNCFのAvailability Architecture、Subsystem Runtime Architecture、Runtime Cache Synchronization、およびPhase 108の先行実装計画です。用語と方針の変更は新規ジャーナルへ記録し、過去のジャーナルを書き換えません。本書はそれらを読者向けに説明するガイドです。"
+                  },
+                  {
+                    "id": "ha-election-reference",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-references"
+                      ],
+                      "claims": [
+                        "ha-election-reference-claim"
+                      ],
+                      "nodes": [
+                        "ha-election-reference-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-references-flow"
+                      ]
+                    },
+                    "text": "etcd Election／Leaseは選出と期限付き権限の参照実装です。etcdでの権限判定と他の保存先の更新保護は別です。公式仕様：https://etcd.io/docs/v3.6/dev-guide/api_concurrency_reference_v3/ および https://etcd.io/docs/v3.6/learning/api/#lease-api 。"
+                  },
+                  {
+                    "id": "ha-fencing-reference",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-references"
+                      ],
+                      "claims": [
+                        "ha-fencing-reference-claim"
+                      ],
+                      "nodes": [
+                        "ha-fencing-reference-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-references-flow"
+                      ]
+                    },
+                    "text": "Kubernetes client-goのLeader Electionは、それ単体ではFencingを保証しないことを明記しています。PatroniのWatchdogは、権限を維持できない環境を停止する設計例です。参照：https://github.com/kubernetes/client-go/blob/master/tools/leaderelection/leaderelection.go および https://patroni.readthedocs.io/en/latest/watchdog.html 。これらをTextusの受付済み処理の完走契約そのものとは扱いません。"
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "textus-cncf-availability-architecture",
+        "text": "Textus/CNCF 可用性・HA 技術ガイド"
+      },
+      {
+        "stepRef": "ha-purpose-area",
+        "text": "HAの目的と設計目標"
+      },
+      {
+        "stepRef": "ha-goals",
+        "text": "業務を継続するためにHAを設ける"
+      },
+      {
+        "stepRef": "ha-target-level",
+        "text": "想定する業務とHAの到達範囲"
+      },
+      {
+        "stepRef": "ha-quality",
+        "text": "可用性・応答性・データ保全を別々の目標として捉える"
+      },
+      {
+        "stepRef": "ha-overview-area",
+        "text": "全体アーキテクチャ"
+      },
+      {
+        "stepRef": "ha-request-path",
+        "text": "通常の要求はこの構造をどう通るか"
+      },
+      {
+        "stepRef": "ha-immutable",
+        "text": "HAとイミュータブルインフラストラクチャの関係"
+      },
+      {
+        "stepRef": "ha-execution-area",
+        "text": "実行系の構造"
+      },
+      {
+        "stepRef": "ha-roles",
+        "text": "Primary・Read Replica・Standbyの役割"
+      },
+      {
+        "stepRef": "ha-lifecycle",
+        "text": "生存・準備・権限と実行環境の寿命"
+      },
+      {
+        "stepRef": "ha-state-area",
+        "text": "データと同期の構造"
+      },
+      {
+        "stepRef": "ha-memory",
+        "text": "確定状態・常駐状態・一時状態"
+      },
+      {
+        "stepRef": "ha-cache",
+        "text": "確定更新を共有するキャッシュ同期基盤"
+      },
+      {
+        "stepRef": "ha-updates",
+        "text": "更新処理とJob・Workflowの継続"
+      },
+      {
+        "stepRef": "ha-control-area",
+        "text": "制御系の構造"
+      },
+      {
+        "stepRef": "ha-control",
+        "text": "選出・Lease・Fencing・Readinessの役割"
+      },
+      {
+        "stepRef": "ha-authority",
+        "text": "新規受付と旧処理の完了を別の権限で扱う"
+      },
+      {
+        "stepRef": "ha-behavior-area",
+        "text": "通常時と切替え時の振る舞い"
+      },
+      {
+        "stepRef": "ha-normal",
+        "text": "通常運転で各分野が協調する"
+      },
+      {
+        "stepRef": "ha-switchover",
+        "text": "計画切替えで変わる役割と状態"
+      },
+      {
+        "stepRef": "ha-failover",
+        "text": "障害切替えで回復する権限と業務状態"
+      },
+      {
+        "stepRef": "ha-emergency-readonly",
+        "text": "障害時・保守時のRead-onlyモード"
+      },
+      {
+        "stepRef": "ha-retention",
+        "text": "保持・切戻し・退役の条件"
+      },
+      {
+        "stepRef": "ha-deployment-area",
+        "text": "配備と運用の構成"
+      },
+      {
+        "stepRef": "ha-profiles",
+        "text": "配備プロファイルと障害区画"
+      },
+      {
+        "stepRef": "ha-operation",
+        "text": "観測で実際の状態と継続性を確かめる"
+      },
+      {
+        "stepRef": "ha-policy",
+        "text": "運用方針・費用・担当範囲を選ぶ"
+      },
+      {
+        "stepRef": "ha-appendix-area",
+        "text": "付録：実装計画と参照元"
+      },
+      {
+        "stepRef": "ha-delivery",
+        "text": "先行実装の範囲と確認"
+      },
+      {
+        "stepRef": "ha-references",
+        "text": "設計の参照元と関連ガイド"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "ha-purpose-node",
+        "text": "本書は、Textus/CNCFが業務サービスの継続をどのような構造で支えるかを説明する技術ガイドです。まずHAの目的と品質目標を示し、全体構成を実行系、データ・同期系、制御系、配備・運用系へ分けて説明します。その構造を踏まえて、通常運転、計画切替え、障害切替えを読み解きます。イミュータブルインフラストラクチャの採用判断と日常運用は専用ガイドが扱い、本書はHAを構成する責務と相互関係に重点を置きます。"
+      },
+      {
+        "nodeRef": "ha-reading-map-node",
+        "text": "第1章で目的、第2章で全体像、第3〜5章で分野別の構造、第6章で状態変化、第7章で配備と運用を扱います。実装順序と参照元は付録へ分けます。本書は設計を説明するもので、記載した機能すべての実装・実環境での検証完了を意味しません。"
+      },
+      {
+        "nodeRef": "ha-purpose-area-intro-node",
+        "text": "本章では、構成や手順に先立ち、何を継続し、何を守るためにHAを設けるかを整理します。サービスの継続と更新結果の保全を両立させることが、後の構造を選ぶ基準です。"
+      },
+      {
+        "nodeRef": "ha-business-purpose-node",
+        "text": "HA（High Availability、高可用性）の目的は、必要な業務機能を、要求した時間と条件で使い続けられるようにすることです。プロセスの故障だけでなく、実行環境や部品の更新、保守のための交換も継続性へ影響します。Textusでは、通常運転の構成と、環境を交換・復旧する構成を一体として設計します。"
+      },
+      {
+        "nodeRef": "ha-application-goal-node",
+        "text": "業務アプリケーションには安定したOperationの境界を提供し、どの物理インスタンスが処理するか、いつ交代するかを基盤が扱います。開発者が業務処理ごとに切替えやReplica管理を作り込まず、業務の規則と必要な品質を指定できることを目標にします。"
+      },
+      {
+        "nodeRef": "ha-quality-table-node",
+        "text": "HAで同時に確認する品質"
+      },
+      {
+        "nodeRef": "ha-quality-contract-node",
+        "text": "短時間で切り替わること、更新が失われないこと、キャッシュが最新であることは、それぞれ異なる条件です。メモリ常駐は応答性を、正本の永続化は確定状態の保全を、HAは利用継続を支えます。構成を選んだだけで達成したとはせず、保存先と実行経路を含めて、業務の要求に対応する水準を確認します。"
+      },
+      {
+        "nodeRef": "ha-failure-boundary-intro-node",
+        "text": "対象とする故障の範囲も先に定めます。同一ホスト上の複数実行環境はプロセス交換には役立ちますが、ホスト全体の停止への対策にはなりません。ホスト障害や拠点障害を扱うには、実行系に加えて保存、調停、ネットワークなどの配置と可用性を揃える必要があります。"
+      },
+      {
+        "nodeRef": "ha-architecture-map-node",
+        "text": "TextusのHAは、二台の機体を用意するだけの構成ではありません。業務を実行する構造、状態を保持・同期する構造、処理してよい主体を決める構造、実行環境を配置・観測する構造を組み合わせます。以下の分野は、説明上の責務の分割です。各分野が必ず独立したプロセスや製品になるという意味ではありません。"
+      },
+      {
+        "nodeRef": "ha-concern-tree-node",
+        "text": "HAを構成する分野と説明の階層"
+      },
+      {
+        "nodeRef": "ha-area-table-node",
+        "text": "分野ごとの責務と接続先"
+      },
+      {
+        "nodeRef": "ha-overview-figure-node",
+        "text": "実行・データ・制御・配備の接続"
+      },
+      {
+        "nodeRef": "ha-overview-boundary-node",
+        "text": "図は一つのDomain Subsystemに対する論理構成です。枠は物理ホストや障害区画ではありません。実線は業務要求・データの経路、破線は制御・配備・観測の関係を示します。Replicaはメモリ状態を共有する別名ではなく、それぞれ独立した実行環境です。制御サービスの内部リーダーと業務処理のPrimaryも別の概念です。図は主要な関係に絞っています。初期構築や保持中の旧機への同期は、データ構造と切替えの章で説明します。"
+      },
+      {
+        "nodeRef": "ha-request-write-node",
+        "text": "更新要求は、安定した業務APIから、正当な新規受付権限を持つPrimaryへ渡されます。Domainの規則とUnitOfWorkで正本への更新結果を確定し、その確定結果が常駐状態や参照用の投影へ反映されます。Application側で接続先を選べることと、更新してよいことの判定は分けます。"
+      },
+      {
+        "nodeRef": "ha-request-read-node",
+        "text": "参照要求は、許可された範囲と必要な鮮度を満たすPrimaryまたはRead Replicaへ渡します。Read Replicaが参照に使えることは、更新処理の開始やPrimaryへの昇格を許可されたことを意味しません。参照の利用可否は、認可に加えて、必要なデータが反映済みかという条件でも判断します。"
+      },
+      {
+        "nodeRef": "ha-request-control-node",
+        "text": "制御系は、現在の受付主体、各機の準備と同期状態を使い、切替え・保持・退役の可否を判断します。配備系はその判断に対応して実行環境を生成・停止し、観測系は実際の状態と失敗理由を提示します。業務データの確定と制御系の状態更新を、同じ記録や同じ版番号として扱いません。"
+      },
+      {
+        "nodeRef": "ha-immutable-relation-node",
+        "text": "HAはサービスを使い続けるための設計であり、イミュータブルインフラストラクチャは実行環境を変更せず交換する運用です。両者は目的が異なりますが、準備済みの別環境へ仕事を引き継ぐ構造を共有します。採用理由や定期交換の運用判断は[[../../immutable-infrastructure/textus-cncf-immutable-infrastructure.dox/index.dox][専用ガイド]]で扱います。"
+      },
+      {
+        "nodeRef": "ha-immutable-purpose-node",
+        "text": "イミュータブルインフラストラクチャでは、稼働中の環境へ変更を積み重ねず、受入れ済みの成果物と構成から新しい環境を作って交換します。更新時の再現性と構成の明確さを保ち、異常な環境を使い続ける期間も抑えます。定期交代によって、起動、準備、切替え、排出を日常の運用でも確かめます。"
+      },
+      {
+        "nodeRef": "ha-platform-responsibility-node",
+        "text": "この交代はアプリケーション固有の起動スクリプトや切替え処理ではなく、CNCF Runtimeと配備ドライバーが担う設計です。アプリケーションは業務契約と永続化の条件を定め、基盤が準備確認、受付先の変更、キャッシュ追随、排出と退役を管理します。短命であることと変更せず交換することは別の性質です。"
+      },
+      {
+        "nodeRef": "ha-execution-intro-node",
+        "text": "実行系は、同じ業務契約を実行できる複数のSubsystemと、それらへ要求を渡す安定した入口から構成します。機体の役割と準備状態を明示し、通常の業務呼出しを、環境の生成・交換の管理から分離します。"
+      },
+      {
+        "nodeRef": "ha-role-table-node",
+        "text": "可用性構成の役割"
+      },
+      {
+        "nodeRef": "ha-role-composition-node",
+        "text": "Read Replicaは参照サービスの役割、Standbyは昇格に備える役割です。同じ機体が両方を兼ねられますが、読取り可能であるだけでは昇格可能とは限りません。最小構成はPrimaryとStandbyを兼ねるRead Replicaの二台で、将来は複数のRead Replicaを同じ同期基盤へ参加させます。"
+      },
+      {
+        "nodeRef": "ha-retained-role-node",
+        "text": "更新の排出が終わった旧Primaryは、保持期間が残っているだけでDrainingとは呼びません。同期を続ける切戻し用の環境として保持します。既存のACTIVE、STANDBY、DRAININGというライフサイクル状態名の変更と、説明用語の採用は別の作業です。"
+      },
+      {
+        "nodeRef": "ha-lifecycle-separation-node",
+        "text": "生存はプロセスが応答すること、準備は必要な版・接続・データを備えること、権限は特定の処理を開始・完了してよいことです。これらを独立して捉えることで、起動しただけの機体が更新を始めたり、参照可能なReplicaが勝手にPrimaryになったりすることを防ぎます。"
+      },
+      {
+        "nodeRef": "ha-lifecycle-table-node",
+        "text": "実行環境の状態と判断"
+      },
+      {
+        "nodeRef": "ha-lifecycle-state-names-node",
+        "text": "既存のACTIVE・STANDBY・DRAININGは実行状態の名前です。本文のPrimary、Read Replica、Standbyは責務や適格性を説明する用語であり、文書上の用語整理だけでAPIや設定の状態名を変更しません。完了待ちが終わった旧機を同期した切戻し用環境として保持する場合、その保持を処理中のDrainingと区別します。"
+      },
+      {
+        "nodeRef": "ha-state-intro-node",
+        "text": "データの保全と高速な参照は、役割の異なる状態を接続して実現します。正本の永続化、メモリ常駐、Replica間の反映、実行中の業務処理を分けて説明し、それぞれが切替えへ提供する条件を明確にします。"
+      },
+      {
+        "nodeRef": "ha-state-separation-node",
+        "text": "CNCFは、メモリ常駐で応答性を高めながら、業務の継続に必要な状態を特定プロセスのメモリだけに残さない構造を意図しています。更新はDomainの規則とUnitOfWorkを通して正本へ確定し、キャッシュやViewはその結果に従います。交換するのは実行環境であり、確定した業務データや対応済みのJob・Workflow継続記録は別に保持します。一時状態や結果不明の処理は別に扱い、旧メモリのコピーをデータ保全の根拠にしません。"
+      },
+      {
+        "nodeRef": "ha-state-table-node",
+        "text": "状態の所有者と再構築"
+      },
+      {
+        "nodeRef": "ha-memory-performance-node",
+        "text": "CNCFは、業務処理で利用するデータの多くをメモリに載せることを志向します。EntitySpace、Entity Realm、索引やViewを常駐させ、繰り返しの取得・構築を減らして応答性を高めます。業務の継続に必要な状態を特定プロセスのメモリだけに残さない構造と組み合わせることで、メモリの性能と環境の交換可能性を両立させます。メモリ常駐やReplica台数そのものを、データが永続化された証拠にはしません。"
+      },
+      {
+        "nodeRef": "ha-cache-structure-node",
+        "text": "キャッシュ同期は、正本の確定変更を、現在のPrimary、参照提供中のReplica、構築中のReplica、保持中の旧機へ反映する共通基盤です。HA制御はその反映位置と準備状態を使います。同期基盤がPrimaryを選ぶのでも、HA制御が業務更新を再実行してReplicaを揃えるのでもありません。"
+      },
+      {
+        "nodeRef": "ha-cache-commit-node",
+        "text": "同期基盤は、処理の受付やメモリ上の変更ではなく、永続化側で確定した更新を扱います。データ確定後、通知前にプロセスが停止しても、更新を取りこぼさず発見して追随できる接続が必要です。abortされた更新を成功した更新として配布しません。"
+      },
+      {
+        "nodeRef": "ha-cache-version-node",
+        "text": "更新、削除、無効化、パージを共通に扱い、通知の重複や到着順の逆転で古い値が復活しないようにします。パージはキャッシュを捨てる操作であり、業務データの削除ではありません。パージ前に開始した読込みが遅れて完了しても、新しい世代のキャッシュへ古い値を戻してはいけません。"
+      },
+      {
+        "nodeRef": "ha-cache-progress-node",
+        "text": "各機の受信位置と反映済み位置を区別します。反映済み位置は、それ以前の必要な変更をすべて反映した範囲です。Aの遅い確定とBの新規確定も、送信元や到着時刻ではなく、永続化側の順序・版に対応付けます。異なる保存先に根拠のない単一の確定順序を与えません。"
+      },
+      {
+        "nodeRef": "ha-cache-bootstrap-node",
+        "text": "Cの初期構築では、対応する整合点が分かる初期状態を取得し、その後の差分へ追随します。構築中の更新を落とさず、必要な反映位置に達してから参照先として利用します。履歴不足や通知の欠落を解消できない場合は、その範囲を未準備にして再構築します。"
+      },
+      {
+        "nodeRef": "ha-read-consistency-node",
+        "text": "遅延を許容する読取りと、特定の確定状態を必要とする読取りを区別します。後者では必要な位置へ追随した機体を選ぶか、許可された正本読取り、制限付き待機、利用不可の応答を使います。新Primaryへ接続しただけで、切替え後のAの確定まで反映済みとは限りません。"
+      },
+      {
+        "nodeRef": "ha-update-conflict-node",
+        "text": "Aの受付済み更新とBの新規更新が同じデータに触れる場合、その競合は正本側のトランザクションや版の検査で扱います。受付順だけで確定順を保証したり、後から届いた値で上書きしたりしません。業務上の因果関係が必要なら、その処理契約で確保します。"
+      },
+      {
+        "nodeRef": "ha-update-settlement-node",
+        "text": "更新の完走とは必ず成功することではなく、実際のcommit、abort、失敗などの結果を確定することです。HTTP応答を返したかだけでは排出完了を判断しません。確定の応答が失われた場合や外部送信の結果が不明な場合は、未実行と決めつけず照合します。"
+      },
+      {
+        "nodeRef": "ha-long-work-node",
+        "text": "長時間のJobやWorkflowは、採用版で実際に対応する永続化済みの区切りと回復契約を使います。永続化されているだけで、実行途中のRunningタスクを別機へ移して再実行できるとは限りません。計画交代の時刻だけを理由に有効な受付済み処理を強制中断せず、長引く排出と不確実な結果を観測可能にします。"
+      },
+      {
+        "nodeRef": "ha-control-intro-node",
+        "text": "制御系が決めるのは、どの機体が、どの範囲の処理を、どの条件で扱ってよいかです。経路の変更だけに依存せず、所有者の選出、期限付きの権限、実際の更新拒否、準備状態を組み合わせます。CNCFは既存の調停基盤と業務実行・保存の接続を担います。"
+      },
+      {
+        "nodeRef": "ha-control-table-node",
+        "text": "切替えを支える共通機構"
+      },
+      {
+        "nodeRef": "ha-control-reuse-node",
+        "text": "選出や分散合意をCNCFで自作せず、既存の調停基盤を利用します。etcd Election／Leaseが最初の候補で、同等の契約を満たす既設基盤も利用できます。候補を選出できたことだけで、その機体に更新を開始させてはいけません。FencingとReadinessも揃える必要があります。"
+      },
+      {
+        "nodeRef": "ha-fencing-boundary-node",
+        "text": "ロードバランサーの切替えやLeaseの確認だけでは、古いPrimaryが保存先へ書き込むことを防げません。必要な境界で権限を強制し、確認から書込みまでの隙間も扱います。etcd内の権限確認は、PostgreSQLや外部サービスへの書込みを自動的には保護しません。"
+      },
+      {
+        "nodeRef": "ha-control-topology-node",
+        "text": "調停基盤の投票メンバー数とRead Replicaの台数は別です。二票の多数決構成は一票を失うと多数派を維持できません。ホスト障害を扱う配備では、独立した投票配置や既存の調停サービスも含めて設計します。Cをリードキャッシュとして追加しても、投票メンバーが自動で増えるわけではありません。"
+      },
+      {
+        "nodeRef": "ha-authority-model-node",
+        "text": "新規の独立した更新を受け付ける所有者は一つにします。一方、計画切替えでは、切替え前に受け付けた処理を完了するための限定した権限を旧Primaryへ残します。新Primaryが受付を始めた後も旧機が更新を確定できるのは、この限定された処理範囲によります。任意の更新を二台から始められるactive-active構成とは異なります。"
+      },
+      {
+        "nodeRef": "ha-switchover-scope-node",
+        "text": "Aから新規の独立した更新を受け付けないよう、古い経路、定期実行、イベント経由の入口も閉じます。一方、受付済み処理の完了権限は、その実際の処理範囲に限定して残します。単純な単一書込みLeaseを切り替えるだけでは、この限定した重なりは実現できません。"
+      },
+      {
+        "nodeRef": "ha-authority-loss-node",
+        "text": "限定された完了権限も、権限が有効である範囲でのみ使います。権限喪失や障害で失効した機体には、以前の受付済みという理由だけで更新を許しません。実際の保存・外部作用の境界で旧権限を拒否し、すでに起きた作用や結果不明の処理は回復の対象として照合します。"
+      },
+      {
+        "nodeRef": "ha-behavior-intro-node",
+        "text": "ここまでの構造を前提に、役割と状態がどう変化するかを説明します。A・B・Cは変化を説明するための名前であり、常に三台を運用する構成指定ではありません。具体的な操作コマンドではなく、各分野の責務が切替え時にどう協調するかを示します。"
+      },
+      {
+        "nodeRef": "ha-normal-composition-node",
+        "text": "通常時は、Primaryが新規更新を受け付け、必要に応じてRead Replicaへ参照を分散します。正本の確定結果を共通の同期経路で反映し、制御系は所有権と準備状態を観測します。Standbyは待機しているだけの予備ではなく、許可された参照を処理しながら昇格準備を確認できる役割です。"
+      },
+      {
+        "nodeRef": "ha-normal-transitions-node",
+        "text": "この通常構造を保ったまま役割や機体を変更するのが切替えです。計画切替えは旧機が協調できる状態で権限を移す動作、障害切替えは旧機の状態や完了を前提にできない場合の動作です。共通の機構を利用しますが、安全条件と結果の扱いは同じではありません。"
+      },
+      {
+        "nodeRef": "ha-switchover-purpose-node",
+        "text": "計画切替えは、協調動作できるPrimaryを、定期交代や互換CARへの交換のために入れ替える手順です。新規の参照・更新はBへ先に切り替えます。旧Primary Aでは切替え前に受け付けた更新と、その完了に必要な子処理を継続します。"
+      },
+      {
+        "nodeRef": "ha-abc-table-node",
+        "text": "計画切替えにおけるA・B・C"
+      },
+      {
+        "nodeRef": "ha-failover-purpose-node",
+        "text": "障害切替えは、Primaryの停止、権限更新の失敗、必要な接続の喪失などで計画的な引継ぎができない場合に使います。応答しないだけでは停止したと断定できません。調停基盤による有効な選出・権限、旧権限を拒否するFencing、候補のReadinessが揃ってから更新を開始します。"
+      },
+      {
+        "nodeRef": "ha-failover-no-drain-node",
+        "text": "障害時には、応答しないAの排出完了を待ちません。失効した完了権限も継続させず、永続状態から確定済み・取消済み・結果不明を区別します。すでに確定した更新は保持し、結果不明の外部作用やRunning処理は、その回復契約で扱います。新Bでの無条件再実行は行いません。"
+      },
+      {
+        "nodeRef": "ha-protocol-table-node",
+        "text": "二つの切替え手順"
+      },
+      {
+        "nodeRef": "ha-failover-loss-node",
+        "text": "多数派や必要な権限を得られない場合は、無理に新Primaryを作らず更新を利用不可にします。確定更新を失わない保証は、正本DataStoreの永続化・複製方式が担う条件です。選出成功やキャッシュ反映位置から、データ損失ゼロを推定してはいけません。"
+      },
+      {
+        "nodeRef": "ha-fallback-current-node",
+        "text": "計画切替え後のAは、切戻しのために一定期間保持し、その間も新しい確定状態へ追随させます。切戻しは古いメモリへ戻す操作ではありません。保持していたCARの互換性と最新の準備状態を確認し、同じ受付引継ぎと排出の手順で再昇格させます。"
+      },
+      {
+        "nodeRef": "ha-retirement-table-node",
+        "text": "計画退役に必要な条件"
+      },
+      {
+        "nodeRef": "ha-retirement-scope-node",
+        "text": "退役はこれらすべての条件が揃ったときに行います。タイマー満了だけでは終了させません。障害機の隔離・停止は、この計画退役の待機条件とは別です。その場合も必要な処理結果や照合情報を機体の寿命と切り離して残します。"
+      },
+      {
+        "nodeRef": "ha-car-compatibility-node",
+        "text": "部品更新を伴う場合、保持した旧CARが現在の業務データを扱える互換性を、切戻しの前提にします。保存構造の破壊的変更が必要な場合は通常の自動交換へ無理に含めず、メンテナンス更新へ分けます。侵害が疑われる旧機には、通常の切戻し用保持を適用しません。"
+      },
+      {
+        "nodeRef": "ha-deployment-intro-node",
+        "text": "論理構造を実際の環境へ置く段階では、障害区画、依存先、資源、観測と運用判断を対応付けます。どの範囲の可用性を提供するかを明示し、その範囲に必要な構成と確認を選びます。"
+      },
+      {
+        "nodeRef": "ha-profile-table-node",
+        "text": "構成ごとの確認対象"
+      },
+      {
+        "nodeRef": "ha-profile-driver-node",
+        "text": "CNCFは論理的な役割・準備・権限を管理し、Deployment Driverはプロセスやコンテナ、ホスト上の実体を扱います。最初の物理構成はDocker Composeによるlocal-haを対象とし、Kubernetesは必須の前提にしません。配備技術を変えても、準備と権限を満たしてから業務を引き継ぐという意味は維持します。"
+      },
+      {
+        "nodeRef": "ha-profile-dependencies-node",
+        "text": "実行系を別ホストに置いても、DataStore、メッセージング、保存領域、調停、認証・秘密情報、ネットワークが単一障害点なら、システム全体の同じ障害耐性は主張できません。複数AZ・拠点も、これらを含めた整合性と回復方針が必要な将来の範囲です。構成図の箱の数で可用性を判定しません。"
+      },
+      {
+        "nodeRef": "ha-native-evidence-node",
+        "text": "確認では、更新を実行中のAからBへ受付を移し、Aの遅い確定がBとCへ反映されることを、独立した実行環境と正本データで確かめます。Cの準備不足、更新の未確定、保持期間、切戻し条件を個別に変え、条件を満たさないAが退役しないことも確認します。"
+      },
+      {
+        "nodeRef": "ha-observation-node",
+        "text": "運用ではPrimaryの受付主体、各機の役割、LeaseとFencing、準備状態、同期の遅延・欠落、排出中の処理、保持期限と退役できない理由を観測します。定期交代、選択した互換CARへの交換、最新状態からの切戻しを反復します。交代間隔や保持期間は配備ポリシーであり、一日という固定値をCNCFへ埋め込みません。"
+      },
+      {
+        "nodeRef": "ha-policy-profiles-node",
+        "text": "一般的な中小企業の業務では、標準の可用性構成を通常の設定で選び、必要なサービス継続性を利用できることを目指します。詳細設定は、参照鮮度、交換間隔、準備確認、完了待ち、保持期間などに意図的な変更が必要な場合の上書きとして扱います。これらを業務処理のコードへ散在させず、品質目標と構成を対応させます。具体的な設定項目や既定値の提供状況は、採用版の契約で確認します。"
+      },
+      {
+        "nodeRef": "ha-policy-cost-node",
+        "text": "Replicaの常時稼働、再構築用の一時容量、長い保持期間、短い交換間隔には資源と運用の費用が伴います。用途が許容する停止時間、データ保全、応答性と合わせて選びます。基盤が仕組みを提供しても、業務の許容条件と採用構成を決める責任は残ります。"
+      },
+      {
+        "nodeRef": "ha-policy-observation-owner-node",
+        "text": "CNCF Runtimeは役割・権限・同期・切替えの実態を持ち、Control Centerはその運用上の表示を担います。画面で正常と表示されること自体を、更新の永続化や昇格権限の根拠にはしません。定期交換や実際の障害条件で得た結果を、選択した品質目標の根拠へ戻します。"
+      },
+      {
+        "nodeRef": "ha-appendix-intro-node",
+        "text": "本編のアーキテクチャと、現在の実装順序・確認状況を区別します。この付録は2026年11月13日時点の計画と参照元を記録します。計画項目を本文の構造説明に先行させず、実装済みという誤解も避けます。"
+      },
+      {
+        "nodeRef": "ha-first-delivery-node",
+        "text": "最優先は、イミュータブルインフラを実運用へ載せる最小経路です。自動Failoverや多数台・多拠点の完成を待たず、計画切替え、キャッシュ追随、同期した切戻し環境、条件付き退役、定期交代と互換CAR交換を先に成立させます。"
+      },
+      {
+        "nodeRef": "ha-priority-table-node",
+        "text": "先行実装の順序"
+      },
+      {
+        "nodeRef": "ha-safety-first-node",
+        "text": "先行実装でも、権限を失った機体の更新拒否や、準備不足の機体を昇格させない条件は省略しません。自動Failoverをまだ提供しない段階では、障害時に更新を安全に利用不可とし、その範囲を表示します。実装優先度は、安全条件を後回しにする意味ではありません。"
+      },
+      {
+        "nodeRef": "ha-first-deployment-node",
+        "text": "最初の物理構成は既存方針に沿うlocal-ha／Docker Composeを対象とし、実際に確認した障害範囲を示します。同一ホスト上の複数プロセスでの確認は、ホスト停止への耐性を証明しません。host-ha、他の配備ドライバー、追加Replicaの規模検証、複数拠点は別の確認対象です。"
+      },
+      {
+        "nodeRef": "ha-guide-status-node",
+        "text": "本書は2026年11月12日時点で整理した設計方向と先行実装計画です。IR-01〜IR-05は未着手で、ガイドの作成は実装や受入れ完了を意味しません。既存のリアクティブ・セキュリティ技術ガイドと合わせ、採用する版、設定、依存基盤と実行結果を対応付けて利用します。"
+      },
+      {
+        "nodeRef": "ha-companion-guides-node",
+        "text": "イミュータブルインフラストラクチャの採用理由と運用は[[../../immutable-infrastructure/textus-cncf-immutable-infrastructure.dox/index.dox][専用ガイド]]、防御全体との関係は[[../../security/textus-cncf-security-architecture.dox/index.dox][Securityガイド]]、メモリ常駐とUoW・回復可能性は[[../../reactive/textus-cncf-reactive-architecture.dox/index.dox][リアクティブ技術ガイド]]を参照します。"
+      },
+      {
+        "nodeRef": "ha-local-sources-node",
+        "text": "Textus固有の設計根拠はCNCFのAvailability Architecture、Subsystem Runtime Architecture、Runtime Cache Synchronization、およびPhase 108の先行実装計画です。用語と方針の変更は新規ジャーナルへ記録し、過去のジャーナルを書き換えません。本書はそれらを読者向けに説明するガイドです。"
+      },
+      {
+        "nodeRef": "ha-election-reference-node",
+        "text": "etcd Election／Leaseは選出と期限付き権限の参照実装です。etcdでの権限判定と他の保存先の更新保護は別です。公式仕様：https://etcd.io/docs/v3.6/dev-guide/api_concurrency_reference_v3/ および https://etcd.io/docs/v3.6/learning/api/#lease-api 。"
+      },
+      {
+        "nodeRef": "ha-fencing-reference-node",
+        "text": "Kubernetes client-goのLeader Electionは、それ単体ではFencingを保証しないことを明記しています。PatroniのWatchdogは、権限を維持できない環境を停止する設計例です。参照：https://github.com/kubernetes/client-go/blob/master/tools/leaderelection/leaderelection.go および https://patroni.readthedocs.io/en/latest/watchdog.html 。これらをTextusの受付済み処理の完走契約そのものとは扱いません。"
+      },
+      {
+        "nodeRef": "ha-sme-target-node",
+        "text": "中心的な対象は、中小企業の一般的な業務システムです。通常の設定で利用できる標準構成として、必要なサービス継続性を得られることを目指します。利用者が選出、同期、切替えなどの詳細を個別に設計・設定し直すことを、通常の導入の前提にはしません。使いやすさは、このHA水準を現実的な費用と運用負担で利用できるための条件です。"
+      },
+      {
+        "nodeRef": "ha-target-interpretation-node",
+        "text": "狙う水準は、機体の台数やHAという名称ではなく、どの停止・障害まで業務を継続するかで示します。最初の実用化はlocal-haによる計画交換です。実行環境の障害への対応も設計対象ですが、自動障害切替えは別途実装・検証して提供する順序です。ホスト障害への対応はhost-haで必要に応じて選びます。"
+      },
+      {
+        "nodeRef": "ha-target-level-table-node",
+        "text": "狙うHA水準と対象範囲"
+      },
+      {
+        "nodeRef": "ha-target-service-window-node",
+        "text": "一般的な業務で必要な水準は、利用時間帯、許容停止時間、確定データの保全、応答性と費用から選びます。全用途へ同じ稼働率や無条件の無停止を約束するものではありません。ホストや拠点まで保護範囲を広げる場合は、保存先・調停・通信なども同じ条件を満たす構成と確認が必要です。"
+      },
+      {
+        "nodeRef": "ha-readonly-scope-node",
+        "text": "Read-onlyモードは、対象Subsystemで業務データの更新を止め、条件を満たす参照を継続するための運転モードです。障害時の縮退運転と、計画的な保守作業の両方で利用する設計とします。Read Replicaは実行環境の役割、Read-onlyは業務の提供方針であり、別の軸として扱います。"
+      },
+      {
+        "nodeRef": "ha-readonly-admission-node",
+        "text": "更新の停止は、画面のボタンだけでなく、API、定期処理、Job・Workflow、イベント経由など、業務更新を開始する共通の受付・実行境界で適用します。参照に見える操作が業務データを変更する場合も、その副作用は許可しません。監査記録、観測、キャッシュ管理など運転維持に必要な書込みは、業務更新とは分けた限定経路で扱います。Read-onlyを理由に認証・認可や必須の監査を省略しません。"
+      },
+      {
+        "nodeRef": "ha-readonly-transition-node",
+        "text": "移行を要求した時点で、受付済みの更新が残ることがあります。新規受付を閉じ、有効な権限の下で残る処理の結果を確定させる間は「移行中」として表示し、業務更新が止まった状態と区別します。権限を失った機体の完走は前提にせず、Fencingと結果の照合を行います。応答しない旧機や古い経路から更新が続けられる状態を、参照専用が成立したとは扱いません。"
+      },
+      {
+        "nodeRef": "ha-readonly-data-node",
+        "text": "参照には、信頼できる正本またはキャッシュと、有効な認可が必要です。同期が遅れている場合は、その鮮度で利用してよい問い合わせだけを提供します。画面や応答には参照専用であること、更新を停止した理由、データの反映状況を示します。最新の確定状態が必要な操作、認可を確認できない操作、データの信頼性を確保できない操作は、参照であっても利用不可にします。"
+      },
+      {
+        "nodeRef": "ha-service-mode-table-node",
+        "text": "業務の提供モードと許可範囲"
+      },
+      {
+        "nodeRef": "ha-readonly-activation-node",
+        "text": "運用者が、障害対応または保守作業という理由を明示して切り替えられる構成を設計候補とします。障害検知に連動して自動移行する場合も、どの障害条件で、どの参照を残してよいかを明示します。更新できないことを検出しただけで、すべての参照を許可するものではありません。このモードは設計候補であり、CNCFに専用のモードやABIが実装済みという意味ではありません。"
+      },
+      {
+        "nodeRef": "ha-readonly-recovery-node",
+        "text": "通常運転へ戻すには、障害原因の解消または保守作業の完了に加え、正当なPrimary権限とFencing、必要なデータの同期・準備、受付済み更新や結果不明の処理の照合を確認し、復帰を判断します。Primaryが応答したことや保守予定時刻を過ぎたことだけでは解除しません。拒否した更新は未受付として利用者へ明示し、裏で蓄積して復帰後に無断実行しません。すでに受け付けた処理の回復は、その処理の契約に従います。"
+      },
+      {
+        "nodeRef": "ha-readonly-goal-node",
+        "text": "障害時や保守時に更新を止め、条件を満たす参照を残すRead-onlyモードも、業務継続の設計候補に含めます。メモリに常駐した業務データや索引を活かし、永続化先が不調でも広い範囲の参照業務を続けられることを狙います。通常の全機能を提供できない場合にも利用できる範囲を明示し、参照まで安全に提供できない範囲は利用不可にします。"
+      },
+      {
+        "nodeRef": "ha-readonly-maintenance-node",
+        "text": "障害時には、更新の安全性や引継ぎを確認できない状況でも、許可できる参照を残すために使います。保守時には、作業前に新規更新を止め、受付済み処理の結果を確認してから、点検やデータ整備などを行うために使います。保守で必要な管理操作は明示した権限と範囲で別に扱います。作業によって安全な参照を維持できない範囲は停止し、保守中も必ず参照できるとは扱いません。"
+      },
+      {
+        "nodeRef": "ha-memory-availability-node",
+        "text": "メモリ常駐は、縮退運転の継続性にも寄与します。正本のディスクやDBへのアクセスが遅延・停止しても、既知の確定状態と必要な索引が常駐していれば、そのデータだけで完結する検索・一覧・照会を継続できる構造です。更新を止めて常駐データを活用するRead-onlyモードは、この特性をHAの利用継続へつなぐ設計です。実際に継続できる業務の範囲は、常駐範囲と依存先を含めて確認します。"
+      },
+      {
+        "nodeRef": "ha-readonly-resident-data-node",
+        "text": "永続化先が不調な間は、常駐済みのデータで処理できる参照と、ディスクからの再読込みが必要な参照を分けます。キャッシュミスや未構築の索引が必要な場合は、不調な保存先を無制限に待たず、対応する利用不可の応答を返します。最後に確認できた反映状態と利用できる範囲を示し、認証・認可や必須監査などの依存条件も満たす参照を残します。プロセスが停止して常駐状態を失った後は、利用可能な正本や適格な他Replicaから再構築する経路が必要です。"
+      },
+      {
+        "nodeRef": "ha-working-set-selection-node",
+        "text": "常駐対象は、Entityの分類とWorking Set方針で決めます。マスター系は有効な全件を常駐させます。トランザクション系では活動中の取引に加え、活動中の利用者とその業務に必要なデータをWorking Setとして保持することを想定します。全履歴の常駐を避けつつ、現在の活動に必要な範囲を選ぶ考え方です。現行の分類ではmasterが全件常駐の既定値を持ち、取引Entityのworkflowでは状態項目と活動中の条件を明示する方針が必要です。利用者の活動条件に応じた保持は、これとは別に定義・確認する方針です。"
+      },
+      {
+        "nodeRef": "ha-readonly-cache-retention-node",
+        "text": "Working Setの常駐方針に加えて、業務参照用キャッシュにはRead-only中の保持方針を設けます。通常のTTL切れや定期パージだけを理由に参照可能な値を破棄せず、最後に確認できた値を残します。鮮度の期限と反映状態は記録し続け、期限切れの値は古い可能性があることを示したうえで、許可された参照にだけ使います。保持対象とメモリ予算を明示します。"
+      },
+      {
+        "nodeRef": "ha-readonly-cache-validity-node",
+        "text": "この保持方針は、認証セッションや権限の有効期限を延長するものではありません。明示された削除・無効化・失効や、適格な確定更新の同期は引き続き反映します。値を保持できても、無効化された範囲は必要な更新と確認が済むまで提供しません。通常運転への復帰では、必要な正本との同期・照合を行ってから通常のキャッシュ保持方針へ戻します。"
+      },
+      {
+        "nodeRef": "ha-working-set-user-context-node",
+        "text": "例えば、アクティブユーザーのカート内容、ユーザー自身の住所、配送先などがWorking Setの対象になります。住所のようにそれ自身は状態遷移しない情報も、現在の利用者や取引に必要であれば含めます。Working Setは「現在の業務活動に必要なデータのまとまり」として捉え、利用者の認可範囲を保って保持します。全件常駐するマスターを使う場合はその常駐データを利用します。活動が終わると常駐対象を見直し、正本のデータは独立して保持します。この利用者単位の方針が現行コードで自動適用済みとは扱いません。"
+      },
+      {
+        "nodeRef": "ha-registered-data-service-plans-node",
+        "text": "常駐データの拡張とRead-only運転は、別の開発計画として登録しました。Phase 123は、活動中の取引・利用者に必要なカート、ユーザー情報、住所などのWorking Setを扱います。Phase 124は、障害時・保守時の更新停止、条件を満たす参照の継続、キャッシュ保持と通常運転への復帰を扱います。両方とも計画段階で未着手です。まず既存の常駐機能を使う単一実行環境で確認し、利用者単位の拡張や複数実行環境との連携は、各基盤の確認済み機能に応じて検証します。Phase 108の完了条件は増やしていません。"
+      }
+    ]
+  }
+}

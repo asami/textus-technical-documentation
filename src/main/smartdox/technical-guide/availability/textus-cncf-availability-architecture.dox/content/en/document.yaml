@@ -1,0 +1,3943 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-availability-architecture-document-en",
+  "core": {
+    "id": "textus-cncf-availability-architecture"
+  },
+  "locale": "en",
+  "document": {
+    "title": "Textus/CNCF Availability and HA — Technical Guide",
+    "sections": [
+      {
+        "id": "textus-cncf-availability-architecture-section",
+        "heading": "Textus/CNCF Availability and HA — Technical Guide",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-availability-architecture"
+          ],
+          "claims": [
+            "ha-purpose-claim",
+            "ha-reading-map-claim"
+          ],
+          "nodes": [
+            "ha-purpose-node",
+            "ha-reading-map-node"
+          ],
+          "relations": [],
+          "flows": [
+            "textus-cncf-availability-architecture-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "ha-purpose",
+            "kind": "paragraph",
+            "text": "This technical guide explains the structure through which Textus/CNCF supports business-service continuity. It starts with HA purpose and quality targets, then separates execution, data/synchronization, control, and deployment/operation. Normal service, planned switchover and failover are explained in terms of that structure. The companion immutable-infrastructure guide covers adoption and everyday replacement operation; this guide focuses on HA responsibilities and their relationships.",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-availability-architecture"
+              ],
+              "claims": [
+                "ha-purpose-claim"
+              ],
+              "nodes": [
+                "ha-purpose-node"
+              ],
+              "relations": [],
+              "flows": [
+                "textus-cncf-availability-architecture-flow"
+              ]
+            }
+          },
+          {
+            "id": "ha-reading-map",
+            "kind": "paragraph",
+            "text": "Chapter 1 establishes purpose; Chapter 2 presents the whole architecture; Chapters 3–5 explain its structural areas; Chapter 6 covers changes of state; Chapter 7 covers deployment and operation. Delivery order and sources are separated into the appendix. This is an architectural explanation, not a claim that every described capability has been implemented and qualified.",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-availability-architecture"
+              ],
+              "claims": [
+                "ha-reading-map-claim"
+              ],
+              "nodes": [
+                "ha-reading-map-node"
+              ],
+              "relations": [],
+              "flows": [
+                "textus-cncf-availability-architecture-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "ha-purpose-area-section",
+            "heading": "HA Purpose and Design Goals",
+            "coreRefs": {
+              "steps": [
+                "ha-purpose-area"
+              ],
+              "claims": [
+                "ha-purpose-area-intro-claim"
+              ],
+              "nodes": [
+                "ha-purpose-area-intro-node"
+              ],
+              "relations": [],
+              "flows": [
+                "ha-purpose-area-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ha-purpose-area-intro",
+                "kind": "paragraph",
+                "text": "Before topology or procedures, establish what must remain usable and what must be preserved. Business-service continuity together with safe update outcomes determines the architecture that follows.",
+                "coreRefs": {
+                  "steps": [
+                    "ha-purpose-area"
+                  ],
+                  "claims": [
+                    "ha-purpose-area-intro-claim"
+                  ],
+                  "nodes": [
+                    "ha-purpose-area-intro-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-purpose-area-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ha-goals-section",
+                "heading": "Why Business Continuity Needs HA",
+                "coreRefs": {
+                  "steps": [
+                    "ha-goals"
+                  ],
+                  "claims": [
+                    "ha-business-purpose-claim",
+                    "ha-application-goal-claim"
+                  ],
+                  "nodes": [
+                    "ha-business-purpose-node",
+                    "ha-application-goal-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-goals-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-business-purpose",
+                    "kind": "paragraph",
+                    "text": "High availability means keeping required business functions usable within their specified time and operating conditions. Process failures, runtime/component updates and maintenance replacement all affect continuity. Textus designs ordinary service and replacement/recovery as one architecture.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-goals"
+                      ],
+                      "claims": [
+                        "ha-business-purpose-claim"
+                      ],
+                      "nodes": [
+                        "ha-business-purpose-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-goals-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-application-goal",
+                    "kind": "paragraph",
+                    "text": "Applications use a stable Operation boundary while the platform manages physical instances and role changes. The goal is to let developers specify business rules and required quality without implementing replica management and switchover in each business handler.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-goals"
+                      ],
+                      "claims": [
+                        "ha-application-goal-claim"
+                      ],
+                      "nodes": [
+                        "ha-application-goal-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-goals-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-target-level-section",
+                "heading": "Target Workloads and Intended HA Level",
+                "coreRefs": {
+                  "steps": [
+                    "ha-target-level"
+                  ],
+                  "claims": [
+                    "ha-sme-target-claim",
+                    "ha-target-interpretation-claim",
+                    "ha-target-level-table-claim",
+                    "ha-target-service-window-claim",
+                    "ha-readonly-goal-claim"
+                  ],
+                  "nodes": [
+                    "ha-sme-target-node",
+                    "ha-target-interpretation-node",
+                    "ha-target-level-table-node",
+                    "ha-target-service-window-node",
+                    "ha-readonly-goal-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-target-level-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-sme-target",
+                    "kind": "paragraph",
+                    "text": "The central target is ordinary business systems in small and medium-sized enterprises. A standard configuration should provide the required service continuity through ordinary settings, without making users individually redesign or configure election, synchronization and transfer for routine adoption. Ease of use makes this HA level accessible at realistic cost and operational burden.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-target-level"
+                      ],
+                      "claims": [
+                        "ha-sme-target-claim"
+                      ],
+                      "nodes": [
+                        "ha-sme-target-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-target-level-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-target-interpretation",
+                    "kind": "paragraph",
+                    "text": "Express the intended level by which maintenance and failure conditions preserve business service, not by instance count or an HA label. The first operational delivery is planned replacement with local-ha. Runtime failure handling is also an architectural target, but automatic failover follows its own implementation and qualification. Select host-ha where host-failure tolerance is required.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-target-level"
+                      ],
+                      "claims": [
+                        "ha-target-interpretation-claim"
+                      ],
+                      "nodes": [
+                        "ha-target-interpretation-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-target-level-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-target-level-table",
+                    "kind": "table",
+                    "caption": "Intended HA Levels and Boundaries",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Intended Boundary"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Target Business Continuity"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Configuration and Delivery Order"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-target-level-table-row-1",
+                        "cells": [
+                          "Runtime and planned maintenance",
+                          "Target continuity through updates/replacement for ordinary SME business, and runtime-failure handling",
+                          "local-ha; planned replacement first, automatic failover qualified subsequently"
+                        ]
+                      },
+                      {
+                        "id": "ha-target-level-table-row-2",
+                        "cells": [
+                          "Host failure",
+                          "Select takeover on another host according to business requirements",
+                          "host-ha, with aligned runtime and dependency failure boundaries"
+                        ]
+                      },
+                      {
+                        "id": "ha-target-level-table-row-3",
+                        "cells": [
+                          "AZ or site failure",
+                          "Design broader continuity including site loss as a separate configuration",
+                          "Future scope; not current standard delivery or a Phase 108 completion condition"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ha-target-level"
+                      ],
+                      "claims": [
+                        "ha-target-level-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-target-level-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-target-level-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-target-service-window",
+                    "kind": "paragraph",
+                    "text": "Choose the business-appropriate level from service hours, tolerated downtime, committed-data preservation, responsiveness and cost. This does not promise one availability percentage or unconditional uninterrupted service for every use. Extending protection to hosts or sites requires storage, coordination, networking and other dependencies to meet the same qualified boundary.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-target-level"
+                      ],
+                      "claims": [
+                        "ha-target-service-window-claim"
+                      ],
+                      "nodes": [
+                        "ha-target-service-window-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-target-level-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-goal",
+                    "kind": "paragraph",
+                    "text": "Read-only for failure or maintenance is a proposed continuity level that stops mutations while preserving qualified reads. Resident business data and indexes are intended to sustain a broad range of read work even when persistence access is impaired. Make the available scope explicit when full service cannot continue, and leave unavailable any read scope that cannot be served safely.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-target-level"
+                      ],
+                      "claims": [
+                        "ha-readonly-goal-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-goal-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-target-level-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-quality-section",
+                "heading": "Separate Availability, Responsiveness and Data Preservation",
+                "coreRefs": {
+                  "steps": [
+                    "ha-quality"
+                  ],
+                  "claims": [
+                    "ha-quality-table-claim",
+                    "ha-quality-contract-claim",
+                    "ha-failure-boundary-intro-claim"
+                  ],
+                  "nodes": [
+                    "ha-quality-table-node",
+                    "ha-quality-contract-node",
+                    "ha-failure-boundary-intro-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-quality-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-quality-table",
+                    "kind": "table",
+                    "caption": "Quality Concerns to Qualify Together",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Concern"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Architectural Question"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-quality-table-row-1",
+                        "cells": [
+                          "Availability",
+                          "Which business functions remain usable under which failures and maintenance conditions?"
+                        ]
+                      },
+                      {
+                        "id": "ha-quality-table-row-2",
+                        "cells": [
+                          "Responsiveness and capacity",
+                          "What latency and throughput must remain available during replacement and reconstruction?"
+                        ]
+                      },
+                      {
+                        "id": "ha-quality-table-row-3",
+                        "cells": [
+                          "Data preservation and consistency",
+                          "How are committed changes preserved, and what read freshness is required?"
+                        ]
+                      },
+                      {
+                        "id": "ha-quality-table-row-4",
+                        "cells": [
+                          "Recovery and operational burden",
+                          "What downtime and data loss are tolerable, and at what cost are they qualified?"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ha-quality"
+                      ],
+                      "claims": [
+                        "ha-quality-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-quality-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-quality-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-quality-contract",
+                    "kind": "paragraph",
+                    "text": "Fast takeover, preservation of updates and fresh caches are separate conditions. Memory residency supports responsiveness, authoritative persistence preserves committed state, and HA supports service continuity. Selecting a configuration is not proof of achievement; qualify the required level across storage and execution paths.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-quality"
+                      ],
+                      "claims": [
+                        "ha-quality-contract-claim"
+                      ],
+                      "nodes": [
+                        "ha-quality-contract-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-quality-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-failure-boundary-intro",
+                    "kind": "paragraph",
+                    "text": "Define the failure boundary first. Multiple runtimes on one host help process replacement but do not protect against loss of that host. Host or site failures require compatible availability and placement of storage, coordination, networking and execution.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-quality"
+                      ],
+                      "claims": [
+                        "ha-failure-boundary-intro-claim"
+                      ],
+                      "nodes": [
+                        "ha-failure-boundary-intro-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-quality-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ha-overview-area-section",
+            "heading": "Overall Architecture",
+            "coreRefs": {
+              "steps": [
+                "ha-overview-area"
+              ],
+              "claims": [
+                "ha-architecture-map-claim",
+                "ha-concern-tree-claim",
+                "ha-area-table-claim",
+                "ha-overview-figure-claim",
+                "ha-overview-boundary-claim"
+              ],
+              "nodes": [
+                "ha-architecture-map-node",
+                "ha-concern-tree-node",
+                "ha-area-table-node",
+                "ha-overview-figure-node",
+                "ha-overview-boundary-node"
+              ],
+              "relations": [],
+              "flows": [
+                "ha-overview-area-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ha-architecture-map",
+                "kind": "paragraph",
+                "text": "Textus HA is more than two machines. It combines business execution, state preservation/synchronization, authority control, and environment deployment/observation. These are divisions of responsibility; each need not be a separate process or product.",
+                "coreRefs": {
+                  "steps": [
+                    "ha-overview-area"
+                  ],
+                  "claims": [
+                    "ha-architecture-map-claim"
+                  ],
+                  "nodes": [
+                    "ha-architecture-map-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-overview-area-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ha-concern-tree",
+                "kind": "figure",
+                "asset": "images/ha-concern-tree-en.png",
+                "caption": "HA Concern Hierarchy",
+                "alt": "The continuity goal branches into execution, data/synchronization, control, behavior and deployment/operation.",
+                "coreRefs": {
+                  "steps": [
+                    "ha-overview-area"
+                  ],
+                  "claims": [
+                    "ha-concern-tree-claim"
+                  ],
+                  "nodes": [
+                    "ha-concern-tree-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-overview-area-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ha-area-table",
+                "kind": "table",
+                "caption": "Responsibilities and Connections by Area",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Area"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Principal Elements"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "Connection to Other Areas"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "ha-area-table-row-1",
+                    "cells": [
+                      "Execution",
+                      "Application entry, Domain Subsystems, Primary and Read Replicas",
+                      "Admitted work, readiness and operation outcomes"
+                    ]
+                  },
+                  {
+                    "id": "ha-area-table-row-2",
+                    "cells": [
+                      "Data and synchronization",
+                      "Authoritative DataStore, resident state and common cache synchronization",
+                      "Committed outcomes, applied progress, reconstruction/read readiness"
+                    ]
+                  },
+                  {
+                    "id": "ha-area-table-row-3",
+                    "cells": [
+                      "Control",
+                      "Election/Lease/fencing, admission authority and lifecycle management",
+                      "New-admission owner, old-work scope and transfer eligibility"
+                    ]
+                  },
+                  {
+                    "id": "ha-area-table-row-4",
+                    "cells": [
+                      "Deployment and operation",
+                      "Deployment Driver, deployment configuration, observation and Control Center",
+                      "Runtime placement, resources, observed state and operational decisions"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ha-overview-area"
+                  ],
+                  "claims": [
+                    "ha-area-table-claim"
+                  ],
+                  "nodes": [
+                    "ha-area-table-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-overview-area-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ha-overview-figure",
+                "kind": "figure",
+                "asset": "images/ha-overview-en.png",
+                "caption": "Execution, Data, Control and Deployment Connections",
+                "alt": "A stable entry reaches Primary and Read Replicas. Common synchronization follows authoritative commits; control, deployment and observation have separate responsibilities.",
+                "coreRefs": {
+                  "steps": [
+                    "ha-overview-area"
+                  ],
+                  "claims": [
+                    "ha-overview-figure-claim"
+                  ],
+                  "nodes": [
+                    "ha-overview-figure-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-overview-area-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ha-overview-boundary",
+                "kind": "paragraph",
+                "text": "The figure shows the logical architecture for one Domain Subsystem. Boxes are not host or failure-domain boundaries. Solid lines are request/data paths; dashed lines are control, deployment and observation relationships. Replicas are separate runtimes, not aliases for shared memory. The coordination service internal leader is distinct from the business Primary. The figure selects principal relationships. The data and transition chapters explain initial construction and synchronization of retained former runtimes.",
+                "coreRefs": {
+                  "steps": [
+                    "ha-overview-area"
+                  ],
+                  "claims": [
+                    "ha-overview-boundary-claim"
+                  ],
+                  "nodes": [
+                    "ha-overview-boundary-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-overview-area-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ha-request-path-section",
+                "heading": "How Ordinary Requests Use the Architecture",
+                "coreRefs": {
+                  "steps": [
+                    "ha-request-path"
+                  ],
+                  "claims": [
+                    "ha-request-write-claim",
+                    "ha-request-read-claim",
+                    "ha-request-control-claim"
+                  ],
+                  "nodes": [
+                    "ha-request-write-node",
+                    "ha-request-read-node",
+                    "ha-request-control-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-request-path-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-request-write",
+                    "kind": "paragraph",
+                    "text": "A stable business API sends a mutation to the Primary holding valid new-admission authority. Domain rules and UnitOfWork establish the authoritative outcome; committed results update resident state and read projections. Selecting an endpoint is distinct from authorization to mutate.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-request-path"
+                      ],
+                      "claims": [
+                        "ha-request-write-claim"
+                      ],
+                      "nodes": [
+                        "ha-request-write-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-request-path-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-request-read",
+                    "kind": "paragraph",
+                    "text": "Reads use a Primary or Read Replica meeting authorization and freshness requirements. Eligibility to serve reads grants neither mutation admission nor promotion. Read eligibility therefore depends on both authorization and required applied data state.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-request-path"
+                      ],
+                      "claims": [
+                        "ha-request-read-claim"
+                      ],
+                      "nodes": [
+                        "ha-request-read-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-request-path-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-request-control",
+                    "kind": "paragraph",
+                    "text": "Control consumes admission ownership, readiness and synchronization to decide transfer, retention and retirement. Deployment realizes runtime creation/stop, and observation exposes actual state and failure reasons. Business commits and control-state changes are not one record or one revision sequence.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-request-path"
+                      ],
+                      "claims": [
+                        "ha-request-control-claim"
+                      ],
+                      "nodes": [
+                        "ha-request-control-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-request-path-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-immutable-section",
+                "heading": "HA and Immutable Infrastructure",
+                "coreRefs": {
+                  "steps": [
+                    "ha-immutable"
+                  ],
+                  "claims": [
+                    "ha-immutable-relation-claim",
+                    "ha-immutable-purpose-claim",
+                    "ha-platform-responsibility-claim"
+                  ],
+                  "nodes": [
+                    "ha-immutable-relation-node",
+                    "ha-immutable-purpose-node",
+                    "ha-platform-responsibility-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-immutable-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-immutable-relation",
+                    "kind": "paragraph",
+                    "text": "HA concerns service continuity; immutable infrastructure concerns replacing environments rather than modifying them in place. Their purposes differ, but they share the structure for handing work to prepared runtimes. The [[../../immutable-infrastructure/textus-cncf-immutable-infrastructure.dox/index.dox][companion guide]] covers adoption and regular-replacement policy.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-immutable"
+                      ],
+                      "claims": [
+                        "ha-immutable-relation-claim"
+                      ],
+                      "nodes": [
+                        "ha-immutable-relation-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-immutable-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-immutable-purpose",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-immutable"
+                      ],
+                      "claims": [
+                        "ha-immutable-purpose-claim"
+                      ],
+                      "nodes": [
+                        "ha-immutable-purpose-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-immutable-flow"
+                      ]
+                    },
+                    "text": "Immutable infrastructure replaces an environment from admitted artifacts and configuration instead of accumulating in-place changes. It preserves reproducibility and a known configuration while limiting continued use of an unhealthy environment. Regular rotation exercises startup, preparation, transfer and drain during ordinary operation."
+                  },
+                  {
+                    "id": "ha-platform-responsibility",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-immutable"
+                      ],
+                      "claims": [
+                        "ha-platform-responsibility-claim"
+                      ],
+                      "nodes": [
+                        "ha-platform-responsibility-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-immutable-flow"
+                      ]
+                    },
+                    "text": "CNCF Runtime and deployment drivers own rotation rather than application-specific startup scripts and switching logic. Applications define business and persistence contracts; the infrastructure manages readiness, admission routing, cache catch-up, drain and retirement. A short lifetime and replacement without in-place modification are distinct properties."
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ha-execution-area-section",
+            "heading": "Execution Structure",
+            "coreRefs": {
+              "steps": [
+                "ha-execution-area"
+              ],
+              "claims": [
+                "ha-execution-intro-claim"
+              ],
+              "nodes": [
+                "ha-execution-intro-node"
+              ],
+              "relations": [],
+              "flows": [
+                "ha-execution-area-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ha-execution-intro",
+                "kind": "paragraph",
+                "text": "Execution consists of multiple Subsystems implementing the same business contract and a stable entry that routes work to them. Explicit roles and readiness separate ordinary business calls from environment creation and replacement.",
+                "coreRefs": {
+                  "steps": [
+                    "ha-execution-area"
+                  ],
+                  "claims": [
+                    "ha-execution-intro-claim"
+                  ],
+                  "nodes": [
+                    "ha-execution-intro-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-execution-area-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ha-roles-section",
+                "heading": "Primary, Read Replica and Standby Roles",
+                "coreRefs": {
+                  "steps": [
+                    "ha-roles"
+                  ],
+                  "claims": [
+                    "ha-role-table-claim",
+                    "ha-role-composition-claim",
+                    "ha-retained-role-claim"
+                  ],
+                  "nodes": [
+                    "ha-role-table-node",
+                    "ha-role-composition-node",
+                    "ha-retained-role-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-roles-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-role-table",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-roles"
+                      ],
+                      "claims": [
+                        "ha-role-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-role-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-roles-flow"
+                      ]
+                    },
+                    "caption": "Availability roles",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Term"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Responsibility"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-role-table-row-1",
+                        "cells": [
+                          "Primary",
+                          "Admit new authoritative mutations"
+                        ]
+                      },
+                      {
+                        "id": "ha-role-table-row-2",
+                        "cells": [
+                          "Read Replica",
+                          "Serve reads from synchronized caches or projections"
+                        ]
+                      },
+                      {
+                        "id": "ha-role-table-row-3",
+                        "cells": [
+                          "Standby",
+                          "Be qualified and ready for promotion to Primary"
+                        ]
+                      },
+                      {
+                        "id": "ha-role-table-row-4",
+                        "cells": [
+                          "Draining Former Primary",
+                          "Complete only work admitted before the transfer"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "ha-role-composition",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-roles"
+                      ],
+                      "claims": [
+                        "ha-role-composition-claim"
+                      ],
+                      "nodes": [
+                        "ha-role-composition-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-roles-flow"
+                      ]
+                    },
+                    "text": "Read Replica describes read service; Standby describes promotion readiness. One instance may hold both roles, but read availability alone does not qualify it for promotion. The minimal topology has a Primary and a Standby-capable Read Replica, with additional Read Replicas joining the same synchronization infrastructure later."
+                  },
+                  {
+                    "id": "ha-retained-role",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-roles"
+                      ],
+                      "claims": [
+                        "ha-retained-role-claim"
+                      ],
+                      "nodes": [
+                        "ha-retained-role-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-roles-flow"
+                      ]
+                    },
+                    "text": "After its admitted work has settled, a former Primary is no longer draining merely because its retention window remains open. It remains a synchronized fallback. Adopting explanatory role names is separate from renaming existing ACTIVE, STANDBY or DRAINING lifecycle states."
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-lifecycle-section",
+                "heading": "Liveness, Readiness, Authority and Runtime Lifetime",
+                "coreRefs": {
+                  "steps": [
+                    "ha-lifecycle"
+                  ],
+                  "claims": [
+                    "ha-lifecycle-separation-claim",
+                    "ha-lifecycle-table-claim",
+                    "ha-lifecycle-state-names-claim"
+                  ],
+                  "nodes": [
+                    "ha-lifecycle-separation-node",
+                    "ha-lifecycle-table-node",
+                    "ha-lifecycle-state-names-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-lifecycle-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-lifecycle-separation",
+                    "kind": "paragraph",
+                    "text": "Liveness means a process responds; readiness means it has required versions, connections and data; authority means it may start or finish particular work. Keeping them separate prevents a merely running instance from admitting mutations or a readable replica from promoting itself.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-lifecycle"
+                      ],
+                      "claims": [
+                        "ha-lifecycle-separation-claim"
+                      ],
+                      "nodes": [
+                        "ha-lifecycle-separation-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-lifecycle-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-lifecycle-table",
+                    "kind": "table",
+                    "caption": "Runtime State and Decisions",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Stage"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Meaning"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Relation to Authority"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-lifecycle-table-row-1",
+                        "cells": [
+                          "Startup and warm-up",
+                          "Build runtime/cache from artifacts and authoritative state",
+                          "Do not admit ordinary use while unready"
+                        ]
+                      },
+                      {
+                        "id": "ha-lifecycle-table-row-2",
+                        "cells": [
+                          "Ready",
+                          "Meet compatibility, synchronization and other use requirements",
+                          "Qualify read service and promotion separately"
+                        ]
+                      },
+                      {
+                        "id": "ha-lifecycle-table-row-3",
+                        "cells": [
+                          "Primary or read service",
+                          "Serve business work in admitted roles",
+                          "Mutations require valid admission/execution authority"
+                        ]
+                      },
+                      {
+                        "id": "ha-lifecycle-table-row-4",
+                        "cells": [
+                          "Drain, retention and retirement",
+                          "Check old outcomes, replacement capacity and retention",
+                          "Former Primary status grants no new admission"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ha-lifecycle"
+                      ],
+                      "claims": [
+                        "ha-lifecycle-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-lifecycle-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-lifecycle-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-lifecycle-state-names",
+                    "kind": "paragraph",
+                    "text": "Existing ACTIVE, STANDBY and DRAINING names describe lifecycle states. Primary, Read Replica and Standby explain responsibilities and eligibility; prose does not rename APIs or configuration tokens. After draining ends, synchronized fallback retention is distinct from still executing old work.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-lifecycle"
+                      ],
+                      "claims": [
+                        "ha-lifecycle-state-names-claim"
+                      ],
+                      "nodes": [
+                        "ha-lifecycle-state-names-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-lifecycle-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ha-state-area-section",
+            "heading": "Data and Synchronization Structure",
+            "coreRefs": {
+              "steps": [
+                "ha-state-area"
+              ],
+              "claims": [
+                "ha-state-intro-claim"
+              ],
+              "nodes": [
+                "ha-state-intro-node"
+              ],
+              "relations": [],
+              "flows": [
+                "ha-state-area-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ha-state-intro",
+                "kind": "paragraph",
+                "text": "Data preservation and fast reads connect different categories of state. This chapter distinguishes authoritative persistence, memory residency, replica application and running business work, and states the conditions each supplies to transfer.",
+                "coreRefs": {
+                  "steps": [
+                    "ha-state-area"
+                  ],
+                  "claims": [
+                    "ha-state-intro-claim"
+                  ],
+                  "nodes": [
+                    "ha-state-intro-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-state-area-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ha-memory-section",
+                "heading": "Committed, Resident and Transient State",
+                "coreRefs": {
+                  "steps": [
+                    "ha-memory"
+                  ],
+                  "claims": [
+                    "ha-state-separation-claim",
+                    "ha-state-table-claim",
+                    "ha-memory-performance-claim",
+                    "ha-working-set-selection-claim",
+                    "ha-working-set-user-context-claim",
+                    "ha-memory-availability-claim"
+                  ],
+                  "nodes": [
+                    "ha-state-separation-node",
+                    "ha-state-table-node",
+                    "ha-memory-performance-node",
+                    "ha-working-set-selection-node",
+                    "ha-working-set-user-context-node",
+                    "ha-memory-availability-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-memory-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-state-separation",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-memory"
+                      ],
+                      "claims": [
+                        "ha-state-separation-claim"
+                      ],
+                      "nodes": [
+                        "ha-state-separation-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-memory-flow"
+                      ]
+                    },
+                    "text": "CNCF deliberately combines memory-resident responsiveness with an architecture that does not leave continuity-critical state solely in one process. Domain rules and UnitOfWork govern authoritative commits; caches and Views follow their outcomes. Replacement concerns the runtime, while committed business data and supported durable Job/Workflow records remain independent. Treat transient and uncertain work separately; an old memory copy is not proof of durability."
+                  },
+                  {
+                    "id": "ha-state-table",
+                    "kind": "table",
+                    "caption": "State Ownership and Reconstruction",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "State"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Authority and Lifetime"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "HA Connection"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-state-table-row-1",
+                        "cells": [
+                          "Committed business data",
+                          "Authoritative DataStore, independent of runtime lifetime",
+                          "Use committed outcomes and storage failure boundaries as preservation conditions"
+                        ]
+                      },
+                      {
+                        "id": "ha-state-table-row-2",
+                        "cells": [
+                          "Entities, indexes, Working Sets and Views",
+                          "Resident state built from authoritative baseline and committed changes",
+                          "Rebuild after loss and qualify readiness from required applied progress"
+                        ]
+                      },
+                      {
+                        "id": "ha-state-table-row-3",
+                        "cells": [
+                          "Admitted work and intermediate computation",
+                          "Execution scope and its supported durable records",
+                          "Separate planned drain from failure outcome reconciliation"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ha-memory"
+                      ],
+                      "claims": [
+                        "ha-state-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-state-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-memory-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-memory-performance",
+                    "kind": "paragraph",
+                    "text": "CNCF aims to keep much of the data used in business processing resident in memory. Resident EntitySpace, Entity Realms, indexes and Views reduce repeated retrieval/construction for responsiveness. Combining this with independent continuity-critical state supports both performance and replacement. Residency or replica count alone is not proof of durable data.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-memory"
+                      ],
+                      "claims": [
+                        "ha-memory-performance-claim"
+                      ],
+                      "nodes": [
+                        "ha-memory-performance-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-memory-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-working-set-selection",
+                    "kind": "paragraph",
+                    "text": "Entity classification and Working Set policy select resident data. Keep all valid master records resident. For transactional use, the intended Working Set includes active transactions and data required by active users and their business activity. Select current activity needs without retaining all historical data. Current master defaults select full residency; workflow business entities require explicit state-field and active-state policy. User-activity-based residency needs separately defined and qualified policy.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-memory"
+                      ],
+                      "claims": [
+                        "ha-working-set-selection-claim"
+                      ],
+                      "nodes": [
+                        "ha-working-set-selection-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-memory-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-working-set-user-context",
+                    "kind": "paragraph",
+                    "text": "Examples include an active user cart, the user own address and delivery destinations. Data such as an address need not itself undergo state transitions to be included when required by current users or transactions. Treat the Working Set as the data needed for current business activity, retaining per-user authorization boundaries. Reuse already resident master data where applicable. Re-evaluate residency when activity ends while retaining authoritative data independently. Do not claim this user-scoped policy is already applied automatically by current code.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-memory"
+                      ],
+                      "claims": [
+                        "ha-working-set-user-context-claim"
+                      ],
+                      "nodes": [
+                        "ha-working-set-user-context-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-memory-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-memory-availability",
+                    "kind": "paragraph",
+                    "text": "Residency also supports degraded-service continuity. When authoritative disk or database access is slow or unavailable, known committed resident state and required indexes can support searches, lists and inquiries completed from that state. Read-only connects this property to HA by stopping mutations and using resident data. Qualify the actual supported business scope against resident coverage and dependencies.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-memory"
+                      ],
+                      "claims": [
+                        "ha-memory-availability-claim"
+                      ],
+                      "nodes": [
+                        "ha-memory-availability-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-memory-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-cache-section",
+                "heading": "Common Cache Synchronization for Committed Changes",
+                "coreRefs": {
+                  "steps": [
+                    "ha-cache"
+                  ],
+                  "claims": [
+                    "ha-cache-structure-claim",
+                    "ha-cache-commit-claim",
+                    "ha-cache-version-claim",
+                    "ha-cache-progress-claim",
+                    "ha-cache-bootstrap-claim",
+                    "ha-read-consistency-claim"
+                  ],
+                  "nodes": [
+                    "ha-cache-structure-node",
+                    "ha-cache-commit-node",
+                    "ha-cache-version-node",
+                    "ha-cache-progress-node",
+                    "ha-cache-bootstrap-node",
+                    "ha-read-consistency-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-cache-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-cache-structure",
+                    "kind": "paragraph",
+                    "text": "Cache synchronization distributes authoritative committed changes to the current Primary, serving replicas, warming members and retained former runtimes. HA control consumes applied progress and readiness. Synchronization does not elect the Primary, and HA does not synchronize replicas by replaying business mutations.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-cache"
+                      ],
+                      "claims": [
+                        "ha-cache-structure-claim"
+                      ],
+                      "nodes": [
+                        "ha-cache-structure-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-cache-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-cache-commit",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-cache"
+                      ],
+                      "claims": [
+                        "ha-cache-commit-claim"
+                      ],
+                      "nodes": [
+                        "ha-cache-commit-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-cache-flow"
+                      ]
+                    },
+                    "text": "Synchronization follows committed source changes, not request acceptance or speculative memory updates. If a process stops after commit but before notification, the owning persistence integration must allow the change to be discovered and applied. Aborted updates are not distributed as successful changes."
+                  },
+                  {
+                    "id": "ha-cache-version",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-cache"
+                      ],
+                      "claims": [
+                        "ha-cache-version-claim"
+                      ],
+                      "nodes": [
+                        "ha-cache-version-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-cache-flow"
+                      ]
+                    },
+                    "text": "Handle updates, deletion, invalidation and scoped purge under common semantics. Duplicate or reordered notifications must not resurrect older values. Purge discards cache state rather than authoritative data, and a late load started before purge must not repopulate a newer cache generation with stale values."
+                  },
+                  {
+                    "id": "ha-cache-progress",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-cache"
+                      ],
+                      "claims": [
+                        "ha-cache-progress-claim"
+                      ],
+                      "nodes": [
+                        "ha-cache-progress-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-cache-flow"
+                      ]
+                    },
+                    "text": "Track received progress separately from applied-through progress. Applied-through covers all required preceding changes. Late A commits and new B commits follow source-owned ordering/versions rather than publisher identity or arrival time. Do not invent a single commit order across independent stores that provide no such order."
+                  },
+                  {
+                    "id": "ha-cache-bootstrap",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-cache"
+                      ],
+                      "claims": [
+                        "ha-cache-bootstrap-claim"
+                      ],
+                      "nodes": [
+                        "ha-cache-bootstrap-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-cache-flow"
+                      ]
+                    },
+                    "text": "Build C from a consistent baseline with a corresponding source position, then catch up subsequent changes without losing updates during construction. Admit it for reads only after reaching the required state. An unrecoverable history gap makes the affected scope unready and requires reconstruction."
+                  },
+                  {
+                    "id": "ha-read-consistency",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-cache"
+                      ],
+                      "claims": [
+                        "ha-read-consistency-claim"
+                      ],
+                      "nodes": [
+                        "ha-read-consistency-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-cache-flow"
+                      ]
+                    },
+                    "text": "Separate lag-tolerant reads from reads requiring a particular confirmed state. The latter need an eligible caught-up replica, an authorized authoritative read, bounded waiting or an unavailable outcome. Routing to the new Primary does not prove that A commits occurring after transfer have reached its cache."
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-updates-section",
+                "heading": "Update Processing and Job/Workflow Continuity",
+                "coreRefs": {
+                  "steps": [
+                    "ha-updates"
+                  ],
+                  "claims": [
+                    "ha-update-conflict-claim",
+                    "ha-update-settlement-claim",
+                    "ha-long-work-claim"
+                  ],
+                  "nodes": [
+                    "ha-update-conflict-node",
+                    "ha-update-settlement-node",
+                    "ha-long-work-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-updates-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-update-conflict",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-updates"
+                      ],
+                      "claims": [
+                        "ha-update-conflict-claim"
+                      ],
+                      "nodes": [
+                        "ha-update-conflict-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-updates-flow"
+                      ]
+                    },
+                    "text": "If old admitted A work and new B work touch the same data, authoritative transactions/version checks handle the conflict. Admission order alone does not establish commit order, and last-arriving values must not overwrite newer state. Required business causal ordering belongs to the owning work contract."
+                  },
+                  {
+                    "id": "ha-update-settlement",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-updates"
+                      ],
+                      "claims": [
+                        "ha-update-settlement-claim"
+                      ],
+                      "nodes": [
+                        "ha-update-settlement-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-updates-flow"
+                      ]
+                    },
+                    "text": "Completing admitted work does not guarantee business success; it establishes an actual commit, abort or failure disposition. HTTP response completion alone is not drain completion. A lost commit acknowledgement or uncertain external send requires reconciliation, not an assumption that nothing happened."
+                  },
+                  {
+                    "id": "ha-long-work",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-updates"
+                      ],
+                      "claims": [
+                        "ha-long-work-claim"
+                      ],
+                      "nodes": [
+                        "ha-long-work-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-updates-flow"
+                      ]
+                    },
+                    "text": "Long-running Jobs and Workflows use durable boundaries and recovery contracts actually supported by the selected version. Persistence alone does not make an interrupted Running task transferable or replayable. A rotation deadline must not force-interrupt valid admitted work; prolonged drain and uncertain outcomes remain observable."
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ha-control-area-section",
+            "heading": "Control Structure",
+            "coreRefs": {
+              "steps": [
+                "ha-control-area"
+              ],
+              "claims": [
+                "ha-control-intro-claim"
+              ],
+              "nodes": [
+                "ha-control-intro-node"
+              ],
+              "relations": [],
+              "flows": [
+                "ha-control-area-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ha-control-intro",
+                "kind": "paragraph",
+                "text": "Control determines which runtime may perform which work under which conditions. Ownership selection, bounded authority, actual refusal and readiness work together instead of relying only on routing. CNCF connects established coordination to business execution and persistence.",
+                "coreRefs": {
+                  "steps": [
+                    "ha-control-area"
+                  ],
+                  "claims": [
+                    "ha-control-intro-claim"
+                  ],
+                  "nodes": [
+                    "ha-control-intro-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-control-area-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ha-control-section",
+                "heading": "Election, Lease, Fencing and Readiness Responsibilities",
+                "coreRefs": {
+                  "steps": [
+                    "ha-control"
+                  ],
+                  "claims": [
+                    "ha-control-table-claim",
+                    "ha-control-reuse-claim",
+                    "ha-fencing-boundary-claim",
+                    "ha-control-topology-claim"
+                  ],
+                  "nodes": [
+                    "ha-control-table-node",
+                    "ha-control-reuse-node",
+                    "ha-fencing-boundary-node",
+                    "ha-control-topology-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-control-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-control-table",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-control"
+                      ],
+                      "claims": [
+                        "ha-control-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-control-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-control-flow"
+                      ]
+                    },
+                    "caption": "Shared control mechanisms",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Mechanism"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "What it establishes"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-control-table-row-1",
+                        "cells": [
+                          "Leader Election",
+                          "Select the owner of new Primary admission"
+                        ]
+                      },
+                      {
+                        "id": "ha-control-table-row-2",
+                        "cells": [
+                          "Lease",
+                          "Maintain bounded ownership and expire it when renewal fails"
+                        ]
+                      },
+                      {
+                        "id": "ha-control-table-row-3",
+                        "cells": [
+                          "Fencing",
+                          "Reject invalid-authority mutations at actual execution and storage boundaries"
+                        ]
+                      },
+                      {
+                        "id": "ha-control-table-row-4",
+                        "cells": [
+                          "Readiness",
+                          "Check compatibility, persistent-state access, synchronization and warm-up"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "ha-control-reuse",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-control"
+                      ],
+                      "claims": [
+                        "ha-control-reuse-claim"
+                      ],
+                      "nodes": [
+                        "ha-control-reuse-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-control-flow"
+                      ]
+                    },
+                    "text": "Reuse established coordination instead of implementing election or consensus inside CNCF. etcd Election/Lease is the first candidate, while an existing equivalent facility can qualify. Winning an election alone is insufficient to begin mutation service: effective fencing and readiness are also required."
+                  },
+                  {
+                    "id": "ha-fencing-boundary",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-control"
+                      ],
+                      "claims": [
+                        "ha-fencing-boundary-claim"
+                      ],
+                      "nodes": [
+                        "ha-fencing-boundary-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-control-flow"
+                      ]
+                    },
+                    "text": "Changing load-balancer routing or checking a Lease does not itself prevent an old Primary from writing to storage. Enforce authority at each required boundary, including the race between a check and an effect. A leadership check within etcd does not automatically protect PostgreSQL commits or external-provider effects."
+                  },
+                  {
+                    "id": "ha-control-topology",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-control"
+                      ],
+                      "claims": [
+                        "ha-control-topology-claim"
+                      ],
+                      "nodes": [
+                        "ha-control-topology-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-control-flow"
+                      ]
+                    },
+                    "text": "Control voters and Read Replicas are separate memberships. A two-voter majority system cannot retain a majority after losing one voter. Host-failure deployments must include suitable independent voters or an existing coordination service. Adding C as a read cache does not automatically add a voter."
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-authority-section",
+                "heading": "Separate New Admission from Old-work Completion",
+                "coreRefs": {
+                  "steps": [
+                    "ha-authority"
+                  ],
+                  "claims": [
+                    "ha-authority-model-claim",
+                    "ha-switchover-scope-claim",
+                    "ha-authority-loss-claim"
+                  ],
+                  "nodes": [
+                    "ha-authority-model-node",
+                    "ha-switchover-scope-node",
+                    "ha-authority-loss-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-authority-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-authority-model",
+                    "kind": "paragraph",
+                    "text": "There is one owner of new independent mutation admission. Planned transfer separately retains narrowly scoped authority for old admitted work. A former Primary may commit after the new Primary starts admission only within that retained scope. This is not unrestricted active-active mutation service.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-authority"
+                      ],
+                      "claims": [
+                        "ha-authority-model-claim"
+                      ],
+                      "nodes": [
+                        "ha-authority-model-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-authority-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-switchover-scope",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-authority"
+                      ],
+                      "claims": [
+                        "ha-switchover-scope-claim"
+                      ],
+                      "nodes": [
+                        "ha-switchover-scope-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-authority-flow"
+                      ]
+                    },
+                    "text": "Close independent new mutation admission on A, including stale routes, scheduled work and event entry. Retain completion authority only for the actual already admitted work scope. Merely transferring an ordinary single-writer Lease does not implement this controlled overlap."
+                  },
+                  {
+                    "id": "ha-authority-loss",
+                    "kind": "paragraph",
+                    "text": "Scoped completion authority remains usable only while valid. Lost authority or failure does not permit writes merely because work was admitted earlier. Reject invalid authority at actual storage/external-effect boundaries, and reconcile effects already performed or left uncertain.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-authority"
+                      ],
+                      "claims": [
+                        "ha-authority-loss-claim"
+                      ],
+                      "nodes": [
+                        "ha-authority-loss-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-authority-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ha-behavior-area-section",
+            "heading": "Normal and Transitional Behavior",
+            "coreRefs": {
+              "steps": [
+                "ha-behavior-area"
+              ],
+              "claims": [
+                "ha-behavior-intro-claim"
+              ],
+              "nodes": [
+                "ha-behavior-intro-node"
+              ],
+              "relations": [],
+              "flows": [
+                "ha-behavior-area-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ha-behavior-intro",
+                "kind": "paragraph",
+                "text": "With the structure established, this chapter explains role and state changes. A/B/C are explanatory identities, not a requirement to run three permanent machines. The account concerns cooperation between responsibilities, not operator command instructions.",
+                "coreRefs": {
+                  "steps": [
+                    "ha-behavior-area"
+                  ],
+                  "claims": [
+                    "ha-behavior-intro-claim"
+                  ],
+                  "nodes": [
+                    "ha-behavior-intro-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-behavior-area-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ha-normal-section",
+                "heading": "Cooperation During Ordinary Service",
+                "coreRefs": {
+                  "steps": [
+                    "ha-normal"
+                  ],
+                  "claims": [
+                    "ha-normal-composition-claim",
+                    "ha-normal-transitions-claim"
+                  ],
+                  "nodes": [
+                    "ha-normal-composition-node",
+                    "ha-normal-transitions-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-normal-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-normal-composition",
+                    "kind": "paragraph",
+                    "text": "Normally the Primary admits mutations and permitted reads may be distributed to Read Replicas. Common synchronization applies authoritative committed results while control observes ownership and readiness. A Standby may serve authorized reads and exercise promotion readiness rather than remaining unused.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-normal"
+                      ],
+                      "claims": [
+                        "ha-normal-composition-claim"
+                      ],
+                      "nodes": [
+                        "ha-normal-composition-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-normal-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-normal-transitions",
+                    "kind": "paragraph",
+                    "text": "Transfer changes roles or instances while preserving this ordinary architecture. Planned switchover transfers ownership with a cooperating former runtime; failover cannot rely on its state or completion. They share mechanisms but have different safety and outcome conditions.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-normal"
+                      ],
+                      "claims": [
+                        "ha-normal-transitions-claim"
+                      ],
+                      "nodes": [
+                        "ha-normal-transitions-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-normal-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-switchover-section",
+                "heading": "Role and State Changes in Planned Switchover",
+                "coreRefs": {
+                  "steps": [
+                    "ha-switchover"
+                  ],
+                  "claims": [
+                    "ha-switchover-purpose-claim",
+                    "ha-abc-table-claim"
+                  ],
+                  "nodes": [
+                    "ha-switchover-purpose-node",
+                    "ha-abc-table-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-switchover-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-switchover-purpose",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-switchover"
+                      ],
+                      "claims": [
+                        "ha-switchover-purpose-claim"
+                      ],
+                      "nodes": [
+                        "ha-switchover-purpose-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-switchover-flow"
+                      ]
+                    },
+                    "text": "Planned Switchover replaces a cooperating Primary for regular rotation or a compatible CAR change. New reads and updates move to B first. Former Primary A continues updates admitted before transfer and the child work needed to complete them."
+                  },
+                  {
+                    "id": "ha-abc-table",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-switchover"
+                      ],
+                      "claims": [
+                        "ha-abc-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-abc-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-switchover-flow"
+                      ]
+                    },
+                    "caption": "A/B/C during planned Switchover",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Stage"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "A"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "B"
+                      },
+                      {
+                        "id": "col-4",
+                        "heading": "C"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-abc-table-row-1",
+                        "cells": [
+                          "Normal operation",
+                          "Primary",
+                          "Read Replica and Standby",
+                          "Not started"
+                        ]
+                      },
+                      {
+                        "id": "ha-abc-table-row-2",
+                        "cells": [
+                          "Admission transfer",
+                          "Draining Former Primary",
+                          "Primary for new work",
+                          "Start initial build"
+                        ]
+                      },
+                      {
+                        "id": "ha-abc-table-row-3",
+                        "cells": [
+                          "Catch-up and drain",
+                          "Settle admitted updates and stay synchronized",
+                          "Commit new work and receive late A commits",
+                          "Apply baseline and delta"
+                        ]
+                      },
+                      {
+                        "id": "ha-abc-table-row-4",
+                        "cells": [
+                          "Retention",
+                          "Current synchronized fallback",
+                          "Primary",
+                          "Ready Read Replica"
+                        ]
+                      },
+                      {
+                        "id": "ha-abc-table-row-5",
+                        "cells": [
+                          "Retirement",
+                          "Stop only after every retirement condition holds",
+                          "Primary",
+                          "Read Replica; Standby when qualified"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-failover-section",
+                "heading": "Recovering Authority and Business State After Failure",
+                "coreRefs": {
+                  "steps": [
+                    "ha-failover"
+                  ],
+                  "claims": [
+                    "ha-failover-purpose-claim",
+                    "ha-failover-no-drain-claim",
+                    "ha-protocol-table-claim",
+                    "ha-failover-loss-claim"
+                  ],
+                  "nodes": [
+                    "ha-failover-purpose-node",
+                    "ha-failover-no-drain-node",
+                    "ha-protocol-table-node",
+                    "ha-failover-loss-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-failover-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-failover-purpose",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-failover"
+                      ],
+                      "claims": [
+                        "ha-failover-purpose-claim"
+                      ],
+                      "nodes": [
+                        "ha-failover-purpose-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-failover-flow"
+                      ]
+                    },
+                    "text": "Failover applies when a crash, ownership-renewal failure or loss of required connectivity prevents cooperative transfer. Lack of response does not prove the process stopped. Mutation service begins only after valid takeover ownership, effective fencing of former authority and candidate readiness are established."
+                  },
+                  {
+                    "id": "ha-failover-no-drain",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-failover"
+                      ],
+                      "claims": [
+                        "ha-failover-no-drain-claim"
+                      ],
+                      "nodes": [
+                        "ha-failover-no-drain-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-failover-flow"
+                      ]
+                    },
+                    "text": "Do not wait for an unreachable A to acknowledge drain. Do not preserve invalidated completion authority. Reconcile committed, aborted and uncertain outcomes from durable state. Preserve confirmed changes and use owning recovery contracts for uncertain effects and Running work instead of blindly executing them again on B."
+                  },
+                  {
+                    "id": "ha-protocol-table",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-failover"
+                      ],
+                      "claims": [
+                        "ha-protocol-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-protocol-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-failover-flow"
+                      ]
+                    },
+                    "caption": "Two switching protocols",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Concern"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Switchover"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Failover"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-protocol-table-row-1",
+                        "cells": [
+                          "Former Primary",
+                          "Cooperating; scoped completion remains valid",
+                          "Failed, unreachable or no longer authorized"
+                        ]
+                      },
+                      {
+                        "id": "ha-protocol-table-row-2",
+                        "cells": [
+                          "Admitted work",
+                          "Settle its outcome on A",
+                          "Reconcile authoritative facts and perform only eligible recovery"
+                        ]
+                      },
+                      {
+                        "id": "ha-protocol-table-row-3",
+                        "cells": [
+                          "Promotion",
+                          "Readiness and controlled admission transfer",
+                          "Election, valid ownership, fencing and readiness"
+                        ]
+                      },
+                      {
+                        "id": "ha-protocol-table-row-4",
+                        "cells": [
+                          "Waiting",
+                          "Drain, replacement Read Replica and retention conditions",
+                          "No unreachable-node drain acknowledgement required"
+                        ]
+                      },
+                      {
+                        "id": "ha-protocol-table-row-5",
+                        "cells": [
+                          "Former runtime returns",
+                          "Keep a synchronized fallback",
+                          "Rejoin as replica; never self-restore Primary role"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "ha-failover-loss",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-failover"
+                      ],
+                      "claims": [
+                        "ha-failover-loss-claim"
+                      ],
+                      "nodes": [
+                        "ha-failover-loss-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-failover-flow"
+                      ]
+                    },
+                    "text": "Without required control ownership/quorum, do not force a new Primary; report mutations unavailable. Preservation of acknowledged writes depends on the authoritative DataStore durability/replication contract. Election success or a cache position does not imply zero data loss."
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-emergency-readonly-section",
+                "heading": "Read-only Mode for Failure and Maintenance",
+                "coreRefs": {
+                  "steps": [
+                    "ha-emergency-readonly"
+                  ],
+                  "claims": [
+                    "ha-readonly-scope-claim",
+                    "ha-readonly-maintenance-claim",
+                    "ha-readonly-admission-claim",
+                    "ha-readonly-transition-claim",
+                    "ha-readonly-data-claim",
+                    "ha-readonly-resident-data-claim",
+                    "ha-readonly-cache-retention-claim",
+                    "ha-readonly-cache-validity-claim",
+                    "ha-service-mode-table-claim",
+                    "ha-readonly-activation-claim",
+                    "ha-readonly-recovery-claim"
+                  ],
+                  "nodes": [
+                    "ha-readonly-scope-node",
+                    "ha-readonly-maintenance-node",
+                    "ha-readonly-admission-node",
+                    "ha-readonly-transition-node",
+                    "ha-readonly-data-node",
+                    "ha-readonly-resident-data-node",
+                    "ha-readonly-cache-retention-node",
+                    "ha-readonly-cache-validity-node",
+                    "ha-service-mode-table-node",
+                    "ha-readonly-activation-node",
+                    "ha-readonly-recovery-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-emergency-readonly-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-readonly-scope",
+                    "kind": "paragraph",
+                    "text": "Read-only is an operating mode that stops business-data mutations in the target Subsystem while retaining qualified reads. It is proposed for both failure-time degradation and planned maintenance. Read Replica is a runtime role; Read-only is a business-service mode. They are separate axes.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-scope-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-scope-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-maintenance",
+                    "kind": "paragraph",
+                    "text": "During failure, preserve permitted reads when safe mutations or takeover cannot be established. For maintenance, close new mutations before work, settle admitted outcomes, then perform inspection or data maintenance. Necessary administrative maintenance actions have separately explicit authority and scope. Stop any read scope that the work makes unsafe; read availability is not guaranteed during every maintenance task.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-maintenance-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-maintenance-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-admission",
+                    "kind": "paragraph",
+                    "text": "Enforce the mutation stop at shared admission/execution boundaries for APIs, scheduled work, Jobs/Workflows and event-triggered business changes, not merely screen controls. Do not allow business mutations hidden in apparent read operations. Necessary audit, observation and cache-management writes use separately bounded operational paths. Read-only does not bypass authentication, authorization or required audit.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-admission-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-admission-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-transition",
+                    "kind": "paragraph",
+                    "text": "Updates may already be admitted when transition is requested. Close new admission and show transition in progress while validly authorized remaining work settles; distinguish this from established business read-only service. Do not assume a runtime with lost authority can finish: enforce fencing and reconcile outcomes. Read-only is not established if unreachable former members or stale routes can still perform unauthorized mutations.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-transition-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-transition-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-data",
+                    "kind": "paragraph",
+                    "text": "Reads require trusted authoritative or cached data and valid authorization. With synchronization lag, serve only queries whose freshness contract allows it. Responses/UI identify read-only service, the mutation-stop reason and data application status. Refuse even a read when it requires a newer confirmed state, authorization cannot be established or data trust cannot be maintained.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-data-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-data-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-resident-data",
+                    "kind": "paragraph",
+                    "text": "While persistence access is impaired, separate reads completed from resident data from those requiring disk reload. A cache miss or unavailable index must not wait indefinitely for impaired storage; return the corresponding unavailable outcome. Expose the last qualified applied state and available scope, and retain only reads meeting authentication, authorization, required audit and other dependencies. After process loss removes resident state, reconstruction requires an available authoritative source or qualified replica.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-resident-data-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-resident-data-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-cache-retention",
+                    "kind": "paragraph",
+                    "text": "In addition to Working Set residency, business-read caches have a Read-only retention policy. Do not discard usable values merely because ordinary TTL expiry or scheduled purge occurs; retain the last qualified values. Keep freshness deadlines and applied-state metadata meaningful, mark expired values as potentially stale, and use them only for permitted reads. Declare retained scope and memory budget.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-cache-retention-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-cache-retention-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-cache-validity",
+                    "kind": "paragraph",
+                    "text": "Retention does not extend authentication-session or permission validity. Continue to apply explicit deletion, invalidation, revocation and qualified committed-change synchronization. Retaining bytes does not permit serving an invalidated scope before required refresh and checks. Before restoring normal cache retention, qualify required synchronization and reconciliation with authoritative state.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-cache-validity-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-cache-validity-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-service-mode-table",
+                    "kind": "table",
+                    "caption": "Business Service Modes and Permitted Work",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Service Mode"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Business Mutations"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Reads"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-service-mode-table-row-1",
+                        "cells": [
+                          "Normal operation",
+                          "Admit/execute with valid authority and readiness",
+                          "Authorized reads with required freshness"
+                        ]
+                      },
+                      {
+                        "id": "ha-service-mode-table-row-2",
+                        "cells": [
+                          "Read-only (failure / maintenance)",
+                          "Refuse new business mutations; show draining old work separately during transition",
+                          "Continue only trusted, authorized, freshness-qualified reads"
+                        ]
+                      },
+                      {
+                        "id": "ha-service-mode-table-row-3",
+                        "cells": [
+                          "Unavailable",
+                          "Do not admit",
+                          "Do not serve reads whose conditions cannot be met"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-service-mode-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-service-mode-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-activation",
+                    "kind": "paragraph",
+                    "text": "The proposal allows operator selection with an explicit reason: failure response or maintenance. Automatic transition from failure detection must specify eligible failure conditions and permitted reads. Detecting mutation unavailability does not authorize all reads. This is a design proposal, not an implemented dedicated CNCF mode or ABI.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-activation-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-activation-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-readonly-recovery",
+                    "kind": "paragraph",
+                    "text": "Return to normal operation after resolving the failure cause or completing maintenance, and qualifying Primary authority/fencing, synchronization/readiness and admitted or uncertain outcomes. A responding Primary or an elapsed maintenance window alone is insufficient. Identify refused mutations as unadmitted; do not silently accumulate and execute them after recovery. Previously admitted work follows its own recovery contract.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-emergency-readonly"
+                      ],
+                      "claims": [
+                        "ha-readonly-recovery-claim"
+                      ],
+                      "nodes": [
+                        "ha-readonly-recovery-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-emergency-readonly-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-retention-section",
+                "heading": "Retention, Switch-back and Retirement Conditions",
+                "coreRefs": {
+                  "steps": [
+                    "ha-retention"
+                  ],
+                  "claims": [
+                    "ha-fallback-current-claim",
+                    "ha-retirement-table-claim",
+                    "ha-retirement-scope-claim",
+                    "ha-car-compatibility-claim"
+                  ],
+                  "nodes": [
+                    "ha-fallback-current-node",
+                    "ha-retirement-table-node",
+                    "ha-retirement-scope-node",
+                    "ha-car-compatibility-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-retention-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-fallback-current",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-retention"
+                      ],
+                      "claims": [
+                        "ha-fallback-current-claim"
+                      ],
+                      "nodes": [
+                        "ha-fallback-current-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-retention-flow"
+                      ]
+                    },
+                    "text": "Retain A for a configured fallback window after planned transfer and keep it synchronized. Switch-back is not restoration of old memory. Recheck retained CAR compatibility and current readiness, then use the same controlled admission-transfer and drain protocol for reactivation."
+                  },
+                  {
+                    "id": "ha-retirement-table",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-retention"
+                      ],
+                      "claims": [
+                        "ha-retirement-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-retirement-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-retention-flow"
+                      ]
+                    },
+                    "caption": "Conditions for planned retirement",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Condition"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Required observation"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-retirement-table-row-1",
+                        "cells": [
+                          "Admitted updates",
+                          "Former Primary outcomes are settled"
+                        ]
+                      },
+                      {
+                        "id": "ha-retirement-table-row-2",
+                        "cells": [
+                          "Replacement Read Replica",
+                          "Required read/takeover capacity is ready"
+                        ]
+                      },
+                      {
+                        "id": "ha-retirement-table-row-3",
+                        "cells": [
+                          "Retention and observation",
+                          "Configured window and health criteria are satisfied"
+                        ]
+                      },
+                      {
+                        "id": "ha-retirement-table-row-4",
+                        "cells": [
+                          "Outstanding work",
+                          "No switch-back or uncertain outcome requires the retained runtime"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "ha-retirement-scope",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-retention"
+                      ],
+                      "claims": [
+                        "ha-retirement-scope-claim"
+                      ],
+                      "nodes": [
+                        "ha-retirement-scope-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-retention-flow"
+                      ]
+                    },
+                    "text": "Planned retirement requires every condition, not merely timer expiry. Isolation or shutdown of a failed runtime is separate from these graceful-retirement waits. Required outcome and reconciliation information must survive independently of that runtime."
+                  },
+                  {
+                    "id": "ha-car-compatibility",
+                    "kind": "paragraph",
+                    "text": "For a component update, fallback requires the retained CAR to remain compatible with current business data. Breaking storage changes leave the ordinary automatic route and require maintenance. Suspected compromised runtimes do not qualify for normal fallback retention.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-retention"
+                      ],
+                      "claims": [
+                        "ha-car-compatibility-claim"
+                      ],
+                      "nodes": [
+                        "ha-car-compatibility-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-retention-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ha-deployment-area-section",
+            "heading": "Deployment and Operation Structure",
+            "coreRefs": {
+              "steps": [
+                "ha-deployment-area"
+              ],
+              "claims": [
+                "ha-deployment-intro-claim"
+              ],
+              "nodes": [
+                "ha-deployment-intro-node"
+              ],
+              "relations": [],
+              "flows": [
+                "ha-deployment-area-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ha-deployment-intro",
+                "kind": "paragraph",
+                "text": "Physical realization relates logical structure to failure domains, dependencies, resources, observation and operating decisions. Declare the offered availability boundary and select the configuration and qualification it requires.",
+                "coreRefs": {
+                  "steps": [
+                    "ha-deployment-area"
+                  ],
+                  "claims": [
+                    "ha-deployment-intro-claim"
+                  ],
+                  "nodes": [
+                    "ha-deployment-intro-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-deployment-area-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ha-profiles-section",
+                "heading": "Deployment Profiles and Failure Domains",
+                "coreRefs": {
+                  "steps": [
+                    "ha-profiles"
+                  ],
+                  "claims": [
+                    "ha-profile-table-claim",
+                    "ha-profile-driver-claim",
+                    "ha-profile-dependencies-claim"
+                  ],
+                  "nodes": [
+                    "ha-profile-table-node",
+                    "ha-profile-driver-node",
+                    "ha-profile-dependencies-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-profiles-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-profile-table",
+                    "kind": "table",
+                    "caption": "Qualification Boundaries by Configuration",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Configuration"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Intended Boundary"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Separate Qualification"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-profile-table-row-1",
+                        "cells": [
+                          "single",
+                          "One runtime; planned reconstruction may interrupt service",
+                          "No continuous-service or replacement-capacity HA claim"
+                        ]
+                      },
+                      {
+                        "id": "ha-profile-table-row-2",
+                        "cells": [
+                          "local-ha",
+                          "Multiple runtimes on one host; runtime failures and planned replacement",
+                          "Host/OS/power failure and storage/coordination failure"
+                        ]
+                      },
+                      {
+                        "id": "ha-profile-table-row-3",
+                        "cells": [
+                          "host-ha",
+                          "Separate hosts with qualified takeover after host loss",
+                          "Storage, coordination, network and identity must meet the same requirement"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ha-profiles"
+                      ],
+                      "claims": [
+                        "ha-profile-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-profile-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-profiles-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-profile-driver",
+                    "kind": "paragraph",
+                    "text": "CNCF manages logical roles, readiness and authority; the Deployment Driver realizes processes, containers and host placement. The first physical route targets Docker Compose local-ha without requiring Kubernetes. Changing deployment technology does not change the readiness/authority conditions for handing over business work.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-profiles"
+                      ],
+                      "claims": [
+                        "ha-profile-driver-claim"
+                      ],
+                      "nodes": [
+                        "ha-profile-driver-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-profiles-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-profile-dependencies",
+                    "kind": "paragraph",
+                    "text": "Separate runtime hosts do not establish system-wide host tolerance if DataStore, messaging, storage, coordination, identity/secrets or networking remain incompatible single points of failure. Multi-AZ/site availability is future scope requiring integrated consistency and recovery policy. Box count is not availability evidence.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-profiles"
+                      ],
+                      "claims": [
+                        "ha-profile-dependencies-claim"
+                      ],
+                      "nodes": [
+                        "ha-profile-dependencies-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-profiles-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-operation-section",
+                "heading": "Observe Actual State and Qualify Continuity",
+                "coreRefs": {
+                  "steps": [
+                    "ha-operation"
+                  ],
+                  "claims": [
+                    "ha-native-evidence-claim",
+                    "ha-observation-claim"
+                  ],
+                  "nodes": [
+                    "ha-native-evidence-node",
+                    "ha-observation-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-operation-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-native-evidence",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-operation"
+                      ],
+                      "claims": [
+                        "ha-native-evidence-claim"
+                      ],
+                      "nodes": [
+                        "ha-native-evidence-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-operation-flow"
+                      ]
+                    },
+                    "text": "Use separate runtime instances and authoritative data to demonstrate admission moving from A to B while an update remains active, followed by propagation of A’s late commit to B/C. Vary replacement readiness, unsettled work, retention and switch-back conditions independently and verify that A is not retired prematurely."
+                  },
+                  {
+                    "id": "ha-observation",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-operation"
+                      ],
+                      "claims": [
+                        "ha-observation-claim"
+                      ],
+                      "nodes": [
+                        "ha-observation-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-operation-flow"
+                      ]
+                    },
+                    "text": "Observe Primary admission ownership, member roles, Lease/fencing, readiness, replication lag/gaps, draining work, retention and unmet retirement conditions. Repeat scheduled rotation, selected compatible-CAR replacement and current-state switch-back. Cadence and retention are deployment policy, not hard-coded one-day CNCF constants."
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-policy-section",
+                "heading": "Choose Policy, Cost and Ownership",
+                "coreRefs": {
+                  "steps": [
+                    "ha-policy"
+                  ],
+                  "claims": [
+                    "ha-policy-profiles-claim",
+                    "ha-policy-cost-claim",
+                    "ha-policy-observation-owner-claim"
+                  ],
+                  "nodes": [
+                    "ha-policy-profiles-node",
+                    "ha-policy-cost-node",
+                    "ha-policy-observation-owner-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-policy-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-policy-profiles",
+                    "kind": "paragraph",
+                    "text": "For ordinary SME workloads, the goal is to obtain the intended continuity level by selecting a standard availability configuration through ordinary settings. Detailed settings are overrides for intentional changes to read freshness, cadence, readiness, drain or retention. Relate quality targets to configuration rather than scattering these choices through business code. Actual settings and default availability depend on the selected version.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-policy"
+                      ],
+                      "claims": [
+                        "ha-policy-profiles-claim"
+                      ],
+                      "nodes": [
+                        "ha-policy-profiles-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-policy-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-policy-cost",
+                    "kind": "paragraph",
+                    "text": "Standing replicas, temporary reconstruction capacity, longer retention and frequent rotation cost resources and operational effort. Choose them against tolerated downtime, data preservation and responsiveness. Platform mechanisms do not remove responsibility for business requirements and configuration decisions.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-policy"
+                      ],
+                      "claims": [
+                        "ha-policy-cost-claim"
+                      ],
+                      "nodes": [
+                        "ha-policy-cost-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-policy-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-policy-observation-owner",
+                    "kind": "paragraph",
+                    "text": "CNCF Runtime owns role, authority, synchronization and transfer facts; Control Center presents them operationally. A healthy screen is not evidence of durable updates or promotion authority. Feed actual rotation and failure qualification back into evidence for the selected quality targets.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-policy"
+                      ],
+                      "claims": [
+                        "ha-policy-observation-owner-claim"
+                      ],
+                      "nodes": [
+                        "ha-policy-observation-owner-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-policy-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ha-appendix-area-section",
+            "heading": "Appendix: Delivery Plan and Sources",
+            "coreRefs": {
+              "steps": [
+                "ha-appendix-area"
+              ],
+              "claims": [
+                "ha-appendix-intro-claim"
+              ],
+              "nodes": [
+                "ha-appendix-intro-node"
+              ],
+              "relations": [],
+              "flows": [
+                "ha-appendix-area-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ha-appendix-intro",
+                "kind": "paragraph",
+                "text": "Keep architecture distinct from current delivery order and qualification. This appendix records planning and sources as of 2026-11-13, following the structural explanation and preserving the distinction between design and delivered capability.",
+                "coreRefs": {
+                  "steps": [
+                    "ha-appendix-area"
+                  ],
+                  "claims": [
+                    "ha-appendix-intro-claim"
+                  ],
+                  "nodes": [
+                    "ha-appendix-intro-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-appendix-area-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ha-delivery-section",
+                "heading": "First Delivery and Qualification",
+                "coreRefs": {
+                  "steps": [
+                    "ha-delivery"
+                  ],
+                  "claims": [
+                    "ha-first-delivery-claim",
+                    "ha-priority-table-claim",
+                    "ha-safety-first-claim",
+                    "ha-first-deployment-claim",
+                    "ha-guide-status-claim",
+                    "ha-registered-data-service-plans-claim"
+                  ],
+                  "nodes": [
+                    "ha-first-delivery-node",
+                    "ha-priority-table-node",
+                    "ha-safety-first-node",
+                    "ha-first-deployment-node",
+                    "ha-guide-status-node",
+                    "ha-registered-data-service-plans-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-delivery-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-first-delivery",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-delivery"
+                      ],
+                      "claims": [
+                        "ha-first-delivery-claim"
+                      ],
+                      "nodes": [
+                        "ha-first-delivery-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-delivery-flow"
+                      ]
+                    },
+                    "text": "The highest priority is the minimum practical immutable-infrastructure path. Deliver planned transfer, cache catch-up, a current fallback, conditional retirement, scheduled rotation and compatible-CAR replacement before completing broad automatic Failover or large/multi-site topologies."
+                  },
+                  {
+                    "id": "ha-priority-table",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-delivery"
+                      ],
+                      "claims": [
+                        "ha-priority-table-claim"
+                      ],
+                      "nodes": [
+                        "ha-priority-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-delivery-flow"
+                      ]
+                    },
+                    "caption": "First operational implementation order",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Order"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Delivery"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "What to prove"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ha-priority-table-row-1",
+                        "cells": [
+                          "IR-01",
+                          "Owning admission/persistence/control integration",
+                          "New admission, scoped completion and authority-loss refusal"
+                        ]
+                      },
+                      {
+                        "id": "ha-priority-table-row-2",
+                        "cells": [
+                          "IR-02",
+                          "Generic cache synchronization",
+                          "Versions, applied progress, late commits, deletion/purge and catch-up across A/B/C"
+                        ]
+                      },
+                      {
+                        "id": "ha-priority-table-row-3",
+                        "cells": [
+                          "IR-03",
+                          "Planned transfer",
+                          "A completes admitted updates after B begins new admission"
+                        ]
+                      },
+                      {
+                        "id": "ha-priority-table-row-4",
+                        "cells": [
+                          "IR-04",
+                          "Retention and repeated operation",
+                          "Switch-back, retirement, scheduling and compatible-CAR change"
+                        ]
+                      },
+                      {
+                        "id": "ha-priority-table-row-5",
+                        "cells": [
+                          "IR-05",
+                          "Operational qualification",
+                          "Real separate processes and authoritative data, including refusal and uncertainty"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "ha-safety-first",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-delivery"
+                      ],
+                      "claims": [
+                        "ha-safety-first-claim"
+                      ],
+                      "nodes": [
+                        "ha-safety-first-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-delivery-flow"
+                      ]
+                    },
+                    "text": "The first route still refuses invalid-authority updates and promotion of unready instances. Before automatic Failover is qualified, report its absence and make mutations safely unavailable when necessary. Prioritization does not defer safety conditions."
+                  },
+                  {
+                    "id": "ha-first-deployment",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-delivery"
+                      ],
+                      "claims": [
+                        "ha-first-deployment-claim"
+                      ],
+                      "nodes": [
+                        "ha-first-deployment-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-delivery-flow"
+                      ]
+                    },
+                    "text": "The first physical route follows the existing local-ha/Docker Compose direction and declares its actual failure boundary. Multiple processes on one host do not prove host-failure tolerance. Host-ha, other deployment drivers, replica-scale qualification and multi-site operation need separate evidence."
+                  },
+                  {
+                    "id": "ha-guide-status",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-delivery"
+                      ],
+                      "claims": [
+                        "ha-guide-status-claim"
+                      ],
+                      "nodes": [
+                        "ha-guide-status-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-delivery-flow"
+                      ]
+                    },
+                    "text": "This guide records design direction and first-delivery planning as of 2026-11-12. IR-01 through IR-05 remain open; authoring this guide does not implement or accept the capability. Use it with the reactive/security guides and the actual selected versions, configuration, dependencies and execution evidence."
+                  },
+                  {
+                    "id": "ha-registered-data-service-plans",
+                    "kind": "paragraph",
+                    "text": "Resident-data extensions and Read-only operation are registered as separate development plans. Phase 123 covers Working Sets for active transactions and users, including carts, user information and addresses. Phase 124 covers business-mutation refusal during failure or maintenance, qualified read continuity, cache retention and return to normal operation. Both are planned and unstarted. First qualify single-runtime routes using existing residency; qualify user-activity extensions and multi-runtime integration against the actual capabilities of their owning foundations. Phase 108 acceptance is unchanged.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-delivery"
+                      ],
+                      "claims": [
+                        "ha-registered-data-service-plans-claim"
+                      ],
+                      "nodes": [
+                        "ha-registered-data-service-plans-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-delivery-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ha-references-section",
+                "heading": "Design Sources and Companion Guides",
+                "coreRefs": {
+                  "steps": [
+                    "ha-references"
+                  ],
+                  "claims": [
+                    "ha-companion-guides-claim",
+                    "ha-local-sources-claim",
+                    "ha-election-reference-claim",
+                    "ha-fencing-reference-claim"
+                  ],
+                  "nodes": [
+                    "ha-companion-guides-node",
+                    "ha-local-sources-node",
+                    "ha-election-reference-node",
+                    "ha-fencing-reference-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ha-references-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ha-companion-guides",
+                    "kind": "paragraph",
+                    "text": "See the [[../../immutable-infrastructure/textus-cncf-immutable-infrastructure.dox/index.dox][Immutable Infrastructure guide]] for adoption and operation, the [[../../security/textus-cncf-security-architecture.dox/index.dox][Security guide]] for defense, and the [[../../reactive/textus-cncf-reactive-architecture.dox/index.dox][Reactive guide]] for residency, UoW and recoverability.",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-references"
+                      ],
+                      "claims": [
+                        "ha-companion-guides-claim"
+                      ],
+                      "nodes": [
+                        "ha-companion-guides-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-references-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ha-local-sources",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-references"
+                      ],
+                      "claims": [
+                        "ha-local-sources-claim"
+                      ],
+                      "nodes": [
+                        "ha-local-sources-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-references-flow"
+                      ]
+                    },
+                    "text": "Textus-specific sources are CNCF Availability Architecture, Subsystem Runtime Architecture, Runtime Cache Synchronization and the Phase 108 first-delivery plan. New journal entries record terminology and policy changes; historical journals remain unchanged. This guide explains those sources for readers."
+                  },
+                  {
+                    "id": "ha-election-reference",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-references"
+                      ],
+                      "claims": [
+                        "ha-election-reference-claim"
+                      ],
+                      "nodes": [
+                        "ha-election-reference-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-references-flow"
+                      ]
+                    },
+                    "text": "etcd Election/Lease provides reference mechanisms for election and bounded ownership. Guarding etcd operations and protecting mutations in other stores are separate responsibilities. Official specifications: https://etcd.io/docs/v3.6/dev-guide/api_concurrency_reference_v3/ and https://etcd.io/docs/v3.6/learning/api/#lease-api ."
+                  },
+                  {
+                    "id": "ha-fencing-reference",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "ha-references"
+                      ],
+                      "claims": [
+                        "ha-fencing-reference-claim"
+                      ],
+                      "nodes": [
+                        "ha-fencing-reference-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ha-references-flow"
+                      ]
+                    },
+                    "text": "Kubernetes client-go explicitly states that leader election alone does not guarantee fencing. Patroni watchdog is an example of stopping an environment that cannot maintain ownership. References: https://github.com/kubernetes/client-go/blob/master/tools/leaderelection/leaderelection.go and https://patroni.readthedocs.io/en/latest/watchdog.html . Neither directly supplies the Textus scoped old-work completion contract."
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "textus-cncf-availability-architecture",
+        "text": "Textus/CNCF Availability and HA — Technical Guide"
+      },
+      {
+        "stepRef": "ha-purpose-area",
+        "text": "HA Purpose and Design Goals"
+      },
+      {
+        "stepRef": "ha-goals",
+        "text": "Why Business Continuity Needs HA"
+      },
+      {
+        "stepRef": "ha-target-level",
+        "text": "Target Workloads and Intended HA Level"
+      },
+      {
+        "stepRef": "ha-quality",
+        "text": "Separate Availability, Responsiveness and Data Preservation"
+      },
+      {
+        "stepRef": "ha-overview-area",
+        "text": "Overall Architecture"
+      },
+      {
+        "stepRef": "ha-request-path",
+        "text": "How Ordinary Requests Use the Architecture"
+      },
+      {
+        "stepRef": "ha-immutable",
+        "text": "HA and Immutable Infrastructure"
+      },
+      {
+        "stepRef": "ha-execution-area",
+        "text": "Execution Structure"
+      },
+      {
+        "stepRef": "ha-roles",
+        "text": "Primary, Read Replica and Standby Roles"
+      },
+      {
+        "stepRef": "ha-lifecycle",
+        "text": "Liveness, Readiness, Authority and Runtime Lifetime"
+      },
+      {
+        "stepRef": "ha-state-area",
+        "text": "Data and Synchronization Structure"
+      },
+      {
+        "stepRef": "ha-memory",
+        "text": "Committed, Resident and Transient State"
+      },
+      {
+        "stepRef": "ha-cache",
+        "text": "Common Cache Synchronization for Committed Changes"
+      },
+      {
+        "stepRef": "ha-updates",
+        "text": "Update Processing and Job/Workflow Continuity"
+      },
+      {
+        "stepRef": "ha-control-area",
+        "text": "Control Structure"
+      },
+      {
+        "stepRef": "ha-control",
+        "text": "Election, Lease, Fencing and Readiness Responsibilities"
+      },
+      {
+        "stepRef": "ha-authority",
+        "text": "Separate New Admission from Old-work Completion"
+      },
+      {
+        "stepRef": "ha-behavior-area",
+        "text": "Normal and Transitional Behavior"
+      },
+      {
+        "stepRef": "ha-normal",
+        "text": "Cooperation During Ordinary Service"
+      },
+      {
+        "stepRef": "ha-switchover",
+        "text": "Role and State Changes in Planned Switchover"
+      },
+      {
+        "stepRef": "ha-failover",
+        "text": "Recovering Authority and Business State After Failure"
+      },
+      {
+        "stepRef": "ha-emergency-readonly",
+        "text": "Read-only Mode for Failure and Maintenance"
+      },
+      {
+        "stepRef": "ha-retention",
+        "text": "Retention, Switch-back and Retirement Conditions"
+      },
+      {
+        "stepRef": "ha-deployment-area",
+        "text": "Deployment and Operation Structure"
+      },
+      {
+        "stepRef": "ha-profiles",
+        "text": "Deployment Profiles and Failure Domains"
+      },
+      {
+        "stepRef": "ha-operation",
+        "text": "Observe Actual State and Qualify Continuity"
+      },
+      {
+        "stepRef": "ha-policy",
+        "text": "Choose Policy, Cost and Ownership"
+      },
+      {
+        "stepRef": "ha-appendix-area",
+        "text": "Appendix: Delivery Plan and Sources"
+      },
+      {
+        "stepRef": "ha-delivery",
+        "text": "First Delivery and Qualification"
+      },
+      {
+        "stepRef": "ha-references",
+        "text": "Design Sources and Companion Guides"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "ha-purpose-node",
+        "text": "This technical guide explains the structure through which Textus/CNCF supports business-service continuity. It starts with HA purpose and quality targets, then separates execution, data/synchronization, control, and deployment/operation. Normal service, planned switchover and failover are explained in terms of that structure. The companion immutable-infrastructure guide covers adoption and everyday replacement operation; this guide focuses on HA responsibilities and their relationships."
+      },
+      {
+        "nodeRef": "ha-reading-map-node",
+        "text": "Chapter 1 establishes purpose; Chapter 2 presents the whole architecture; Chapters 3–5 explain its structural areas; Chapter 6 covers changes of state; Chapter 7 covers deployment and operation. Delivery order and sources are separated into the appendix. This is an architectural explanation, not a claim that every described capability has been implemented and qualified."
+      },
+      {
+        "nodeRef": "ha-purpose-area-intro-node",
+        "text": "Before topology or procedures, establish what must remain usable and what must be preserved. Business-service continuity together with safe update outcomes determines the architecture that follows."
+      },
+      {
+        "nodeRef": "ha-business-purpose-node",
+        "text": "High availability means keeping required business functions usable within their specified time and operating conditions. Process failures, runtime/component updates and maintenance replacement all affect continuity. Textus designs ordinary service and replacement/recovery as one architecture."
+      },
+      {
+        "nodeRef": "ha-application-goal-node",
+        "text": "Applications use a stable Operation boundary while the platform manages physical instances and role changes. The goal is to let developers specify business rules and required quality without implementing replica management and switchover in each business handler."
+      },
+      {
+        "nodeRef": "ha-quality-table-node",
+        "text": "Quality Concerns to Qualify Together"
+      },
+      {
+        "nodeRef": "ha-quality-contract-node",
+        "text": "Fast takeover, preservation of updates and fresh caches are separate conditions. Memory residency supports responsiveness, authoritative persistence preserves committed state, and HA supports service continuity. Selecting a configuration is not proof of achievement; qualify the required level across storage and execution paths."
+      },
+      {
+        "nodeRef": "ha-failure-boundary-intro-node",
+        "text": "Define the failure boundary first. Multiple runtimes on one host help process replacement but do not protect against loss of that host. Host or site failures require compatible availability and placement of storage, coordination, networking and execution."
+      },
+      {
+        "nodeRef": "ha-architecture-map-node",
+        "text": "Textus HA is more than two machines. It combines business execution, state preservation/synchronization, authority control, and environment deployment/observation. These are divisions of responsibility; each need not be a separate process or product."
+      },
+      {
+        "nodeRef": "ha-concern-tree-node",
+        "text": "HA Concern Hierarchy"
+      },
+      {
+        "nodeRef": "ha-area-table-node",
+        "text": "Responsibilities and Connections by Area"
+      },
+      {
+        "nodeRef": "ha-overview-figure-node",
+        "text": "Execution, Data, Control and Deployment Connections"
+      },
+      {
+        "nodeRef": "ha-overview-boundary-node",
+        "text": "The figure shows the logical architecture for one Domain Subsystem. Boxes are not host or failure-domain boundaries. Solid lines are request/data paths; dashed lines are control, deployment and observation relationships. Replicas are separate runtimes, not aliases for shared memory. The coordination service internal leader is distinct from the business Primary. The figure selects principal relationships. The data and transition chapters explain initial construction and synchronization of retained former runtimes."
+      },
+      {
+        "nodeRef": "ha-request-write-node",
+        "text": "A stable business API sends a mutation to the Primary holding valid new-admission authority. Domain rules and UnitOfWork establish the authoritative outcome; committed results update resident state and read projections. Selecting an endpoint is distinct from authorization to mutate."
+      },
+      {
+        "nodeRef": "ha-request-read-node",
+        "text": "Reads use a Primary or Read Replica meeting authorization and freshness requirements. Eligibility to serve reads grants neither mutation admission nor promotion. Read eligibility therefore depends on both authorization and required applied data state."
+      },
+      {
+        "nodeRef": "ha-request-control-node",
+        "text": "Control consumes admission ownership, readiness and synchronization to decide transfer, retention and retirement. Deployment realizes runtime creation/stop, and observation exposes actual state and failure reasons. Business commits and control-state changes are not one record or one revision sequence."
+      },
+      {
+        "nodeRef": "ha-immutable-relation-node",
+        "text": "HA concerns service continuity; immutable infrastructure concerns replacing environments rather than modifying them in place. Their purposes differ, but they share the structure for handing work to prepared runtimes. The [[../../immutable-infrastructure/textus-cncf-immutable-infrastructure.dox/index.dox][companion guide]] covers adoption and regular-replacement policy."
+      },
+      {
+        "nodeRef": "ha-immutable-purpose-node",
+        "text": "Immutable infrastructure replaces an environment from admitted artifacts and configuration instead of accumulating in-place changes. It preserves reproducibility and a known configuration while limiting continued use of an unhealthy environment. Regular rotation exercises startup, preparation, transfer and drain during ordinary operation."
+      },
+      {
+        "nodeRef": "ha-platform-responsibility-node",
+        "text": "CNCF Runtime and deployment drivers own rotation rather than application-specific startup scripts and switching logic. Applications define business and persistence contracts; the infrastructure manages readiness, admission routing, cache catch-up, drain and retirement. A short lifetime and replacement without in-place modification are distinct properties."
+      },
+      {
+        "nodeRef": "ha-execution-intro-node",
+        "text": "Execution consists of multiple Subsystems implementing the same business contract and a stable entry that routes work to them. Explicit roles and readiness separate ordinary business calls from environment creation and replacement."
+      },
+      {
+        "nodeRef": "ha-role-table-node",
+        "text": "Availability roles"
+      },
+      {
+        "nodeRef": "ha-role-composition-node",
+        "text": "Read Replica describes read service; Standby describes promotion readiness. One instance may hold both roles, but read availability alone does not qualify it for promotion. The minimal topology has a Primary and a Standby-capable Read Replica, with additional Read Replicas joining the same synchronization infrastructure later."
+      },
+      {
+        "nodeRef": "ha-retained-role-node",
+        "text": "After its admitted work has settled, a former Primary is no longer draining merely because its retention window remains open. It remains a synchronized fallback. Adopting explanatory role names is separate from renaming existing ACTIVE, STANDBY or DRAINING lifecycle states."
+      },
+      {
+        "nodeRef": "ha-lifecycle-separation-node",
+        "text": "Liveness means a process responds; readiness means it has required versions, connections and data; authority means it may start or finish particular work. Keeping them separate prevents a merely running instance from admitting mutations or a readable replica from promoting itself."
+      },
+      {
+        "nodeRef": "ha-lifecycle-table-node",
+        "text": "Runtime State and Decisions"
+      },
+      {
+        "nodeRef": "ha-lifecycle-state-names-node",
+        "text": "Existing ACTIVE, STANDBY and DRAINING names describe lifecycle states. Primary, Read Replica and Standby explain responsibilities and eligibility; prose does not rename APIs or configuration tokens. After draining ends, synchronized fallback retention is distinct from still executing old work."
+      },
+      {
+        "nodeRef": "ha-state-intro-node",
+        "text": "Data preservation and fast reads connect different categories of state. This chapter distinguishes authoritative persistence, memory residency, replica application and running business work, and states the conditions each supplies to transfer."
+      },
+      {
+        "nodeRef": "ha-state-separation-node",
+        "text": "CNCF deliberately combines memory-resident responsiveness with an architecture that does not leave continuity-critical state solely in one process. Domain rules and UnitOfWork govern authoritative commits; caches and Views follow their outcomes. Replacement concerns the runtime, while committed business data and supported durable Job/Workflow records remain independent. Treat transient and uncertain work separately; an old memory copy is not proof of durability."
+      },
+      {
+        "nodeRef": "ha-state-table-node",
+        "text": "State Ownership and Reconstruction"
+      },
+      {
+        "nodeRef": "ha-memory-performance-node",
+        "text": "CNCF aims to keep much of the data used in business processing resident in memory. Resident EntitySpace, Entity Realms, indexes and Views reduce repeated retrieval/construction for responsiveness. Combining this with independent continuity-critical state supports both performance and replacement. Residency or replica count alone is not proof of durable data."
+      },
+      {
+        "nodeRef": "ha-cache-structure-node",
+        "text": "Cache synchronization distributes authoritative committed changes to the current Primary, serving replicas, warming members and retained former runtimes. HA control consumes applied progress and readiness. Synchronization does not elect the Primary, and HA does not synchronize replicas by replaying business mutations."
+      },
+      {
+        "nodeRef": "ha-cache-commit-node",
+        "text": "Synchronization follows committed source changes, not request acceptance or speculative memory updates. If a process stops after commit but before notification, the owning persistence integration must allow the change to be discovered and applied. Aborted updates are not distributed as successful changes."
+      },
+      {
+        "nodeRef": "ha-cache-version-node",
+        "text": "Handle updates, deletion, invalidation and scoped purge under common semantics. Duplicate or reordered notifications must not resurrect older values. Purge discards cache state rather than authoritative data, and a late load started before purge must not repopulate a newer cache generation with stale values."
+      },
+      {
+        "nodeRef": "ha-cache-progress-node",
+        "text": "Track received progress separately from applied-through progress. Applied-through covers all required preceding changes. Late A commits and new B commits follow source-owned ordering/versions rather than publisher identity or arrival time. Do not invent a single commit order across independent stores that provide no such order."
+      },
+      {
+        "nodeRef": "ha-cache-bootstrap-node",
+        "text": "Build C from a consistent baseline with a corresponding source position, then catch up subsequent changes without losing updates during construction. Admit it for reads only after reaching the required state. An unrecoverable history gap makes the affected scope unready and requires reconstruction."
+      },
+      {
+        "nodeRef": "ha-read-consistency-node",
+        "text": "Separate lag-tolerant reads from reads requiring a particular confirmed state. The latter need an eligible caught-up replica, an authorized authoritative read, bounded waiting or an unavailable outcome. Routing to the new Primary does not prove that A commits occurring after transfer have reached its cache."
+      },
+      {
+        "nodeRef": "ha-update-conflict-node",
+        "text": "If old admitted A work and new B work touch the same data, authoritative transactions/version checks handle the conflict. Admission order alone does not establish commit order, and last-arriving values must not overwrite newer state. Required business causal ordering belongs to the owning work contract."
+      },
+      {
+        "nodeRef": "ha-update-settlement-node",
+        "text": "Completing admitted work does not guarantee business success; it establishes an actual commit, abort or failure disposition. HTTP response completion alone is not drain completion. A lost commit acknowledgement or uncertain external send requires reconciliation, not an assumption that nothing happened."
+      },
+      {
+        "nodeRef": "ha-long-work-node",
+        "text": "Long-running Jobs and Workflows use durable boundaries and recovery contracts actually supported by the selected version. Persistence alone does not make an interrupted Running task transferable or replayable. A rotation deadline must not force-interrupt valid admitted work; prolonged drain and uncertain outcomes remain observable."
+      },
+      {
+        "nodeRef": "ha-control-intro-node",
+        "text": "Control determines which runtime may perform which work under which conditions. Ownership selection, bounded authority, actual refusal and readiness work together instead of relying only on routing. CNCF connects established coordination to business execution and persistence."
+      },
+      {
+        "nodeRef": "ha-control-table-node",
+        "text": "Shared control mechanisms"
+      },
+      {
+        "nodeRef": "ha-control-reuse-node",
+        "text": "Reuse established coordination instead of implementing election or consensus inside CNCF. etcd Election/Lease is the first candidate, while an existing equivalent facility can qualify. Winning an election alone is insufficient to begin mutation service: effective fencing and readiness are also required."
+      },
+      {
+        "nodeRef": "ha-fencing-boundary-node",
+        "text": "Changing load-balancer routing or checking a Lease does not itself prevent an old Primary from writing to storage. Enforce authority at each required boundary, including the race between a check and an effect. A leadership check within etcd does not automatically protect PostgreSQL commits or external-provider effects."
+      },
+      {
+        "nodeRef": "ha-control-topology-node",
+        "text": "Control voters and Read Replicas are separate memberships. A two-voter majority system cannot retain a majority after losing one voter. Host-failure deployments must include suitable independent voters or an existing coordination service. Adding C as a read cache does not automatically add a voter."
+      },
+      {
+        "nodeRef": "ha-authority-model-node",
+        "text": "There is one owner of new independent mutation admission. Planned transfer separately retains narrowly scoped authority for old admitted work. A former Primary may commit after the new Primary starts admission only within that retained scope. This is not unrestricted active-active mutation service."
+      },
+      {
+        "nodeRef": "ha-switchover-scope-node",
+        "text": "Close independent new mutation admission on A, including stale routes, scheduled work and event entry. Retain completion authority only for the actual already admitted work scope. Merely transferring an ordinary single-writer Lease does not implement this controlled overlap."
+      },
+      {
+        "nodeRef": "ha-authority-loss-node",
+        "text": "Scoped completion authority remains usable only while valid. Lost authority or failure does not permit writes merely because work was admitted earlier. Reject invalid authority at actual storage/external-effect boundaries, and reconcile effects already performed or left uncertain."
+      },
+      {
+        "nodeRef": "ha-behavior-intro-node",
+        "text": "With the structure established, this chapter explains role and state changes. A/B/C are explanatory identities, not a requirement to run three permanent machines. The account concerns cooperation between responsibilities, not operator command instructions."
+      },
+      {
+        "nodeRef": "ha-normal-composition-node",
+        "text": "Normally the Primary admits mutations and permitted reads may be distributed to Read Replicas. Common synchronization applies authoritative committed results while control observes ownership and readiness. A Standby may serve authorized reads and exercise promotion readiness rather than remaining unused."
+      },
+      {
+        "nodeRef": "ha-normal-transitions-node",
+        "text": "Transfer changes roles or instances while preserving this ordinary architecture. Planned switchover transfers ownership with a cooperating former runtime; failover cannot rely on its state or completion. They share mechanisms but have different safety and outcome conditions."
+      },
+      {
+        "nodeRef": "ha-switchover-purpose-node",
+        "text": "Planned Switchover replaces a cooperating Primary for regular rotation or a compatible CAR change. New reads and updates move to B first. Former Primary A continues updates admitted before transfer and the child work needed to complete them."
+      },
+      {
+        "nodeRef": "ha-abc-table-node",
+        "text": "A/B/C during planned Switchover"
+      },
+      {
+        "nodeRef": "ha-failover-purpose-node",
+        "text": "Failover applies when a crash, ownership-renewal failure or loss of required connectivity prevents cooperative transfer. Lack of response does not prove the process stopped. Mutation service begins only after valid takeover ownership, effective fencing of former authority and candidate readiness are established."
+      },
+      {
+        "nodeRef": "ha-failover-no-drain-node",
+        "text": "Do not wait for an unreachable A to acknowledge drain. Do not preserve invalidated completion authority. Reconcile committed, aborted and uncertain outcomes from durable state. Preserve confirmed changes and use owning recovery contracts for uncertain effects and Running work instead of blindly executing them again on B."
+      },
+      {
+        "nodeRef": "ha-protocol-table-node",
+        "text": "Two switching protocols"
+      },
+      {
+        "nodeRef": "ha-failover-loss-node",
+        "text": "Without required control ownership/quorum, do not force a new Primary; report mutations unavailable. Preservation of acknowledged writes depends on the authoritative DataStore durability/replication contract. Election success or a cache position does not imply zero data loss."
+      },
+      {
+        "nodeRef": "ha-fallback-current-node",
+        "text": "Retain A for a configured fallback window after planned transfer and keep it synchronized. Switch-back is not restoration of old memory. Recheck retained CAR compatibility and current readiness, then use the same controlled admission-transfer and drain protocol for reactivation."
+      },
+      {
+        "nodeRef": "ha-retirement-table-node",
+        "text": "Conditions for planned retirement"
+      },
+      {
+        "nodeRef": "ha-retirement-scope-node",
+        "text": "Planned retirement requires every condition, not merely timer expiry. Isolation or shutdown of a failed runtime is separate from these graceful-retirement waits. Required outcome and reconciliation information must survive independently of that runtime."
+      },
+      {
+        "nodeRef": "ha-car-compatibility-node",
+        "text": "For a component update, fallback requires the retained CAR to remain compatible with current business data. Breaking storage changes leave the ordinary automatic route and require maintenance. Suspected compromised runtimes do not qualify for normal fallback retention."
+      },
+      {
+        "nodeRef": "ha-deployment-intro-node",
+        "text": "Physical realization relates logical structure to failure domains, dependencies, resources, observation and operating decisions. Declare the offered availability boundary and select the configuration and qualification it requires."
+      },
+      {
+        "nodeRef": "ha-profile-table-node",
+        "text": "Qualification Boundaries by Configuration"
+      },
+      {
+        "nodeRef": "ha-profile-driver-node",
+        "text": "CNCF manages logical roles, readiness and authority; the Deployment Driver realizes processes, containers and host placement. The first physical route targets Docker Compose local-ha without requiring Kubernetes. Changing deployment technology does not change the readiness/authority conditions for handing over business work."
+      },
+      {
+        "nodeRef": "ha-profile-dependencies-node",
+        "text": "Separate runtime hosts do not establish system-wide host tolerance if DataStore, messaging, storage, coordination, identity/secrets or networking remain incompatible single points of failure. Multi-AZ/site availability is future scope requiring integrated consistency and recovery policy. Box count is not availability evidence."
+      },
+      {
+        "nodeRef": "ha-native-evidence-node",
+        "text": "Use separate runtime instances and authoritative data to demonstrate admission moving from A to B while an update remains active, followed by propagation of A’s late commit to B/C. Vary replacement readiness, unsettled work, retention and switch-back conditions independently and verify that A is not retired prematurely."
+      },
+      {
+        "nodeRef": "ha-observation-node",
+        "text": "Observe Primary admission ownership, member roles, Lease/fencing, readiness, replication lag/gaps, draining work, retention and unmet retirement conditions. Repeat scheduled rotation, selected compatible-CAR replacement and current-state switch-back. Cadence and retention are deployment policy, not hard-coded one-day CNCF constants."
+      },
+      {
+        "nodeRef": "ha-policy-profiles-node",
+        "text": "For ordinary SME workloads, the goal is to obtain the intended continuity level by selecting a standard availability configuration through ordinary settings. Detailed settings are overrides for intentional changes to read freshness, cadence, readiness, drain or retention. Relate quality targets to configuration rather than scattering these choices through business code. Actual settings and default availability depend on the selected version."
+      },
+      {
+        "nodeRef": "ha-policy-cost-node",
+        "text": "Standing replicas, temporary reconstruction capacity, longer retention and frequent rotation cost resources and operational effort. Choose them against tolerated downtime, data preservation and responsiveness. Platform mechanisms do not remove responsibility for business requirements and configuration decisions."
+      },
+      {
+        "nodeRef": "ha-policy-observation-owner-node",
+        "text": "CNCF Runtime owns role, authority, synchronization and transfer facts; Control Center presents them operationally. A healthy screen is not evidence of durable updates or promotion authority. Feed actual rotation and failure qualification back into evidence for the selected quality targets."
+      },
+      {
+        "nodeRef": "ha-appendix-intro-node",
+        "text": "Keep architecture distinct from current delivery order and qualification. This appendix records planning and sources as of 2026-11-13, following the structural explanation and preserving the distinction between design and delivered capability."
+      },
+      {
+        "nodeRef": "ha-first-delivery-node",
+        "text": "The highest priority is the minimum practical immutable-infrastructure path. Deliver planned transfer, cache catch-up, a current fallback, conditional retirement, scheduled rotation and compatible-CAR replacement before completing broad automatic Failover or large/multi-site topologies."
+      },
+      {
+        "nodeRef": "ha-priority-table-node",
+        "text": "First operational implementation order"
+      },
+      {
+        "nodeRef": "ha-safety-first-node",
+        "text": "The first route still refuses invalid-authority updates and promotion of unready instances. Before automatic Failover is qualified, report its absence and make mutations safely unavailable when necessary. Prioritization does not defer safety conditions."
+      },
+      {
+        "nodeRef": "ha-first-deployment-node",
+        "text": "The first physical route follows the existing local-ha/Docker Compose direction and declares its actual failure boundary. Multiple processes on one host do not prove host-failure tolerance. Host-ha, other deployment drivers, replica-scale qualification and multi-site operation need separate evidence."
+      },
+      {
+        "nodeRef": "ha-guide-status-node",
+        "text": "This guide records design direction and first-delivery planning as of 2026-11-12. IR-01 through IR-05 remain open; authoring this guide does not implement or accept the capability. Use it with the reactive/security guides and the actual selected versions, configuration, dependencies and execution evidence."
+      },
+      {
+        "nodeRef": "ha-companion-guides-node",
+        "text": "See the [[../../immutable-infrastructure/textus-cncf-immutable-infrastructure.dox/index.dox][Immutable Infrastructure guide]] for adoption and operation, the [[../../security/textus-cncf-security-architecture.dox/index.dox][Security guide]] for defense, and the [[../../reactive/textus-cncf-reactive-architecture.dox/index.dox][Reactive guide]] for residency, UoW and recoverability."
+      },
+      {
+        "nodeRef": "ha-local-sources-node",
+        "text": "Textus-specific sources are CNCF Availability Architecture, Subsystem Runtime Architecture, Runtime Cache Synchronization and the Phase 108 first-delivery plan. New journal entries record terminology and policy changes; historical journals remain unchanged. This guide explains those sources for readers."
+      },
+      {
+        "nodeRef": "ha-election-reference-node",
+        "text": "etcd Election/Lease provides reference mechanisms for election and bounded ownership. Guarding etcd operations and protecting mutations in other stores are separate responsibilities. Official specifications: https://etcd.io/docs/v3.6/dev-guide/api_concurrency_reference_v3/ and https://etcd.io/docs/v3.6/learning/api/#lease-api ."
+      },
+      {
+        "nodeRef": "ha-fencing-reference-node",
+        "text": "Kubernetes client-go explicitly states that leader election alone does not guarantee fencing. Patroni watchdog is an example of stopping an environment that cannot maintain ownership. References: https://github.com/kubernetes/client-go/blob/master/tools/leaderelection/leaderelection.go and https://patroni.readthedocs.io/en/latest/watchdog.html . Neither directly supplies the Textus scoped old-work completion contract."
+      },
+      {
+        "nodeRef": "ha-sme-target-node",
+        "text": "The central target is ordinary business systems in small and medium-sized enterprises. A standard configuration should provide the required service continuity through ordinary settings, without making users individually redesign or configure election, synchronization and transfer for routine adoption. Ease of use makes this HA level accessible at realistic cost and operational burden."
+      },
+      {
+        "nodeRef": "ha-target-interpretation-node",
+        "text": "Express the intended level by which maintenance and failure conditions preserve business service, not by instance count or an HA label. The first operational delivery is planned replacement with local-ha. Runtime failure handling is also an architectural target, but automatic failover follows its own implementation and qualification. Select host-ha where host-failure tolerance is required."
+      },
+      {
+        "nodeRef": "ha-target-level-table-node",
+        "text": "Intended HA Levels and Boundaries"
+      },
+      {
+        "nodeRef": "ha-target-service-window-node",
+        "text": "Choose the business-appropriate level from service hours, tolerated downtime, committed-data preservation, responsiveness and cost. This does not promise one availability percentage or unconditional uninterrupted service for every use. Extending protection to hosts or sites requires storage, coordination, networking and other dependencies to meet the same qualified boundary."
+      },
+      {
+        "nodeRef": "ha-readonly-scope-node",
+        "text": "Read-only is an operating mode that stops business-data mutations in the target Subsystem while retaining qualified reads. It is proposed for both failure-time degradation and planned maintenance. Read Replica is a runtime role; Read-only is a business-service mode. They are separate axes."
+      },
+      {
+        "nodeRef": "ha-readonly-admission-node",
+        "text": "Enforce the mutation stop at shared admission/execution boundaries for APIs, scheduled work, Jobs/Workflows and event-triggered business changes, not merely screen controls. Do not allow business mutations hidden in apparent read operations. Necessary audit, observation and cache-management writes use separately bounded operational paths. Read-only does not bypass authentication, authorization or required audit."
+      },
+      {
+        "nodeRef": "ha-readonly-transition-node",
+        "text": "Updates may already be admitted when transition is requested. Close new admission and show transition in progress while validly authorized remaining work settles; distinguish this from established business read-only service. Do not assume a runtime with lost authority can finish: enforce fencing and reconcile outcomes. Read-only is not established if unreachable former members or stale routes can still perform unauthorized mutations."
+      },
+      {
+        "nodeRef": "ha-readonly-data-node",
+        "text": "Reads require trusted authoritative or cached data and valid authorization. With synchronization lag, serve only queries whose freshness contract allows it. Responses/UI identify read-only service, the mutation-stop reason and data application status. Refuse even a read when it requires a newer confirmed state, authorization cannot be established or data trust cannot be maintained."
+      },
+      {
+        "nodeRef": "ha-service-mode-table-node",
+        "text": "Business Service Modes and Permitted Work"
+      },
+      {
+        "nodeRef": "ha-readonly-activation-node",
+        "text": "The proposal allows operator selection with an explicit reason: failure response or maintenance. Automatic transition from failure detection must specify eligible failure conditions and permitted reads. Detecting mutation unavailability does not authorize all reads. This is a design proposal, not an implemented dedicated CNCF mode or ABI."
+      },
+      {
+        "nodeRef": "ha-readonly-recovery-node",
+        "text": "Return to normal operation after resolving the failure cause or completing maintenance, and qualifying Primary authority/fencing, synchronization/readiness and admitted or uncertain outcomes. A responding Primary or an elapsed maintenance window alone is insufficient. Identify refused mutations as unadmitted; do not silently accumulate and execute them after recovery. Previously admitted work follows its own recovery contract."
+      },
+      {
+        "nodeRef": "ha-readonly-goal-node",
+        "text": "Read-only for failure or maintenance is a proposed continuity level that stops mutations while preserving qualified reads. Resident business data and indexes are intended to sustain a broad range of read work even when persistence access is impaired. Make the available scope explicit when full service cannot continue, and leave unavailable any read scope that cannot be served safely."
+      },
+      {
+        "nodeRef": "ha-readonly-maintenance-node",
+        "text": "During failure, preserve permitted reads when safe mutations or takeover cannot be established. For maintenance, close new mutations before work, settle admitted outcomes, then perform inspection or data maintenance. Necessary administrative maintenance actions have separately explicit authority and scope. Stop any read scope that the work makes unsafe; read availability is not guaranteed during every maintenance task."
+      },
+      {
+        "nodeRef": "ha-memory-availability-node",
+        "text": "Residency also supports degraded-service continuity. When authoritative disk or database access is slow or unavailable, known committed resident state and required indexes can support searches, lists and inquiries completed from that state. Read-only connects this property to HA by stopping mutations and using resident data. Qualify the actual supported business scope against resident coverage and dependencies."
+      },
+      {
+        "nodeRef": "ha-readonly-resident-data-node",
+        "text": "While persistence access is impaired, separate reads completed from resident data from those requiring disk reload. A cache miss or unavailable index must not wait indefinitely for impaired storage; return the corresponding unavailable outcome. Expose the last qualified applied state and available scope, and retain only reads meeting authentication, authorization, required audit and other dependencies. After process loss removes resident state, reconstruction requires an available authoritative source or qualified replica."
+      },
+      {
+        "nodeRef": "ha-working-set-selection-node",
+        "text": "Entity classification and Working Set policy select resident data. Keep all valid master records resident. For transactional use, the intended Working Set includes active transactions and data required by active users and their business activity. Select current activity needs without retaining all historical data. Current master defaults select full residency; workflow business entities require explicit state-field and active-state policy. User-activity-based residency needs separately defined and qualified policy."
+      },
+      {
+        "nodeRef": "ha-readonly-cache-retention-node",
+        "text": "In addition to Working Set residency, business-read caches have a Read-only retention policy. Do not discard usable values merely because ordinary TTL expiry or scheduled purge occurs; retain the last qualified values. Keep freshness deadlines and applied-state metadata meaningful, mark expired values as potentially stale, and use them only for permitted reads. Declare retained scope and memory budget."
+      },
+      {
+        "nodeRef": "ha-readonly-cache-validity-node",
+        "text": "Retention does not extend authentication-session or permission validity. Continue to apply explicit deletion, invalidation, revocation and qualified committed-change synchronization. Retaining bytes does not permit serving an invalidated scope before required refresh and checks. Before restoring normal cache retention, qualify required synchronization and reconciliation with authoritative state."
+      },
+      {
+        "nodeRef": "ha-working-set-user-context-node",
+        "text": "Examples include an active user cart, the user own address and delivery destinations. Data such as an address need not itself undergo state transitions to be included when required by current users or transactions. Treat the Working Set as the data needed for current business activity, retaining per-user authorization boundaries. Reuse already resident master data where applicable. Re-evaluate residency when activity ends while retaining authoritative data independently. Do not claim this user-scoped policy is already applied automatically by current code."
+      },
+      {
+        "nodeRef": "ha-registered-data-service-plans-node",
+        "text": "Resident-data extensions and Read-only operation are registered as separate development plans. Phase 123 covers Working Sets for active transactions and users, including carts, user information and addresses. Phase 124 covers business-mutation refusal during failure or maintenance, qualified read continuity, cache retention and return to normal operation. Both are planned and unstarted. First qualify single-runtime routes using existing residency; qualify user-activity extensions and multi-runtime integration against the actual capabilities of their owning foundations. Phase 108 acceptance is unchanged."
+      }
+    ]
+  }
+}

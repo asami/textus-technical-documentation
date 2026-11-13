@@ -1,0 +1,31 @@
+@startmindmap
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam dpi 150
+* Textus / CNCF のHA\n業務の継続と確定状態の保全
+** 目的・品質目標
+*** 利用継続・応答性
+*** データ保全・障害範囲
+** 全体構成
+*** 安定した入口と役割分担
+*** 分野間の接続
+** 実行系
+*** Primary / Read Replica
+*** Standby・ライフサイクル
+left side
+** データ・同期系
+*** 正本・常駐・一時状態
+*** キャッシュ同期・継続処理
+** 制御系
+*** 選出・Lease・Fencing
+*** 受付と完了の権限
+** 振る舞い
+*** 通常運転・計画切替え
+*** 障害切替え・保持・退役
+*** Read-only（障害・保守）・復帰
+** 配備・運用系
+*** 障害区画・依存基盤
+*** 観測・品質・費用
+@endmindmap

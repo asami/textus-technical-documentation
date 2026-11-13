@@ -1,0 +1,2011 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-immutable-infrastructure-document-en",
+  "core": {
+    "id": "textus-cncf-immutable-infrastructure"
+  },
+  "locale": "en",
+  "document": {
+    "title": "Textus/CNCF Immutable Infrastructure — Technical Guide",
+    "sections": [
+      {
+        "id": "textus-cncf-immutable-infrastructure-section",
+        "heading": "Textus/CNCF Immutable Infrastructure — Technical Guide",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-immutable-infrastructure"
+          ],
+          "claims": [
+            "im-purpose-claim",
+            "im-reading-boundary-claim"
+          ],
+          "nodes": [
+            "im-purpose-node",
+            "im-reading-boundary-node"
+          ],
+          "relations": [
+            "textus-cncf-immutable-infrastructure-local-next-1"
+          ],
+          "flows": [
+            "textus-cncf-immutable-infrastructure-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "im-purpose",
+            "kind": "paragraph",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-immutable-infrastructure"
+              ],
+              "claims": [
+                "im-purpose-claim"
+              ],
+              "nodes": [
+                "im-purpose-node"
+              ],
+              "relations": [],
+              "flows": [
+                "textus-cncf-immutable-infrastructure-flow"
+              ]
+            },
+            "text": "This guide describes the purpose, overall architecture, state management, lifecycle and operating conditions of immutable infrastructure in Textus/CNCF. Chapters 1 and 2 cover purpose and terminology; Chapters 3 and 4 cover architecture and state; Chapter 5 covers replacement behavior. Chapters 6 and 7 cover security and operating conditions, Chapter 8 records implementation and qualification status, and Chapter 9 lists related sources. Architectural descriptions are distinct from capabilities implemented and qualified in a selected version."
+          },
+          {
+            "id": "im-reading-boundary",
+            "kind": "paragraph",
+            "text": "This technical guide describes the architecture and operating model. Commands for a particular environment and project-specific runbooks are outside its scope. Architectural structure, implementation plans and behavior qualified in a selected version are distinguished; source documents own concrete contracts and qualification results.",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-immutable-infrastructure"
+              ],
+              "claims": [
+                "im-reading-boundary-claim"
+              ],
+              "nodes": [
+                "im-reading-boundary-node"
+              ],
+              "relations": [],
+              "flows": [
+                "textus-cncf-immutable-infrastructure-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "im-why-section",
+            "heading": "Purpose and Scope",
+            "coreRefs": {
+              "steps": [
+                "im-why"
+              ],
+              "claims": [
+                "im-why-purpose-claim",
+                "im-why-replace-claim",
+                "im-design-harness-claim",
+                "im-component-design-harness-claim",
+                "im-cicd-design-connection-claim",
+                "im-why-adoption-claim"
+              ],
+              "nodes": [
+                "im-why-purpose-node",
+                "im-why-replace-node",
+                "im-design-harness-node",
+                "im-component-design-harness-node",
+                "im-cicd-design-connection-node",
+                "im-why-adoption-node"
+              ],
+              "relations": [
+                "im-why-local-next-1",
+                "im-why-local-next-2",
+                "im-why-local-next-3",
+                "im-why-local-next-4",
+                "im-why-local-next-5"
+              ],
+              "flows": [
+                "im-why-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "im-why-purpose",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-why"
+                  ],
+                  "claims": [
+                    "im-why-purpose-claim"
+                  ],
+                  "nodes": [
+                    "im-why-purpose-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-why-flow"
+                  ]
+                },
+                "text": "Immutable infrastructure is an operating model in which changes are recorded in artifacts and deployment configuration, and a newly constructed environment replaces an existing environment. Routine updates use replacement rather than direct modification of a running environment. The replacement unit and its construction inputs are defined explicitly. Business-data updates are separate from runtime replacement."
+              },
+              {
+                "id": "im-why-replace",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-why"
+                  ],
+                  "claims": [
+                    "im-why-replace-claim"
+                  ],
+                  "nodes": [
+                    "im-why-replace-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-why-flow"
+                  ]
+                },
+                "text": "The objectives are identifiable runtime configuration, reconstruction from the same inputs and updates through controlled replacement units. Scheduled replacement manages the period for which an environment is used. The scope includes component updates, configuration changes and runtime lifetime management during ordinary service, as well as recovery after failure. Repeated restarts alone do not demonstrate reconstruction from artifacts and configuration or separation of state."
+              },
+              {
+                "id": "im-design-harness",
+                "kind": "paragraph",
+                "text": "This guide describes a design harness as the framework that defines and maintains the architectural conditions needed for replaceability. For each replacement/deployment unit, the design identifies cohesive responsibilities, inter-unit dependencies, state ownership, public interfaces and compatibility. Properties such as loose coupling and high cohesion are expressed through concrete boundaries: permitted dependencies and responsibilities owned inside or outside a unit. The design also defines durable/transient state separation, configuration/dependencies, startup/shutdown and admitted-work completion/recovery conditions. These are architectural preconditions for the replacement procedure.",
+                "coreRefs": {
+                  "steps": [
+                    "im-why"
+                  ],
+                  "claims": [
+                    "im-design-harness-claim"
+                  ],
+                  "nodes": [
+                    "im-design-harness-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-why-flow"
+                  ]
+                }
+              },
+              {
+                "id": "im-component-design-harness",
+                "kind": "paragraph",
+                "text": "In CNCF, the harness combines platform mechanisms supporting replacement with implementation contracts for hosted components. The platform owns shared state-management, update-commit and execution-lifecycle mechanisms; components implement business behavior under those contracts. Both platform replacement mechanisms and compatible component implementations are required. Continuing replaceability checks maintain responsibility separation, explicit dependencies, testability and replaceability as component implementation conditions.",
+                "coreRefs": {
+                  "steps": [
+                    "im-why"
+                  ],
+                  "claims": [
+                    "im-component-design-harness-claim"
+                  ],
+                  "nodes": [
+                    "im-component-design-harness-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-why-flow"
+                  ]
+                }
+              },
+              {
+                "id": "im-cicd-design-connection",
+                "kind": "paragraph",
+                "text": "CI/CD likewise requires defined units for continuous verification/deployment, reproducible artifacts/configuration and explicit dependencies under verification; changes must preserve those conditions. Immutable operation additionally requires maintained conditions for runtime reconstruction/replacement. Because the selected deployment/replacement method depends on these conditions, violations are subjects for detection and correction through its verification and deployment/replacement paths. Actual tests and deployment/replacement results establish whether the properties are maintained, rather than a written declaration alone. These ongoing constraints and checks function as a harness for architectural properties. They do not automatically guarantee whole-design correctness or the sufficiency of the selected checks.",
+                "coreRefs": {
+                  "steps": [
+                    "im-why"
+                  ],
+                  "claims": [
+                    "im-cicd-design-connection-claim"
+                  ],
+                  "nodes": [
+                    "im-cicd-design-connection-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-why-flow"
+                  ]
+                }
+              },
+              {
+                "id": "im-why-adoption",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-why"
+                  ],
+                  "claims": [
+                    "im-why-adoption-claim"
+                  ],
+                  "nodes": [
+                    "im-why-adoption-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-why-flow"
+                  ]
+                },
+                "text": "The guide covers the Application tier serving business applications and the Domain tier using memory-resident execution. A deployment that permits downtime can stop and reconstruct a single environment. Continuing service during replacement requires preparation of another environment, admission transfer, data synchronization and completion management for old work. The supported failure boundary and continuity level are defined separately by the HA deployment."
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "im-concepts-section",
+            "heading": "Concepts and Applicability",
+            "coreRefs": {
+              "steps": [
+                "im-concepts"
+              ],
+              "claims": [
+                "im-concept-table-claim",
+                "im-concepts-example-claim"
+              ],
+              "nodes": [
+                "im-concept-table-node",
+                "im-concepts-example-node"
+              ],
+              "relations": [
+                "im-concepts-local-next-1"
+              ],
+              "flows": [
+                "im-concepts-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "im-concept-table",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "im-concepts"
+                  ],
+                  "claims": [
+                    "im-concept-table-claim"
+                  ],
+                  "nodes": [
+                    "im-concept-table-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-concepts-flow"
+                  ]
+                },
+                "caption": "Roles of Related Concepts",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Concept"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Meaning"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "Not Guaranteed Alone"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "im-concept-table-row-1",
+                    "cells": [
+                      "Immutable",
+                      "Replace an environment rather than changing it in place",
+                      "Short lifetime, uninterrupted service or data durability"
+                    ]
+                  },
+                  {
+                    "id": "im-concept-table-row-2",
+                    "cells": [
+                      "Ephemeral",
+                      "Manage short lifetimes and disposable environments",
+                      "Reproducible configuration or preserved data"
+                    ]
+                  },
+                  {
+                    "id": "im-concept-table-row-3",
+                    "cells": [
+                      "HA",
+                      "Support service continuity within defined failure and operating boundaries",
+                      "Tolerance of every failure or backups"
+                    ]
+                  },
+                  {
+                    "id": "im-concept-table-row-4",
+                    "cells": [
+                      "Persistence",
+                      "Separate required business state from runtime lifetimes",
+                      "Unconditional survival of storage failure"
+                    ]
+                  },
+                  {
+                    "id": "im-concept-table-row-5",
+                    "cells": [
+                      "Scheduled replacement",
+                      "Replace runtime environments at policy-selected intervals",
+                      "Continuity during replacement or takeover after failure"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "im-concepts-example",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-concepts"
+                  ],
+                  "claims": [
+                    "im-concepts-example-claim"
+                  ],
+                  "nodes": [
+                    "im-concepts-example-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-concepts-flow"
+                  ]
+                },
+                "text": "Scheduled replacement reconstructs an environment using the same component version; a component update uses a newer CAR version. Replacement cadence is an operating policy. Both replace an execution environment without rewinding authoritative business data. Uninterrupted operation, short runtime lifetimes and data durability each require their own configuration and qualification conditions."
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "im-architecture-section",
+            "heading": "Overall Architecture",
+            "coreRefs": {
+              "steps": [
+                "im-architecture"
+              ],
+              "claims": [
+                "im-architecture-scope-claim",
+                "im-architecture-elements-claim",
+                "im-architecture-construction-claim",
+                "im-architecture-service-claim",
+                "im-architecture-control-claim"
+              ],
+              "nodes": [
+                "im-architecture-scope-node",
+                "im-architecture-elements-node",
+                "im-architecture-construction-node",
+                "im-architecture-service-node",
+                "im-architecture-control-node"
+              ],
+              "relations": [
+                "im-architecture-local-next-1",
+                "im-architecture-local-next-2",
+                "im-architecture-local-next-3",
+                "im-architecture-local-next-4"
+              ],
+              "flows": [
+                "im-architecture-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "im-architecture-scope",
+                "kind": "paragraph",
+                "text": "The following is the intended Textus/CNCF structure for runtime replacement. It distinguishes artifacts/configuration, deployment, business execution, authoritative/resident data, admission/lifecycle control and observation. These are responsibility boundaries rather than a requirement for separate products or hosts.",
+                "coreRefs": {
+                  "steps": [
+                    "im-architecture"
+                  ],
+                  "claims": [
+                    "im-architecture-scope-claim"
+                  ],
+                  "nodes": [
+                    "im-architecture-scope-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-architecture-flow"
+                  ]
+                }
+              },
+              {
+                "id": "im-architecture-elements",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "im-architecture"
+                  ],
+                  "claims": [
+                    "im-architecture-elements-claim"
+                  ],
+                  "nodes": [
+                    "im-architecture-elements-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-architecture-flow"
+                  ]
+                },
+                "caption": "Elements and Connections",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Element"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "State or Processing Responsibility"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "Principal Connections"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "im-architecture-elements-row-1",
+                    "cells": [
+                      "Artifacts and configuration",
+                      "Identify CARs, runtime definitions and deployment settings",
+                      "Supply construction inputs to deployment"
+                    ]
+                  },
+                  {
+                    "id": "im-architecture-elements-row-2",
+                    "cells": [
+                      "Deployment",
+                      "Create/stop environments and map them to resources",
+                      "Consume artifacts/configuration and control decisions"
+                    ]
+                  },
+                  {
+                    "id": "im-architecture-elements-row-3",
+                    "cells": [
+                      "Entry and admission route",
+                      "Accept business API requests and pass them to an environment",
+                      "Use destinations qualified by authority and readiness"
+                    ]
+                  },
+                  {
+                    "id": "im-architecture-elements-row-4",
+                    "cells": [
+                      "Execution",
+                      "Run Application and Domain Subsystem business processing",
+                      "Connect admission, UnitOfWork and resident state"
+                    ]
+                  },
+                  {
+                    "id": "im-architecture-elements-row-5",
+                    "cells": [
+                      "Authoritative storage and durable records",
+                      "Retain committed business state and supported continuation records",
+                      "Serve UnitOfWork commits and reconstruction/recovery reads"
+                    ]
+                  },
+                  {
+                    "id": "im-architecture-elements-row-6",
+                    "cells": [
+                      "Resident state and synchronization",
+                      "Reconstruct/update Entities, indexes, Working Sets and Views",
+                      "Use authoritative baselines and committed deltas across environments"
+                    ]
+                  },
+                  {
+                    "id": "im-architecture-elements-row-7",
+                    "cells": [
+                      "Control and coordination",
+                      "Manage admission authority, readiness, retention and retirement conditions",
+                      "Connect coordination, execution, deployment and entry"
+                    ]
+                  },
+                  {
+                    "id": "im-architecture-elements-row-8",
+                    "cells": [
+                      "Observation",
+                      "Record actual state, work outcomes and transition reasons",
+                      "Expose execution/synchronization/control/deployment state to operators"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "im-architecture-construction",
+                "kind": "paragraph",
+                "text": "The construction path supplies deployment with a selected CAR version, runtime definition and deployment configuration to create a new environment. Readiness covers artifact/data compatibility, authoritative connectivity and construction of required resident state. A running environment is a replaceable instance of an identified version/configuration, rather than a place to accumulate manual changes as the source for its successor.",
+                "coreRefs": {
+                  "steps": [
+                    "im-architecture"
+                  ],
+                  "claims": [
+                    "im-architecture-construction-claim"
+                  ],
+                  "nodes": [
+                    "im-architecture-construction-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-architecture-flow"
+                  ]
+                }
+              },
+              {
+                "id": "im-architecture-service",
+                "kind": "paragraph",
+                "text": "The service path passes requests from a stable entry to an execution environment satisfying admission authority and readiness. Domain updates commit to authoritative storage through UnitOfWork, and their outcomes update resident state and Read Replicas in the design. Runtime replacement and authoritative business-data updates are separate paths.",
+                "coreRefs": {
+                  "steps": [
+                    "im-architecture"
+                  ],
+                  "claims": [
+                    "im-architecture-service-claim"
+                  ],
+                  "nodes": [
+                    "im-architecture-service-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-architecture-flow"
+                  ]
+                }
+              },
+              {
+                "id": "im-architecture-control",
+                "kind": "paragraph",
+                "text": "Control uses coordination authority and observed readiness, synchronization and work state to decide admission changes, retention and retirement. Deployment creates/stops environments according to those decisions, while the entry changes its destination. Observation records versions, roles, applied progress, draining work and failure reasons. Environment startup alone does not authorize business admission or retirement of an old environment.",
+                "coreRefs": {
+                  "steps": [
+                    "im-architecture"
+                  ],
+                  "claims": [
+                    "im-architecture-control-claim"
+                  ],
+                  "nodes": [
+                    "im-architecture-control-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-architecture-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "im-platform-section",
+                "heading": "Tier Structure and Responsibilities",
+                "coreRefs": {
+                  "steps": [
+                    "im-platform"
+                  ],
+                  "claims": [
+                    "im-platform-principle-claim",
+                    "im-owner-table-claim",
+                    "im-platform-tiers-claim",
+                    "im-application-implementation-contract-claim"
+                  ],
+                  "nodes": [
+                    "im-platform-principle-node",
+                    "im-owner-table-node",
+                    "im-platform-tiers-node",
+                    "im-application-implementation-contract-node"
+                  ],
+                  "relations": [
+                    "im-platform-local-next-1",
+                    "im-platform-local-next-2",
+                    "im-platform-local-next-3"
+                  ],
+                  "flows": [
+                    "im-platform-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "im-platform-principle",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-platform"
+                      ],
+                      "claims": [
+                        "im-platform-principle-claim"
+                      ],
+                      "nodes": [
+                        "im-platform-principle-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-platform-flow"
+                      ]
+                    },
+                    "text": "The Textus/CNCF structure places shared state-management and execution-lifecycle mechanisms in the platform and defines their component-facing contracts. Applications implement business rules and update/continuation behavior under those contracts; the platform owns readiness, admission changes, synchronization, completion management and retirement. Profiles and configuration select replacement without application-specific A/B/C transfer logic. Chapter 8 and the owning sources distinguish mechanisms available in a selected version from planned replacement control and qualification work."
+                  },
+                  {
+                    "id": "im-owner-table",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "im-platform"
+                      ],
+                      "claims": [
+                        "im-owner-table-claim"
+                      ],
+                      "nodes": [
+                        "im-owner-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-platform-flow"
+                      ]
+                    },
+                    "caption": "Responsibility Boundaries",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Owner"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Responsibility"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "im-owner-table-row-1",
+                        "cells": [
+                          "Business application",
+                          "Business rules, operation meaning, concurrency conditions and supported continuation/retry boundaries"
+                        ]
+                      },
+                      {
+                        "id": "im-owner-table-row-2",
+                        "cells": [
+                          "CNCF Runtime",
+                          "New admission and scoped completion authority, readiness, synchronization, transfer and retirement conditions"
+                        ]
+                      },
+                      {
+                        "id": "im-owner-table-row-3",
+                        "cells": [
+                          "Deployment, coordination and storage infrastructure",
+                          "Runtime creation/stop, election and Lease, effective fencing and authoritative persistence"
+                        ]
+                      },
+                      {
+                        "id": "im-owner-table-row-4",
+                        "cells": [
+                          "Operator",
+                          "Quality targets, failure boundary, cadence, retention, resource budget and incident decisions"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "im-platform-tiers",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-platform"
+                      ],
+                      "claims": [
+                        "im-platform-tiers-claim"
+                      ],
+                      "nodes": [
+                        "im-platform-tiers-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-platform-flow"
+                      ]
+                    },
+                    "text": "The intended Application-tier structure uses Cloud Function environment reuse and disposal for suitable work. The Domain tier transfers service to an environment with prepared resident state. Primary is the role accepting new mutations; Read Replica is the role serving permitted reads. Standby denotes promotion readiness, assessed separately from read availability. These are logical roles rather than a prescribed physical host count."
+                  },
+                  {
+                    "id": "im-application-implementation-contract",
+                    "kind": "paragraph",
+                    "text": "The implementation contracts apply to application-specific additions as well as generated code, with the same conditions for human-written and AI-generated additions. Continuity-critical state must not reside solely in process memory or local files belonging to the replaceable environment. Updates connect to the applicable authoritative/UnitOfWork commit path, and processing start, shutdown, completion and resumption follow platform contracts. Background work and external effects have explicit lifetime and completion/recovery ownership. Conformance is qualified through actual business paths including the additions, exercising replacement and recovery. The generation method or AI model used does not substitute for those checks.",
+                    "coreRefs": {
+                      "steps": [
+                        "im-platform"
+                      ],
+                      "claims": [
+                        "im-application-implementation-contract-claim"
+                      ],
+                      "nodes": [
+                        "im-application-implementation-contract-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-platform-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "im-memory-section",
+            "heading": "State Management and Application Boundaries",
+            "coreRefs": {
+              "steps": [
+                "im-memory"
+              ],
+              "claims": [
+                "im-memory-purpose-claim",
+                "im-memory-commit-claim",
+                "im-state-table-claim",
+                "im-memory-recovery-claim",
+                "im-memory-crash-claim"
+              ],
+              "nodes": [
+                "im-memory-purpose-node",
+                "im-memory-commit-node",
+                "im-state-table-node",
+                "im-memory-recovery-node",
+                "im-memory-crash-node"
+              ],
+              "relations": [
+                "im-memory-local-next-1",
+                "im-memory-local-next-2",
+                "im-memory-local-next-3",
+                "im-memory-local-next-4"
+              ],
+              "flows": [
+                "im-memory-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "im-memory-purpose",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-memory"
+                  ],
+                  "claims": [
+                    "im-memory-purpose-claim"
+                  ],
+                  "nodes": [
+                    "im-memory-purpose-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-memory-flow"
+                  ]
+                },
+                "text": "CNCF Domain Subsystems are designed to retain EntitySpace, Entity Realms, indexes, Working Sets and Views in memory to reduce repeated retrieval and construction. Authoritative business state and resident memory have separate lifetimes. Committed state needed for continuity does not reside solely in one process; the required resident state is reconstructed after runtime replacement."
+              },
+              {
+                "id": "im-memory-commit",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-memory"
+                  ],
+                  "claims": [
+                    "im-memory-commit-claim"
+                  ],
+                  "nodes": [
+                    "im-memory-commit-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-memory-flow"
+                  ]
+                },
+                "text": "The design commits updates to authoritative storage through Domain rules and UnitOfWork, then updates or invalidates resident state according to the outcome. Business commit success corresponds to the durability contract of the selected storage. Memory updates and Replica notifications are separate from authoritative commit. The actual preservation boundary depends on storage integration and observed durability and recovery behavior."
+              },
+              {
+                "id": "im-state-table",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "im-memory"
+                  ],
+                  "claims": [
+                    "im-state-table-claim"
+                  ],
+                  "nodes": [
+                    "im-state-table-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-memory-flow"
+                  ]
+                },
+                "caption": "State Categories During Replacement",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "State"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Treatment"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "im-state-table-row-1",
+                    "cells": [
+                      "Committed business data and materials",
+                      "Retain and protect independently of the runtime"
+                    ]
+                  },
+                  {
+                    "id": "im-state-table-row-2",
+                    "cells": [
+                      "Resident Entities, indexes and caches",
+                      "Reconstruct the required scope from authoritative state and committed changes"
+                    ]
+                  },
+                  {
+                    "id": "im-state-table-row-3",
+                    "cells": [
+                      "Records needed to continue Jobs and Workflows",
+                      "Use supported durable boundaries and recovery contracts"
+                    ]
+                  },
+                  {
+                    "id": "im-state-table-row-4",
+                    "cells": [
+                      "Transient execution state and uncommitted updates",
+                      "Drain during planned replacement; reconcile actual outcomes after a crash"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "im-memory-recovery",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-memory"
+                  ],
+                  "claims": [
+                    "im-memory-recovery-claim"
+                  ],
+                  "nodes": [
+                    "im-memory-recovery-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-memory-flow"
+                  ]
+                },
+                "text": "Reconstruction obtains a consistent authoritative baseline and catches up with updates committed during loading. Use begins when required applied progress and read conditions are satisfied. A memory copy from another runtime or receipt of notifications alone does not establish that all required committed state has been applied."
+              },
+              {
+                "id": "im-memory-crash",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-memory"
+                  ],
+                  "claims": [
+                    "im-memory-crash-claim"
+                  ],
+                  "nodes": [
+                    "im-memory-crash-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-memory-flow"
+                  ]
+                },
+                "text": "Planned replacement retires an old environment after admitted work reaches a settled outcome under valid authority. A crash can lose intermediate computation, so committed, uncommitted and uncertain outcomes are reconciled with storage records. Job and Workflow resumption follows supported durable checkpoints and recovery contracts. Arbitrary Running work is not assumed to be replayable. Data preservation also depends on storage failure boundaries, backup and recovery policy."
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "im-operation-section",
+            "heading": "Lifecycle and Operation",
+            "coreRefs": {
+              "steps": [
+                "im-operation"
+              ],
+              "claims": [
+                "im-operation-scope-claim",
+                "im-operation-example-claim"
+              ],
+              "nodes": [
+                "im-operation-scope-node",
+                "im-operation-example-node"
+              ],
+              "relations": [
+                "im-operation-local-next-1"
+              ],
+              "flows": [
+                "im-operation-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "im-operation-scope",
+                "kind": "paragraph",
+                "text": "This chapter describes how the preceding elements participate in replacement. Planned replacement and handling of authority loss, crashes or suspected compromise have different preconditions. The behavior below describes the design; Chapter 8 records delivery and qualification status for the selected scope.",
+                "coreRefs": {
+                  "steps": [
+                    "im-operation"
+                  ],
+                  "claims": [
+                    "im-operation-scope-claim"
+                  ],
+                  "nodes": [
+                    "im-operation-scope-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-operation-flow"
+                  ]
+                }
+              },
+              {
+                "id": "im-operation-example",
+                "kind": "paragraph",
+                "text": "In the planned-replacement example, A is the former Primary, B takes over admission and C is the newly prepared Read Replica. A/B/C describe changing roles and do not specify three continuously running physical hosts.",
+                "coreRefs": {
+                  "steps": [
+                    "im-operation"
+                  ],
+                  "claims": [
+                    "im-operation-example-claim"
+                  ],
+                  "nodes": [
+                    "im-operation-example-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-operation-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "im-plan-section",
+                "heading": "Planned Replacement",
+                "coreRefs": {
+                  "steps": [
+                    "im-plan"
+                  ],
+                  "claims": [
+                    "im-plan-start-claim",
+                    "im-plan-progress-claim",
+                    "im-plan-table-claim",
+                    "im-plan-stop-claim"
+                  ],
+                  "nodes": [
+                    "im-plan-start-node",
+                    "im-plan-progress-node",
+                    "im-plan-table-node",
+                    "im-plan-stop-node"
+                  ],
+                  "relations": [
+                    "im-plan-local-next-1",
+                    "im-plan-local-next-2",
+                    "im-plan-local-next-3"
+                  ],
+                  "flows": [
+                    "im-plan-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "im-plan-start",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-plan"
+                      ],
+                      "claims": [
+                        "im-plan-start-claim"
+                      ],
+                      "nodes": [
+                        "im-plan-start-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-plan-flow"
+                      ]
+                    },
+                    "text": "The planned-replacement example uses A as Primary and B as a Read Replica qualified as Standby. New read/write admission moves to B after compatibility, authoritative connectivity, synchronization and readiness conditions are satisfied. A stops new independent work and completes updates admitted before transfer, including necessary completion work, under valid scoped authority."
+                  },
+                  {
+                    "id": "im-plan-progress",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-plan"
+                      ],
+                      "claims": [
+                        "im-plan-progress-claim"
+                      ],
+                      "nodes": [
+                        "im-plan-progress-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-plan-flow"
+                      ]
+                    },
+                    "text": "After B begins accepting new work, replacement Read Replica C is created and its resident state is constructed. Late commits from A reach B/C, and A catches up with current committed state while retained as a switch-back candidate. The synchronization design supports multiple Replicas and environments under construction or retention, rather than a dedicated A/B copy. A/B/C describe changing roles and do not prescribe three continuously running machines."
+                  },
+                  {
+                    "id": "im-plan-table",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "im-plan"
+                      ],
+                      "claims": [
+                        "im-plan-table-claim"
+                      ],
+                      "nodes": [
+                        "im-plan-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-plan-flow"
+                      ]
+                    },
+                    "caption": "Conditions by Replacement Stage",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Stage"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Check"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "im-plan-table-row-1",
+                        "cells": [
+                          "Before transfer",
+                          "Artifact/data compatibility, readiness, synchronization position and resources"
+                        ]
+                      },
+                      {
+                        "id": "im-plan-table-row-2",
+                        "cells": [
+                          "Admission transfer",
+                          "B new-admission authority; A closed admission and scoped completion authority"
+                        ]
+                      },
+                      {
+                        "id": "im-plan-table-row-3",
+                        "cells": [
+                          "Old-work completion",
+                          "Actual commit, abort, failure or uncertainty; not HTTP completion alone"
+                        ]
+                      },
+                      {
+                        "id": "im-plan-table-row-4",
+                        "cells": [
+                          "Retention and observation",
+                          "C readiness, A synchronization, data compatibility and switch-back eligibility"
+                        ]
+                      },
+                      {
+                        "id": "im-plan-table-row-5",
+                        "cells": [
+                          "Retirement",
+                          "Settled old work, replacement read capacity, retention/observation conditions and outstanding issues"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "im-plan-stop",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-plan"
+                      ],
+                      "claims": [
+                        "im-plan-stop-claim"
+                      ],
+                      "nodes": [
+                        "im-plan-stop-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-plan-flow"
+                      ]
+                    },
+                    "text": "A retires when old-work outcomes are settled, replacement read capacity is available, required synchronization is complete and configured retention/observation conditions hold. Uncertain updates, an unready C or incomplete synchronization defer retirement. A responsive new Primary or elapsed retention time alone does not satisfy these conditions. Authority loss or suspected compromise requires handling outside ordinary completion and switch-back conditions."
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "im-rotation-section",
+                "heading": "Scheduled Replacement, Updates and Switch-back",
+                "coreRefs": {
+                  "steps": [
+                    "im-rotation"
+                  ],
+                  "claims": [
+                    "im-rotation-cadence-claim",
+                    "im-rotation-update-claim",
+                    "im-rotation-fallback-claim"
+                  ],
+                  "nodes": [
+                    "im-rotation-cadence-node",
+                    "im-rotation-update-node",
+                    "im-rotation-fallback-node"
+                  ],
+                  "relations": [
+                    "im-rotation-local-next-1",
+                    "im-rotation-local-next-2"
+                  ],
+                  "flows": [
+                    "im-rotation-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "im-rotation-cadence",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-rotation"
+                      ],
+                      "claims": [
+                        "im-rotation-cadence-claim"
+                      ],
+                      "nodes": [
+                        "im-rotation-cadence-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-rotation-flow"
+                      ]
+                    },
+                    "text": "Replacement cadence is an operating setting related to threat response, update frequency, startup/warm-up cost and business service windows. Daily replacement is one option rather than a fixed default. A scheduled time triggers replacement; it is separate from forced interruption of admitted updates or omission of retirement conditions."
+                  },
+                  {
+                    "id": "im-rotation-update",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-rotation"
+                      ],
+                      "claims": [
+                        "im-rotation-update-claim"
+                      ],
+                      "nodes": [
+                        "im-rotation-update-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-rotation-flow"
+                      ]
+                    },
+                    "text": "A component update comprises environment construction from a new CAR and configuration, compatibility and route checks, admission transfer and observation. Deployment acceptance depends on configured observation conditions as well as the admission change. Scheduled replacement and compatible CAR updates use the same replacement mechanism in the design."
+                  },
+                  {
+                    "id": "im-rotation-fallback",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-rotation"
+                      ],
+                      "claims": [
+                        "im-rotation-fallback-claim"
+                      ],
+                      "nodes": [
+                        "im-rotation-fallback-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-rotation-flow"
+                      ]
+                    },
+                    "text": "A switch-back candidate is a retained environment compatible with current business data and configuration, with required synchronization/readiness and valid admission authority. Switch-back continues from current committed state. Changes that break data compatibility are handled as planned maintenance updates rather than ordinary automatic replacement."
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "im-incidents-section",
+                "heading": "Exceptional and Failure Behavior",
+                "coreRefs": {
+                  "steps": [
+                    "im-incidents"
+                  ],
+                  "claims": [
+                    "im-incident-table-claim",
+                    "im-incidents-distinction-claim",
+                    "im-incidents-unavailable-claim"
+                  ],
+                  "nodes": [
+                    "im-incident-table-node",
+                    "im-incidents-distinction-node",
+                    "im-incidents-unavailable-node"
+                  ],
+                  "relations": [
+                    "im-incidents-local-next-1",
+                    "im-incidents-local-next-2"
+                  ],
+                  "flows": [
+                    "im-incidents-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "im-incident-table",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "im-incidents"
+                      ],
+                      "claims": [
+                        "im-incident-table-claim"
+                      ],
+                      "nodes": [
+                        "im-incident-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-incidents-flow"
+                      ]
+                    },
+                    "caption": "Exceptional States and Handling Conditions",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Situation"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Treatment"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "im-incident-table-row-1",
+                        "cells": [
+                          "Replacement unready",
+                          "Do not transfer admission; examine why readiness failed"
+                        ]
+                      },
+                      {
+                        "id": "im-incident-table-row-2",
+                        "cells": [
+                          "Prolonged old work",
+                          "Observe actual state and choose continuation/business action; do not terminate solely on schedule"
+                        ]
+                      },
+                      {
+                        "id": "im-incident-table-row-3",
+                        "cells": [
+                          "Crash or authority loss",
+                          "Reject invalid-authority writes; take over only with valid ownership, fencing and readiness"
+                        ]
+                      },
+                      {
+                        "id": "im-incident-table-row-4",
+                        "cells": [
+                          "Suspected compromise",
+                          "Prioritize isolation, revocation and investigation; refuse fallback to the suspected runtime"
+                        ]
+                      },
+                      {
+                        "id": "im-incident-table-row-5",
+                        "cells": [
+                          "Authoritative state corrupt or unavailable",
+                          "Use storage/recovery procedures; runtime replacement alone does not resolve it"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "im-incidents-distinction",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-incidents"
+                      ],
+                      "claims": [
+                        "im-incidents-distinction-claim"
+                      ],
+                      "nodes": [
+                        "im-incidents-distinction-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-incidents-flow"
+                      ]
+                    },
+                    "text": "Planned Switchover assumes cooperation by the old Primary. Failover fences writes from an unreachable old environment and starts admission only after valid takeover authority and readiness are established. Interrupted work is reconciled with actual committed outcomes. Load-balancer changes and liveness checks are separate from authority enforcement and outcome reconciliation."
+                  },
+                  {
+                    "id": "im-incidents-unavailable",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-incidents"
+                      ],
+                      "claims": [
+                        "im-incidents-unavailable-claim"
+                      ],
+                      "nodes": [
+                        "im-incidents-unavailable-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-incidents-flow"
+                      ]
+                    },
+                    "text": "Absent or unqualified automatic Failover is recorded as a limitation of the selected deployment. Mutations are unavailable where valid authority or required data cannot be established. Unavailability caused by unmet safety conditions is an observed operating state, recorded separately from the intended continuity target."
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "im-security-section",
+            "heading": "Security Relationship",
+            "coreRefs": {
+              "steps": [
+                "im-security"
+              ],
+              "claims": [
+                "im-security-effect-claim",
+                "im-security-limits-claim",
+                "im-security-guides-claim"
+              ],
+              "nodes": [
+                "im-security-effect-node",
+                "im-security-limits-node",
+                "im-security-guides-node"
+              ],
+              "relations": [
+                "im-security-local-next-1",
+                "im-security-local-next-2"
+              ],
+              "flows": [
+                "im-security-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "im-security-effect",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-security"
+                  ],
+                  "claims": [
+                    "im-security-effect-claim"
+                  ],
+                  "nodes": [
+                    "im-security-effect-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-security-flow"
+                  ]
+                },
+                "text": "Changes or state existing only in a runtime environment may be discarded when that environment is replaced. Construction from trusted artifacts and configuration, combined with scheduled replacement, provides a means to manage how long such state remains in the same runtime. Ordinary and security-triggered replacement share environment construction, readiness and admission-transfer mechanisms. Records of repeated replacement provide operational evidence about that path."
+              },
+              {
+                "id": "im-security-limits",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-security"
+                  ],
+                  "claims": [
+                    "im-security-limits-claim"
+                  ],
+                  "nodes": [
+                    "im-security-limits-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-security-flow"
+                  ]
+                },
+                "text": "Stolen credentials, disclosed information, maliciously modified persistent data and defects in artifacts require separate treatment after runtime replacement. Response includes revocation, isolation, cause correction and inspection of persistent state. A suspected compromised environment is excluded from ordinary switch-back candidates. Environment replacement does not substitute for authentication, authorization or audit controls."
+              },
+              {
+                "id": "im-security-guides",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-security"
+                  ],
+                  "claims": [
+                    "im-security-guides-claim"
+                  ],
+                  "nodes": [
+                    "im-security-guides-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-security-flow"
+                  ]
+                },
+                "text": "The [[../../security/textus-cncf-security-architecture.dox/index.dox][Security guide]] covers authentication, authorization, audit, containment and the wider defense model. This guide covers properties and operating conditions associated with environment replacement. The [[../../availability/textus-cncf-availability-architecture.dox/index.dox][Availability and HA guide]] covers authority, synchronization and transfer protocols in detail."
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "im-policy-section",
+            "heading": "Configuration, Quality Targets and Cost",
+            "coreRefs": {
+              "steps": [
+                "im-policy"
+              ],
+              "claims": [
+                "im-policy-targets-claim",
+                "im-policy-table-claim",
+                "im-policy-observe-claim"
+              ],
+              "nodes": [
+                "im-policy-targets-node",
+                "im-policy-table-node",
+                "im-policy-observe-node"
+              ],
+              "relations": [
+                "im-policy-local-next-1",
+                "im-policy-local-next-2"
+              ],
+              "flows": [
+                "im-policy-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "im-policy-targets",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-policy"
+                  ],
+                  "claims": [
+                    "im-policy-targets-claim"
+                  ],
+                  "nodes": [
+                    "im-policy-targets-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-policy-flow"
+                  ]
+                },
+                "text": "Operating settings are related to availability, recovery time, data preservation, responsiveness, security and operational-effort requirements. The profile design groups those conditions into configuration. Requirements, selected settings, capabilities available in the selected version and observed results are recorded separately. Configuration values alone are not evidence of an achieved service level."
+              },
+              {
+                "id": "im-policy-table",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "im-policy"
+                  ],
+                  "claims": [
+                    "im-policy-table-claim"
+                  ],
+                  "nodes": [
+                    "im-policy-table-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-policy-flow"
+                  ]
+                },
+                "caption": "Configuration and Operating Tradeoffs",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Choice"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Effect and Cost"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "im-policy-table-row-1",
+                    "cells": [
+                      "Stop/reconstruct one environment",
+                      "Lower resource demand, with downtime during replacement"
+                    ]
+                  },
+                  {
+                    "id": "im-policy-table-row-2",
+                    "cells": [
+                      "Primary plus prepared Read Replica",
+                      "Supports planned continuity and read distribution at added steady resource cost"
+                    ]
+                  },
+                  {
+                    "id": "im-policy-table-row-3",
+                    "cells": [
+                      "Longer fallback retention",
+                      "More observation/fallback opportunity, with more resources, synchronization and compatibility costs"
+                    ]
+                  },
+                  {
+                    "id": "im-policy-table-row-4",
+                    "cells": [
+                      "Shorter replacement interval",
+                      "Shorter runtime lifetimes, with more frequent construction, synchronization and observation"
+                    ]
+                  },
+                  {
+                    "id": "im-policy-table-row-5",
+                    "cells": [
+                      "Separate-host placement",
+                      "Host-failure protection requires qualified independent placement, coordination and storage, with added cost"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "im-policy-observe",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-policy"
+                  ],
+                  "claims": [
+                    "im-policy-observe-claim"
+                  ],
+                  "nodes": [
+                    "im-policy-observe-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-policy-flow"
+                  ]
+                },
+                "text": "Observations include replacement reason/version, admission owner, environment readiness, synchronization lag, draining work, retention period, unmet retirement conditions and recent replacement outcomes. Qualification using several processes on one host differs from qualification against loss of that host. Records relate the requested failure boundary to the boundary actually exercised."
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "im-adopt-section",
+            "heading": "Implementation Plan and Qualification Status",
+            "coreRefs": {
+              "steps": [
+                "im-adopt"
+              ],
+              "claims": [
+                "im-adopt-priority-claim",
+                "im-adopt-proof-claim",
+                "im-adopt-knowledge-claim"
+              ],
+              "nodes": [
+                "im-adopt-priority-node",
+                "im-adopt-proof-node",
+                "im-adopt-knowledge-node"
+              ],
+              "relations": [
+                "im-adopt-local-next-1",
+                "im-adopt-local-next-2"
+              ],
+              "flows": [
+                "im-adopt-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "im-adopt-priority",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-adopt"
+                  ],
+                  "claims": [
+                    "im-adopt-priority-claim"
+                  ],
+                  "nodes": [
+                    "im-adopt-priority-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-adopt-flow"
+                  ]
+                },
+                "text": "As of 2026-11-13, CNCF Phase 108 is planned and IR-01 through IR-05 are OPEN. Planned replacement is the initial delivery scope. Development items cover admission/persistence/authority integration, shared cache synchronization, A/B/C transfer, retention/repeated operation and qualification using actual separate runtimes and authoritative data. Registration of these items does not establish delivered automatic Failover or broader deployment support."
+              },
+              {
+                "id": "im-adopt-proof",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-adopt"
+                  ],
+                  "claims": [
+                    "im-adopt-proof-claim"
+                  ],
+                  "nodes": [
+                    "im-adopt-proof-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-adopt-flow"
+                  ]
+                },
+                "text": "Planned qualification covers admission transfer from A to B during an update, persistence and B/C propagation of A commits, reconstruction after resident-state loss, catch-up after a crash before notification, refusal of unready environments, reconciliation of uncertain outcomes and enforcement of retirement conditions. These are planned checks. Memory-only values or mocks do not qualify preservation through the actual storage path."
+              },
+              {
+                "id": "im-adopt-knowledge",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-adopt"
+                  ],
+                  "claims": [
+                    "im-adopt-knowledge-claim"
+                  ],
+                  "nodes": [
+                    "im-adopt-knowledge-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-adopt-flow"
+                  ]
+                },
+                "text": "The BoK and project knowledge provide references for rationale, assumptions, quality targets, configuration choices and qualification results. Reviewed implementation/operation findings inform subsequent configuration choices and AI-driven development. Documented policy and observed behavior in a selected version are recorded separately."
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "im-references-section",
+            "heading": "Related Documents and Design Sources",
+            "coreRefs": {
+              "steps": [
+                "im-references"
+              ],
+              "claims": [
+                "im-reference-guides-claim",
+                "im-reference-authority-claim",
+                "im-reference-design-harness-claim"
+              ],
+              "nodes": [
+                "im-reference-guides-node",
+                "im-reference-authority-node",
+                "im-reference-design-harness-node"
+              ],
+              "relations": [
+                "im-references-local-next-1",
+                "im-references-local-next-2"
+              ],
+              "flows": [
+                "im-references-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "im-reference-guides",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-references"
+                  ],
+                  "claims": [
+                    "im-reference-guides-claim"
+                  ],
+                  "nodes": [
+                    "im-reference-guides-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-references-flow"
+                  ]
+                },
+                "text": "The [[../../availability/textus-cncf-availability-architecture.dox/index.dox][Availability and HA guide]] explains continuity objectives, architecture, synchronization, authority and transfer protocols. The [[../../security/textus-cncf-security-architecture.dox/index.dox][Security guide]] describes the wider defense context. The [[../../reactive/textus-cncf-reactive-architecture.dox/index.dox][Reactive guide]] covers memory residency, UnitOfWork and recoverability."
+              },
+              {
+                "id": "im-reference-authority",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-references"
+                  ],
+                  "claims": [
+                    "im-reference-authority-claim"
+                  ],
+                  "nodes": [
+                    "im-reference-authority-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-references-flow"
+                  ]
+                },
+                "text": "Textus-specific design sources are CNCF Availability Architecture, Subsystem Runtime Architecture and Runtime Cache Synchronization. CNCF Phase 108 owns the implementation plan. This guide explains those designs and plans. Source documents and their revision dates identify the authority; CNCF records own implementation contracts and qualification results."
+              },
+              {
+                "id": "im-reference-design-harness",
+                "kind": "paragraph",
+                "text": "For general background, Kief Morris's Immutable Server (https://martinfowler.com/bliki/ImmutableServer.html) discusses parallels with CI/CD and handling of retained data. Chad Fowler's Trash Your Servers and Burn Your Code (https://chadfowler.com/articles/trash-your-servers-and-burn-your-code.html) reports how deployment choices affected his thinking about application code. The Twelve-Factor App chapters Processes (https://12factor.net/processes) and Disposability (https://12factor.net/disposability) address separation of durable state, startup/shutdown and interrupted-work conditions. These sources inform the design synthesis; they do not establish CNCF implementation status.",
+                "coreRefs": {
+                  "steps": [
+                    "im-references"
+                  ],
+                  "claims": [
+                    "im-reference-design-harness-claim"
+                  ],
+                  "nodes": [
+                    "im-reference-design-harness-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-references-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "textus-cncf-immutable-infrastructure",
+        "text": "Textus/CNCF Immutable Infrastructure — Technical Guide"
+      },
+      {
+        "stepRef": "im-why",
+        "text": "Purpose and Scope"
+      },
+      {
+        "stepRef": "im-concepts",
+        "text": "Concepts and Applicability"
+      },
+      {
+        "stepRef": "im-architecture",
+        "text": "Overall Architecture"
+      },
+      {
+        "stepRef": "im-platform",
+        "text": "Tier Structure and Responsibilities"
+      },
+      {
+        "stepRef": "im-memory",
+        "text": "State Management and Application Boundaries"
+      },
+      {
+        "stepRef": "im-operation",
+        "text": "Lifecycle and Operation"
+      },
+      {
+        "stepRef": "im-plan",
+        "text": "Planned Replacement"
+      },
+      {
+        "stepRef": "im-rotation",
+        "text": "Scheduled Replacement, Updates and Switch-back"
+      },
+      {
+        "stepRef": "im-incidents",
+        "text": "Exceptional and Failure Behavior"
+      },
+      {
+        "stepRef": "im-security",
+        "text": "Security Relationship"
+      },
+      {
+        "stepRef": "im-policy",
+        "text": "Configuration, Quality Targets and Cost"
+      },
+      {
+        "stepRef": "im-adopt",
+        "text": "Implementation Plan and Qualification Status"
+      },
+      {
+        "stepRef": "im-references",
+        "text": "Related Documents and Design Sources"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "im-purpose-node",
+        "text": "This guide describes the purpose, overall architecture, state management, lifecycle and operating conditions of immutable infrastructure in Textus/CNCF. Chapters 1 and 2 cover purpose and terminology; Chapters 3 and 4 cover architecture and state; Chapter 5 covers replacement behavior. Chapters 6 and 7 cover security and operating conditions, Chapter 8 records implementation and qualification status, and Chapter 9 lists related sources. Architectural descriptions are distinct from capabilities implemented and qualified in a selected version."
+      },
+      {
+        "nodeRef": "im-why-purpose-node",
+        "text": "Immutable infrastructure is an operating model in which changes are recorded in artifacts and deployment configuration, and a newly constructed environment replaces an existing environment. Routine updates use replacement rather than direct modification of a running environment. The replacement unit and its construction inputs are defined explicitly. Business-data updates are separate from runtime replacement."
+      },
+      {
+        "nodeRef": "im-why-replace-node",
+        "text": "The objectives are identifiable runtime configuration, reconstruction from the same inputs and updates through controlled replacement units. Scheduled replacement manages the period for which an environment is used. The scope includes component updates, configuration changes and runtime lifetime management during ordinary service, as well as recovery after failure. Repeated restarts alone do not demonstrate reconstruction from artifacts and configuration or separation of state."
+      },
+      {
+        "nodeRef": "im-why-adoption-node",
+        "text": "The guide covers the Application tier serving business applications and the Domain tier using memory-resident execution. A deployment that permits downtime can stop and reconstruct a single environment. Continuing service during replacement requires preparation of another environment, admission transfer, data synchronization and completion management for old work. The supported failure boundary and continuity level are defined separately by the HA deployment."
+      },
+      {
+        "nodeRef": "im-concept-table-node",
+        "text": "Roles of Related Concepts"
+      },
+      {
+        "nodeRef": "im-concepts-example-node",
+        "text": "Scheduled replacement reconstructs an environment using the same component version; a component update uses a newer CAR version. Replacement cadence is an operating policy. Both replace an execution environment without rewinding authoritative business data. Uninterrupted operation, short runtime lifetimes and data durability each require their own configuration and qualification conditions."
+      },
+      {
+        "nodeRef": "im-architecture-scope-node",
+        "text": "The following is the intended Textus/CNCF structure for runtime replacement. It distinguishes artifacts/configuration, deployment, business execution, authoritative/resident data, admission/lifecycle control and observation. These are responsibility boundaries rather than a requirement for separate products or hosts."
+      },
+      {
+        "nodeRef": "im-architecture-elements-node",
+        "text": "Elements and Connections"
+      },
+      {
+        "nodeRef": "im-architecture-construction-node",
+        "text": "The construction path supplies deployment with a selected CAR version, runtime definition and deployment configuration to create a new environment. Readiness covers artifact/data compatibility, authoritative connectivity and construction of required resident state. A running environment is a replaceable instance of an identified version/configuration, rather than a place to accumulate manual changes as the source for its successor."
+      },
+      {
+        "nodeRef": "im-architecture-service-node",
+        "text": "The service path passes requests from a stable entry to an execution environment satisfying admission authority and readiness. Domain updates commit to authoritative storage through UnitOfWork, and their outcomes update resident state and Read Replicas in the design. Runtime replacement and authoritative business-data updates are separate paths."
+      },
+      {
+        "nodeRef": "im-architecture-control-node",
+        "text": "Control uses coordination authority and observed readiness, synchronization and work state to decide admission changes, retention and retirement. Deployment creates/stops environments according to those decisions, while the entry changes its destination. Observation records versions, roles, applied progress, draining work and failure reasons. Environment startup alone does not authorize business admission or retirement of an old environment."
+      },
+      {
+        "nodeRef": "im-platform-principle-node",
+        "text": "The Textus/CNCF structure places shared state-management and execution-lifecycle mechanisms in the platform and defines their component-facing contracts. Applications implement business rules and update/continuation behavior under those contracts; the platform owns readiness, admission changes, synchronization, completion management and retirement. Profiles and configuration select replacement without application-specific A/B/C transfer logic. Chapter 8 and the owning sources distinguish mechanisms available in a selected version from planned replacement control and qualification work."
+      },
+      {
+        "nodeRef": "im-owner-table-node",
+        "text": "Responsibility Boundaries"
+      },
+      {
+        "nodeRef": "im-platform-tiers-node",
+        "text": "The intended Application-tier structure uses Cloud Function environment reuse and disposal for suitable work. The Domain tier transfers service to an environment with prepared resident state. Primary is the role accepting new mutations; Read Replica is the role serving permitted reads. Standby denotes promotion readiness, assessed separately from read availability. These are logical roles rather than a prescribed physical host count."
+      },
+      {
+        "nodeRef": "im-memory-purpose-node",
+        "text": "CNCF Domain Subsystems are designed to retain EntitySpace, Entity Realms, indexes, Working Sets and Views in memory to reduce repeated retrieval and construction. Authoritative business state and resident memory have separate lifetimes. Committed state needed for continuity does not reside solely in one process; the required resident state is reconstructed after runtime replacement."
+      },
+      {
+        "nodeRef": "im-memory-commit-node",
+        "text": "The design commits updates to authoritative storage through Domain rules and UnitOfWork, then updates or invalidates resident state according to the outcome. Business commit success corresponds to the durability contract of the selected storage. Memory updates and Replica notifications are separate from authoritative commit. The actual preservation boundary depends on storage integration and observed durability and recovery behavior."
+      },
+      {
+        "nodeRef": "im-state-table-node",
+        "text": "State Categories During Replacement"
+      },
+      {
+        "nodeRef": "im-memory-recovery-node",
+        "text": "Reconstruction obtains a consistent authoritative baseline and catches up with updates committed during loading. Use begins when required applied progress and read conditions are satisfied. A memory copy from another runtime or receipt of notifications alone does not establish that all required committed state has been applied."
+      },
+      {
+        "nodeRef": "im-memory-crash-node",
+        "text": "Planned replacement retires an old environment after admitted work reaches a settled outcome under valid authority. A crash can lose intermediate computation, so committed, uncommitted and uncertain outcomes are reconciled with storage records. Job and Workflow resumption follows supported durable checkpoints and recovery contracts. Arbitrary Running work is not assumed to be replayable. Data preservation also depends on storage failure boundaries, backup and recovery policy."
+      },
+      {
+        "nodeRef": "im-operation-scope-node",
+        "text": "This chapter describes how the preceding elements participate in replacement. Planned replacement and handling of authority loss, crashes or suspected compromise have different preconditions. The behavior below describes the design; Chapter 8 records delivery and qualification status for the selected scope."
+      },
+      {
+        "nodeRef": "im-plan-start-node",
+        "text": "The planned-replacement example uses A as Primary and B as a Read Replica qualified as Standby. New read/write admission moves to B after compatibility, authoritative connectivity, synchronization and readiness conditions are satisfied. A stops new independent work and completes updates admitted before transfer, including necessary completion work, under valid scoped authority."
+      },
+      {
+        "nodeRef": "im-plan-progress-node",
+        "text": "After B begins accepting new work, replacement Read Replica C is created and its resident state is constructed. Late commits from A reach B/C, and A catches up with current committed state while retained as a switch-back candidate. The synchronization design supports multiple Replicas and environments under construction or retention, rather than a dedicated A/B copy. A/B/C describe changing roles and do not prescribe three continuously running machines."
+      },
+      {
+        "nodeRef": "im-plan-table-node",
+        "text": "Conditions by Replacement Stage"
+      },
+      {
+        "nodeRef": "im-plan-stop-node",
+        "text": "A retires when old-work outcomes are settled, replacement read capacity is available, required synchronization is complete and configured retention/observation conditions hold. Uncertain updates, an unready C or incomplete synchronization defer retirement. A responsive new Primary or elapsed retention time alone does not satisfy these conditions. Authority loss or suspected compromise requires handling outside ordinary completion and switch-back conditions."
+      },
+      {
+        "nodeRef": "im-rotation-cadence-node",
+        "text": "Replacement cadence is an operating setting related to threat response, update frequency, startup/warm-up cost and business service windows. Daily replacement is one option rather than a fixed default. A scheduled time triggers replacement; it is separate from forced interruption of admitted updates or omission of retirement conditions."
+      },
+      {
+        "nodeRef": "im-rotation-update-node",
+        "text": "A component update comprises environment construction from a new CAR and configuration, compatibility and route checks, admission transfer and observation. Deployment acceptance depends on configured observation conditions as well as the admission change. Scheduled replacement and compatible CAR updates use the same replacement mechanism in the design."
+      },
+      {
+        "nodeRef": "im-rotation-fallback-node",
+        "text": "A switch-back candidate is a retained environment compatible with current business data and configuration, with required synchronization/readiness and valid admission authority. Switch-back continues from current committed state. Changes that break data compatibility are handled as planned maintenance updates rather than ordinary automatic replacement."
+      },
+      {
+        "nodeRef": "im-incident-table-node",
+        "text": "Exceptional States and Handling Conditions"
+      },
+      {
+        "nodeRef": "im-incidents-distinction-node",
+        "text": "Planned Switchover assumes cooperation by the old Primary. Failover fences writes from an unreachable old environment and starts admission only after valid takeover authority and readiness are established. Interrupted work is reconciled with actual committed outcomes. Load-balancer changes and liveness checks are separate from authority enforcement and outcome reconciliation."
+      },
+      {
+        "nodeRef": "im-incidents-unavailable-node",
+        "text": "Absent or unqualified automatic Failover is recorded as a limitation of the selected deployment. Mutations are unavailable where valid authority or required data cannot be established. Unavailability caused by unmet safety conditions is an observed operating state, recorded separately from the intended continuity target."
+      },
+      {
+        "nodeRef": "im-security-effect-node",
+        "text": "Changes or state existing only in a runtime environment may be discarded when that environment is replaced. Construction from trusted artifacts and configuration, combined with scheduled replacement, provides a means to manage how long such state remains in the same runtime. Ordinary and security-triggered replacement share environment construction, readiness and admission-transfer mechanisms. Records of repeated replacement provide operational evidence about that path."
+      },
+      {
+        "nodeRef": "im-security-limits-node",
+        "text": "Stolen credentials, disclosed information, maliciously modified persistent data and defects in artifacts require separate treatment after runtime replacement. Response includes revocation, isolation, cause correction and inspection of persistent state. A suspected compromised environment is excluded from ordinary switch-back candidates. Environment replacement does not substitute for authentication, authorization or audit controls."
+      },
+      {
+        "nodeRef": "im-security-guides-node",
+        "text": "The [[../../security/textus-cncf-security-architecture.dox/index.dox][Security guide]] covers authentication, authorization, audit, containment and the wider defense model. This guide covers properties and operating conditions associated with environment replacement. The [[../../availability/textus-cncf-availability-architecture.dox/index.dox][Availability and HA guide]] covers authority, synchronization and transfer protocols in detail."
+      },
+      {
+        "nodeRef": "im-policy-targets-node",
+        "text": "Operating settings are related to availability, recovery time, data preservation, responsiveness, security and operational-effort requirements. The profile design groups those conditions into configuration. Requirements, selected settings, capabilities available in the selected version and observed results are recorded separately. Configuration values alone are not evidence of an achieved service level."
+      },
+      {
+        "nodeRef": "im-policy-table-node",
+        "text": "Configuration and Operating Tradeoffs"
+      },
+      {
+        "nodeRef": "im-policy-observe-node",
+        "text": "Observations include replacement reason/version, admission owner, environment readiness, synchronization lag, draining work, retention period, unmet retirement conditions and recent replacement outcomes. Qualification using several processes on one host differs from qualification against loss of that host. Records relate the requested failure boundary to the boundary actually exercised."
+      },
+      {
+        "nodeRef": "im-adopt-priority-node",
+        "text": "As of 2026-11-13, CNCF Phase 108 is planned and IR-01 through IR-05 are OPEN. Planned replacement is the initial delivery scope. Development items cover admission/persistence/authority integration, shared cache synchronization, A/B/C transfer, retention/repeated operation and qualification using actual separate runtimes and authoritative data. Registration of these items does not establish delivered automatic Failover or broader deployment support."
+      },
+      {
+        "nodeRef": "im-adopt-proof-node",
+        "text": "Planned qualification covers admission transfer from A to B during an update, persistence and B/C propagation of A commits, reconstruction after resident-state loss, catch-up after a crash before notification, refusal of unready environments, reconciliation of uncertain outcomes and enforcement of retirement conditions. These are planned checks. Memory-only values or mocks do not qualify preservation through the actual storage path."
+      },
+      {
+        "nodeRef": "im-adopt-knowledge-node",
+        "text": "The BoK and project knowledge provide references for rationale, assumptions, quality targets, configuration choices and qualification results. Reviewed implementation/operation findings inform subsequent configuration choices and AI-driven development. Documented policy and observed behavior in a selected version are recorded separately."
+      },
+      {
+        "nodeRef": "im-reference-guides-node",
+        "text": "The [[../../availability/textus-cncf-availability-architecture.dox/index.dox][Availability and HA guide]] explains continuity objectives, architecture, synchronization, authority and transfer protocols. The [[../../security/textus-cncf-security-architecture.dox/index.dox][Security guide]] describes the wider defense context. The [[../../reactive/textus-cncf-reactive-architecture.dox/index.dox][Reactive guide]] covers memory residency, UnitOfWork and recoverability."
+      },
+      {
+        "nodeRef": "im-reference-authority-node",
+        "text": "Textus-specific design sources are CNCF Availability Architecture, Subsystem Runtime Architecture and Runtime Cache Synchronization. CNCF Phase 108 owns the implementation plan. This guide explains those designs and plans. Source documents and their revision dates identify the authority; CNCF records own implementation contracts and qualification results."
+      },
+      {
+        "nodeRef": "im-reading-boundary-node",
+        "text": "This technical guide describes the architecture and operating model. Commands for a particular environment and project-specific runbooks are outside its scope. Architectural structure, implementation plans and behavior qualified in a selected version are distinguished; source documents own concrete contracts and qualification results."
+      },
+      {
+        "nodeRef": "im-operation-example-node",
+        "text": "In the planned-replacement example, A is the former Primary, B takes over admission and C is the newly prepared Read Replica. A/B/C describe changing roles and do not specify three continuously running physical hosts."
+      },
+      {
+        "nodeRef": "im-design-harness-node",
+        "text": "This guide describes a design harness as the framework that defines and maintains the architectural conditions needed for replaceability. For each replacement/deployment unit, the design identifies cohesive responsibilities, inter-unit dependencies, state ownership, public interfaces and compatibility. Properties such as loose coupling and high cohesion are expressed through concrete boundaries: permitted dependencies and responsibilities owned inside or outside a unit. The design also defines durable/transient state separation, configuration/dependencies, startup/shutdown and admitted-work completion/recovery conditions. These are architectural preconditions for the replacement procedure."
+      },
+      {
+        "nodeRef": "im-cicd-design-connection-node",
+        "text": "CI/CD likewise requires defined units for continuous verification/deployment, reproducible artifacts/configuration and explicit dependencies under verification; changes must preserve those conditions. Immutable operation additionally requires maintained conditions for runtime reconstruction/replacement. Because the selected deployment/replacement method depends on these conditions, violations are subjects for detection and correction through its verification and deployment/replacement paths. Actual tests and deployment/replacement results establish whether the properties are maintained, rather than a written declaration alone. These ongoing constraints and checks function as a harness for architectural properties. They do not automatically guarantee whole-design correctness or the sufficiency of the selected checks."
+      },
+      {
+        "nodeRef": "im-reference-design-harness-node",
+        "text": "For general background, Kief Morris's Immutable Server (https://martinfowler.com/bliki/ImmutableServer.html) discusses parallels with CI/CD and handling of retained data. Chad Fowler's Trash Your Servers and Burn Your Code (https://chadfowler.com/articles/trash-your-servers-and-burn-your-code.html) reports how deployment choices affected his thinking about application code. The Twelve-Factor App chapters Processes (https://12factor.net/processes) and Disposability (https://12factor.net/disposability) address separation of durable state, startup/shutdown and interrupted-work conditions. These sources inform the design synthesis; they do not establish CNCF implementation status."
+      },
+      {
+        "nodeRef": "im-component-design-harness-node",
+        "text": "In CNCF, the harness combines platform mechanisms supporting replacement with implementation contracts for hosted components. The platform owns shared state-management, update-commit and execution-lifecycle mechanisms; components implement business behavior under those contracts. Both platform replacement mechanisms and compatible component implementations are required. Continuing replaceability checks maintain responsibility separation, explicit dependencies, testability and replaceability as component implementation conditions."
+      },
+      {
+        "nodeRef": "im-application-implementation-contract-node",
+        "text": "The implementation contracts apply to application-specific additions as well as generated code, with the same conditions for human-written and AI-generated additions. Continuity-critical state must not reside solely in process memory or local files belonging to the replaceable environment. Updates connect to the applicable authoritative/UnitOfWork commit path, and processing start, shutdown, completion and resumption follow platform contracts. Background work and external effects have explicit lifetime and completion/recovery ownership. Conformance is qualified through actual business paths including the additions, exercising replacement and recovery. The generation method or AI model used does not substitute for those checks."
+      }
+    ]
+  }
+}

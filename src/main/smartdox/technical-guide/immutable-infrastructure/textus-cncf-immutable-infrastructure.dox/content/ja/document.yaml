@@ -1,0 +1,2011 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-immutable-infrastructure-document-ja",
+  "core": {
+    "id": "textus-cncf-immutable-infrastructure"
+  },
+  "locale": "ja",
+  "document": {
+    "title": "Textus/CNCF イミュータブルインフラストラクチャ 技術ガイド",
+    "sections": [
+      {
+        "id": "textus-cncf-immutable-infrastructure-section",
+        "heading": "Textus/CNCF イミュータブルインフラストラクチャ 技術ガイド",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-immutable-infrastructure"
+          ],
+          "claims": [
+            "im-purpose-claim",
+            "im-reading-boundary-claim"
+          ],
+          "nodes": [
+            "im-purpose-node",
+            "im-reading-boundary-node"
+          ],
+          "relations": [
+            "textus-cncf-immutable-infrastructure-local-next-1"
+          ],
+          "flows": [
+            "textus-cncf-immutable-infrastructure-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "im-purpose",
+            "kind": "paragraph",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-immutable-infrastructure"
+              ],
+              "claims": [
+                "im-purpose-claim"
+              ],
+              "nodes": [
+                "im-purpose-node"
+              ],
+              "relations": [],
+              "flows": [
+                "textus-cncf-immutable-infrastructure-flow"
+              ]
+            },
+            "text": "本書は、Textus/CNCFにおけるイミュータブルインフラストラクチャの目的、全体構造、状態管理、ライフサイクルおよび運用条件を説明します。第1・2章で目的と用語、第3・4章で構造と状態、第5章で交換時の動作を扱います。第6・7章ではセキュリティと運用条件を整理し、第8章で実装・検証状況、第9章で関連資料を示します。本文の設計記述と、採用版で実装・検証された範囲は区別します。"
+          },
+          {
+            "id": "im-reading-boundary",
+            "kind": "paragraph",
+            "text": "本書は設計と運用モデルを説明する技術文書です。特定環境の操作コマンドや個別案件の作業手順は対象外です。設計上の構成、実装計画、採用版で確認された挙動を区別し、具体的な契約と検証結果は原典を参照します。",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-immutable-infrastructure"
+              ],
+              "claims": [
+                "im-reading-boundary-claim"
+              ],
+              "nodes": [
+                "im-reading-boundary-node"
+              ],
+              "relations": [],
+              "flows": [
+                "textus-cncf-immutable-infrastructure-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "im-why-section",
+            "heading": "目的と対象範囲",
+            "coreRefs": {
+              "steps": [
+                "im-why"
+              ],
+              "claims": [
+                "im-why-purpose-claim",
+                "im-why-replace-claim",
+                "im-design-harness-claim",
+                "im-component-design-harness-claim",
+                "im-cicd-design-connection-claim",
+                "im-why-adoption-claim"
+              ],
+              "nodes": [
+                "im-why-purpose-node",
+                "im-why-replace-node",
+                "im-design-harness-node",
+                "im-component-design-harness-node",
+                "im-cicd-design-connection-node",
+                "im-why-adoption-node"
+              ],
+              "relations": [
+                "im-why-local-next-1",
+                "im-why-local-next-2",
+                "im-why-local-next-3",
+                "im-why-local-next-4",
+                "im-why-local-next-5"
+              ],
+              "flows": [
+                "im-why-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "im-why-purpose",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-why"
+                  ],
+                  "claims": [
+                    "im-why-purpose-claim"
+                  ],
+                  "nodes": [
+                    "im-why-purpose-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-why-flow"
+                  ]
+                },
+                "text": "イミュータブルインフラストラクチャは、変更を成果物と配備構成に反映し、それらから生成した新しい実行環境で既存の実行環境を置き換える運用方式です。稼働中の環境への直接変更を通常の更新方法とせず、交換する単位と、その生成に必要な入力を定めます。業務データの更新は実行環境の交換とは別に扱います。"
+              },
+              {
+                "id": "im-why-replace",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-why"
+                  ],
+                  "claims": [
+                    "im-why-replace-claim"
+                  ],
+                  "nodes": [
+                    "im-why-replace-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-why-flow"
+                  ]
+                },
+                "text": "目的は、実行環境の構成を識別できること、同じ入力から環境を再構築できること、および更新を管理された交換単位で扱えることです。定期交換は、同じ環境を使用する期間を管理する運用に当たります。障害後の復旧だけでなく、通常運転中の部品更新、構成変更、環境の寿命管理を対象にします。再起動だけを繰り返す場合には、成果物と構成からの再構築や状態の分離は確認できません。"
+              },
+              {
+                "id": "im-design-harness",
+                "kind": "paragraph",
+                "text": "本書では、交換可能性を成立させる設計条件と、その維持を求める枠組みを、設計上のハーネスとして位置付けます。交換・配備の単位について、責任のまとまり、単位間の依存、状態の所有、公開インターフェースと互換性を明示します。疎結合・高凝集などの特性を、依存してよい相手や、単位の内外で完結させる責任といった具体的な境界に落とし込みます。さらに、永続状態と一時状態の分離、構成・依存関係、起動・終了、受付済み処理の完了や回復の条件を定義します。これらは交換手順の外側にある設計上の成立条件です。",
+                "coreRefs": {
+                  "steps": [
+                    "im-why"
+                  ],
+                  "claims": [
+                    "im-design-harness-claim"
+                  ],
+                  "nodes": [
+                    "im-design-harness-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-why-flow"
+                  ]
+                }
+              },
+              {
+                "id": "im-component-design-harness",
+                "kind": "paragraph",
+                "text": "CNCFでは、交換を支える基盤機構と、その上で動作するコンポーネントの実装契約を組み合わせて、このハーネスを利用します。基盤が状態管理、更新の確定、実行ライフサイクルなどの共通機構を担当し、コンポーネントはその契約に沿って業務処理を実装します。基盤の交換機構と、それを妨げないコンポーネント実装の両方が必要です。交換可能性への適合を継続して確認することにより、責任分離、明示的な依存関係、検証可能性および交換可能性を、コンポーネントの実装条件として維持します。",
+                "coreRefs": {
+                  "steps": [
+                    "im-why"
+                  ],
+                  "claims": [
+                    "im-component-design-harness-claim"
+                  ],
+                  "nodes": [
+                    "im-component-design-harness-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-why-flow"
+                  ]
+                }
+              },
+              {
+                "id": "im-cicd-design-connection",
+                "kind": "paragraph",
+                "text": "CI/CDでも、継続的に検証・配備できる単位、再現可能な成果物と構成、および検証対象の依存関係を定義し、その条件を変更後も維持する必要があります。イミュータブル運用では、実行環境を再構築・交換できる条件も維持対象になります。採用した交換・配備方式がこれらの条件に依存するため、条件を満たさない変更は、検証や配備・交換の経路で検出・是正する対象です。特性を文書に掲げるだけでなく、実際の試験と配備・交換の結果で、守られていることを確認します。この継続的な制約と確認が、アーキテクチャの特性を維持するハーネスとして機能します。設計全体の正しさや、選択した検証項目の十分性を自動的に保証するものではありません。",
+                "coreRefs": {
+                  "steps": [
+                    "im-why"
+                  ],
+                  "claims": [
+                    "im-cicd-design-connection-claim"
+                  ],
+                  "nodes": [
+                    "im-cicd-design-connection-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-why-flow"
+                  ]
+                }
+              },
+              {
+                "id": "im-why-adoption",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-why"
+                  ],
+                  "claims": [
+                    "im-why-adoption-claim"
+                  ],
+                  "nodes": [
+                    "im-why-adoption-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-why-flow"
+                  ]
+                },
+                "text": "本書は、業務アプリケーションを動かすApplicationティアと、メモリ常駐を利用するDomainティアを対象にします。停止を許容する構成では単一環境を停止して再構築できます。交換中も業務を継続する構成では、別環境の準備、受付の切替え、データ同期、旧処理の完了管理が必要です。対応する故障の範囲と業務継続の水準は、HA構成として別に定めます。"
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "im-concepts-section",
+            "heading": "基本概念と適用条件",
+            "coreRefs": {
+              "steps": [
+                "im-concepts"
+              ],
+              "claims": [
+                "im-concept-table-claim",
+                "im-concepts-example-claim"
+              ],
+              "nodes": [
+                "im-concept-table-node",
+                "im-concepts-example-node"
+              ],
+              "relations": [
+                "im-concepts-local-next-1"
+              ],
+              "flows": [
+                "im-concepts-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "im-concept-table",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "im-concepts"
+                  ],
+                  "claims": [
+                    "im-concept-table-claim"
+                  ],
+                  "nodes": [
+                    "im-concept-table-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-concepts-flow"
+                  ]
+                },
+                "caption": "関連する概念の役割",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "概念"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "意味"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "それだけでは保証しないこと"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "im-concept-table-row-1",
+                    "cells": [
+                      "Immutable",
+                      "稼働中の環境を変更せず、新しい環境へ交換する",
+                      "短命性、無停止、データの永続性"
+                    ]
+                  },
+                  {
+                    "id": "im-concept-table-row-2",
+                    "cells": [
+                      "Ephemeral",
+                      "寿命を短く管理し、実行環境を破棄できるようにする",
+                      "構成の再現性やデータ保全"
+                    ]
+                  },
+                  {
+                    "id": "im-concept-table-row-3",
+                    "cells": [
+                      "HA",
+                      "定めた障害範囲と運用条件でサービス継続を支える",
+                      "すべての障害への耐性やバックアップ"
+                    ]
+                  },
+                  {
+                    "id": "im-concept-table-row-4",
+                    "cells": [
+                      "永続化",
+                      "必要な業務状態を実行環境の寿命から分離する",
+                      "保存基盤自体の障害への無条件な耐性"
+                    ]
+                  },
+                  {
+                    "id": "im-concept-table-row-5",
+                    "cells": [
+                      "定期交換",
+                      "運用方針に従う間隔で実行環境を交換する",
+                      "交換中の継続性や障害時の引継ぎ"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "im-concepts-example",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-concepts"
+                  ],
+                  "claims": [
+                    "im-concepts-example-claim"
+                  ],
+                  "nodes": [
+                    "im-concepts-example-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-concepts-flow"
+                  ]
+                },
+                "text": "定期交換では同じ部品版を用いて実行環境を再構築し、部品更新では新しい版のCARを用います。交換間隔は運用方針です。いずれも実行環境を交換する操作であり、正本の業務データを過去の状態へ戻す操作ではありません。無停止運転、実行環境の短命性、データの永続性は、それぞれに必要な構成と条件で確認する性質です。"
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "im-architecture-section",
+            "heading": "全体アーキテクチャ",
+            "coreRefs": {
+              "steps": [
+                "im-architecture"
+              ],
+              "claims": [
+                "im-architecture-scope-claim",
+                "im-architecture-elements-claim",
+                "im-architecture-construction-claim",
+                "im-architecture-service-claim",
+                "im-architecture-control-claim"
+              ],
+              "nodes": [
+                "im-architecture-scope-node",
+                "im-architecture-elements-node",
+                "im-architecture-construction-node",
+                "im-architecture-service-node",
+                "im-architecture-control-node"
+              ],
+              "relations": [
+                "im-architecture-local-next-1",
+                "im-architecture-local-next-2",
+                "im-architecture-local-next-3",
+                "im-architecture-local-next-4"
+              ],
+              "flows": [
+                "im-architecture-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "im-architecture-scope",
+                "kind": "paragraph",
+                "text": "以下は、Textus/CNCFで実行環境を交換するための設計上の構成です。成果物と構成、環境を生成する配備系、業務を処理する実行系、正本と常駐状態を扱うデータ系、受付権限と寿命を管理する制御系、および観測を区別します。これらは責任の区分であり、各区分を必ず独立した製品やホストに配置する意味ではありません。",
+                "coreRefs": {
+                  "steps": [
+                    "im-architecture"
+                  ],
+                  "claims": [
+                    "im-architecture-scope-claim"
+                  ],
+                  "nodes": [
+                    "im-architecture-scope-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-architecture-flow"
+                  ]
+                }
+              },
+              {
+                "id": "im-architecture-elements",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "im-architecture"
+                  ],
+                  "claims": [
+                    "im-architecture-elements-claim"
+                  ],
+                  "nodes": [
+                    "im-architecture-elements-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-architecture-flow"
+                  ]
+                },
+                "caption": "構成要素と接続関係",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "構成要素"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "担当する状態・処理"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "主な接続関係"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "im-architecture-elements-row-1",
+                    "cells": [
+                      "成果物・構成",
+                      "CAR、実行環境の定義、配備設定を識別する",
+                      "配備系へ新環境の生成入力を渡す"
+                    ]
+                  },
+                  {
+                    "id": "im-architecture-elements-row-2",
+                    "cells": [
+                      "配備系",
+                      "実行環境を生成・停止し、資源へ対応付ける",
+                      "成果物・構成を読み、制御系の判断に従う"
+                    ]
+                  },
+                  {
+                    "id": "im-architecture-elements-row-3",
+                    "cells": [
+                      "入口・受付経路",
+                      "業務APIを受け付け、対象の実行環境へ渡す",
+                      "権限と準備条件に対応した受付先を使う"
+                    ]
+                  },
+                  {
+                    "id": "im-architecture-elements-row-4",
+                    "cells": [
+                      "実行系",
+                      "ApplicationとDomain Subsystemの業務処理を実行する",
+                      "受付経路、UnitOfWork、常駐状態と接続する"
+                    ]
+                  },
+                  {
+                    "id": "im-architecture-elements-row-5",
+                    "cells": [
+                      "正本・永続記録",
+                      "確定した業務状態と対応する継続記録を保持する",
+                      "UnitOfWorkの更新と再構築・回復の参照先になる"
+                    ]
+                  },
+                  {
+                    "id": "im-architecture-elements-row-6",
+                    "cells": [
+                      "常駐状態・同期系",
+                      "Entity、索引、Working Set、Viewなどを再構築・反映する",
+                      "正本の初期状態と確定差分を用い、各環境へ反映する"
+                    ]
+                  },
+                  {
+                    "id": "im-architecture-elements-row-7",
+                    "cells": [
+                      "制御系・調停基盤",
+                      "受付権限、準備条件、保持・退役の条件を管理する",
+                      "調停基盤、実行系、配備系および入口と接続する"
+                    ]
+                  },
+                  {
+                    "id": "im-architecture-elements-row-8",
+                    "cells": [
+                      "観測系",
+                      "実際の状態、処理結果と切替えの理由を記録する",
+                      "実行・同期・制御・配備の状態を運用者へ示す"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "im-architecture-construction",
+                "kind": "paragraph",
+                "text": "環境生成の経路では、配備系が対象版のCAR、実行環境の定義および配備構成を入力として、新しい実行環境を生成します。準備確認では、成果物・データの互換性、正本への接続および必要な常駐状態の構築状況を扱います。稼働中の環境は、新環境の生成元として手作業で変更を蓄積する場所ではなく、識別された版と構成で動作する交換対象です。",
+                "coreRefs": {
+                  "steps": [
+                    "im-architecture"
+                  ],
+                  "claims": [
+                    "im-architecture-construction-claim"
+                  ],
+                  "nodes": [
+                    "im-architecture-construction-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-architecture-flow"
+                  ]
+                }
+              },
+              {
+                "id": "im-architecture-service",
+                "kind": "paragraph",
+                "text": "業務要求の経路では、安定した入口から、受付権限と準備条件を満たす実行環境へ要求を渡します。Domainの更新はUnitOfWorkを通して正本へ確定し、その結果を常駐状態やRead Replicaへ反映する設計です。実行環境の交換と正本の業務データの更新は、別の経路として扱います。",
+                "coreRefs": {
+                  "steps": [
+                    "im-architecture"
+                  ],
+                  "claims": [
+                    "im-architecture-service-claim"
+                  ],
+                  "nodes": [
+                    "im-architecture-service-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-architecture-flow"
+                  ]
+                }
+              },
+              {
+                "id": "im-architecture-control",
+                "kind": "paragraph",
+                "text": "制御系は、調停基盤の権限と各環境の準備・同期・処理状態を用いて、受付変更、保持および退役の可否を判断します。配備系はその判断に対応して環境を生成・停止し、入口は受付先を変更します。観測系は版、役割、反映位置、完了待ちおよび失敗理由を記録します。新環境が起動したという情報だけでは、業務の受付や旧環境の停止は許可されません。",
+                "coreRefs": {
+                  "steps": [
+                    "im-architecture"
+                  ],
+                  "claims": [
+                    "im-architecture-control-claim"
+                  ],
+                  "nodes": [
+                    "im-architecture-control-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-architecture-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "im-platform-section",
+                "heading": "ティア構成と責任分担",
+                "coreRefs": {
+                  "steps": [
+                    "im-platform"
+                  ],
+                  "claims": [
+                    "im-platform-principle-claim",
+                    "im-owner-table-claim",
+                    "im-platform-tiers-claim",
+                    "im-application-implementation-contract-claim"
+                  ],
+                  "nodes": [
+                    "im-platform-principle-node",
+                    "im-owner-table-node",
+                    "im-platform-tiers-node",
+                    "im-application-implementation-contract-node"
+                  ],
+                  "relations": [
+                    "im-platform-local-next-1",
+                    "im-platform-local-next-2",
+                    "im-platform-local-next-3"
+                  ],
+                  "flows": [
+                    "im-platform-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "im-platform-principle",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-platform"
+                      ],
+                      "claims": [
+                        "im-platform-principle-claim"
+                      ],
+                      "nodes": [
+                        "im-platform-principle-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-platform-flow"
+                      ]
+                    },
+                    "text": "Textus/CNCFの構造では、状態管理と実行ライフサイクルの共通機構を基盤側に置き、コンポーネントが利用する契約として定めます。アプリケーションは業務規則と更新・継続処理をその契約に沿って実装し、基盤は準備確認、受付変更、同期、旧処理の完了管理および退役を担当します。業務アプリケーションごとのA・B・C切替え実装を前提とせず、配備プロファイルと設定で交換を選択する構成です。採用版で提供される機構と、計画中の交換制御・検証項目は、第8章の実装状況と原典で区別します。"
+                  },
+                  {
+                    "id": "im-owner-table",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "im-platform"
+                      ],
+                      "claims": [
+                        "im-owner-table-claim"
+                      ],
+                      "nodes": [
+                        "im-owner-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-platform-flow"
+                      ]
+                    },
+                    "caption": "責任の分担",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "担当"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "役割"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "im-owner-table-row-1",
+                        "cells": [
+                          "業務アプリケーション",
+                          "業務規則、操作の意味、更新の競合条件、継続・再実行可能な区切り"
+                        ]
+                      },
+                      {
+                        "id": "im-owner-table-row-2",
+                        "cells": [
+                          "CNCF Runtime",
+                          "新規受付と旧処理の完了権限、準備状態、同期、切替えと退役の条件"
+                        ]
+                      },
+                      {
+                        "id": "im-owner-table-row-3",
+                        "cells": [
+                          "配備・調停・保存基盤",
+                          "実行環境の生成・停止、選出とLease、実効的なFencing、正本の永続化"
+                        ]
+                      },
+                      {
+                        "id": "im-owner-table-row-4",
+                        "cells": [
+                          "運用担当者",
+                          "品質目標、障害範囲、交換間隔、保持、資源予算、異常時の判断"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "im-platform-tiers",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-platform"
+                      ],
+                      "claims": [
+                        "im-platform-tiers-claim"
+                      ],
+                      "nodes": [
+                        "im-platform-tiers-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-platform-flow"
+                      ]
+                    },
+                    "text": "Applicationティアでは、適した処理にCloud Functionの実行環境の再利用・廃棄を用いる構成を想定します。Domainティアでは、メモリ常駐状態を準備した環境へ交代します。Primaryは新規更新を受け付ける役割、Read Replicaは許可された参照を提供する役割です。Standbyは昇格に必要な準備を満たす性質であり、参照可能であることとは別に判定します。これらは論理的な役割であり、物理ホストの台数を指定するものではありません。"
+                  },
+                  {
+                    "id": "im-application-implementation-contract",
+                    "kind": "paragraph",
+                    "text": "実装契約は、自動生成部分に加えて、アプリケーション固有の追加実装にも適用します。追加コードを人が書く場合もAIが生成する場合も、同じ条件です。具体的には、業務継続に必要な状態を特定プロセスのメモリや交換対象のローカルファイルだけに保持しないこと、更新を対応する正本・UnitOfWorkの確定経路へ接続すること、および処理の開始・終了・完了・再開を基盤の契約に合わせることが必要です。バックグラウンド処理や外部副作用も、寿命と完了・回復の責任を明示します。追加実装を含む実際の業務経路で交換・回復を確認することが、適合性の確認になります。生成方式や使用したAIモデルは、その確認を代替しません。",
+                    "coreRefs": {
+                      "steps": [
+                        "im-platform"
+                      ],
+                      "claims": [
+                        "im-application-implementation-contract-claim"
+                      ],
+                      "nodes": [
+                        "im-application-implementation-contract-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-platform-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "im-memory-section",
+            "heading": "状態管理とアプリケーションの境界",
+            "coreRefs": {
+              "steps": [
+                "im-memory"
+              ],
+              "claims": [
+                "im-memory-purpose-claim",
+                "im-memory-commit-claim",
+                "im-state-table-claim",
+                "im-memory-recovery-claim",
+                "im-memory-crash-claim"
+              ],
+              "nodes": [
+                "im-memory-purpose-node",
+                "im-memory-commit-node",
+                "im-state-table-node",
+                "im-memory-recovery-node",
+                "im-memory-crash-node"
+              ],
+              "relations": [
+                "im-memory-local-next-1",
+                "im-memory-local-next-2",
+                "im-memory-local-next-3",
+                "im-memory-local-next-4"
+              ],
+              "flows": [
+                "im-memory-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "im-memory-purpose",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-memory"
+                  ],
+                  "claims": [
+                    "im-memory-purpose-claim"
+                  ],
+                  "nodes": [
+                    "im-memory-purpose-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-memory-flow"
+                  ]
+                },
+                "text": "CNCFのDomain Subsystemは、EntitySpace、Entity Realm、索引、Working SetやViewをメモリに保持し、繰り返しの取得・構築を減らす設計です。正本の業務状態とメモリ常駐状態の寿命は分けます。業務継続に必要な確定状態を特定プロセスのメモリだけに置かず、実行環境を交換した後に必要な常駐状態を再構築する構造を取ります。"
+              },
+              {
+                "id": "im-memory-commit",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-memory"
+                  ],
+                  "claims": [
+                    "im-memory-commit-claim"
+                  ],
+                  "nodes": [
+                    "im-memory-commit-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-memory-flow"
+                  ]
+                },
+                "text": "更新はDomainの規則とUnitOfWorkを通して正本の保存先へ確定し、その結果に従ってメモリの状態を更新・無効化する設計です。業務上の確定成功は、採用する保存先の永続化契約を満たすことに対応します。メモリへの反映やReplicaへの通知は、保存先での確定とは別の状態です。実際の保全範囲は、保存先との接続と永続化・回復の確認結果に依存します。"
+              },
+              {
+                "id": "im-state-table",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "im-memory"
+                  ],
+                  "claims": [
+                    "im-state-table-claim"
+                  ],
+                  "nodes": [
+                    "im-state-table-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-memory-flow"
+                  ]
+                },
+                "caption": "交換時に区別する状態",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "状態"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "扱い"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "im-state-table-row-1",
+                    "cells": [
+                      "確定した業務データ・資料",
+                      "実行環境と別に保持・保護し、交換後も引き継ぐ"
+                    ]
+                  },
+                  {
+                    "id": "im-state-table-row-2",
+                    "cells": [
+                      "Entityの常駐状態・索引・キャッシュ",
+                      "正本と確定差分から必要な範囲を再構築する"
+                    ]
+                  },
+                  {
+                    "id": "im-state-table-row-3",
+                    "cells": [
+                      "Job・Workflowの継続に必要な記録",
+                      "対応する永続化済みの区切りと回復契約に従う"
+                    ]
+                  },
+                  {
+                    "id": "im-state-table-row-4",
+                    "cells": [
+                      "実行中の一時状態・未確定の更新",
+                      "計画交換では完了を待ち、クラッシュ時は実際の確定結果を照合する"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "im-memory-recovery",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-memory"
+                  ],
+                  "claims": [
+                    "im-memory-recovery-claim"
+                  ],
+                  "nodes": [
+                    "im-memory-recovery-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-memory-flow"
+                  ]
+                },
+                "text": "常駐状態の再構築では、正本の整合した初期状態を取得し、構築中に確定した更新へ追随します。必要な反映位置と参照条件を満たすことが利用開始の条件です。別機からのメモリコピーや通知の受信だけでは、必要な確定状態がすべて反映されたかは判定できません。"
+              },
+              {
+                "id": "im-memory-crash",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-memory"
+                  ],
+                  "claims": [
+                    "im-memory-crash-claim"
+                  ],
+                  "nodes": [
+                    "im-memory-crash-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-memory-flow"
+                  ]
+                },
+                "text": "計画交換では、有効な権限の下で受付済み処理の結果を確定させてから旧環境を退役させます。クラッシュでは途中の計算を失う場合があるため、確定済み、未確定、結果不明を保存先の記録と照合します。Job・Workflowの再開は、対応する永続化済みの区切りと回復契約に従います。任意のRunning処理の自動再実行は前提にしません。データ保全の範囲には、保存基盤の障害範囲、バックアップおよび復旧方針も含まれます。"
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "im-operation-section",
+            "heading": "ライフサイクルと運用",
+            "coreRefs": {
+              "steps": [
+                "im-operation"
+              ],
+              "claims": [
+                "im-operation-scope-claim",
+                "im-operation-example-claim"
+              ],
+              "nodes": [
+                "im-operation-scope-node",
+                "im-operation-example-node"
+              ],
+              "relations": [
+                "im-operation-local-next-1"
+              ],
+              "flows": [
+                "im-operation-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "im-operation-scope",
+                "kind": "paragraph",
+                "text": "本章は、前章までの構成要素が交換時にどのように動作するかを説明します。通常の計画交換と、権限喪失・クラッシュ・侵害が疑われる場合の動作は、成立条件が異なります。以下は設計上の動作であり、採用版の提供範囲と確認状況は第8章に示します。",
+                "coreRefs": {
+                  "steps": [
+                    "im-operation"
+                  ],
+                  "claims": [
+                    "im-operation-scope-claim"
+                  ],
+                  "nodes": [
+                    "im-operation-scope-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-operation-flow"
+                  ]
+                }
+              },
+              {
+                "id": "im-operation-example",
+                "kind": "paragraph",
+                "text": "以下の計画交換例では、Aが旧Primary、Bが受付を引き継ぐ環境、Cが新しく準備するRead Replicaです。A・B・Cは役割の変化を説明する名前であり、常時三台の物理ホストを使用する指定ではありません。",
+                "coreRefs": {
+                  "steps": [
+                    "im-operation"
+                  ],
+                  "claims": [
+                    "im-operation-example-claim"
+                  ],
+                  "nodes": [
+                    "im-operation-example-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-operation-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "im-plan-section",
+                "heading": "計画交換",
+                "coreRefs": {
+                  "steps": [
+                    "im-plan"
+                  ],
+                  "claims": [
+                    "im-plan-start-claim",
+                    "im-plan-progress-claim",
+                    "im-plan-table-claim",
+                    "im-plan-stop-claim"
+                  ],
+                  "nodes": [
+                    "im-plan-start-node",
+                    "im-plan-progress-node",
+                    "im-plan-table-node",
+                    "im-plan-stop-node"
+                  ],
+                  "relations": [
+                    "im-plan-local-next-1",
+                    "im-plan-local-next-2",
+                    "im-plan-local-next-3"
+                  ],
+                  "flows": [
+                    "im-plan-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "im-plan-start",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-plan"
+                      ],
+                      "claims": [
+                        "im-plan-start-claim"
+                      ],
+                      "nodes": [
+                        "im-plan-start-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-plan-flow"
+                      ]
+                    },
+                    "text": "計画交換の説明では、AをPrimary、BをRead Replica兼Standbyとします。Bが互換性、正本接続、同期および準備条件を満たした後、新規の参照・更新の受付をBへ移します。Aでは新規の独立した処理を停止し、切替え前に受け付けた更新と、その完了に必要な処理を、有効な限定権限の下で継続します。"
+                  },
+                  {
+                    "id": "im-plan-progress",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-plan"
+                      ],
+                      "claims": [
+                        "im-plan-progress-claim"
+                      ],
+                      "nodes": [
+                        "im-plan-progress-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-plan-flow"
+                      ]
+                    },
+                    "text": "Bの新規受付後、代替Read Replica Cを生成して常駐状態を構築します。Aで遅れて確定した更新もB・Cへ反映し、切戻し候補として残るAも現在の確定状態へ追随します。同期基盤はA・Bの組だけでなく、複数Replica、構築中の環境および保持中の環境を扱う設計です。A・B・Cは役割の変化を説明する名前であり、常時三台の運用を定めるものではありません。"
+                  },
+                  {
+                    "id": "im-plan-table",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "im-plan"
+                      ],
+                      "claims": [
+                        "im-plan-table-claim"
+                      ],
+                      "nodes": [
+                        "im-plan-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-plan-flow"
+                      ]
+                    },
+                    "caption": "交換段階の条件",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "段階"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "確認すること"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "im-plan-table-row-1",
+                        "cells": [
+                          "交換前",
+                          "成果物・データ互換性、準備状態、同期位置、利用可能な資源"
+                        ]
+                      },
+                      {
+                        "id": "im-plan-table-row-2",
+                        "cells": [
+                          "受付切替え",
+                          "Bの新規受付権限と、Aの新規受付停止・限定された完了権限"
+                        ]
+                      },
+                      {
+                        "id": "im-plan-table-row-3",
+                        "cells": [
+                          "旧処理の完了",
+                          "commit・abort・失敗・結果不明の実態。HTTP応答だけでは判定しない"
+                        ]
+                      },
+                      {
+                        "id": "im-plan-table-row-4",
+                        "cells": [
+                          "保持・観測",
+                          "Cの準備、Aの同期、データ互換性と切戻し可能性"
+                        ]
+                      },
+                      {
+                        "id": "im-plan-table-row-5",
+                        "cells": [
+                          "退役",
+                          "旧処理の結果確定、代替参照容量、保持・観測条件、未解決事項"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "im-plan-stop",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-plan"
+                      ],
+                      "claims": [
+                        "im-plan-stop-claim"
+                      ],
+                      "nodes": [
+                        "im-plan-stop-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-plan-flow"
+                      ]
+                    },
+                    "text": "Aの退役条件は、旧処理の結果確定、代替参照容量、必要な同期、および設定された保持・観測条件です。結果不明の更新、未準備のC、未完了の同期は退役を保留する理由になります。新Primaryの応答や保持時間の経過だけでは、これらの条件は満たされません。権限を失った環境や侵害が疑われる環境には、通常の完走・切戻し条件を適用しません。"
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "im-rotation-section",
+                "heading": "定期交換・部品更新・切戻し",
+                "coreRefs": {
+                  "steps": [
+                    "im-rotation"
+                  ],
+                  "claims": [
+                    "im-rotation-cadence-claim",
+                    "im-rotation-update-claim",
+                    "im-rotation-fallback-claim"
+                  ],
+                  "nodes": [
+                    "im-rotation-cadence-node",
+                    "im-rotation-update-node",
+                    "im-rotation-fallback-node"
+                  ],
+                  "relations": [
+                    "im-rotation-local-next-1",
+                    "im-rotation-local-next-2"
+                  ],
+                  "flows": [
+                    "im-rotation-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "im-rotation-cadence",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-rotation"
+                      ],
+                      "claims": [
+                        "im-rotation-cadence-claim"
+                      ],
+                      "nodes": [
+                        "im-rotation-cadence-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-rotation-flow"
+                      ]
+                    },
+                    "text": "交換間隔は、脅威への対応、更新頻度、起動・ウォームアップの費用および業務時間帯に対応する運用設定です。日次交換は選択例であり、固定の標準値ではありません。スケジュール時刻は交換開始の契機です。受付済み更新の強制中断や、退役条件を省略する期限とは分けて扱います。"
+                  },
+                  {
+                    "id": "im-rotation-update",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-rotation"
+                      ],
+                      "claims": [
+                        "im-rotation-update-claim"
+                      ],
+                      "nodes": [
+                        "im-rotation-update-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-rotation-flow"
+                      ]
+                    },
+                    "text": "部品更新は、新しいCARと構成による環境生成、互換性と利用経路の確認、受付変更および観測から成ります。配備の確定は、受付先の変更だけでなく、設定した観測条件を満たすことに対応します。定期交換と互換CARへの交換は、同じ交換機構を利用する設計です。"
+                  },
+                  {
+                    "id": "im-rotation-fallback",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-rotation"
+                      ],
+                      "claims": [
+                        "im-rotation-fallback-claim"
+                      ],
+                      "nodes": [
+                        "im-rotation-fallback-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-rotation-flow"
+                      ]
+                    },
+                    "text": "切戻しの対象は、現在の業務データと構成に互換性があり、必要な同期・準備を満たし、受付権限を取得できる保持環境です。切戻しでも現在の確定状態を利用します。データ互換性を壊す変更は通常の自動交換の対象から分け、計画したメンテナンス更新として扱います。"
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "im-incidents-section",
+                "heading": "例外・障害時の動作",
+                "coreRefs": {
+                  "steps": [
+                    "im-incidents"
+                  ],
+                  "claims": [
+                    "im-incident-table-claim",
+                    "im-incidents-distinction-claim",
+                    "im-incidents-unavailable-claim"
+                  ],
+                  "nodes": [
+                    "im-incident-table-node",
+                    "im-incidents-distinction-node",
+                    "im-incidents-unavailable-node"
+                  ],
+                  "relations": [
+                    "im-incidents-local-next-1",
+                    "im-incidents-local-next-2"
+                  ],
+                  "flows": [
+                    "im-incidents-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "im-incident-table",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "im-incidents"
+                      ],
+                      "claims": [
+                        "im-incident-table-claim"
+                      ],
+                      "nodes": [
+                        "im-incident-table-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-incidents-flow"
+                      ]
+                    },
+                    "caption": "例外状態と対応条件",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "状況"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "扱い"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "im-incident-table-row-1",
+                        "cells": [
+                          "交換先の準備不足",
+                          "受付を移さず、準備できない理由を確認する"
+                        ]
+                      },
+                      {
+                        "id": "im-incident-table-row-2",
+                        "cells": [
+                          "旧処理の長期化",
+                          "実際の状態を観測し、継続・業務対応を判断する。予定時刻だけで打ち切らない"
+                        ]
+                      },
+                      {
+                        "id": "im-incident-table-row-3",
+                        "cells": [
+                          "クラッシュ・権限喪失",
+                          "旧権限での更新を拒否し、正当な権限・Fencing・準備が揃った経路だけで引き継ぐ"
+                        ]
+                      },
+                      {
+                        "id": "im-incident-table-row-4",
+                        "cells": [
+                          "侵害の疑い",
+                          "隔離・失効と原因調査を優先し、疑わしい旧環境への切戻しを認めない"
+                        ]
+                      },
+                      {
+                        "id": "im-incident-table-row-5",
+                        "cells": [
+                          "正本の破損・利用不可",
+                          "実行環境の交換だけで解決したとせず、保存・復旧の手順へ接続する"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "im-incidents-distinction",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-incidents"
+                      ],
+                      "claims": [
+                        "im-incidents-distinction-claim"
+                      ],
+                      "nodes": [
+                        "im-incidents-distinction-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-incidents-flow"
+                      ]
+                    },
+                    "text": "計画切替えは旧Primaryが協調動作できる場合の手順です。障害切替えでは、到達不能な旧機の更新をFencingで拒否し、正当な引継ぎ権限と準備を確認してから受付を開始します。途中の処理は実際の確定結果と照合します。ロードバランサーの変更や稼働確認は、権限の強制や結果照合とは別の機能です。"
+                  },
+                  {
+                    "id": "im-incidents-unavailable",
+                    "kind": "paragraph",
+                    "coreRefs": {
+                      "steps": [
+                        "im-incidents"
+                      ],
+                      "claims": [
+                        "im-incidents-unavailable-claim"
+                      ],
+                      "nodes": [
+                        "im-incidents-unavailable-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "im-incidents-flow"
+                      ]
+                    },
+                    "text": "自動障害切替えの未提供・未検証は、採用構成の制約として記録します。正当な更新権限または必要なデータを確認できない範囲では更新を利用不可にします。必要な安全条件を満たせない場合の利用不可は、計画上の継続目標と分けて表示する運用状態です。"
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "im-security-section",
+            "heading": "セキュリティとの関係",
+            "coreRefs": {
+              "steps": [
+                "im-security"
+              ],
+              "claims": [
+                "im-security-effect-claim",
+                "im-security-limits-claim",
+                "im-security-guides-claim"
+              ],
+              "nodes": [
+                "im-security-effect-node",
+                "im-security-limits-node",
+                "im-security-guides-node"
+              ],
+              "relations": [
+                "im-security-local-next-1",
+                "im-security-local-next-2"
+              ],
+              "flows": [
+                "im-security-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "im-security-effect",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-security"
+                  ],
+                  "claims": [
+                    "im-security-effect-claim"
+                  ],
+                  "nodes": [
+                    "im-security-effect-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-security-flow"
+                  ]
+                },
+                "text": "実行環境にだけ存在する変更や状態は、その環境の交換で引き継がれない場合があります。信頼できる成果物と構成から新しい環境を生成し、定期的に交換する運用は、同じ実行環境にその状態が残る期間を管理する手段になります。通常運転時の交換とセキュリティ対応時の交換には、環境生成、準備確認、受付変更などの共通部分があります。交換を繰り返した記録は、その経路を確認するための運用上の資料です。"
+              },
+              {
+                "id": "im-security-limits",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-security"
+                  ],
+                  "claims": [
+                    "im-security-limits-claim"
+                  ],
+                  "nodes": [
+                    "im-security-limits-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-security-flow"
+                  ]
+                },
+                "text": "実行環境を交換しても、盗まれた資格情報、流出した情報、不正に更新された永続データ、成果物自体の欠陥は別に残ります。対応には権限の失効、隔離、原因修正および永続状態の点検が必要です。侵害が疑われる旧環境は、通常の切戻し候補から除外します。環境交換は、認証・認可・監査などの対策を代替する機能ではありません。"
+              },
+              {
+                "id": "im-security-guides",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-security"
+                  ],
+                  "claims": [
+                    "im-security-guides-claim"
+                  ],
+                  "nodes": [
+                    "im-security-guides-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-security-flow"
+                  ]
+                },
+                "text": "認証・認可・監査・区画分離を含む防御全体は、[[../../security/textus-cncf-security-architecture.dox/index.dox][Security技術ガイド]]を参照します。本書は環境交換に関係する性質と運用条件を扱います。HAの権限制御、同期および切替えプロトコルの詳細は、[[../../availability/textus-cncf-availability-architecture.dox/index.dox][可用性・HA技術ガイド]]に分けています。"
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "im-policy-section",
+            "heading": "構成・品質目標・費用",
+            "coreRefs": {
+              "steps": [
+                "im-policy"
+              ],
+              "claims": [
+                "im-policy-targets-claim",
+                "im-policy-table-claim",
+                "im-policy-observe-claim"
+              ],
+              "nodes": [
+                "im-policy-targets-node",
+                "im-policy-table-node",
+                "im-policy-observe-node"
+              ],
+              "relations": [
+                "im-policy-local-next-1",
+                "im-policy-local-next-2"
+              ],
+              "flows": [
+                "im-policy-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "im-policy-targets",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-policy"
+                  ],
+                  "claims": [
+                    "im-policy-targets-claim"
+                  ],
+                  "nodes": [
+                    "im-policy-targets-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-policy-flow"
+                  ]
+                },
+                "text": "運用設定は、可用性、復旧時間、データ保全、応答性、セキュリティおよび運用負担の要求に対応付けます。運用プロファイルは、その条件を設定としてまとめる設計です。要求した目標、選択した設定、採用版で利用できる機能および実際の確認結果を、それぞれ記録します。設定値だけを達成水準の根拠にはしません。"
+              },
+              {
+                "id": "im-policy-table",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "im-policy"
+                  ],
+                  "claims": [
+                    "im-policy-table-claim"
+                  ],
+                  "nodes": [
+                    "im-policy-table-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-policy-flow"
+                  ]
+                },
+                "caption": "構成と運用条件のトレードオフ",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "選択"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "効果と費用"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "im-policy-table-row-1",
+                    "cells": [
+                      "単一環境の停止・再構築",
+                      "資源費用を抑えやすいが交換中の停止を許容する必要がある"
+                    ]
+                  },
+                  {
+                    "id": "im-policy-table-row-2",
+                    "cells": [
+                      "Primary＋準備済みRead Replica",
+                      "計画交換の継続性と参照分散を支えるが常時資源が増える"
+                    ]
+                  },
+                  {
+                    "id": "im-policy-table-row-3",
+                    "cells": [
+                      "旧環境の保持を長くする",
+                      "観測・切戻しの機会が増える一方、資源・同期・互換性維持の費用が増える"
+                    ]
+                  },
+                  {
+                    "id": "im-policy-table-row-4",
+                    "cells": [
+                      "短い交換間隔",
+                      "同じ実行環境の寿命を短くする一方、構築・同期・観測の頻度が増える"
+                    ]
+                  },
+                  {
+                    "id": "im-policy-table-row-5",
+                    "cells": [
+                      "別ホストへの配置",
+                      "ホスト障害への対応には独立した配置・調停・保存経路の確認と費用が必要"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "im-policy-observe",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-policy"
+                  ],
+                  "claims": [
+                    "im-policy-observe-claim"
+                  ],
+                  "nodes": [
+                    "im-policy-observe-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-policy-flow"
+                  ]
+                },
+                "text": "観測対象は、交換理由と対象版、受付主体、各環境の準備状態、同期遅延、完了待ち処理、保持期間、退役できない理由および直近の交換結果です。同一ホスト上の複数プロセスでの確認と、ホスト全体の停止に対する確認は異なります。要求した障害範囲と実際に確認した範囲を対応付けて記録します。"
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "im-adopt-section",
+            "heading": "実装計画と検証状況",
+            "coreRefs": {
+              "steps": [
+                "im-adopt"
+              ],
+              "claims": [
+                "im-adopt-priority-claim",
+                "im-adopt-proof-claim",
+                "im-adopt-knowledge-claim"
+              ],
+              "nodes": [
+                "im-adopt-priority-node",
+                "im-adopt-proof-node",
+                "im-adopt-knowledge-node"
+              ],
+              "relations": [
+                "im-adopt-local-next-1",
+                "im-adopt-local-next-2"
+              ],
+              "flows": [
+                "im-adopt-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "im-adopt-priority",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-adopt"
+                  ],
+                  "claims": [
+                    "im-adopt-priority-claim"
+                  ],
+                  "nodes": [
+                    "im-adopt-priority-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-adopt-flow"
+                  ]
+                },
+                "text": "2026年11月13日時点のCNCF Phase 108は計画段階で、IR-01〜IR-05はOPENです。先行対象は計画交換です。受付・永続化・権限の接続、汎用キャッシュ同期、A・B・Cの交代、保持・反復運用、および実際の別実行環境と正本を用いた確認が開発項目になっています。自動障害切替えや広い配備構成は、この計画登録をもって実装済みとは扱いません。"
+              },
+              {
+                "id": "im-adopt-proof",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-adopt"
+                  ],
+                  "claims": [
+                    "im-adopt-proof-claim"
+                  ],
+                  "nodes": [
+                    "im-adopt-proof-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-adopt-flow"
+                  ]
+                },
+                "text": "開発計画上の確認項目には、更新中のAからBへの受付移行、Aの確定結果の永続記録とB・Cへの反映、常駐状態喪失後の再構築、通知前クラッシュ後の追随、未準備環境の拒否、結果不明の照合および退役条件の適用があります。これらは検証予定の項目です。メモリ上の値やモックのみの確認では、実際の保存経路でのデータ保全は確認できません。"
+              },
+              {
+                "id": "im-adopt-knowledge",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-adopt"
+                  ],
+                  "claims": [
+                    "im-adopt-knowledge-claim"
+                  ],
+                  "nodes": [
+                    "im-adopt-knowledge-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-adopt-flow"
+                  ]
+                },
+                "text": "BoKとプロジェクトの知識は、採用理由、前提、品質目標、構成選択および検証結果の参照元です。実装・運用で得た結果は、レビューを経て後続の構成選択やAI駆動開発で参照する情報になります。知識に記載された方針と、採用版で確認された挙動は別に記録します。"
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "im-references-section",
+            "heading": "関連資料と設計の参照元",
+            "coreRefs": {
+              "steps": [
+                "im-references"
+              ],
+              "claims": [
+                "im-reference-guides-claim",
+                "im-reference-authority-claim",
+                "im-reference-design-harness-claim"
+              ],
+              "nodes": [
+                "im-reference-guides-node",
+                "im-reference-authority-node",
+                "im-reference-design-harness-node"
+              ],
+              "relations": [
+                "im-references-local-next-1",
+                "im-references-local-next-2"
+              ],
+              "flows": [
+                "im-references-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "im-reference-guides",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-references"
+                  ],
+                  "claims": [
+                    "im-reference-guides-claim"
+                  ],
+                  "nodes": [
+                    "im-reference-guides-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-references-flow"
+                  ]
+                },
+                "text": "[[../../availability/textus-cncf-availability-architecture.dox/index.dox][可用性・HA技術ガイド]]は、サービス継続の目的、構成、同期、権限制御および切替えプロトコルを説明します。[[../../security/textus-cncf-security-architecture.dox/index.dox][Security技術ガイド]]は、防御全体での位置付けを扱います。[[../../reactive/textus-cncf-reactive-architecture.dox/index.dox][リアクティブ技術ガイド]]は、メモリ常駐、UnitOfWorkおよび回復可能性の関係を扱います。"
+              },
+              {
+                "id": "im-reference-authority",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "im-references"
+                  ],
+                  "claims": [
+                    "im-reference-authority-claim"
+                  ],
+                  "nodes": [
+                    "im-reference-authority-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-references-flow"
+                  ]
+                },
+                "text": "Textus固有の設計根拠は、CNCFのAvailability Architecture、Subsystem Runtime ArchitectureおよびRuntime Cache Synchronizationです。実装計画はCNCF Phase 108が管理します。本書は、それらの設計と計画を説明する技術文書です。原典と更新日を参照し、実装契約と検証結果はCNCF側の記録で確認します。"
+              },
+              {
+                "id": "im-reference-design-harness",
+                "kind": "paragraph",
+                "text": "一般的な背景資料として、Kief Morrisの「Immutable Server」（https://martinfowler.com/bliki/ImmutableServer.html）は、イミュータブルな環境とCI/CDの共通性、および保持するデータの扱いを説明しています。Chad Fowlerの「Trash Your Servers and Burn Your Code」（https://chadfowler.com/articles/trash-your-servers-and-burn-your-code.html）は、配備方式がアプリケーションコードの考え方にも影響したという経験を記述しています。Twelve-Factor AppのProcesses（https://12factor.net/processes）とDisposability（https://12factor.net/disposability）は、永続状態の分離、起動・終了、および中断時の処理条件を扱っています。これらは設計上の整理の参照元であり、CNCFの実装済み範囲を示す資料ではありません。",
+                "coreRefs": {
+                  "steps": [
+                    "im-references"
+                  ],
+                  "claims": [
+                    "im-reference-design-harness-claim"
+                  ],
+                  "nodes": [
+                    "im-reference-design-harness-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "im-references-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "textus-cncf-immutable-infrastructure",
+        "text": "Textus/CNCF イミュータブルインフラストラクチャ 技術ガイド"
+      },
+      {
+        "stepRef": "im-why",
+        "text": "目的と対象範囲"
+      },
+      {
+        "stepRef": "im-concepts",
+        "text": "基本概念と適用条件"
+      },
+      {
+        "stepRef": "im-architecture",
+        "text": "全体アーキテクチャ"
+      },
+      {
+        "stepRef": "im-platform",
+        "text": "ティア構成と責任分担"
+      },
+      {
+        "stepRef": "im-memory",
+        "text": "状態管理とアプリケーションの境界"
+      },
+      {
+        "stepRef": "im-operation",
+        "text": "ライフサイクルと運用"
+      },
+      {
+        "stepRef": "im-plan",
+        "text": "計画交換"
+      },
+      {
+        "stepRef": "im-rotation",
+        "text": "定期交換・部品更新・切戻し"
+      },
+      {
+        "stepRef": "im-incidents",
+        "text": "例外・障害時の動作"
+      },
+      {
+        "stepRef": "im-security",
+        "text": "セキュリティとの関係"
+      },
+      {
+        "stepRef": "im-policy",
+        "text": "構成・品質目標・費用"
+      },
+      {
+        "stepRef": "im-adopt",
+        "text": "実装計画と検証状況"
+      },
+      {
+        "stepRef": "im-references",
+        "text": "関連資料と設計の参照元"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "im-purpose-node",
+        "text": "本書は、Textus/CNCFにおけるイミュータブルインフラストラクチャの目的、全体構造、状態管理、ライフサイクルおよび運用条件を説明します。第1・2章で目的と用語、第3・4章で構造と状態、第5章で交換時の動作を扱います。第6・7章ではセキュリティと運用条件を整理し、第8章で実装・検証状況、第9章で関連資料を示します。本文の設計記述と、採用版で実装・検証された範囲は区別します。"
+      },
+      {
+        "nodeRef": "im-why-purpose-node",
+        "text": "イミュータブルインフラストラクチャは、変更を成果物と配備構成に反映し、それらから生成した新しい実行環境で既存の実行環境を置き換える運用方式です。稼働中の環境への直接変更を通常の更新方法とせず、交換する単位と、その生成に必要な入力を定めます。業務データの更新は実行環境の交換とは別に扱います。"
+      },
+      {
+        "nodeRef": "im-why-replace-node",
+        "text": "目的は、実行環境の構成を識別できること、同じ入力から環境を再構築できること、および更新を管理された交換単位で扱えることです。定期交換は、同じ環境を使用する期間を管理する運用に当たります。障害後の復旧だけでなく、通常運転中の部品更新、構成変更、環境の寿命管理を対象にします。再起動だけを繰り返す場合には、成果物と構成からの再構築や状態の分離は確認できません。"
+      },
+      {
+        "nodeRef": "im-why-adoption-node",
+        "text": "本書は、業務アプリケーションを動かすApplicationティアと、メモリ常駐を利用するDomainティアを対象にします。停止を許容する構成では単一環境を停止して再構築できます。交換中も業務を継続する構成では、別環境の準備、受付の切替え、データ同期、旧処理の完了管理が必要です。対応する故障の範囲と業務継続の水準は、HA構成として別に定めます。"
+      },
+      {
+        "nodeRef": "im-concept-table-node",
+        "text": "関連する概念の役割"
+      },
+      {
+        "nodeRef": "im-concepts-example-node",
+        "text": "定期交換では同じ部品版を用いて実行環境を再構築し、部品更新では新しい版のCARを用います。交換間隔は運用方針です。いずれも実行環境を交換する操作であり、正本の業務データを過去の状態へ戻す操作ではありません。無停止運転、実行環境の短命性、データの永続性は、それぞれに必要な構成と条件で確認する性質です。"
+      },
+      {
+        "nodeRef": "im-architecture-scope-node",
+        "text": "以下は、Textus/CNCFで実行環境を交換するための設計上の構成です。成果物と構成、環境を生成する配備系、業務を処理する実行系、正本と常駐状態を扱うデータ系、受付権限と寿命を管理する制御系、および観測を区別します。これらは責任の区分であり、各区分を必ず独立した製品やホストに配置する意味ではありません。"
+      },
+      {
+        "nodeRef": "im-architecture-elements-node",
+        "text": "構成要素と接続関係"
+      },
+      {
+        "nodeRef": "im-architecture-construction-node",
+        "text": "環境生成の経路では、配備系が対象版のCAR、実行環境の定義および配備構成を入力として、新しい実行環境を生成します。準備確認では、成果物・データの互換性、正本への接続および必要な常駐状態の構築状況を扱います。稼働中の環境は、新環境の生成元として手作業で変更を蓄積する場所ではなく、識別された版と構成で動作する交換対象です。"
+      },
+      {
+        "nodeRef": "im-architecture-service-node",
+        "text": "業務要求の経路では、安定した入口から、受付権限と準備条件を満たす実行環境へ要求を渡します。Domainの更新はUnitOfWorkを通して正本へ確定し、その結果を常駐状態やRead Replicaへ反映する設計です。実行環境の交換と正本の業務データの更新は、別の経路として扱います。"
+      },
+      {
+        "nodeRef": "im-architecture-control-node",
+        "text": "制御系は、調停基盤の権限と各環境の準備・同期・処理状態を用いて、受付変更、保持および退役の可否を判断します。配備系はその判断に対応して環境を生成・停止し、入口は受付先を変更します。観測系は版、役割、反映位置、完了待ちおよび失敗理由を記録します。新環境が起動したという情報だけでは、業務の受付や旧環境の停止は許可されません。"
+      },
+      {
+        "nodeRef": "im-platform-principle-node",
+        "text": "Textus/CNCFの構造では、状態管理と実行ライフサイクルの共通機構を基盤側に置き、コンポーネントが利用する契約として定めます。アプリケーションは業務規則と更新・継続処理をその契約に沿って実装し、基盤は準備確認、受付変更、同期、旧処理の完了管理および退役を担当します。業務アプリケーションごとのA・B・C切替え実装を前提とせず、配備プロファイルと設定で交換を選択する構成です。採用版で提供される機構と、計画中の交換制御・検証項目は、第8章の実装状況と原典で区別します。"
+      },
+      {
+        "nodeRef": "im-owner-table-node",
+        "text": "責任の分担"
+      },
+      {
+        "nodeRef": "im-platform-tiers-node",
+        "text": "Applicationティアでは、適した処理にCloud Functionの実行環境の再利用・廃棄を用いる構成を想定します。Domainティアでは、メモリ常駐状態を準備した環境へ交代します。Primaryは新規更新を受け付ける役割、Read Replicaは許可された参照を提供する役割です。Standbyは昇格に必要な準備を満たす性質であり、参照可能であることとは別に判定します。これらは論理的な役割であり、物理ホストの台数を指定するものではありません。"
+      },
+      {
+        "nodeRef": "im-memory-purpose-node",
+        "text": "CNCFのDomain Subsystemは、EntitySpace、Entity Realm、索引、Working SetやViewをメモリに保持し、繰り返しの取得・構築を減らす設計です。正本の業務状態とメモリ常駐状態の寿命は分けます。業務継続に必要な確定状態を特定プロセスのメモリだけに置かず、実行環境を交換した後に必要な常駐状態を再構築する構造を取ります。"
+      },
+      {
+        "nodeRef": "im-memory-commit-node",
+        "text": "更新はDomainの規則とUnitOfWorkを通して正本の保存先へ確定し、その結果に従ってメモリの状態を更新・無効化する設計です。業務上の確定成功は、採用する保存先の永続化契約を満たすことに対応します。メモリへの反映やReplicaへの通知は、保存先での確定とは別の状態です。実際の保全範囲は、保存先との接続と永続化・回復の確認結果に依存します。"
+      },
+      {
+        "nodeRef": "im-state-table-node",
+        "text": "交換時に区別する状態"
+      },
+      {
+        "nodeRef": "im-memory-recovery-node",
+        "text": "常駐状態の再構築では、正本の整合した初期状態を取得し、構築中に確定した更新へ追随します。必要な反映位置と参照条件を満たすことが利用開始の条件です。別機からのメモリコピーや通知の受信だけでは、必要な確定状態がすべて反映されたかは判定できません。"
+      },
+      {
+        "nodeRef": "im-memory-crash-node",
+        "text": "計画交換では、有効な権限の下で受付済み処理の結果を確定させてから旧環境を退役させます。クラッシュでは途中の計算を失う場合があるため、確定済み、未確定、結果不明を保存先の記録と照合します。Job・Workflowの再開は、対応する永続化済みの区切りと回復契約に従います。任意のRunning処理の自動再実行は前提にしません。データ保全の範囲には、保存基盤の障害範囲、バックアップおよび復旧方針も含まれます。"
+      },
+      {
+        "nodeRef": "im-operation-scope-node",
+        "text": "本章は、前章までの構成要素が交換時にどのように動作するかを説明します。通常の計画交換と、権限喪失・クラッシュ・侵害が疑われる場合の動作は、成立条件が異なります。以下は設計上の動作であり、採用版の提供範囲と確認状況は第8章に示します。"
+      },
+      {
+        "nodeRef": "im-plan-start-node",
+        "text": "計画交換の説明では、AをPrimary、BをRead Replica兼Standbyとします。Bが互換性、正本接続、同期および準備条件を満たした後、新規の参照・更新の受付をBへ移します。Aでは新規の独立した処理を停止し、切替え前に受け付けた更新と、その完了に必要な処理を、有効な限定権限の下で継続します。"
+      },
+      {
+        "nodeRef": "im-plan-progress-node",
+        "text": "Bの新規受付後、代替Read Replica Cを生成して常駐状態を構築します。Aで遅れて確定した更新もB・Cへ反映し、切戻し候補として残るAも現在の確定状態へ追随します。同期基盤はA・Bの組だけでなく、複数Replica、構築中の環境および保持中の環境を扱う設計です。A・B・Cは役割の変化を説明する名前であり、常時三台の運用を定めるものではありません。"
+      },
+      {
+        "nodeRef": "im-plan-table-node",
+        "text": "交換段階の条件"
+      },
+      {
+        "nodeRef": "im-plan-stop-node",
+        "text": "Aの退役条件は、旧処理の結果確定、代替参照容量、必要な同期、および設定された保持・観測条件です。結果不明の更新、未準備のC、未完了の同期は退役を保留する理由になります。新Primaryの応答や保持時間の経過だけでは、これらの条件は満たされません。権限を失った環境や侵害が疑われる環境には、通常の完走・切戻し条件を適用しません。"
+      },
+      {
+        "nodeRef": "im-rotation-cadence-node",
+        "text": "交換間隔は、脅威への対応、更新頻度、起動・ウォームアップの費用および業務時間帯に対応する運用設定です。日次交換は選択例であり、固定の標準値ではありません。スケジュール時刻は交換開始の契機です。受付済み更新の強制中断や、退役条件を省略する期限とは分けて扱います。"
+      },
+      {
+        "nodeRef": "im-rotation-update-node",
+        "text": "部品更新は、新しいCARと構成による環境生成、互換性と利用経路の確認、受付変更および観測から成ります。配備の確定は、受付先の変更だけでなく、設定した観測条件を満たすことに対応します。定期交換と互換CARへの交換は、同じ交換機構を利用する設計です。"
+      },
+      {
+        "nodeRef": "im-rotation-fallback-node",
+        "text": "切戻しの対象は、現在の業務データと構成に互換性があり、必要な同期・準備を満たし、受付権限を取得できる保持環境です。切戻しでも現在の確定状態を利用します。データ互換性を壊す変更は通常の自動交換の対象から分け、計画したメンテナンス更新として扱います。"
+      },
+      {
+        "nodeRef": "im-incident-table-node",
+        "text": "例外状態と対応条件"
+      },
+      {
+        "nodeRef": "im-incidents-distinction-node",
+        "text": "計画切替えは旧Primaryが協調動作できる場合の手順です。障害切替えでは、到達不能な旧機の更新をFencingで拒否し、正当な引継ぎ権限と準備を確認してから受付を開始します。途中の処理は実際の確定結果と照合します。ロードバランサーの変更や稼働確認は、権限の強制や結果照合とは別の機能です。"
+      },
+      {
+        "nodeRef": "im-incidents-unavailable-node",
+        "text": "自動障害切替えの未提供・未検証は、採用構成の制約として記録します。正当な更新権限または必要なデータを確認できない範囲では更新を利用不可にします。必要な安全条件を満たせない場合の利用不可は、計画上の継続目標と分けて表示する運用状態です。"
+      },
+      {
+        "nodeRef": "im-security-effect-node",
+        "text": "実行環境にだけ存在する変更や状態は、その環境の交換で引き継がれない場合があります。信頼できる成果物と構成から新しい環境を生成し、定期的に交換する運用は、同じ実行環境にその状態が残る期間を管理する手段になります。通常運転時の交換とセキュリティ対応時の交換には、環境生成、準備確認、受付変更などの共通部分があります。交換を繰り返した記録は、その経路を確認するための運用上の資料です。"
+      },
+      {
+        "nodeRef": "im-security-limits-node",
+        "text": "実行環境を交換しても、盗まれた資格情報、流出した情報、不正に更新された永続データ、成果物自体の欠陥は別に残ります。対応には権限の失効、隔離、原因修正および永続状態の点検が必要です。侵害が疑われる旧環境は、通常の切戻し候補から除外します。環境交換は、認証・認可・監査などの対策を代替する機能ではありません。"
+      },
+      {
+        "nodeRef": "im-security-guides-node",
+        "text": "認証・認可・監査・区画分離を含む防御全体は、[[../../security/textus-cncf-security-architecture.dox/index.dox][Security技術ガイド]]を参照します。本書は環境交換に関係する性質と運用条件を扱います。HAの権限制御、同期および切替えプロトコルの詳細は、[[../../availability/textus-cncf-availability-architecture.dox/index.dox][可用性・HA技術ガイド]]に分けています。"
+      },
+      {
+        "nodeRef": "im-policy-targets-node",
+        "text": "運用設定は、可用性、復旧時間、データ保全、応答性、セキュリティおよび運用負担の要求に対応付けます。運用プロファイルは、その条件を設定としてまとめる設計です。要求した目標、選択した設定、採用版で利用できる機能および実際の確認結果を、それぞれ記録します。設定値だけを達成水準の根拠にはしません。"
+      },
+      {
+        "nodeRef": "im-policy-table-node",
+        "text": "構成と運用条件のトレードオフ"
+      },
+      {
+        "nodeRef": "im-policy-observe-node",
+        "text": "観測対象は、交換理由と対象版、受付主体、各環境の準備状態、同期遅延、完了待ち処理、保持期間、退役できない理由および直近の交換結果です。同一ホスト上の複数プロセスでの確認と、ホスト全体の停止に対する確認は異なります。要求した障害範囲と実際に確認した範囲を対応付けて記録します。"
+      },
+      {
+        "nodeRef": "im-adopt-priority-node",
+        "text": "2026年11月13日時点のCNCF Phase 108は計画段階で、IR-01〜IR-05はOPENです。先行対象は計画交換です。受付・永続化・権限の接続、汎用キャッシュ同期、A・B・Cの交代、保持・反復運用、および実際の別実行環境と正本を用いた確認が開発項目になっています。自動障害切替えや広い配備構成は、この計画登録をもって実装済みとは扱いません。"
+      },
+      {
+        "nodeRef": "im-adopt-proof-node",
+        "text": "開発計画上の確認項目には、更新中のAからBへの受付移行、Aの確定結果の永続記録とB・Cへの反映、常駐状態喪失後の再構築、通知前クラッシュ後の追随、未準備環境の拒否、結果不明の照合および退役条件の適用があります。これらは検証予定の項目です。メモリ上の値やモックのみの確認では、実際の保存経路でのデータ保全は確認できません。"
+      },
+      {
+        "nodeRef": "im-adopt-knowledge-node",
+        "text": "BoKとプロジェクトの知識は、採用理由、前提、品質目標、構成選択および検証結果の参照元です。実装・運用で得た結果は、レビューを経て後続の構成選択やAI駆動開発で参照する情報になります。知識に記載された方針と、採用版で確認された挙動は別に記録します。"
+      },
+      {
+        "nodeRef": "im-reference-guides-node",
+        "text": "[[../../availability/textus-cncf-availability-architecture.dox/index.dox][可用性・HA技術ガイド]]は、サービス継続の目的、構成、同期、権限制御および切替えプロトコルを説明します。[[../../security/textus-cncf-security-architecture.dox/index.dox][Security技術ガイド]]は、防御全体での位置付けを扱います。[[../../reactive/textus-cncf-reactive-architecture.dox/index.dox][リアクティブ技術ガイド]]は、メモリ常駐、UnitOfWorkおよび回復可能性の関係を扱います。"
+      },
+      {
+        "nodeRef": "im-reference-authority-node",
+        "text": "Textus固有の設計根拠は、CNCFのAvailability Architecture、Subsystem Runtime ArchitectureおよびRuntime Cache Synchronizationです。実装計画はCNCF Phase 108が管理します。本書は、それらの設計と計画を説明する技術文書です。原典と更新日を参照し、実装契約と検証結果はCNCF側の記録で確認します。"
+      },
+      {
+        "nodeRef": "im-reading-boundary-node",
+        "text": "本書は設計と運用モデルを説明する技術文書です。特定環境の操作コマンドや個別案件の作業手順は対象外です。設計上の構成、実装計画、採用版で確認された挙動を区別し、具体的な契約と検証結果は原典を参照します。"
+      },
+      {
+        "nodeRef": "im-operation-example-node",
+        "text": "以下の計画交換例では、Aが旧Primary、Bが受付を引き継ぐ環境、Cが新しく準備するRead Replicaです。A・B・Cは役割の変化を説明する名前であり、常時三台の物理ホストを使用する指定ではありません。"
+      },
+      {
+        "nodeRef": "im-design-harness-node",
+        "text": "本書では、交換可能性を成立させる設計条件と、その維持を求める枠組みを、設計上のハーネスとして位置付けます。交換・配備の単位について、責任のまとまり、単位間の依存、状態の所有、公開インターフェースと互換性を明示します。疎結合・高凝集などの特性を、依存してよい相手や、単位の内外で完結させる責任といった具体的な境界に落とし込みます。さらに、永続状態と一時状態の分離、構成・依存関係、起動・終了、受付済み処理の完了や回復の条件を定義します。これらは交換手順の外側にある設計上の成立条件です。"
+      },
+      {
+        "nodeRef": "im-cicd-design-connection-node",
+        "text": "CI/CDでも、継続的に検証・配備できる単位、再現可能な成果物と構成、および検証対象の依存関係を定義し、その条件を変更後も維持する必要があります。イミュータブル運用では、実行環境を再構築・交換できる条件も維持対象になります。採用した交換・配備方式がこれらの条件に依存するため、条件を満たさない変更は、検証や配備・交換の経路で検出・是正する対象です。特性を文書に掲げるだけでなく、実際の試験と配備・交換の結果で、守られていることを確認します。この継続的な制約と確認が、アーキテクチャの特性を維持するハーネスとして機能します。設計全体の正しさや、選択した検証項目の十分性を自動的に保証するものではありません。"
+      },
+      {
+        "nodeRef": "im-reference-design-harness-node",
+        "text": "一般的な背景資料として、Kief Morrisの「Immutable Server」（https://martinfowler.com/bliki/ImmutableServer.html）は、イミュータブルな環境とCI/CDの共通性、および保持するデータの扱いを説明しています。Chad Fowlerの「Trash Your Servers and Burn Your Code」（https://chadfowler.com/articles/trash-your-servers-and-burn-your-code.html）は、配備方式がアプリケーションコードの考え方にも影響したという経験を記述しています。Twelve-Factor AppのProcesses（https://12factor.net/processes）とDisposability（https://12factor.net/disposability）は、永続状態の分離、起動・終了、および中断時の処理条件を扱っています。これらは設計上の整理の参照元であり、CNCFの実装済み範囲を示す資料ではありません。"
+      },
+      {
+        "nodeRef": "im-component-design-harness-node",
+        "text": "CNCFでは、交換を支える基盤機構と、その上で動作するコンポーネントの実装契約を組み合わせて、このハーネスを利用します。基盤が状態管理、更新の確定、実行ライフサイクルなどの共通機構を担当し、コンポーネントはその契約に沿って業務処理を実装します。基盤の交換機構と、それを妨げないコンポーネント実装の両方が必要です。交換可能性への適合を継続して確認することにより、責任分離、明示的な依存関係、検証可能性および交換可能性を、コンポーネントの実装条件として維持します。"
+      },
+      {
+        "nodeRef": "im-application-implementation-contract-node",
+        "text": "実装契約は、自動生成部分に加えて、アプリケーション固有の追加実装にも適用します。追加コードを人が書く場合もAIが生成する場合も、同じ条件です。具体的には、業務継続に必要な状態を特定プロセスのメモリや交換対象のローカルファイルだけに保持しないこと、更新を対応する正本・UnitOfWorkの確定経路へ接続すること、および処理の開始・終了・完了・再開を基盤の契約に合わせることが必要です。バックグラウンド処理や外部副作用も、寿命と完了・回復の責任を明示します。追加実装を含む実際の業務経路で交換・回復を確認することが、適合性の確認になります。生成方式や使用したAIモデルは、その確認を代替しません。"
+      }
+    ]
+  }
+}

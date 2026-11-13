@@ -1,0 +1,38 @@
+@startuml
+top to bottom direction
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam roundcorner 8
+skinparam nodesep 50
+skinparam ranksep 60
+skinparam rectangleBackgroundColor #EEF5FA
+skinparam databaseBackgroundColor #F8F2E7
+skinparam packageBackgroundColor #FFFFFF
+skinparam dpi 150
+component "Application / Operation entry\nStable business API" as entry
+component "Control\nCNCF Runtime + established coordination\nRoles / readiness / admission and completion" as control #F3EDF7
+package "Domain Subsystem execution" as domain {
+component "Primary\nMutation admission / business work" as primary
+component "Read Replica(s)\nAuthorized reads / resident state" as replica
+primary -[hidden]right-> replica
+}
+package "Data and synchronization" as state {
+database "Authoritative DataStore\nCommitted state / enforced mutation boundary" as store
+component "Common cache synchronization\nCommitted changes / applied progress" as sync
+store -[#245B78]right-> sync : committed changes
+}
+component "Deployment and operation\nDeployment Driver / observation\nPlacement / create / stop / actual state" as deploy #EEF4ED
+entry -[#245B78]down-> primary : mutations / reads
+entry -[#245B78]down-> replica : authorized reads
+primary -[#245B78]down-> store : UoW / commit
+sync -[#245B78,norank]-> replica : apply committed results to resident state
+control -[#8B6299,dashed,norank]-> entry : admission routing
+control -[#8B6299,dashed,norank]-> domain : roles / readiness
+control -[#8B6299,dashed]down-> deploy : desired and observed state
+deploy -[#8B6299,dashed,norank]-> domain : create / stop runtimes
+entry -[hidden]right-> control
+replica -[hidden]right-> deploy
+@enduml

@@ -1,0 +1,31 @@
+@startmindmap
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam dpi 150
+* Textus / CNCF HA\nBusiness continuity and committed state
+** Purpose and quality
+*** Availability and responsiveness
+*** Data preservation / failure boundary
+** Overall architecture
+*** Stable entry and responsibilities
+*** Connections between areas
+** Execution
+*** Primary / Read Replica
+*** Standby and lifecycle
+left side
+** Data and synchronization
+*** Authoritative / resident / transient
+*** Cache synchronization / durable work
+** Control
+*** Election / Lease / fencing
+*** Admission / completion authority
+** Behavior
+*** Normal service / switchover
+*** Failover / retention / retirement
+*** Read-only (failure / maintenance) / recovery
+** Deployment and operation
+*** Failure domains / dependencies
+*** Observation / quality / cost
+@endmindmap

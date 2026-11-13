@@ -1,0 +1,27 @@
+{
+  "schema": "cozy.document-project.local-build-targets.v1",
+  "targets": {
+    "document-structure-html": {
+      "inputs": [
+        "content/core.yaml",
+        "content/ja/document.yaml",
+        "content/ja/confirmation-vocabulary.yaml"
+      ],
+      "prerequisites": []
+    },
+    "document-reader-html": {
+      "inputs": [
+        "content/core.yaml",
+        "content/ja/document.yaml",
+        "content/ja/confirmation-vocabulary.yaml"
+      ],
+      "prerequisites": []
+    },
+    "smartdox-article-html": {
+      "inputs": [
+        "index.dox"
+      ],
+      "prerequisites": []
+    }
+  }
+}

@@ -1,0 +1,38 @@
+@startuml
+top to bottom direction
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam roundcorner 8
+skinparam nodesep 50
+skinparam ranksep 60
+skinparam rectangleBackgroundColor #EEF5FA
+skinparam databaseBackgroundColor #F8F2E7
+skinparam packageBackgroundColor #FFFFFF
+skinparam dpi 150
+component "Application / Operation の入口\n安定した業務API" as entry
+component "制御系\nCNCF Runtime と既存調停基盤\n役割・準備・受付／完了の権限" as control #F3EDF7
+package "Domain Subsystem の実行系" as domain {
+component "Primary\n更新の受付・業務処理" as primary
+component "Read Replica(s)\n許可された参照・常駐状態" as replica
+primary -[hidden]right-> replica
+}
+package "データ・同期系" as state {
+database "正本 DataStore\n確定状態と更新権限の保護" as store
+component "共通キャッシュ同期\n確定変更・反映位置" as sync
+store -[#245B78]right-> sync : 確定変更
+}
+component "配備・運用系\nDeployment Driver / 観測\n配置・生成・停止・状態の提示" as deploy #EEF4ED
+entry -[#245B78]down-> primary : 更新・参照
+entry -[#245B78]down-> replica : 許可された参照
+primary -[#245B78]down-> store : UoW / 確定更新
+sync -[#245B78,norank]-> replica : 確定結果を常駐状態へ反映
+control -[#8B6299,dashed,norank]-> entry : 受付先の制御
+control -[#8B6299,dashed,norank]-> domain : 役割・準備
+control -[#8B6299,dashed]down-> deploy : 望む構成・観測された状態
+deploy -[#8B6299,dashed,norank]-> domain : 実行環境の生成・停止
+entry -[hidden]right-> control
+replica -[hidden]right-> deploy
+@enduml
