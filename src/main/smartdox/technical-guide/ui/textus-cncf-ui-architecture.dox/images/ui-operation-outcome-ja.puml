@@ -1,0 +1,38 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBorderColor #899DA9
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam sequenceParticipantBackgroundColor #F0F6F8
+skinparam sequenceLifeLineBorderColor #899DA9
+skinparam sequenceMessageAlign center
+skinparam noteBackgroundColor #FFF8E9
+skinparam noteBorderColor #C5B88B
+skinparam dpi 170
+skinparam ranksep 15
+skinparam nodesep 20
+participant "UI／共通クライアント" as UI
+participant "公開Operation" as API
+participant "Domain／UoW" as D
+UI -> API : 型付き入力・対象識別子・実行文脈
+API -> D : 認可・業務条件・競合を確認
+alt 拒否・競合
+ D --> UI : 拒否の理由／再入力・再取得
+else 確定
+ D -> D : 更新を確定
+ D --> UI : 確定結果
+ UI -> API : 最新状態を参照
+ API --> UI : View／参照結果
+end
+note over UI, API
+ 応答が不明なときは実行結果を確認する。
+ 表示更新の失敗だけで更新操作を繰り返さない。
+end note
+@enduml

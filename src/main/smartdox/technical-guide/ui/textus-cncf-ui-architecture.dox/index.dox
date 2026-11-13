@@ -1,0 +1,144 @@
+Textus/CNCF UI Architecture — Technical Guide｜Textus/CNCF UIアーキテクチャ技術ガイド
+========================================================================
+
+# HEAD
+
+status=draft
+published_at=2026-10-27
+document=textus-cncf-ui-architecture
+
+## SUMMARY
+
+<span lang="en">As technical documentation in the Textus Document Component, this guide describes the SimpleModeling/Textus/CNCF UI architecture. It explains how models, public APIs, presentation contracts, and Web and Flutter infrastructure cooperate, including an independently developed UI connected through REST or gRPC.</span><span lang="ja">本書は、Textus Document Componentの技術解説として、SimpleModeling／Textus／CNCFのUIアーキテクチャを整理します。モデル、公開API、表示契約、WebとFlutterの実行基盤がどのように組み合わさるかを説明し、RESTまたはgRPCで外部の独自UIを接続する構成も扱います。</span>
+
+<span lang="ja">[[images/ui-architecture-paths-ja.png]]</span><span lang="en">[[images/ui-architecture-paths-en.png]]</span>
+
+<span lang="en">Figure 1. UI delivery paths share business operations. Server-rendered HTML and client API connections remain distinct.</span><span lang="ja">図1　UIの実現方式と共通の業務処理。標準WebのHTML構成と、Flutter・独自UIのAPI接続を分けて示します。</span>
+
+# Shared Foundations of UI Architecture｜UIアーキテクチャの共通基盤
+
+<span lang="en">SimpleModeling combines model-driven and component-based development, supported by Textus execution. Its UI architecture derives required information and interactions from requirements and connects them to public business contracts. This reduces the need to rewrite business rules when screens change and supports access to the same business capabilities from multiple UIs.</span><span lang="ja">SimpleModelingはモデル駆動とコンポーネント指向を組み合わせ、Textusがその実行を支えます。UIについても、要求から画面に必要な情報と操作を定め、公開された業務契約へ接続します。画面を変えるたびに業務規則まで書き直す負担を減らし、複数のUIから同じ業務機能を利用することが、この構成の目的です。</span>
+
+## From Requirements to Screens and Actions｜要求から画面と操作を定める
+
+<span lang="en">A UI model describes what users read, enter, and do. Cozy Logical UI refines business use cases into system use cases and then UI use cases, establishing the relationship between screens and actions. Keeping Flutter widget structures and HTTP procedures out of screen requirements preserves their business meaning.</span><span lang="ja">UIモデルは、利用者が何を参照し、何を入力し、どの操作を行うかを表します。CozyのLogical UIでは、業務ユースケースからシステム・ユースケース、UIユースケースへ要求を具体化し、画面と操作の対応を定めます。画面の要求にFlutterのWidget構造やHTTPの通信手順を埋め込まず、業務上の意味を保持します。</span>
+
+<span lang="en">Information retrieval and business actions bind to public Service and Operation contracts. A list binds to a query, a detail screen to an individual read, and an action button to a command. Explicit bindings between UI and Operation models reduce the need to reimplement business behavior for presentation.</span><span lang="ja">情報の取得と業務操作は、コンポーネントが公開するService・Operationの契約へ接続します。一覧には検索、詳細には個別の参照、実行ボタンにはCommandなどの対応を定めます。UIモデルとOperationモデルを明示的なバインディングで結ぶことで、表示の都合で業務処理を作り直す範囲を減らします。</span>
+
+<span lang="en">Retaining the mappings from requirements to screens and from screens to Operations makes it possible to check that required actions exist and that screens do not invoke private behavior. Model-driven UI development checks requirements, models, and public contracts together instead of treating generated screens as the sole specification.</span><span lang="ja">要求から画面、画面からOperationへの対応を保持すると、ユースケースに必要な操作があるか、公開されていない処理を画面から呼んでいないかを確認できます。生成された画面だけを仕様とせず、要求・モデル・公開契約を照合することが、モデル駆動のUI開発の基礎になります。</span>
+
+## Projecting Business Data into Presentation Contracts｜業務データを表示用の契約へ投影する
+
+<span lang="en">Server-side domain models and Operations own business state and update rules. A View organizes information for reading. It defines read-side meaning and access scope rather than passing raw storage or provider data directly to a screen.</span><span lang="ja">業務状態とその更新規則は、サーバー側のドメイン・モデルとOperationが担当します。Viewは、利用者に必要な情報を参照用にまとめます。ストレージや外部プロバイダーの生データを直接画面へ渡さず、参照の意味とアクセス範囲を明確にします。</span>
+
+<span lang="en">Display projects authorized Views and display definitions into presentation information such as fields, values, references, and actions. The CNCF Display contract uses typed inputs and registered conversions to produce the same projection from the same inputs. It neither reconstructs business data from display strings nor modifies a View during projection.</span><span lang="ja">Displayは、認可されたViewと表示定義から、項目・値・参照先・操作の情報を表示向けに投影します。CNCFのDisplay契約は、型のある入力と登録された変換を使い、同じ入力から同じ投影結果を得る構成を定めます。表示用文字列から業務データを逆算したり、投影によってViewを書き換えたりしません。</span>
+
+<span lang="en">This separation supports different Web and Flutter presentations while preserving business meaning. Views and Display provide reusable read-side contracts; they are not mandatory for every custom UI. A custom UI can consume the public API data contract appropriate to its use case.</span><span lang="ja">この分離により、業務上の意味を保ちながら、WebとFlutterで異なる見せ方を採用できます。View・Displayは共有可能な参照の仕組みであり、すべての独自UIに採用を求めるものではありません。独自UIは、用途に適した公開APIのデータ契約を利用できます。</span>
+
+<span lang="ja">[[images/ui-view-projection-ja.png]]</span><span lang="en">[[images/ui-view-projection-en.png]]</span>
+
+<span lang="en">Figure 2. Read projection is separate from mutation. Changes use Operations rather than writing display values back into domain state.</span><span lang="ja">図2　参照の投影と更新操作の分離。表示用の値を業務状態へ書き戻さず、更新はOperationを通します。</span>
+
+# Choosing among Three UI Architectures｜三つのUI構成を選ぶ
+
+<span lang="en">The guide covers the CNCF standard Web UI, UI built on Textus Flutter infrastructure, and an independently developed UI connected through APIs. These are architectures with different shared infrastructure boundaries, not three renderers that must all use the same Display pipeline. The choice concerns which presentation, communication, and business responsibilities the shared infrastructure should own.</span><span lang="ja">画面の実現方式として、CNCFの標準Web UI、Textus Flutter基盤を利用するUI、外部で独自に作成してAPIで接続するUIを扱います。これらは必ず同じDisplay経路を通る三種類のレンダラーではなく、共有する基盤の範囲が異なる構成です。選択の中心は、画面技術そのものだけでなく、表示・通信・業務処理のどこまでを共通基盤に任せるかにあります。</span>
+
+<span lang="en">Table 1. Three UI approaches and their shared infrastructure</span><span lang="ja">表1　三つのUI構成と共通化する範囲</span>
+
+| <span lang="en">Approach</span><span lang="ja">構成</span> | <span lang="en">Shared infrastructure</span><span lang="ja">基盤に任せる範囲</span> | <span lang="en">Application responsibility</span><span lang="ja">アプリケーション側の役割</span> |
+| --- | --- | --- |
+| <span lang="en">Standard Web UI</span><span lang="ja">標準Web UI</span> | <span lang="en">Page Views, HTML assembly, shared Widgets</span><span lang="ja">ページView、HTML構成、共通Widget</span> | <span lang="en">Display definitions and Operation bindings</span><span lang="ja">表示定義、業務Operationとの対応</span> |
+| <span lang="en">Textus Flutter UI</span><span lang="ja">Textus Flutter UI</span> | <span lang="en">Device / transport Core and TFAF screens</span><span lang="ja">端末・通信のCore、TFAFの標準画面</span> | <span lang="en">Configuration, typed bindings and extensions</span><span lang="ja">設定、型付きバインディング、独自拡張</span> |
+| <span lang="en">Custom UI + API</span><span lang="ja">独自UI＋API</span> | <span lang="en">Public Operations, authentication, authorization and rules</span><span lang="ja">公開Operation、認証・認可、業務規則</span> | <span lang="en">Screens, transport, outcome checks and retry conditions</span><span lang="ja">画面、通信、結果確認、再試行条件</span> |
+
+## Composing the Standard Web UI｜標準Web UIを構成する
+
+<span lang="en">A CNCF Static Web Application constructs meaningful initial HTML on the server from the request execution context and a page View. Static does not mean that every page is generated in advance. Pages can depend on the user and requested resource without requiring separate browser API calls for every region of the initial display.</span><span lang="ja">CNCFのStatic Web Applicationは、要求の実行コンテキストとページ用Viewを使い、意味のある初期HTMLをサーバー側で組み立てる方式です。Staticは、すべてのページを事前生成するという意味ではありません。利用者や参照対象に応じてページを構成し、初期表示のためにブラウザーが画面各部のAPIを個別に呼び出す構造を避けます。</span>
+
+<span lang="en">The Web UI DSL design represents lists, details, and action forms as Textus Widgets and maps them to Bootstrap Core HTML structures. A UX Profile adjusts presentation and interaction while retaining their meaning; Material Design is also a profile target. Separating screen meaning, HTML structure, and presentation policy reduces repeated implementation of the same foundations.</span><span lang="ja">Web UI DSLの設計では、一覧、詳細、操作フォームなどをTextus Widgetとして表し、Bootstrap CoreのHTML構造へ変換します。UX Profileは、その意味を保ちながら表示や操作感を調整する層です。Material DesignもProfileの対象として整理されています。画面の意味、HTML構造、表示方針を分けることで、各画面で同じ基礎構造を作り直す負担を減らします。</span>
+
+<span lang="en">The Progressive Static Web direction adds JavaScript interaction where needed on top of server-delivered HTML. Ordinary form submissions and enhanced interactions connect to the same business Operations. Browser state is not treated as the authoritative result of a committed business action.</span><span lang="ja">Progressive Static Webの構想では、サーバーが返すHTMLを基礎に、必要な箇所へJavaScriptによる操作支援を追加します。通常のフォーム操作と追加した動的操作を同じ業務Operationへ接続し、ブラウザー側の状態を業務処理の確定結果として扱わないことが基本です。</span>
+
+## Building Multiscreen UI Applications on a Flutter Framework Connected to Textus｜Textusと連動するFlutter基盤でマルチスクリーンのUIアプリを構築する
+
+<span lang="en">UI applications are built on a Flutter application framework connected to Textus. This infrastructure targets iPhone and Android smartphones, tablets, Web applications, and desktop applications. Multiscreen support includes providing applications on different UI platforms as well as adapting to screen sizes. Flutter Web is a separate realization from the standard CNCF Web UI, which composes HTML on the server.</span><span lang="ja">Textusと連動するFlutterのアプリケーション・フレームワーク上でUIアプリケーションを構築します。この基盤は、iPhone／Androidのスマートフォン、タブレット、Webアプリケーション、デスクトップアプリケーションを対象とします。マルチスクリーンは、画面サイズへの適応に加え、異なるUI基盤上でアプリケーションを提供することを含みます。Flutter Webは、CNCFがサーバー側でHTMLを構成する標準Web UIとは別の実現方式です。</span>
+
+<span lang="en">Model-driven UI describes displayed information, user actions, and connections to Textus business operations separately from individual UI platform implementations. Connecting this model to application-framework configuration and bindings supports deployment across execution environments while sharing business meaning and interaction relationships. Models and shared infrastructure carry this responsibility rather than leaving every screen to implement platform support independently.</span><span lang="ja">モデル駆動UIでは、表示する情報、利用者の操作、Textusの業務処理との接続を、個々のUI基盤の実装から分けて記述します。このモデルをアプリケーション・フレームワークの設定とバインディングへつなぐことで、業務上の意味と操作の関係を共通化しながら、複数の実行環境へUIアプリケーションを展開できます。各環境への対応を画面ごとの個別実装だけに任せず、モデルと共通基盤で支える構成です。</span>
+
+<span lang="ja">[[images/ui-model-multiplatform-ja.png]]</span><span lang="en">[[images/ui-model-multiplatform-en.png]]</span>
+
+<span lang="en">Figure 3. Model-driven UI targets multiple platforms. Screen meaning and operation bindings are shared; layout and input adapt to each platform.</span><span lang="ja">図3　モデル駆動UIから複数のUI基盤へ展開する構成。共通化するのは画面の意味と操作の接続で、配置や入力方式は各環境に合わせます。</span>
+
+<span lang="en">The Flutter infrastructure separates device and transport mechanisms from application screens such as lists, details and editing. Business-specific configuration and extensions connect to those layers as shown below.</span><span lang="ja">Flutter基盤とアプリケーションの役割は、次の表のように分かれます。端末・通信の機構と、一覧・詳細・編集などの画面機構を分け、業務固有の設定や拡張をその上へ接続します。</span>
+
+<span lang="en">Table 2. Responsibilities in the Flutter stack</span><span lang="ja">表2　Flutter基盤の責務</span>
+
+| <span lang="en">Layer</span><span lang="ja">層</span> | <span lang="en">Responsibility</span><span lang="ja">担当する機能</span> | <span lang="en">Combined effect</span><span lang="ja">組合せの効果</span> |
+| --- | --- | --- |
+| <span lang="en">Flutter Core</span><span lang="ja">Flutter Core</span> | <span lang="en">Device features, transport and display regions</span><span lang="ja">端末機能、通信、表示領域</span> | <span lang="en">Provides common interfaces for platform differences</span><span lang="ja">環境ごとの違いを共通の接点へまとめる</span> |
+| <span lang="en">TFAF</span><span lang="ja">TFAF</span> | <span lang="en">List / detail / edit, search, navigation and approval</span><span lang="ja">一覧・詳細・編集、検索、ナビゲーション、承認</span> | <span lang="en">Configures reusable application screens</span><span lang="ja">標準画面を設定して利用する</span> |
+| <span lang="en">Application</span><span lang="ja">アプリケーション</span> | <span lang="en">Business configuration, bindings and extensions</span><span lang="ja">業務設定、バインディング、独自拡張</span> | <span lang="en">Connects screens to shared business contracts</span><span lang="ja">同じ業務契約を各画面へ接続する</span> |
+
+<span lang="en">Standard screens are intended to configure reusable TFAF implementations. The target pipeline has Cozy generate configuration and typed bindings from UI models, supplemented by generated Dart or custom code where configuration is insufficient. Keeping generation, configuration, and custom extensions separate makes model changes and shared-runtime improvements easier to propagate across UI applications.</span><span lang="ja">標準画面は、TFAFの共通実装を設定して利用する方針です。CozyがUIモデルから設定と型付きバインディングを生成し、設定だけでは表現できない部分を生成Dartや独自コードで補う構成を目指します。生成・設定・独自拡張の境界を保つことで、モデルの変更や共通ランタイムの改善を複数のUIアプリケーションへ反映しやすくなります。</span>
+
+<span lang="en">Within each execution environment, presentation and interaction adapt to screen size and input methods such as touch, mouse, and keyboard. Lists and details can appear sequentially on compact screens and side by side on expanded screens. On foldable devices, TFAF uses region and boundary information supplied by Core for layout decisions. Separating selection and editing state from layout keeps business interaction state independent of presentation changes.</span><span lang="ja">各実行環境では、画面サイズやタッチ・マウス・キーボードなどの入力方式に応じて、表示と操作を調整します。一覧と詳細は、狭い画面では順に、広い画面では並べて表示できます。折り畳み端末では、Coreが提供する表示領域と境界の情報をTFAFのレイアウト判断に用います。選択中の対象や編集中の状態と配置を分けることで、表示の変更に業務上の状態を巻き込まない構成にします。</span>
+
+<span lang="en">Table 3. Shared meaning and platform adaptations</span><span lang="ja">表3　複数環境で共有するものと調整するもの</span>
+
+| <span lang="en">Environment</span><span lang="ja">実行環境</span> | <span lang="en">Shared elements</span><span lang="ja">共通化するもの</span> | <span lang="en">Adaptations</span><span lang="ja">調整するもの</span> |
+| --- | --- | --- |
+| <span lang="en">iPhone / Android</span><span lang="ja">iPhone／Android</span> | <span lang="en">Information and Operation bindings</span><span lang="ja">表示情報、Operationとの対応</span> | <span lang="en">Touch, device capabilities and narrow layouts</span><span lang="ja">タッチ、端末機能、狭い画面</span> |
+| <span lang="en">Tablets / foldables</span><span lang="ja">タブレット・折り畳み端末</span> | <span lang="en">Selection, edit state and action meaning</span><span lang="ja">選択対象、編集状態、操作の意味</span> | <span lang="en">Display regions and list/detail arrangement</span><span lang="ja">表示領域、一覧・詳細の配置</span> |
+| <span lang="en">Web application</span><span lang="ja">Webアプリケーション</span> | <span lang="en">Models, configuration and business contracts</span><span lang="ja">モデル、設定、業務契約</span> | <span lang="en">Browser presentation and input</span><span lang="ja">ブラウザー上の表示と入力</span> |
+| <span lang="en">Desktop application</span><span lang="ja">デスクトップアプリケーション</span> | <span lang="en">Models, configuration and business contracts</span><span lang="ja">モデル、設定、業務契約</span> | <span lang="en">Wide layouts, mouse and keyboard</span><span lang="ja">広い画面、マウス、キーボード</span> |
+
+## Connecting a Custom UI through REST or gRPC｜独自UIをRESTまたはgRPCで接続する
+
+<span lang="en">The UI architecture also allows an independently developed Web or native UI to connect to the server through REST or gRPC. This option does not require the standard Web UI or TFAF and can accommodate existing frontends or specialized interfaces. The custom UI owns screen composition, interactions, and client-side state.</span><span lang="ja">Textusの外部に独自のWeb UIやネイティブUIを作成し、RESTまたはgRPCでサーバーへ接続する構成も、UIアーキテクチャの選択肢です。標準Web UIやTFAFの採用を前提とせず、既存のフロントエンドや用途固有の画面を利用できます。独自UIは、画面構成、操作、端末側の状態を担当します。</span>
+
+<span lang="en">The server exposes APIs bound to public Services and Operations and routes requests from the transport boundary to shared business behavior. Input and result types, resource identities, errors, and contract versions define the mapping for REST and gRPC representations. A custom UI may use Views and Display where useful, but adopting Display and choosing a transport are separate decisions.</span><span lang="ja">サーバーでは、公開するService・Operationに対応付けてAPIを用意し、通信境界で受け取った要求を共通の業務処理へ渡します。入力と結果の型、対象の識別子、エラー、契約の版を定め、RESTとgRPCの表現をその契約へ対応付けます。独自UIは必要に応じてView・Displayを利用できますが、Displayの採用と通信方式の選択は別の判断です。</span>
+
+<span lang="en">Authentication, authorization, input validation, business rules, state transitions, and persistence are enforced on the server. Hiding a button or checking input on a screen does not establish permission or business validity. This division allows multiple UIs to share business capabilities while evolving their presentation technology independently. Each UI implements and verifies the selected API version, error handling, authentication integration, and retry conditions.</span><span lang="ja">認証・認可、入力の検証、業務規則、状態遷移、永続化はサーバー側で適用します。画面でボタンを隠すことや入力を検査することだけで、操作の許可や業務上の正しさを判断しません。この分担により、複数のUIから同じ業務機能を利用しながら、表示技術を独立して変更できます。各UIでは、選択したAPIの版とエラー処理、認証情報の連携、再試行の条件を実装・確認します。</span>
+
+# Maintaining Consistency between Presentation and Business Execution｜表示と業務実行の整合を保つ
+
+<span lang="en">After choosing a UI realization, the application must handle user context, permission, and update outcomes consistently. Presentation information, input requests, and confirmed business state are distinct and connect to shared execution contracts.</span><span lang="ja">画面の実現方式を選んだ後は、利用者の文脈、操作の許可、更新の結果を一貫して扱う必要があります。表示用の情報、入力要求、確定した業務状態を区別し、それぞれを共通の実行契約へ結び付けます。</span>
+
+## Aligning Presentation Context and Access Authority｜表示コンテキストとアクセス権限を揃える
+
+<span lang="en">Presentation depends on the user, workspace, language, and time conventions. Carrying server-resolved execution context into reading and presentation reduces discrepancies between displayed and operated-on resources. Client presentation preferences remain distinct from server-determined access authority.</span><span lang="ja">同じ情報でも、利用者、ワークスペース、言語、時刻の扱いによって表示が変わります。サーバーで解決した実行コンテキストを参照処理と表示へ引き継ぐことで、表示した対象と実際に操作する対象の食い違いを抑えます。クライアントが指定する表示上の希望と、サーバーが判断するアクセス権限は区別します。</span>
+
+<span lang="en">Information about available UI actions does not replace server authorization at execution time, because permissions or resource state may change after rendering. The server checks access to the Operation and its target when called. The security architecture guide in the same Document Component explains authentication and authorization in detail.</span><span lang="ja">UIが利用可能な操作を示す情報は、操作時のサーバー認可の代わりにはなりません。画面を表示した後に権限や対象の状態が変わる可能性があるためです。サーバーは呼出し時にOperationと対象へのアクセスを判定します。認証・認可の詳細は、同じDocument Componentのセキュリティ・アーキテクチャ技術ガイドで扱います。</span>
+
+## Connecting User Actions to Confirmed State｜操作の結果を確定状態へつなぐ
+
+<span lang="en">Labels and formatted values are not mutation specifications. Editing invokes an Operation through a mutation binding with input types and resource identity. Information used to detect update conflicts, such as a resource revision, remains distinct from display-definition and wire-schema versions.</span><span lang="ja">画面上のラベルや整形済みの値は、更新要求の仕様ではありません。編集では、入力型と対象の識別子を持つ更新用バインディングを通してOperationを呼び出します。対象のリビジョンなど、更新の競合を判定する情報は、画面定義の版や通信スキーマの版と区別して扱います。</span>
+
+<span lang="en">Transport, business execution and UI refresh can fail independently. The next action depends on which stage has a confirmed outcome.</span><span lang="ja">通信、業務実行、表示更新は別々に失敗する可能性があります。どの段階まで確定しているかに応じて、次の操作を選びます。</span>
+
+<span lang="en">Shared client infrastructure handles contract-based communication, outcome classification, and refresh coordination, while screens present progress, completion, or required corrections. Custom UIs implement the same distinctions. Integration checks therefore include rejection, conflicts, communication loss, and reconnection as well as visual behavior.</span><span lang="ja">共通クライアント基盤は、契約に沿った通信、結果の分類、再取得の連携を担当し、画面は進行中・完了・再入力などの状態を利用者に示します。独自UIでも同じ区別を実装します。表示の見た目だけでなく、拒否、競合、通信断、再接続を含むシナリオで接続を確認することが必要です。</span>
+
+<span lang="ja">[[images/ui-operation-outcome-ja.png]]</span><span lang="en">[[images/ui-operation-outcome-en.png]]</span>
+
+<span lang="en">Figure 4. From a mutation request to redisplaying committed state. Authorization, commit and UI refresh are separate stages.</span><span lang="ja">図4　操作要求から確定状態の再表示まで。認可・更新結果と画面の再取得を別の段階として扱います。</span>
+
+<span lang="en">Table 4. UI handling by outcome</span><span lang="ja">表4　結果に応じたUIの対応</span>
+
+| <span lang="en">Observed state</span><span lang="ja">確認できた状態</span> | <span lang="en">Meaning</span><span lang="ja">意味</span> | <span lang="en">Next action</span><span lang="ja">次の処理</span> |
+| --- | --- | --- |
+| <span lang="en">Input / authorization rejected</span><span lang="ja">入力拒否・認可拒否</span> | <span lang="en">The operation was not permitted</span><span lang="ja">処理が許可されていない</span> | <span lang="en">Show the reason and check input or authority</span><span lang="ja">理由を表示し、入力や権限を確認</span> |
+| <span lang="en">Update conflict</span><span lang="ja">更新競合</span> | <span lang="en">The target revision differs</span><span lang="ja">対象が想定した版と異なる</span> | <span lang="en">Read current state and reconsider the action</span><span lang="ja">最新状態を取得して操作を見直す</span> |
+| <span lang="en">Disconnected / unknown result</span><span lang="ja">通信断・結果不明</span> | <span lang="en">Execution may have committed</span><span lang="ja">未実行か確定済みか不明</span> | <span lang="en">Check the outcome and apply retry conditions</span><span lang="ja">結果を確認し、再試行条件に従う</span> |
+| <span lang="en">Committed / refresh failed</span><span lang="ja">更新確定・表示失敗</span> | <span lang="en">The business update is complete</span><span lang="ja">業務更新は完了している</span> | <span lang="en">Refresh the view without repeating the update</span><span lang="ja">更新を繰り返さず表示を再取得</span> |
+
+# Developing across Models, Generation, and Execution｜モデル・生成・実行をつないで開発する
+
+<span lang="en">The model-driven path aims to use requirements and public contracts as inputs for Cozy-generated configuration and bindings, with execution handled by Textus and client frameworks. Separating generated artifacts from handwritten extensions supports regeneration after model changes. The custom-UI path uses the same public contract boundary while allowing a different frontend development process.</span><span lang="ja">モデル駆動の経路では、要求と公開契約を入力に、Cozyが設定や接続コードを生成し、Textusとクライアント基盤が実行を担当する構成を目指します。生成物と手書きの拡張を分けることで、モデルの変更を再生成へ反映しやすくなります。独自UIの経路では、同じ公開契約を接点として、フロントエンドを別の開発方式で構築できます。</span>
+
+<span lang="en">NICT Editing Studio serves as a reference application for developing TFAF and UI-model design through lists, details, editing, and device features. Keeping a common data-source boundary supports a transition from fixture data to server-backed data for integration checks. Feeding reusable patterns back into the frameworks avoids fixing the UI model in isolation from working applications.</span><span lang="ja">NICT編集工房は、一覧・詳細、編集、端末機能などを通してTFAFとUIモデルの設計を検討する参照アプリケーションです。共通データソースの境界を保ちながら仮データからサーバーへ切り替え、画面と業務処理の接続を確認します。この実例から共通化できる部分を基盤へ戻すことで、モデルだけで先に画面体系を固定することを避けます。</span>
+
+<span lang="en">This guide describes an architecture that includes implementation work and design directions. Static Web page-View projection has an implementation, and Logical UI and Display have specifications; this does not establish completion of every model-to-screen path. Progressive Static Web and UX Profiles include proposal and design work. A custom UI using REST or gRPC must confirm the public APIs and adapters available in its selected release. In particular, this guide positions gRPC connectivity as an architectural option without claiming a shipped standard adapter.</span><span lang="ja">本書は、実装中の機能と設計方針を含むアーキテクチャを説明しています。Static WebのページView投影には実装があり、Logical UIやDisplayには仕様が整備されていますが、モデルから各画面へ至る全経路の提供完了を示すものではありません。Progressive Static WebとUX Profileには構想・設計段階の項目があります。RESTまたはgRPCで独自UIを接続する際も、採用する版の公開APIとアダプターの提供範囲を確認します。特に本稿ではgRPC接続を構成上の選択肢として位置付け、提供済みの標準アダプターとは断定しません。</span>
+
+# Conclusion｜まとめ
+
+<span lang="en">Textus/CNCF UI architecture connects requirements, read and operation contracts, and presentation implementations. A Flutter application framework connected to Textus combines model-driven UI with a shared runtime to support smartphone, tablet, Web, and desktop applications. Standard Web UI and custom UI connected through REST or gRPC remain alternatives, sharing business rules and confirmed state on the server while providing presentation and interaction suited to each use case.</span><span lang="ja">Textus/CNCFのUIアーキテクチャは、要求、参照・操作の契約、画面の実現方式をつなぎます。Textusと連動するFlutterのアプリケーション・フレームワークでは、モデル駆動UIと共通ランタイムを組み合わせ、スマートフォン・タブレット・Web・デスクトップへ展開します。標準Web UIやREST／gRPCで接続する独自UIも選択でき、業務の規則と確定状態をサーバーで共有しながら、各用途に適した表示と操作を構成できます。</span>

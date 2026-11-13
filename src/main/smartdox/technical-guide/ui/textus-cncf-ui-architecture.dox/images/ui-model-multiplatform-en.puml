@@ -1,0 +1,35 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBorderColor #899DA9
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam sequenceParticipantBackgroundColor #F0F6F8
+skinparam sequenceLifeLineBorderColor #899DA9
+skinparam sequenceMessageAlign center
+skinparam noteBackgroundColor #FFF8E9
+skinparam noteBorderColor #C5B88B
+skinparam dpi 170
+skinparam ranksep 15
+skinparam nodesep 20
+rectangle "UI model + Operation contracts\nInformation and user actions" as model
+rectangle "Cozy generation (design)\nConfiguration / typed bindings" as generate
+rectangle "Textus-connected Flutter framework\nTFAF + Textus Flutter Core" as runtime
+rectangle "iPhone / Android\nPhones and tablets" as mobile
+rectangle "Web / Desktop\nBrowser and desktop apps" as desktop
+model --> generate
+generate --> runtime
+runtime --> mobile : Touch / display regions
+runtime --> desktop : Mouse / keyboard
+note right of runtime
+ Extensions follow shared contracts
+ and remain separate from generation
+ and configuration.
+end note
+@enduml

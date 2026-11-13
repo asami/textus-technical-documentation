@@ -1,0 +1,1639 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-ui-architecture-document-ja",
+  "core": {
+    "id": "textus-cncf-ui-architecture"
+  },
+  "locale": "ja",
+  "document": {
+    "title": "Textus/CNCF UIアーキテクチャ技術ガイド",
+    "sections": [
+      {
+        "id": "textus-cncf-ui-architecture-section",
+        "heading": "Textus/CNCF UIアーキテクチャ技術ガイド",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-ui-architecture"
+          ],
+          "claims": [
+            "textus-cncf-ui-architecture-claim-1"
+          ],
+          "nodes": [
+            "textus-cncf-ui-architecture-node-1"
+          ],
+          "relations": [],
+          "flows": [
+            "textus-cncf-ui-architecture-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "textus-cncf-ui-architecture-paragraph-1",
+            "kind": "paragraph",
+            "text": "本書は、Textus Document Componentの技術解説として、SimpleModeling／Textus／CNCFのUIアーキテクチャを整理します。モデル、公開API、表示契約、WebとFlutterの実行基盤がどのように組み合わさるかを説明し、RESTまたはgRPCで外部の独自UIを接続する構成も扱います。",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-ui-architecture"
+              ],
+              "claims": [
+                "textus-cncf-ui-architecture-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-ui-architecture-node-1"
+              ],
+              "relations": [],
+              "flows": [
+                "textus-cncf-ui-architecture-flow"
+              ]
+            }
+          },
+          {
+            "id": "ui-architecture-paths",
+            "kind": "figure",
+            "asset": "images/ui-architecture-paths-ja.png",
+            "caption": "図1　UIの実現方式と共通の業務処理。標準WebのHTML構成と、Flutter・独自UIのAPI接続を分けて示します。",
+            "alt": "図1　UIの実現方式と共通の業務処理。標準WebのHTML構成と、Flutter・独自UIのAPI接続を分けて示します。",
+            "coreRefs": {
+              "steps": [
+                "ui-foundation",
+                "ui-realization",
+                "web-ui",
+                "flutter-ui",
+                "external-ui"
+              ],
+              "claims": [
+                "ui-foundation-claim-1",
+                "ui-realization-claim-1",
+                "web-ui-claim-1",
+                "web-ui-claim-2",
+                "web-ui-claim-3",
+                "flutter-ui-claim-platforms",
+                "flutter-ui-claim-model-driven",
+                "flutter-ui-claim-1",
+                "flutter-ui-claim-2",
+                "flutter-ui-claim-3",
+                "external-ui-claim-1",
+                "external-ui-claim-2",
+                "external-ui-claim-3"
+              ],
+              "nodes": [
+                "ui-foundation-node-1",
+                "ui-realization-node-1",
+                "web-ui-node-1",
+                "web-ui-node-2",
+                "web-ui-node-3",
+                "flutter-ui-node-platforms",
+                "flutter-ui-node-model-driven",
+                "flutter-ui-node-1",
+                "flutter-ui-node-2",
+                "flutter-ui-node-3",
+                "external-ui-node-1",
+                "external-ui-node-2",
+                "external-ui-node-3"
+              ],
+              "relations": [
+                "web-ui-relation-1",
+                "web-ui-relation-2",
+                "flutter-ui-relation-platforms-model",
+                "flutter-ui-relation-model-runtime",
+                "flutter-ui-relation-1",
+                "flutter-ui-relation-2",
+                "external-ui-relation-1",
+                "external-ui-relation-2"
+              ],
+              "flows": [
+                "ui-foundation-flow",
+                "ui-realization-flow",
+                "web-ui-flow",
+                "flutter-ui-flow",
+                "external-ui-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "ui-foundation-section",
+            "heading": "UIアーキテクチャの共通基盤",
+            "coreRefs": {
+              "steps": [
+                "ui-foundation"
+              ],
+              "claims": [
+                "ui-foundation-claim-1"
+              ],
+              "nodes": [
+                "ui-foundation-node-1"
+              ],
+              "relations": [],
+              "flows": [
+                "ui-foundation-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ui-foundation-paragraph-1",
+                "kind": "paragraph",
+                "text": "SimpleModelingはモデル駆動とコンポーネント指向を組み合わせ、Textusがその実行を支えます。UIについても、要求から画面に必要な情報と操作を定め、公開された業務契約へ接続します。画面を変えるたびに業務規則まで書き直す負担を減らし、複数のUIから同じ業務機能を利用することが、この構成の目的です。",
+                "coreRefs": {
+                  "steps": [
+                    "ui-foundation"
+                  ],
+                  "claims": [
+                    "ui-foundation-claim-1"
+                  ],
+                  "nodes": [
+                    "ui-foundation-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ui-foundation-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ui-model-section",
+                "heading": "要求から画面と操作を定める",
+                "coreRefs": {
+                  "steps": [
+                    "ui-model"
+                  ],
+                  "claims": [
+                    "ui-model-claim-1",
+                    "ui-model-claim-2",
+                    "ui-model-claim-3"
+                  ],
+                  "nodes": [
+                    "ui-model-node-1",
+                    "ui-model-node-2",
+                    "ui-model-node-3"
+                  ],
+                  "relations": [
+                    "ui-model-relation-1",
+                    "ui-model-relation-2"
+                  ],
+                  "flows": [
+                    "ui-model-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ui-model-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "UIモデルは、利用者が何を参照し、何を入力し、どの操作を行うかを表します。CozyのLogical UIでは、業務ユースケースからシステム・ユースケース、UIユースケースへ要求を具体化し、画面と操作の対応を定めます。画面の要求にFlutterのWidget構造やHTTPの通信手順を埋め込まず、業務上の意味を保持します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ui-model"
+                      ],
+                      "claims": [
+                        "ui-model-claim-1"
+                      ],
+                      "nodes": [
+                        "ui-model-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ui-model-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-model-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "情報の取得と業務操作は、コンポーネントが公開するService・Operationの契約へ接続します。一覧には検索、詳細には個別の参照、実行ボタンにはCommandなどの対応を定めます。UIモデルとOperationモデルを明示的なバインディングで結ぶことで、表示の都合で業務処理を作り直す範囲を減らします。",
+                    "coreRefs": {
+                      "steps": [
+                        "ui-model"
+                      ],
+                      "claims": [
+                        "ui-model-claim-2"
+                      ],
+                      "nodes": [
+                        "ui-model-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ui-model-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-model-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "要求から画面、画面からOperationへの対応を保持すると、ユースケースに必要な操作があるか、公開されていない処理を画面から呼んでいないかを確認できます。生成された画面だけを仕様とせず、要求・モデル・公開契約を照合することが、モデル駆動のUI開発の基礎になります。",
+                    "coreRefs": {
+                      "steps": [
+                        "ui-model"
+                      ],
+                      "claims": [
+                        "ui-model-claim-3"
+                      ],
+                      "nodes": [
+                        "ui-model-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ui-model-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "view-display-section",
+                "heading": "業務データを表示用の契約へ投影する",
+                "coreRefs": {
+                  "steps": [
+                    "view-display"
+                  ],
+                  "claims": [
+                    "view-display-claim-1",
+                    "view-display-claim-2",
+                    "view-display-claim-3"
+                  ],
+                  "nodes": [
+                    "view-display-node-1",
+                    "view-display-node-2",
+                    "view-display-node-3"
+                  ],
+                  "relations": [
+                    "view-display-relation-1",
+                    "view-display-relation-2"
+                  ],
+                  "flows": [
+                    "view-display-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "view-display-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "業務状態とその更新規則は、サーバー側のドメイン・モデルとOperationが担当します。Viewは、利用者に必要な情報を参照用にまとめます。ストレージや外部プロバイダーの生データを直接画面へ渡さず、参照の意味とアクセス範囲を明確にします。",
+                    "coreRefs": {
+                      "steps": [
+                        "view-display"
+                      ],
+                      "claims": [
+                        "view-display-claim-1"
+                      ],
+                      "nodes": [
+                        "view-display-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "view-display-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "view-display-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Displayは、認可されたViewと表示定義から、項目・値・参照先・操作の情報を表示向けに投影します。CNCFのDisplay契約は、型のある入力と登録された変換を使い、同じ入力から同じ投影結果を得る構成を定めます。表示用文字列から業務データを逆算したり、投影によってViewを書き換えたりしません。",
+                    "coreRefs": {
+                      "steps": [
+                        "view-display"
+                      ],
+                      "claims": [
+                        "view-display-claim-2"
+                      ],
+                      "nodes": [
+                        "view-display-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "view-display-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "view-display-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "この分離により、業務上の意味を保ちながら、WebとFlutterで異なる見せ方を採用できます。View・Displayは共有可能な参照の仕組みであり、すべての独自UIに採用を求めるものではありません。独自UIは、用途に適した公開APIのデータ契約を利用できます。",
+                    "coreRefs": {
+                      "steps": [
+                        "view-display"
+                      ],
+                      "claims": [
+                        "view-display-claim-3"
+                      ],
+                      "nodes": [
+                        "view-display-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "view-display-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-view-projection",
+                    "kind": "figure",
+                    "asset": "images/ui-view-projection-ja.png",
+                    "caption": "図2　参照の投影と更新操作の分離。表示用の値を業務状態へ書き戻さず、更新はOperationを通します。",
+                    "alt": "図2　参照の投影と更新操作の分離。表示用の値を業務状態へ書き戻さず、更新はOperationを通します。",
+                    "coreRefs": {
+                      "steps": [
+                        "view-display",
+                        "ui-mutation"
+                      ],
+                      "claims": [
+                        "view-display-claim-1",
+                        "view-display-claim-2",
+                        "view-display-claim-3",
+                        "ui-mutation-claim-1",
+                        "ui-mutation-claim-2",
+                        "ui-mutation-claim-3"
+                      ],
+                      "nodes": [
+                        "view-display-node-1",
+                        "view-display-node-2",
+                        "view-display-node-3",
+                        "ui-mutation-node-1",
+                        "ui-mutation-node-2",
+                        "ui-mutation-node-3"
+                      ],
+                      "relations": [
+                        "view-display-relation-1",
+                        "view-display-relation-2",
+                        "ui-mutation-relation-1",
+                        "ui-mutation-relation-2"
+                      ],
+                      "flows": [
+                        "view-display-flow",
+                        "ui-mutation-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ui-realization-section",
+            "heading": "三つのUI構成を選ぶ",
+            "coreRefs": {
+              "steps": [
+                "ui-realization"
+              ],
+              "claims": [
+                "ui-realization-claim-1"
+              ],
+              "nodes": [
+                "ui-realization-node-1"
+              ],
+              "relations": [],
+              "flows": [
+                "ui-realization-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ui-realization-paragraph-1",
+                "kind": "paragraph",
+                "text": "画面の実現方式として、CNCFの標準Web UI、Textus Flutter基盤を利用するUI、外部で独自に作成してAPIで接続するUIを扱います。これらは必ず同じDisplay経路を通る三種類のレンダラーではなく、共有する基盤の範囲が異なる構成です。選択の中心は、画面技術そのものだけでなく、表示・通信・業務処理のどこまでを共通基盤に任せるかにあります。",
+                "coreRefs": {
+                  "steps": [
+                    "ui-realization"
+                  ],
+                  "claims": [
+                    "ui-realization-claim-1"
+                  ],
+                  "nodes": [
+                    "ui-realization-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ui-realization-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ui-path-comparison",
+                "kind": "table",
+                "caption": "表1　三つのUI構成と共通化する範囲",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "構成"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "基盤に任せる範囲"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "アプリケーション側の役割"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "ui-path-comparison-row-1",
+                    "cells": [
+                      "標準Web UI",
+                      "ページView、HTML構成、共通Widget",
+                      "表示定義、業務Operationとの対応"
+                    ]
+                  },
+                  {
+                    "id": "ui-path-comparison-row-2",
+                    "cells": [
+                      "Textus Flutter UI",
+                      "端末・通信のCore、TFAFの標準画面",
+                      "設定、型付きバインディング、独自拡張"
+                    ]
+                  },
+                  {
+                    "id": "ui-path-comparison-row-3",
+                    "cells": [
+                      "独自UI＋API",
+                      "公開Operation、認証・認可、業務規則",
+                      "画面、通信、結果確認、再試行条件"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ui-realization",
+                    "web-ui",
+                    "flutter-ui",
+                    "external-ui"
+                  ],
+                  "claims": [
+                    "ui-realization-claim-1",
+                    "web-ui-claim-1",
+                    "web-ui-claim-2",
+                    "web-ui-claim-3",
+                    "flutter-ui-claim-platforms",
+                    "flutter-ui-claim-model-driven",
+                    "flutter-ui-claim-1",
+                    "flutter-ui-claim-2",
+                    "flutter-ui-claim-3",
+                    "external-ui-claim-1",
+                    "external-ui-claim-2",
+                    "external-ui-claim-3"
+                  ],
+                  "nodes": [
+                    "ui-realization-node-1",
+                    "web-ui-node-1",
+                    "web-ui-node-2",
+                    "web-ui-node-3",
+                    "flutter-ui-node-platforms",
+                    "flutter-ui-node-model-driven",
+                    "flutter-ui-node-1",
+                    "flutter-ui-node-2",
+                    "flutter-ui-node-3",
+                    "external-ui-node-1",
+                    "external-ui-node-2",
+                    "external-ui-node-3"
+                  ],
+                  "relations": [
+                    "web-ui-relation-1",
+                    "web-ui-relation-2",
+                    "flutter-ui-relation-platforms-model",
+                    "flutter-ui-relation-model-runtime",
+                    "flutter-ui-relation-1",
+                    "flutter-ui-relation-2",
+                    "external-ui-relation-1",
+                    "external-ui-relation-2"
+                  ],
+                  "flows": [
+                    "ui-realization-flow",
+                    "web-ui-flow",
+                    "flutter-ui-flow",
+                    "external-ui-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "web-ui-section",
+                "heading": "標準Web UIを構成する",
+                "coreRefs": {
+                  "steps": [
+                    "web-ui"
+                  ],
+                  "claims": [
+                    "web-ui-claim-1",
+                    "web-ui-claim-2",
+                    "web-ui-claim-3"
+                  ],
+                  "nodes": [
+                    "web-ui-node-1",
+                    "web-ui-node-2",
+                    "web-ui-node-3"
+                  ],
+                  "relations": [
+                    "web-ui-relation-1",
+                    "web-ui-relation-2"
+                  ],
+                  "flows": [
+                    "web-ui-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "web-ui-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "CNCFのStatic Web Applicationは、要求の実行コンテキストとページ用Viewを使い、意味のある初期HTMLをサーバー側で組み立てる方式です。Staticは、すべてのページを事前生成するという意味ではありません。利用者や参照対象に応じてページを構成し、初期表示のためにブラウザーが画面各部のAPIを個別に呼び出す構造を避けます。",
+                    "coreRefs": {
+                      "steps": [
+                        "web-ui"
+                      ],
+                      "claims": [
+                        "web-ui-claim-1"
+                      ],
+                      "nodes": [
+                        "web-ui-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "web-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "web-ui-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Web UI DSLの設計では、一覧、詳細、操作フォームなどをTextus Widgetとして表し、Bootstrap CoreのHTML構造へ変換します。UX Profileは、その意味を保ちながら表示や操作感を調整する層です。Material DesignもProfileの対象として整理されています。画面の意味、HTML構造、表示方針を分けることで、各画面で同じ基礎構造を作り直す負担を減らします。",
+                    "coreRefs": {
+                      "steps": [
+                        "web-ui"
+                      ],
+                      "claims": [
+                        "web-ui-claim-2"
+                      ],
+                      "nodes": [
+                        "web-ui-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "web-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "web-ui-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Progressive Static Webの構想では、サーバーが返すHTMLを基礎に、必要な箇所へJavaScriptによる操作支援を追加します。通常のフォーム操作と追加した動的操作を同じ業務Operationへ接続し、ブラウザー側の状態を業務処理の確定結果として扱わないことが基本です。",
+                    "coreRefs": {
+                      "steps": [
+                        "web-ui"
+                      ],
+                      "claims": [
+                        "web-ui-claim-3"
+                      ],
+                      "nodes": [
+                        "web-ui-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "web-ui-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "flutter-ui-section",
+                "heading": "Textusと連動するFlutter基盤でマルチスクリーンのUIアプリを構築する",
+                "coreRefs": {
+                  "steps": [
+                    "flutter-ui"
+                  ],
+                  "claims": [
+                    "flutter-ui-claim-platforms",
+                    "flutter-ui-claim-model-driven",
+                    "flutter-ui-claim-1",
+                    "flutter-ui-claim-2",
+                    "flutter-ui-claim-3"
+                  ],
+                  "nodes": [
+                    "flutter-ui-node-platforms",
+                    "flutter-ui-node-model-driven",
+                    "flutter-ui-node-1",
+                    "flutter-ui-node-2",
+                    "flutter-ui-node-3"
+                  ],
+                  "relations": [
+                    "flutter-ui-relation-platforms-model",
+                    "flutter-ui-relation-model-runtime",
+                    "flutter-ui-relation-1",
+                    "flutter-ui-relation-2"
+                  ],
+                  "flows": [
+                    "flutter-ui-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "flutter-ui-paragraph-platforms",
+                    "kind": "paragraph",
+                    "text": "Textusと連動するFlutterのアプリケーション・フレームワーク上でUIアプリケーションを構築します。この基盤は、iPhone／Androidのスマートフォン、タブレット、Webアプリケーション、デスクトップアプリケーションを対象とします。マルチスクリーンは、画面サイズへの適応に加え、異なるUI基盤上でアプリケーションを提供することを含みます。Flutter Webは、CNCFがサーバー側でHTMLを構成する標準Web UIとは別の実現方式です。",
+                    "coreRefs": {
+                      "steps": [
+                        "flutter-ui"
+                      ],
+                      "claims": [
+                        "flutter-ui-claim-platforms"
+                      ],
+                      "nodes": [
+                        "flutter-ui-node-platforms"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "flutter-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "flutter-ui-paragraph-model-driven",
+                    "kind": "paragraph",
+                    "text": "モデル駆動UIでは、表示する情報、利用者の操作、Textusの業務処理との接続を、個々のUI基盤の実装から分けて記述します。このモデルをアプリケーション・フレームワークの設定とバインディングへつなぐことで、業務上の意味と操作の関係を共通化しながら、複数の実行環境へUIアプリケーションを展開できます。各環境への対応を画面ごとの個別実装だけに任せず、モデルと共通基盤で支える構成です。",
+                    "coreRefs": {
+                      "steps": [
+                        "flutter-ui"
+                      ],
+                      "claims": [
+                        "flutter-ui-claim-model-driven"
+                      ],
+                      "nodes": [
+                        "flutter-ui-node-model-driven"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "flutter-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-model-multiplatform",
+                    "kind": "figure",
+                    "asset": "images/ui-model-multiplatform-ja.png",
+                    "caption": "図3　モデル駆動UIから複数のUI基盤へ展開する構成。共通化するのは画面の意味と操作の接続で、配置や入力方式は各環境に合わせます。",
+                    "alt": "図3　モデル駆動UIから複数のUI基盤へ展開する構成。共通化するのは画面の意味と操作の接続で、配置や入力方式は各環境に合わせます。",
+                    "coreRefs": {
+                      "steps": [
+                        "flutter-ui"
+                      ],
+                      "claims": [
+                        "flutter-ui-claim-platforms",
+                        "flutter-ui-claim-model-driven",
+                        "flutter-ui-claim-1",
+                        "flutter-ui-claim-2",
+                        "flutter-ui-claim-3"
+                      ],
+                      "nodes": [
+                        "flutter-ui-node-platforms",
+                        "flutter-ui-node-model-driven",
+                        "flutter-ui-node-1",
+                        "flutter-ui-node-2",
+                        "flutter-ui-node-3"
+                      ],
+                      "relations": [
+                        "flutter-ui-relation-platforms-model",
+                        "flutter-ui-relation-model-runtime",
+                        "flutter-ui-relation-1",
+                        "flutter-ui-relation-2"
+                      ],
+                      "flows": [
+                        "flutter-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "flutter-ui-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Flutter基盤とアプリケーションの役割は、次の表のように分かれます。端末・通信の機構と、一覧・詳細・編集などの画面機構を分け、業務固有の設定や拡張をその上へ接続します。",
+                    "coreRefs": {
+                      "steps": [
+                        "flutter-ui"
+                      ],
+                      "claims": [
+                        "flutter-ui-claim-1"
+                      ],
+                      "nodes": [
+                        "flutter-ui-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "flutter-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-flutter-roles",
+                    "kind": "table",
+                    "caption": "表2　Flutter基盤の責務",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "層"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "担当する機能"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "組合せの効果"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ui-flutter-roles-row-1",
+                        "cells": [
+                          "Flutter Core",
+                          "端末機能、通信、表示領域",
+                          "環境ごとの違いを共通の接点へまとめる"
+                        ]
+                      },
+                      {
+                        "id": "ui-flutter-roles-row-2",
+                        "cells": [
+                          "TFAF",
+                          "一覧・詳細・編集、検索、ナビゲーション、承認",
+                          "標準画面を設定して利用する"
+                        ]
+                      },
+                      {
+                        "id": "ui-flutter-roles-row-3",
+                        "cells": [
+                          "アプリケーション",
+                          "業務設定、バインディング、独自拡張",
+                          "同じ業務契約を各画面へ接続する"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "flutter-ui"
+                      ],
+                      "claims": [
+                        "flutter-ui-claim-platforms",
+                        "flutter-ui-claim-model-driven",
+                        "flutter-ui-claim-1",
+                        "flutter-ui-claim-2",
+                        "flutter-ui-claim-3"
+                      ],
+                      "nodes": [
+                        "flutter-ui-node-platforms",
+                        "flutter-ui-node-model-driven",
+                        "flutter-ui-node-1",
+                        "flutter-ui-node-2",
+                        "flutter-ui-node-3"
+                      ],
+                      "relations": [
+                        "flutter-ui-relation-platforms-model",
+                        "flutter-ui-relation-model-runtime",
+                        "flutter-ui-relation-1",
+                        "flutter-ui-relation-2"
+                      ],
+                      "flows": [
+                        "flutter-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "flutter-ui-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "標準画面は、TFAFの共通実装を設定して利用する方針です。CozyがUIモデルから設定と型付きバインディングを生成し、設定だけでは表現できない部分を生成Dartや独自コードで補う構成を目指します。生成・設定・独自拡張の境界を保つことで、モデルの変更や共通ランタイムの改善を複数のUIアプリケーションへ反映しやすくなります。",
+                    "coreRefs": {
+                      "steps": [
+                        "flutter-ui"
+                      ],
+                      "claims": [
+                        "flutter-ui-claim-2"
+                      ],
+                      "nodes": [
+                        "flutter-ui-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "flutter-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "flutter-ui-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "各実行環境では、画面サイズやタッチ・マウス・キーボードなどの入力方式に応じて、表示と操作を調整します。一覧と詳細は、狭い画面では順に、広い画面では並べて表示できます。折り畳み端末では、Coreが提供する表示領域と境界の情報をTFAFのレイアウト判断に用います。選択中の対象や編集中の状態と配置を分けることで、表示の変更に業務上の状態を巻き込まない構成にします。",
+                    "coreRefs": {
+                      "steps": [
+                        "flutter-ui"
+                      ],
+                      "claims": [
+                        "flutter-ui-claim-3"
+                      ],
+                      "nodes": [
+                        "flutter-ui-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "flutter-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-platform-adaptation",
+                    "kind": "table",
+                    "caption": "表3　複数環境で共有するものと調整するもの",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "実行環境"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "共通化するもの"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "調整するもの"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ui-platform-adaptation-row-1",
+                        "cells": [
+                          "iPhone／Android",
+                          "表示情報、Operationとの対応",
+                          "タッチ、端末機能、狭い画面"
+                        ]
+                      },
+                      {
+                        "id": "ui-platform-adaptation-row-2",
+                        "cells": [
+                          "タブレット・折り畳み端末",
+                          "選択対象、編集状態、操作の意味",
+                          "表示領域、一覧・詳細の配置"
+                        ]
+                      },
+                      {
+                        "id": "ui-platform-adaptation-row-3",
+                        "cells": [
+                          "Webアプリケーション",
+                          "モデル、設定、業務契約",
+                          "ブラウザー上の表示と入力"
+                        ]
+                      },
+                      {
+                        "id": "ui-platform-adaptation-row-4",
+                        "cells": [
+                          "デスクトップアプリケーション",
+                          "モデル、設定、業務契約",
+                          "広い画面、マウス、キーボード"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "flutter-ui"
+                      ],
+                      "claims": [
+                        "flutter-ui-claim-platforms",
+                        "flutter-ui-claim-model-driven",
+                        "flutter-ui-claim-1",
+                        "flutter-ui-claim-2",
+                        "flutter-ui-claim-3"
+                      ],
+                      "nodes": [
+                        "flutter-ui-node-platforms",
+                        "flutter-ui-node-model-driven",
+                        "flutter-ui-node-1",
+                        "flutter-ui-node-2",
+                        "flutter-ui-node-3"
+                      ],
+                      "relations": [
+                        "flutter-ui-relation-platforms-model",
+                        "flutter-ui-relation-model-runtime",
+                        "flutter-ui-relation-1",
+                        "flutter-ui-relation-2"
+                      ],
+                      "flows": [
+                        "flutter-ui-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "external-ui-section",
+                "heading": "独自UIをRESTまたはgRPCで接続する",
+                "coreRefs": {
+                  "steps": [
+                    "external-ui"
+                  ],
+                  "claims": [
+                    "external-ui-claim-1",
+                    "external-ui-claim-2",
+                    "external-ui-claim-3"
+                  ],
+                  "nodes": [
+                    "external-ui-node-1",
+                    "external-ui-node-2",
+                    "external-ui-node-3"
+                  ],
+                  "relations": [
+                    "external-ui-relation-1",
+                    "external-ui-relation-2"
+                  ],
+                  "flows": [
+                    "external-ui-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "external-ui-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Textusの外部に独自のWeb UIやネイティブUIを作成し、RESTまたはgRPCでサーバーへ接続する構成も、UIアーキテクチャの選択肢です。標準Web UIやTFAFの採用を前提とせず、既存のフロントエンドや用途固有の画面を利用できます。独自UIは、画面構成、操作、端末側の状態を担当します。",
+                    "coreRefs": {
+                      "steps": [
+                        "external-ui"
+                      ],
+                      "claims": [
+                        "external-ui-claim-1"
+                      ],
+                      "nodes": [
+                        "external-ui-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "external-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "external-ui-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "サーバーでは、公開するService・Operationに対応付けてAPIを用意し、通信境界で受け取った要求を共通の業務処理へ渡します。入力と結果の型、対象の識別子、エラー、契約の版を定め、RESTとgRPCの表現をその契約へ対応付けます。独自UIは必要に応じてView・Displayを利用できますが、Displayの採用と通信方式の選択は別の判断です。",
+                    "coreRefs": {
+                      "steps": [
+                        "external-ui"
+                      ],
+                      "claims": [
+                        "external-ui-claim-2"
+                      ],
+                      "nodes": [
+                        "external-ui-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "external-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "external-ui-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "認証・認可、入力の検証、業務規則、状態遷移、永続化はサーバー側で適用します。画面でボタンを隠すことや入力を検査することだけで、操作の許可や業務上の正しさを判断しません。この分担により、複数のUIから同じ業務機能を利用しながら、表示技術を独立して変更できます。各UIでは、選択したAPIの版とエラー処理、認証情報の連携、再試行の条件を実装・確認します。",
+                    "coreRefs": {
+                      "steps": [
+                        "external-ui"
+                      ],
+                      "claims": [
+                        "external-ui-claim-3"
+                      ],
+                      "nodes": [
+                        "external-ui-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "external-ui-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ui-consistency-section",
+            "heading": "表示と業務実行の整合を保つ",
+            "coreRefs": {
+              "steps": [
+                "ui-consistency"
+              ],
+              "claims": [
+                "ui-consistency-claim-1"
+              ],
+              "nodes": [
+                "ui-consistency-node-1"
+              ],
+              "relations": [],
+              "flows": [
+                "ui-consistency-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ui-consistency-paragraph-1",
+                "kind": "paragraph",
+                "text": "画面の実現方式を選んだ後は、利用者の文脈、操作の許可、更新の結果を一貫して扱う必要があります。表示用の情報、入力要求、確定した業務状態を区別し、それぞれを共通の実行契約へ結び付けます。",
+                "coreRefs": {
+                  "steps": [
+                    "ui-consistency"
+                  ],
+                  "claims": [
+                    "ui-consistency-claim-1"
+                  ],
+                  "nodes": [
+                    "ui-consistency-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ui-consistency-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ui-context-section",
+                "heading": "表示コンテキストとアクセス権限を揃える",
+                "coreRefs": {
+                  "steps": [
+                    "ui-context"
+                  ],
+                  "claims": [
+                    "ui-context-claim-1",
+                    "ui-context-claim-2"
+                  ],
+                  "nodes": [
+                    "ui-context-node-1",
+                    "ui-context-node-2"
+                  ],
+                  "relations": [
+                    "ui-context-relation-1"
+                  ],
+                  "flows": [
+                    "ui-context-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ui-context-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "同じ情報でも、利用者、ワークスペース、言語、時刻の扱いによって表示が変わります。サーバーで解決した実行コンテキストを参照処理と表示へ引き継ぐことで、表示した対象と実際に操作する対象の食い違いを抑えます。クライアントが指定する表示上の希望と、サーバーが判断するアクセス権限は区別します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ui-context"
+                      ],
+                      "claims": [
+                        "ui-context-claim-1"
+                      ],
+                      "nodes": [
+                        "ui-context-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ui-context-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-context-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "UIが利用可能な操作を示す情報は、操作時のサーバー認可の代わりにはなりません。画面を表示した後に権限や対象の状態が変わる可能性があるためです。サーバーは呼出し時にOperationと対象へのアクセスを判定します。認証・認可の詳細は、同じDocument Componentのセキュリティ・アーキテクチャ技術ガイドで扱います。",
+                    "coreRefs": {
+                      "steps": [
+                        "ui-context"
+                      ],
+                      "claims": [
+                        "ui-context-claim-2"
+                      ],
+                      "nodes": [
+                        "ui-context-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ui-context-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ui-mutation-section",
+                "heading": "操作の結果を確定状態へつなぐ",
+                "coreRefs": {
+                  "steps": [
+                    "ui-mutation"
+                  ],
+                  "claims": [
+                    "ui-mutation-claim-1",
+                    "ui-mutation-claim-2",
+                    "ui-mutation-claim-3"
+                  ],
+                  "nodes": [
+                    "ui-mutation-node-1",
+                    "ui-mutation-node-2",
+                    "ui-mutation-node-3"
+                  ],
+                  "relations": [
+                    "ui-mutation-relation-1",
+                    "ui-mutation-relation-2"
+                  ],
+                  "flows": [
+                    "ui-mutation-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ui-mutation-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "画面上のラベルや整形済みの値は、更新要求の仕様ではありません。編集では、入力型と対象の識別子を持つ更新用バインディングを通してOperationを呼び出します。対象のリビジョンなど、更新の競合を判定する情報は、画面定義の版や通信スキーマの版と区別して扱います。",
+                    "coreRefs": {
+                      "steps": [
+                        "ui-mutation"
+                      ],
+                      "claims": [
+                        "ui-mutation-claim-1"
+                      ],
+                      "nodes": [
+                        "ui-mutation-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ui-mutation-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-mutation-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "通信、業務実行、表示更新は別々に失敗する可能性があります。どの段階まで確定しているかに応じて、次の操作を選びます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ui-mutation"
+                      ],
+                      "claims": [
+                        "ui-mutation-claim-2"
+                      ],
+                      "nodes": [
+                        "ui-mutation-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ui-mutation-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-mutation-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "共通クライアント基盤は、契約に沿った通信、結果の分類、再取得の連携を担当し、画面は進行中・完了・再入力などの状態を利用者に示します。独自UIでも同じ区別を実装します。表示の見た目だけでなく、拒否、競合、通信断、再接続を含むシナリオで接続を確認することが必要です。",
+                    "coreRefs": {
+                      "steps": [
+                        "ui-mutation"
+                      ],
+                      "claims": [
+                        "ui-mutation-claim-3"
+                      ],
+                      "nodes": [
+                        "ui-mutation-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ui-mutation-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-operation-outcome",
+                    "kind": "figure",
+                    "asset": "images/ui-operation-outcome-ja.png",
+                    "caption": "図4　操作要求から確定状態の再表示まで。認可・更新結果と画面の再取得を別の段階として扱います。",
+                    "alt": "図4　操作要求から確定状態の再表示まで。認可・更新結果と画面の再取得を別の段階として扱います。",
+                    "coreRefs": {
+                      "steps": [
+                        "ui-mutation",
+                        "ui-context"
+                      ],
+                      "claims": [
+                        "ui-mutation-claim-1",
+                        "ui-mutation-claim-2",
+                        "ui-mutation-claim-3",
+                        "ui-context-claim-1",
+                        "ui-context-claim-2"
+                      ],
+                      "nodes": [
+                        "ui-mutation-node-1",
+                        "ui-mutation-node-2",
+                        "ui-mutation-node-3",
+                        "ui-context-node-1",
+                        "ui-context-node-2"
+                      ],
+                      "relations": [
+                        "ui-mutation-relation-1",
+                        "ui-mutation-relation-2",
+                        "ui-context-relation-1"
+                      ],
+                      "flows": [
+                        "ui-mutation-flow",
+                        "ui-context-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-outcome-actions",
+                    "kind": "table",
+                    "caption": "表4　結果に応じたUIの対応",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "確認できた状態"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "意味"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "次の処理"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ui-outcome-actions-row-1",
+                        "cells": [
+                          "入力拒否・認可拒否",
+                          "処理が許可されていない",
+                          "理由を表示し、入力や権限を確認"
+                        ]
+                      },
+                      {
+                        "id": "ui-outcome-actions-row-2",
+                        "cells": [
+                          "更新競合",
+                          "対象が想定した版と異なる",
+                          "最新状態を取得して操作を見直す"
+                        ]
+                      },
+                      {
+                        "id": "ui-outcome-actions-row-3",
+                        "cells": [
+                          "通信断・結果不明",
+                          "未実行か確定済みか不明",
+                          "結果を確認し、再試行条件に従う"
+                        ]
+                      },
+                      {
+                        "id": "ui-outcome-actions-row-4",
+                        "cells": [
+                          "更新確定・表示失敗",
+                          "業務更新は完了している",
+                          "更新を繰り返さず表示を再取得"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ui-mutation"
+                      ],
+                      "claims": [
+                        "ui-mutation-claim-1",
+                        "ui-mutation-claim-2",
+                        "ui-mutation-claim-3"
+                      ],
+                      "nodes": [
+                        "ui-mutation-node-1",
+                        "ui-mutation-node-2",
+                        "ui-mutation-node-3"
+                      ],
+                      "relations": [
+                        "ui-mutation-relation-1",
+                        "ui-mutation-relation-2"
+                      ],
+                      "flows": [
+                        "ui-mutation-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ui-development-section",
+            "heading": "モデル・生成・実行をつないで開発する",
+            "coreRefs": {
+              "steps": [
+                "ui-development"
+              ],
+              "claims": [
+                "ui-development-claim-1",
+                "ui-development-claim-2",
+                "ui-development-claim-3"
+              ],
+              "nodes": [
+                "ui-development-node-1",
+                "ui-development-node-2",
+                "ui-development-node-3"
+              ],
+              "relations": [
+                "ui-development-relation-1",
+                "ui-development-relation-2"
+              ],
+              "flows": [
+                "ui-development-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ui-development-paragraph-1",
+                "kind": "paragraph",
+                "text": "モデル駆動の経路では、要求と公開契約を入力に、Cozyが設定や接続コードを生成し、Textusとクライアント基盤が実行を担当する構成を目指します。生成物と手書きの拡張を分けることで、モデルの変更を再生成へ反映しやすくなります。独自UIの経路では、同じ公開契約を接点として、フロントエンドを別の開発方式で構築できます。",
+                "coreRefs": {
+                  "steps": [
+                    "ui-development"
+                  ],
+                  "claims": [
+                    "ui-development-claim-1"
+                  ],
+                  "nodes": [
+                    "ui-development-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ui-development-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ui-development-paragraph-2",
+                "kind": "paragraph",
+                "text": "NICT編集工房は、一覧・詳細、編集、端末機能などを通してTFAFとUIモデルの設計を検討する参照アプリケーションです。共通データソースの境界を保ちながら仮データからサーバーへ切り替え、画面と業務処理の接続を確認します。この実例から共通化できる部分を基盤へ戻すことで、モデルだけで先に画面体系を固定することを避けます。",
+                "coreRefs": {
+                  "steps": [
+                    "ui-development"
+                  ],
+                  "claims": [
+                    "ui-development-claim-2"
+                  ],
+                  "nodes": [
+                    "ui-development-node-2"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ui-development-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ui-development-paragraph-3",
+                "kind": "paragraph",
+                "text": "本書は、実装中の機能と設計方針を含むアーキテクチャを説明しています。Static WebのページView投影には実装があり、Logical UIやDisplayには仕様が整備されていますが、モデルから各画面へ至る全経路の提供完了を示すものではありません。Progressive Static WebとUX Profileには構想・設計段階の項目があります。RESTまたはgRPCで独自UIを接続する際も、採用する版の公開APIとアダプターの提供範囲を確認します。特に本稿ではgRPC接続を構成上の選択肢として位置付け、提供済みの標準アダプターとは断定しません。",
+                "coreRefs": {
+                  "steps": [
+                    "ui-development"
+                  ],
+                  "claims": [
+                    "ui-development-claim-3"
+                  ],
+                  "nodes": [
+                    "ui-development-node-3"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ui-development-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ui-conclusion-section",
+            "heading": "まとめ",
+            "coreRefs": {
+              "steps": [
+                "ui-conclusion"
+              ],
+              "claims": [
+                "ui-conclusion-claim-1"
+              ],
+              "nodes": [
+                "ui-conclusion-node-1"
+              ],
+              "relations": [],
+              "flows": [
+                "ui-conclusion-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ui-conclusion-paragraph-1",
+                "kind": "paragraph",
+                "text": "Textus/CNCFのUIアーキテクチャは、要求、参照・操作の契約、画面の実現方式をつなぎます。Textusと連動するFlutterのアプリケーション・フレームワークでは、モデル駆動UIと共通ランタイムを組み合わせ、スマートフォン・タブレット・Web・デスクトップへ展開します。標準Web UIやREST／gRPCで接続する独自UIも選択でき、業務の規則と確定状態をサーバーで共有しながら、各用途に適した表示と操作を構成できます。",
+                "coreRefs": {
+                  "steps": [
+                    "ui-conclusion"
+                  ],
+                  "claims": [
+                    "ui-conclusion-claim-1"
+                  ],
+                  "nodes": [
+                    "ui-conclusion-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ui-conclusion-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "textus-cncf-ui-architecture",
+        "text": "Textus/CNCF UIアーキテクチャ技術ガイド"
+      },
+      {
+        "stepRef": "ui-foundation",
+        "text": "UIアーキテクチャの共通基盤"
+      },
+      {
+        "stepRef": "ui-model",
+        "text": "要求から画面と操作を定める"
+      },
+      {
+        "stepRef": "view-display",
+        "text": "業務データを表示用の契約へ投影する"
+      },
+      {
+        "stepRef": "ui-realization",
+        "text": "三つのUI構成を選ぶ"
+      },
+      {
+        "stepRef": "web-ui",
+        "text": "標準Web UIを構成する"
+      },
+      {
+        "stepRef": "flutter-ui",
+        "text": "Textusと連動するFlutter基盤でマルチスクリーンのUIアプリを構築する"
+      },
+      {
+        "stepRef": "external-ui",
+        "text": "独自UIをRESTまたはgRPCで接続する"
+      },
+      {
+        "stepRef": "ui-consistency",
+        "text": "表示と業務実行の整合を保つ"
+      },
+      {
+        "stepRef": "ui-context",
+        "text": "表示コンテキストとアクセス権限を揃える"
+      },
+      {
+        "stepRef": "ui-mutation",
+        "text": "操作の結果を確定状態へつなぐ"
+      },
+      {
+        "stepRef": "ui-development",
+        "text": "モデル・生成・実行をつないで開発する"
+      },
+      {
+        "stepRef": "ui-conclusion",
+        "text": "まとめ"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "textus-cncf-ui-architecture-node-1",
+        "text": "モデルと実行基盤をつないで複数のUIを支える"
+      },
+      {
+        "nodeRef": "ui-foundation-node-1",
+        "text": "業務の意味を画面の実現方式から分ける"
+      },
+      {
+        "nodeRef": "ui-model-node-1",
+        "text": "画面の意味と実装技術を分ける"
+      },
+      {
+        "nodeRef": "ui-model-node-2",
+        "text": "公開契約への接続を明示する"
+      },
+      {
+        "nodeRef": "ui-model-node-3",
+        "text": "要求と操作をたどって検証する"
+      },
+      {
+        "nodeRef": "view-display-node-1",
+        "text": "Viewが参照する意味を定める"
+      },
+      {
+        "nodeRef": "view-display-node-2",
+        "text": "Displayが表示に必要な形を定める"
+      },
+      {
+        "nodeRef": "view-display-node-3",
+        "text": "共有するのは意味と契約である"
+      },
+      {
+        "nodeRef": "ui-realization-node-1",
+        "text": "共通化する範囲と独自開発する範囲を選ぶ"
+      },
+      {
+        "nodeRef": "web-ui-node-1",
+        "text": "初期表示をサーバー側で構成する"
+      },
+      {
+        "nodeRef": "web-ui-node-2",
+        "text": "意味的なWidgetから表示方式へつなぐ"
+      },
+      {
+        "nodeRef": "web-ui-node-3",
+        "text": "必要な動的機能を段階的に加える"
+      },
+      {
+        "nodeRef": "flutter-ui-node-1",
+        "text": "端末基盤と画面の意味を分担する"
+      },
+      {
+        "nodeRef": "flutter-ui-node-2",
+        "text": "設定を優先し不足部分を補完する"
+      },
+      {
+        "nodeRef": "flutter-ui-node-3",
+        "text": "各環境の画面サイズと入力方式に適応する"
+      },
+      {
+        "nodeRef": "external-ui-node-1",
+        "text": "UI技術と配備を独立して選べる"
+      },
+      {
+        "nodeRef": "external-ui-node-2",
+        "text": "通信を公開された業務契約へ接続する"
+      },
+      {
+        "nodeRef": "external-ui-node-3",
+        "text": "UIの自由度と業務処理の共通化を両立する"
+      },
+      {
+        "nodeRef": "ui-consistency-node-1",
+        "text": "どのUIにも共通する実行上の境界を設ける"
+      },
+      {
+        "nodeRef": "ui-context-node-1",
+        "text": "表示に必要な文脈を引き継ぐ"
+      },
+      {
+        "nodeRef": "ui-context-node-2",
+        "text": "表示上の操作可否と実行認可を分ける"
+      },
+      {
+        "nodeRef": "ui-mutation-node-1",
+        "text": "参照と更新の契約を分ける"
+      },
+      {
+        "nodeRef": "ui-mutation-node-2",
+        "text": "実行結果と表示更新を別々に扱う"
+      },
+      {
+        "nodeRef": "ui-mutation-node-3",
+        "text": "通信と画面の責務を分けて確認する"
+      },
+      {
+        "nodeRef": "ui-development-node-1",
+        "text": "生成と手書きの境界を定める"
+      },
+      {
+        "nodeRef": "ui-development-node-2",
+        "text": "実例でモデルと基盤を育てる"
+      },
+      {
+        "nodeRef": "ui-development-node-3",
+        "text": "設計の全体像と利用可能な範囲を分ける"
+      },
+      {
+        "nodeRef": "ui-conclusion-node-1",
+        "text": "表示方式を選びながら業務契約を共有する"
+      },
+      {
+        "nodeRef": "flutter-ui-node-platforms",
+        "text": "Textus連動のアプリケーション・フレームワークで複数環境へ展開する"
+      },
+      {
+        "nodeRef": "flutter-ui-node-model-driven",
+        "text": "モデル駆動UIが異なるUI基盤への展開を支える"
+      }
+    ]
+  }
+}

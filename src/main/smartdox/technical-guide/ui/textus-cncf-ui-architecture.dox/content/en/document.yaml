@@ -1,0 +1,1639 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-ui-architecture-document-en",
+  "core": {
+    "id": "textus-cncf-ui-architecture"
+  },
+  "locale": "en",
+  "document": {
+    "title": "Textus/CNCF UI Architecture — Technical Guide",
+    "sections": [
+      {
+        "id": "textus-cncf-ui-architecture-section",
+        "heading": "Textus/CNCF UI Architecture — Technical Guide",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-ui-architecture"
+          ],
+          "claims": [
+            "textus-cncf-ui-architecture-claim-1"
+          ],
+          "nodes": [
+            "textus-cncf-ui-architecture-node-1"
+          ],
+          "relations": [],
+          "flows": [
+            "textus-cncf-ui-architecture-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "textus-cncf-ui-architecture-paragraph-1",
+            "kind": "paragraph",
+            "text": "As technical documentation in the Textus Document Component, this guide describes the SimpleModeling/Textus/CNCF UI architecture. It explains how models, public APIs, presentation contracts, and Web and Flutter infrastructure cooperate, including an independently developed UI connected through REST or gRPC.",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-ui-architecture"
+              ],
+              "claims": [
+                "textus-cncf-ui-architecture-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-ui-architecture-node-1"
+              ],
+              "relations": [],
+              "flows": [
+                "textus-cncf-ui-architecture-flow"
+              ]
+            }
+          },
+          {
+            "id": "ui-architecture-paths",
+            "kind": "figure",
+            "asset": "images/ui-architecture-paths-en.png",
+            "caption": "Figure 1. UI delivery paths share business operations. Server-rendered HTML and client API connections remain distinct.",
+            "alt": "Figure 1. UI delivery paths share business operations. Server-rendered HTML and client API connections remain distinct.",
+            "coreRefs": {
+              "steps": [
+                "ui-foundation",
+                "ui-realization",
+                "web-ui",
+                "flutter-ui",
+                "external-ui"
+              ],
+              "claims": [
+                "ui-foundation-claim-1",
+                "ui-realization-claim-1",
+                "web-ui-claim-1",
+                "web-ui-claim-2",
+                "web-ui-claim-3",
+                "flutter-ui-claim-platforms",
+                "flutter-ui-claim-model-driven",
+                "flutter-ui-claim-1",
+                "flutter-ui-claim-2",
+                "flutter-ui-claim-3",
+                "external-ui-claim-1",
+                "external-ui-claim-2",
+                "external-ui-claim-3"
+              ],
+              "nodes": [
+                "ui-foundation-node-1",
+                "ui-realization-node-1",
+                "web-ui-node-1",
+                "web-ui-node-2",
+                "web-ui-node-3",
+                "flutter-ui-node-platforms",
+                "flutter-ui-node-model-driven",
+                "flutter-ui-node-1",
+                "flutter-ui-node-2",
+                "flutter-ui-node-3",
+                "external-ui-node-1",
+                "external-ui-node-2",
+                "external-ui-node-3"
+              ],
+              "relations": [
+                "web-ui-relation-1",
+                "web-ui-relation-2",
+                "flutter-ui-relation-platforms-model",
+                "flutter-ui-relation-model-runtime",
+                "flutter-ui-relation-1",
+                "flutter-ui-relation-2",
+                "external-ui-relation-1",
+                "external-ui-relation-2"
+              ],
+              "flows": [
+                "ui-foundation-flow",
+                "ui-realization-flow",
+                "web-ui-flow",
+                "flutter-ui-flow",
+                "external-ui-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "ui-foundation-section",
+            "heading": "Shared Foundations of UI Architecture",
+            "coreRefs": {
+              "steps": [
+                "ui-foundation"
+              ],
+              "claims": [
+                "ui-foundation-claim-1"
+              ],
+              "nodes": [
+                "ui-foundation-node-1"
+              ],
+              "relations": [],
+              "flows": [
+                "ui-foundation-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ui-foundation-paragraph-1",
+                "kind": "paragraph",
+                "text": "SimpleModeling combines model-driven and component-based development, supported by Textus execution. Its UI architecture derives required information and interactions from requirements and connects them to public business contracts. This reduces the need to rewrite business rules when screens change and supports access to the same business capabilities from multiple UIs.",
+                "coreRefs": {
+                  "steps": [
+                    "ui-foundation"
+                  ],
+                  "claims": [
+                    "ui-foundation-claim-1"
+                  ],
+                  "nodes": [
+                    "ui-foundation-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ui-foundation-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ui-model-section",
+                "heading": "From Requirements to Screens and Actions",
+                "coreRefs": {
+                  "steps": [
+                    "ui-model"
+                  ],
+                  "claims": [
+                    "ui-model-claim-1",
+                    "ui-model-claim-2",
+                    "ui-model-claim-3"
+                  ],
+                  "nodes": [
+                    "ui-model-node-1",
+                    "ui-model-node-2",
+                    "ui-model-node-3"
+                  ],
+                  "relations": [
+                    "ui-model-relation-1",
+                    "ui-model-relation-2"
+                  ],
+                  "flows": [
+                    "ui-model-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ui-model-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "A UI model describes what users read, enter, and do. Cozy Logical UI refines business use cases into system use cases and then UI use cases, establishing the relationship between screens and actions. Keeping Flutter widget structures and HTTP procedures out of screen requirements preserves their business meaning.",
+                    "coreRefs": {
+                      "steps": [
+                        "ui-model"
+                      ],
+                      "claims": [
+                        "ui-model-claim-1"
+                      ],
+                      "nodes": [
+                        "ui-model-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ui-model-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-model-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Information retrieval and business actions bind to public Service and Operation contracts. A list binds to a query, a detail screen to an individual read, and an action button to a command. Explicit bindings between UI and Operation models reduce the need to reimplement business behavior for presentation.",
+                    "coreRefs": {
+                      "steps": [
+                        "ui-model"
+                      ],
+                      "claims": [
+                        "ui-model-claim-2"
+                      ],
+                      "nodes": [
+                        "ui-model-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ui-model-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-model-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Retaining the mappings from requirements to screens and from screens to Operations makes it possible to check that required actions exist and that screens do not invoke private behavior. Model-driven UI development checks requirements, models, and public contracts together instead of treating generated screens as the sole specification.",
+                    "coreRefs": {
+                      "steps": [
+                        "ui-model"
+                      ],
+                      "claims": [
+                        "ui-model-claim-3"
+                      ],
+                      "nodes": [
+                        "ui-model-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ui-model-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "view-display-section",
+                "heading": "Projecting Business Data into Presentation Contracts",
+                "coreRefs": {
+                  "steps": [
+                    "view-display"
+                  ],
+                  "claims": [
+                    "view-display-claim-1",
+                    "view-display-claim-2",
+                    "view-display-claim-3"
+                  ],
+                  "nodes": [
+                    "view-display-node-1",
+                    "view-display-node-2",
+                    "view-display-node-3"
+                  ],
+                  "relations": [
+                    "view-display-relation-1",
+                    "view-display-relation-2"
+                  ],
+                  "flows": [
+                    "view-display-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "view-display-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Server-side domain models and Operations own business state and update rules. A View organizes information for reading. It defines read-side meaning and access scope rather than passing raw storage or provider data directly to a screen.",
+                    "coreRefs": {
+                      "steps": [
+                        "view-display"
+                      ],
+                      "claims": [
+                        "view-display-claim-1"
+                      ],
+                      "nodes": [
+                        "view-display-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "view-display-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "view-display-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Display projects authorized Views and display definitions into presentation information such as fields, values, references, and actions. The CNCF Display contract uses typed inputs and registered conversions to produce the same projection from the same inputs. It neither reconstructs business data from display strings nor modifies a View during projection.",
+                    "coreRefs": {
+                      "steps": [
+                        "view-display"
+                      ],
+                      "claims": [
+                        "view-display-claim-2"
+                      ],
+                      "nodes": [
+                        "view-display-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "view-display-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "view-display-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "This separation supports different Web and Flutter presentations while preserving business meaning. Views and Display provide reusable read-side contracts; they are not mandatory for every custom UI. A custom UI can consume the public API data contract appropriate to its use case.",
+                    "coreRefs": {
+                      "steps": [
+                        "view-display"
+                      ],
+                      "claims": [
+                        "view-display-claim-3"
+                      ],
+                      "nodes": [
+                        "view-display-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "view-display-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-view-projection",
+                    "kind": "figure",
+                    "asset": "images/ui-view-projection-en.png",
+                    "caption": "Figure 2. Read projection is separate from mutation. Changes use Operations rather than writing display values back into domain state.",
+                    "alt": "Figure 2. Read projection is separate from mutation. Changes use Operations rather than writing display values back into domain state.",
+                    "coreRefs": {
+                      "steps": [
+                        "view-display",
+                        "ui-mutation"
+                      ],
+                      "claims": [
+                        "view-display-claim-1",
+                        "view-display-claim-2",
+                        "view-display-claim-3",
+                        "ui-mutation-claim-1",
+                        "ui-mutation-claim-2",
+                        "ui-mutation-claim-3"
+                      ],
+                      "nodes": [
+                        "view-display-node-1",
+                        "view-display-node-2",
+                        "view-display-node-3",
+                        "ui-mutation-node-1",
+                        "ui-mutation-node-2",
+                        "ui-mutation-node-3"
+                      ],
+                      "relations": [
+                        "view-display-relation-1",
+                        "view-display-relation-2",
+                        "ui-mutation-relation-1",
+                        "ui-mutation-relation-2"
+                      ],
+                      "flows": [
+                        "view-display-flow",
+                        "ui-mutation-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ui-realization-section",
+            "heading": "Choosing among Three UI Architectures",
+            "coreRefs": {
+              "steps": [
+                "ui-realization"
+              ],
+              "claims": [
+                "ui-realization-claim-1"
+              ],
+              "nodes": [
+                "ui-realization-node-1"
+              ],
+              "relations": [],
+              "flows": [
+                "ui-realization-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ui-realization-paragraph-1",
+                "kind": "paragraph",
+                "text": "The guide covers the CNCF standard Web UI, UI built on Textus Flutter infrastructure, and an independently developed UI connected through APIs. These are architectures with different shared infrastructure boundaries, not three renderers that must all use the same Display pipeline. The choice concerns which presentation, communication, and business responsibilities the shared infrastructure should own.",
+                "coreRefs": {
+                  "steps": [
+                    "ui-realization"
+                  ],
+                  "claims": [
+                    "ui-realization-claim-1"
+                  ],
+                  "nodes": [
+                    "ui-realization-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ui-realization-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ui-path-comparison",
+                "kind": "table",
+                "caption": "Table 1. Three UI approaches and their shared infrastructure",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Approach"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Shared infrastructure"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "Application responsibility"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "ui-path-comparison-row-1",
+                    "cells": [
+                      "Standard Web UI",
+                      "Page Views, HTML assembly, shared Widgets",
+                      "Display definitions and Operation bindings"
+                    ]
+                  },
+                  {
+                    "id": "ui-path-comparison-row-2",
+                    "cells": [
+                      "Textus Flutter UI",
+                      "Device / transport Core and TFAF screens",
+                      "Configuration, typed bindings and extensions"
+                    ]
+                  },
+                  {
+                    "id": "ui-path-comparison-row-3",
+                    "cells": [
+                      "Custom UI + API",
+                      "Public Operations, authentication, authorization and rules",
+                      "Screens, transport, outcome checks and retry conditions"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ui-realization",
+                    "web-ui",
+                    "flutter-ui",
+                    "external-ui"
+                  ],
+                  "claims": [
+                    "ui-realization-claim-1",
+                    "web-ui-claim-1",
+                    "web-ui-claim-2",
+                    "web-ui-claim-3",
+                    "flutter-ui-claim-platforms",
+                    "flutter-ui-claim-model-driven",
+                    "flutter-ui-claim-1",
+                    "flutter-ui-claim-2",
+                    "flutter-ui-claim-3",
+                    "external-ui-claim-1",
+                    "external-ui-claim-2",
+                    "external-ui-claim-3"
+                  ],
+                  "nodes": [
+                    "ui-realization-node-1",
+                    "web-ui-node-1",
+                    "web-ui-node-2",
+                    "web-ui-node-3",
+                    "flutter-ui-node-platforms",
+                    "flutter-ui-node-model-driven",
+                    "flutter-ui-node-1",
+                    "flutter-ui-node-2",
+                    "flutter-ui-node-3",
+                    "external-ui-node-1",
+                    "external-ui-node-2",
+                    "external-ui-node-3"
+                  ],
+                  "relations": [
+                    "web-ui-relation-1",
+                    "web-ui-relation-2",
+                    "flutter-ui-relation-platforms-model",
+                    "flutter-ui-relation-model-runtime",
+                    "flutter-ui-relation-1",
+                    "flutter-ui-relation-2",
+                    "external-ui-relation-1",
+                    "external-ui-relation-2"
+                  ],
+                  "flows": [
+                    "ui-realization-flow",
+                    "web-ui-flow",
+                    "flutter-ui-flow",
+                    "external-ui-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "web-ui-section",
+                "heading": "Composing the Standard Web UI",
+                "coreRefs": {
+                  "steps": [
+                    "web-ui"
+                  ],
+                  "claims": [
+                    "web-ui-claim-1",
+                    "web-ui-claim-2",
+                    "web-ui-claim-3"
+                  ],
+                  "nodes": [
+                    "web-ui-node-1",
+                    "web-ui-node-2",
+                    "web-ui-node-3"
+                  ],
+                  "relations": [
+                    "web-ui-relation-1",
+                    "web-ui-relation-2"
+                  ],
+                  "flows": [
+                    "web-ui-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "web-ui-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "A CNCF Static Web Application constructs meaningful initial HTML on the server from the request execution context and a page View. Static does not mean that every page is generated in advance. Pages can depend on the user and requested resource without requiring separate browser API calls for every region of the initial display.",
+                    "coreRefs": {
+                      "steps": [
+                        "web-ui"
+                      ],
+                      "claims": [
+                        "web-ui-claim-1"
+                      ],
+                      "nodes": [
+                        "web-ui-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "web-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "web-ui-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "The Web UI DSL design represents lists, details, and action forms as Textus Widgets and maps them to Bootstrap Core HTML structures. A UX Profile adjusts presentation and interaction while retaining their meaning; Material Design is also a profile target. Separating screen meaning, HTML structure, and presentation policy reduces repeated implementation of the same foundations.",
+                    "coreRefs": {
+                      "steps": [
+                        "web-ui"
+                      ],
+                      "claims": [
+                        "web-ui-claim-2"
+                      ],
+                      "nodes": [
+                        "web-ui-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "web-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "web-ui-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "The Progressive Static Web direction adds JavaScript interaction where needed on top of server-delivered HTML. Ordinary form submissions and enhanced interactions connect to the same business Operations. Browser state is not treated as the authoritative result of a committed business action.",
+                    "coreRefs": {
+                      "steps": [
+                        "web-ui"
+                      ],
+                      "claims": [
+                        "web-ui-claim-3"
+                      ],
+                      "nodes": [
+                        "web-ui-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "web-ui-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "flutter-ui-section",
+                "heading": "Building Multiscreen UI Applications on a Flutter Framework Connected to Textus",
+                "coreRefs": {
+                  "steps": [
+                    "flutter-ui"
+                  ],
+                  "claims": [
+                    "flutter-ui-claim-platforms",
+                    "flutter-ui-claim-model-driven",
+                    "flutter-ui-claim-1",
+                    "flutter-ui-claim-2",
+                    "flutter-ui-claim-3"
+                  ],
+                  "nodes": [
+                    "flutter-ui-node-platforms",
+                    "flutter-ui-node-model-driven",
+                    "flutter-ui-node-1",
+                    "flutter-ui-node-2",
+                    "flutter-ui-node-3"
+                  ],
+                  "relations": [
+                    "flutter-ui-relation-platforms-model",
+                    "flutter-ui-relation-model-runtime",
+                    "flutter-ui-relation-1",
+                    "flutter-ui-relation-2"
+                  ],
+                  "flows": [
+                    "flutter-ui-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "flutter-ui-paragraph-platforms",
+                    "kind": "paragraph",
+                    "text": "UI applications are built on a Flutter application framework connected to Textus. This infrastructure targets iPhone and Android smartphones, tablets, Web applications, and desktop applications. Multiscreen support includes providing applications on different UI platforms as well as adapting to screen sizes. Flutter Web is a separate realization from the standard CNCF Web UI, which composes HTML on the server.",
+                    "coreRefs": {
+                      "steps": [
+                        "flutter-ui"
+                      ],
+                      "claims": [
+                        "flutter-ui-claim-platforms"
+                      ],
+                      "nodes": [
+                        "flutter-ui-node-platforms"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "flutter-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "flutter-ui-paragraph-model-driven",
+                    "kind": "paragraph",
+                    "text": "Model-driven UI describes displayed information, user actions, and connections to Textus business operations separately from individual UI platform implementations. Connecting this model to application-framework configuration and bindings supports deployment across execution environments while sharing business meaning and interaction relationships. Models and shared infrastructure carry this responsibility rather than leaving every screen to implement platform support independently.",
+                    "coreRefs": {
+                      "steps": [
+                        "flutter-ui"
+                      ],
+                      "claims": [
+                        "flutter-ui-claim-model-driven"
+                      ],
+                      "nodes": [
+                        "flutter-ui-node-model-driven"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "flutter-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-model-multiplatform",
+                    "kind": "figure",
+                    "asset": "images/ui-model-multiplatform-en.png",
+                    "caption": "Figure 3. Model-driven UI targets multiple platforms. Screen meaning and operation bindings are shared; layout and input adapt to each platform.",
+                    "alt": "Figure 3. Model-driven UI targets multiple platforms. Screen meaning and operation bindings are shared; layout and input adapt to each platform.",
+                    "coreRefs": {
+                      "steps": [
+                        "flutter-ui"
+                      ],
+                      "claims": [
+                        "flutter-ui-claim-platforms",
+                        "flutter-ui-claim-model-driven",
+                        "flutter-ui-claim-1",
+                        "flutter-ui-claim-2",
+                        "flutter-ui-claim-3"
+                      ],
+                      "nodes": [
+                        "flutter-ui-node-platforms",
+                        "flutter-ui-node-model-driven",
+                        "flutter-ui-node-1",
+                        "flutter-ui-node-2",
+                        "flutter-ui-node-3"
+                      ],
+                      "relations": [
+                        "flutter-ui-relation-platforms-model",
+                        "flutter-ui-relation-model-runtime",
+                        "flutter-ui-relation-1",
+                        "flutter-ui-relation-2"
+                      ],
+                      "flows": [
+                        "flutter-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "flutter-ui-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "The Flutter infrastructure separates device and transport mechanisms from application screens such as lists, details and editing. Business-specific configuration and extensions connect to those layers as shown below.",
+                    "coreRefs": {
+                      "steps": [
+                        "flutter-ui"
+                      ],
+                      "claims": [
+                        "flutter-ui-claim-1"
+                      ],
+                      "nodes": [
+                        "flutter-ui-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "flutter-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-flutter-roles",
+                    "kind": "table",
+                    "caption": "Table 2. Responsibilities in the Flutter stack",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Layer"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Responsibility"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Combined effect"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ui-flutter-roles-row-1",
+                        "cells": [
+                          "Flutter Core",
+                          "Device features, transport and display regions",
+                          "Provides common interfaces for platform differences"
+                        ]
+                      },
+                      {
+                        "id": "ui-flutter-roles-row-2",
+                        "cells": [
+                          "TFAF",
+                          "List / detail / edit, search, navigation and approval",
+                          "Configures reusable application screens"
+                        ]
+                      },
+                      {
+                        "id": "ui-flutter-roles-row-3",
+                        "cells": [
+                          "Application",
+                          "Business configuration, bindings and extensions",
+                          "Connects screens to shared business contracts"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "flutter-ui"
+                      ],
+                      "claims": [
+                        "flutter-ui-claim-platforms",
+                        "flutter-ui-claim-model-driven",
+                        "flutter-ui-claim-1",
+                        "flutter-ui-claim-2",
+                        "flutter-ui-claim-3"
+                      ],
+                      "nodes": [
+                        "flutter-ui-node-platforms",
+                        "flutter-ui-node-model-driven",
+                        "flutter-ui-node-1",
+                        "flutter-ui-node-2",
+                        "flutter-ui-node-3"
+                      ],
+                      "relations": [
+                        "flutter-ui-relation-platforms-model",
+                        "flutter-ui-relation-model-runtime",
+                        "flutter-ui-relation-1",
+                        "flutter-ui-relation-2"
+                      ],
+                      "flows": [
+                        "flutter-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "flutter-ui-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Standard screens are intended to configure reusable TFAF implementations. The target pipeline has Cozy generate configuration and typed bindings from UI models, supplemented by generated Dart or custom code where configuration is insufficient. Keeping generation, configuration, and custom extensions separate makes model changes and shared-runtime improvements easier to propagate across UI applications.",
+                    "coreRefs": {
+                      "steps": [
+                        "flutter-ui"
+                      ],
+                      "claims": [
+                        "flutter-ui-claim-2"
+                      ],
+                      "nodes": [
+                        "flutter-ui-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "flutter-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "flutter-ui-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Within each execution environment, presentation and interaction adapt to screen size and input methods such as touch, mouse, and keyboard. Lists and details can appear sequentially on compact screens and side by side on expanded screens. On foldable devices, TFAF uses region and boundary information supplied by Core for layout decisions. Separating selection and editing state from layout keeps business interaction state independent of presentation changes.",
+                    "coreRefs": {
+                      "steps": [
+                        "flutter-ui"
+                      ],
+                      "claims": [
+                        "flutter-ui-claim-3"
+                      ],
+                      "nodes": [
+                        "flutter-ui-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "flutter-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-platform-adaptation",
+                    "kind": "table",
+                    "caption": "Table 3. Shared meaning and platform adaptations",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Environment"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Shared elements"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Adaptations"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ui-platform-adaptation-row-1",
+                        "cells": [
+                          "iPhone / Android",
+                          "Information and Operation bindings",
+                          "Touch, device capabilities and narrow layouts"
+                        ]
+                      },
+                      {
+                        "id": "ui-platform-adaptation-row-2",
+                        "cells": [
+                          "Tablets / foldables",
+                          "Selection, edit state and action meaning",
+                          "Display regions and list/detail arrangement"
+                        ]
+                      },
+                      {
+                        "id": "ui-platform-adaptation-row-3",
+                        "cells": [
+                          "Web application",
+                          "Models, configuration and business contracts",
+                          "Browser presentation and input"
+                        ]
+                      },
+                      {
+                        "id": "ui-platform-adaptation-row-4",
+                        "cells": [
+                          "Desktop application",
+                          "Models, configuration and business contracts",
+                          "Wide layouts, mouse and keyboard"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "flutter-ui"
+                      ],
+                      "claims": [
+                        "flutter-ui-claim-platforms",
+                        "flutter-ui-claim-model-driven",
+                        "flutter-ui-claim-1",
+                        "flutter-ui-claim-2",
+                        "flutter-ui-claim-3"
+                      ],
+                      "nodes": [
+                        "flutter-ui-node-platforms",
+                        "flutter-ui-node-model-driven",
+                        "flutter-ui-node-1",
+                        "flutter-ui-node-2",
+                        "flutter-ui-node-3"
+                      ],
+                      "relations": [
+                        "flutter-ui-relation-platforms-model",
+                        "flutter-ui-relation-model-runtime",
+                        "flutter-ui-relation-1",
+                        "flutter-ui-relation-2"
+                      ],
+                      "flows": [
+                        "flutter-ui-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "external-ui-section",
+                "heading": "Connecting a Custom UI through REST or gRPC",
+                "coreRefs": {
+                  "steps": [
+                    "external-ui"
+                  ],
+                  "claims": [
+                    "external-ui-claim-1",
+                    "external-ui-claim-2",
+                    "external-ui-claim-3"
+                  ],
+                  "nodes": [
+                    "external-ui-node-1",
+                    "external-ui-node-2",
+                    "external-ui-node-3"
+                  ],
+                  "relations": [
+                    "external-ui-relation-1",
+                    "external-ui-relation-2"
+                  ],
+                  "flows": [
+                    "external-ui-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "external-ui-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "The UI architecture also allows an independently developed Web or native UI to connect to the server through REST or gRPC. This option does not require the standard Web UI or TFAF and can accommodate existing frontends or specialized interfaces. The custom UI owns screen composition, interactions, and client-side state.",
+                    "coreRefs": {
+                      "steps": [
+                        "external-ui"
+                      ],
+                      "claims": [
+                        "external-ui-claim-1"
+                      ],
+                      "nodes": [
+                        "external-ui-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "external-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "external-ui-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "The server exposes APIs bound to public Services and Operations and routes requests from the transport boundary to shared business behavior. Input and result types, resource identities, errors, and contract versions define the mapping for REST and gRPC representations. A custom UI may use Views and Display where useful, but adopting Display and choosing a transport are separate decisions.",
+                    "coreRefs": {
+                      "steps": [
+                        "external-ui"
+                      ],
+                      "claims": [
+                        "external-ui-claim-2"
+                      ],
+                      "nodes": [
+                        "external-ui-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "external-ui-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "external-ui-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Authentication, authorization, input validation, business rules, state transitions, and persistence are enforced on the server. Hiding a button or checking input on a screen does not establish permission or business validity. This division allows multiple UIs to share business capabilities while evolving their presentation technology independently. Each UI implements and verifies the selected API version, error handling, authentication integration, and retry conditions.",
+                    "coreRefs": {
+                      "steps": [
+                        "external-ui"
+                      ],
+                      "claims": [
+                        "external-ui-claim-3"
+                      ],
+                      "nodes": [
+                        "external-ui-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "external-ui-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ui-consistency-section",
+            "heading": "Maintaining Consistency between Presentation and Business Execution",
+            "coreRefs": {
+              "steps": [
+                "ui-consistency"
+              ],
+              "claims": [
+                "ui-consistency-claim-1"
+              ],
+              "nodes": [
+                "ui-consistency-node-1"
+              ],
+              "relations": [],
+              "flows": [
+                "ui-consistency-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ui-consistency-paragraph-1",
+                "kind": "paragraph",
+                "text": "After choosing a UI realization, the application must handle user context, permission, and update outcomes consistently. Presentation information, input requests, and confirmed business state are distinct and connect to shared execution contracts.",
+                "coreRefs": {
+                  "steps": [
+                    "ui-consistency"
+                  ],
+                  "claims": [
+                    "ui-consistency-claim-1"
+                  ],
+                  "nodes": [
+                    "ui-consistency-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ui-consistency-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ui-context-section",
+                "heading": "Aligning Presentation Context and Access Authority",
+                "coreRefs": {
+                  "steps": [
+                    "ui-context"
+                  ],
+                  "claims": [
+                    "ui-context-claim-1",
+                    "ui-context-claim-2"
+                  ],
+                  "nodes": [
+                    "ui-context-node-1",
+                    "ui-context-node-2"
+                  ],
+                  "relations": [
+                    "ui-context-relation-1"
+                  ],
+                  "flows": [
+                    "ui-context-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ui-context-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Presentation depends on the user, workspace, language, and time conventions. Carrying server-resolved execution context into reading and presentation reduces discrepancies between displayed and operated-on resources. Client presentation preferences remain distinct from server-determined access authority.",
+                    "coreRefs": {
+                      "steps": [
+                        "ui-context"
+                      ],
+                      "claims": [
+                        "ui-context-claim-1"
+                      ],
+                      "nodes": [
+                        "ui-context-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ui-context-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-context-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Information about available UI actions does not replace server authorization at execution time, because permissions or resource state may change after rendering. The server checks access to the Operation and its target when called. The security architecture guide in the same Document Component explains authentication and authorization in detail.",
+                    "coreRefs": {
+                      "steps": [
+                        "ui-context"
+                      ],
+                      "claims": [
+                        "ui-context-claim-2"
+                      ],
+                      "nodes": [
+                        "ui-context-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ui-context-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ui-mutation-section",
+                "heading": "Connecting User Actions to Confirmed State",
+                "coreRefs": {
+                  "steps": [
+                    "ui-mutation"
+                  ],
+                  "claims": [
+                    "ui-mutation-claim-1",
+                    "ui-mutation-claim-2",
+                    "ui-mutation-claim-3"
+                  ],
+                  "nodes": [
+                    "ui-mutation-node-1",
+                    "ui-mutation-node-2",
+                    "ui-mutation-node-3"
+                  ],
+                  "relations": [
+                    "ui-mutation-relation-1",
+                    "ui-mutation-relation-2"
+                  ],
+                  "flows": [
+                    "ui-mutation-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ui-mutation-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Labels and formatted values are not mutation specifications. Editing invokes an Operation through a mutation binding with input types and resource identity. Information used to detect update conflicts, such as a resource revision, remains distinct from display-definition and wire-schema versions.",
+                    "coreRefs": {
+                      "steps": [
+                        "ui-mutation"
+                      ],
+                      "claims": [
+                        "ui-mutation-claim-1"
+                      ],
+                      "nodes": [
+                        "ui-mutation-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ui-mutation-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-mutation-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Transport, business execution and UI refresh can fail independently. The next action depends on which stage has a confirmed outcome.",
+                    "coreRefs": {
+                      "steps": [
+                        "ui-mutation"
+                      ],
+                      "claims": [
+                        "ui-mutation-claim-2"
+                      ],
+                      "nodes": [
+                        "ui-mutation-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ui-mutation-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-mutation-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Shared client infrastructure handles contract-based communication, outcome classification, and refresh coordination, while screens present progress, completion, or required corrections. Custom UIs implement the same distinctions. Integration checks therefore include rejection, conflicts, communication loss, and reconnection as well as visual behavior.",
+                    "coreRefs": {
+                      "steps": [
+                        "ui-mutation"
+                      ],
+                      "claims": [
+                        "ui-mutation-claim-3"
+                      ],
+                      "nodes": [
+                        "ui-mutation-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ui-mutation-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-operation-outcome",
+                    "kind": "figure",
+                    "asset": "images/ui-operation-outcome-en.png",
+                    "caption": "Figure 4. From a mutation request to redisplaying committed state. Authorization, commit and UI refresh are separate stages.",
+                    "alt": "Figure 4. From a mutation request to redisplaying committed state. Authorization, commit and UI refresh are separate stages.",
+                    "coreRefs": {
+                      "steps": [
+                        "ui-mutation",
+                        "ui-context"
+                      ],
+                      "claims": [
+                        "ui-mutation-claim-1",
+                        "ui-mutation-claim-2",
+                        "ui-mutation-claim-3",
+                        "ui-context-claim-1",
+                        "ui-context-claim-2"
+                      ],
+                      "nodes": [
+                        "ui-mutation-node-1",
+                        "ui-mutation-node-2",
+                        "ui-mutation-node-3",
+                        "ui-context-node-1",
+                        "ui-context-node-2"
+                      ],
+                      "relations": [
+                        "ui-mutation-relation-1",
+                        "ui-mutation-relation-2",
+                        "ui-context-relation-1"
+                      ],
+                      "flows": [
+                        "ui-mutation-flow",
+                        "ui-context-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ui-outcome-actions",
+                    "kind": "table",
+                    "caption": "Table 4. UI handling by outcome",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Observed state"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Meaning"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Next action"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "ui-outcome-actions-row-1",
+                        "cells": [
+                          "Input / authorization rejected",
+                          "The operation was not permitted",
+                          "Show the reason and check input or authority"
+                        ]
+                      },
+                      {
+                        "id": "ui-outcome-actions-row-2",
+                        "cells": [
+                          "Update conflict",
+                          "The target revision differs",
+                          "Read current state and reconsider the action"
+                        ]
+                      },
+                      {
+                        "id": "ui-outcome-actions-row-3",
+                        "cells": [
+                          "Disconnected / unknown result",
+                          "Execution may have committed",
+                          "Check the outcome and apply retry conditions"
+                        ]
+                      },
+                      {
+                        "id": "ui-outcome-actions-row-4",
+                        "cells": [
+                          "Committed / refresh failed",
+                          "The business update is complete",
+                          "Refresh the view without repeating the update"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "ui-mutation"
+                      ],
+                      "claims": [
+                        "ui-mutation-claim-1",
+                        "ui-mutation-claim-2",
+                        "ui-mutation-claim-3"
+                      ],
+                      "nodes": [
+                        "ui-mutation-node-1",
+                        "ui-mutation-node-2",
+                        "ui-mutation-node-3"
+                      ],
+                      "relations": [
+                        "ui-mutation-relation-1",
+                        "ui-mutation-relation-2"
+                      ],
+                      "flows": [
+                        "ui-mutation-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ui-development-section",
+            "heading": "Developing across Models, Generation, and Execution",
+            "coreRefs": {
+              "steps": [
+                "ui-development"
+              ],
+              "claims": [
+                "ui-development-claim-1",
+                "ui-development-claim-2",
+                "ui-development-claim-3"
+              ],
+              "nodes": [
+                "ui-development-node-1",
+                "ui-development-node-2",
+                "ui-development-node-3"
+              ],
+              "relations": [
+                "ui-development-relation-1",
+                "ui-development-relation-2"
+              ],
+              "flows": [
+                "ui-development-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ui-development-paragraph-1",
+                "kind": "paragraph",
+                "text": "The model-driven path aims to use requirements and public contracts as inputs for Cozy-generated configuration and bindings, with execution handled by Textus and client frameworks. Separating generated artifacts from handwritten extensions supports regeneration after model changes. The custom-UI path uses the same public contract boundary while allowing a different frontend development process.",
+                "coreRefs": {
+                  "steps": [
+                    "ui-development"
+                  ],
+                  "claims": [
+                    "ui-development-claim-1"
+                  ],
+                  "nodes": [
+                    "ui-development-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ui-development-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ui-development-paragraph-2",
+                "kind": "paragraph",
+                "text": "NICT Editing Studio serves as a reference application for developing TFAF and UI-model design through lists, details, editing, and device features. Keeping a common data-source boundary supports a transition from fixture data to server-backed data for integration checks. Feeding reusable patterns back into the frameworks avoids fixing the UI model in isolation from working applications.",
+                "coreRefs": {
+                  "steps": [
+                    "ui-development"
+                  ],
+                  "claims": [
+                    "ui-development-claim-2"
+                  ],
+                  "nodes": [
+                    "ui-development-node-2"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ui-development-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ui-development-paragraph-3",
+                "kind": "paragraph",
+                "text": "This guide describes an architecture that includes implementation work and design directions. Static Web page-View projection has an implementation, and Logical UI and Display have specifications; this does not establish completion of every model-to-screen path. Progressive Static Web and UX Profiles include proposal and design work. A custom UI using REST or gRPC must confirm the public APIs and adapters available in its selected release. In particular, this guide positions gRPC connectivity as an architectural option without claiming a shipped standard adapter.",
+                "coreRefs": {
+                  "steps": [
+                    "ui-development"
+                  ],
+                  "claims": [
+                    "ui-development-claim-3"
+                  ],
+                  "nodes": [
+                    "ui-development-node-3"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ui-development-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ui-conclusion-section",
+            "heading": "Conclusion",
+            "coreRefs": {
+              "steps": [
+                "ui-conclusion"
+              ],
+              "claims": [
+                "ui-conclusion-claim-1"
+              ],
+              "nodes": [
+                "ui-conclusion-node-1"
+              ],
+              "relations": [],
+              "flows": [
+                "ui-conclusion-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ui-conclusion-paragraph-1",
+                "kind": "paragraph",
+                "text": "Textus/CNCF UI architecture connects requirements, read and operation contracts, and presentation implementations. A Flutter application framework connected to Textus combines model-driven UI with a shared runtime to support smartphone, tablet, Web, and desktop applications. Standard Web UI and custom UI connected through REST or gRPC remain alternatives, sharing business rules and confirmed state on the server while providing presentation and interaction suited to each use case.",
+                "coreRefs": {
+                  "steps": [
+                    "ui-conclusion"
+                  ],
+                  "claims": [
+                    "ui-conclusion-claim-1"
+                  ],
+                  "nodes": [
+                    "ui-conclusion-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ui-conclusion-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "textus-cncf-ui-architecture",
+        "text": "Textus/CNCF UI Architecture — Technical Guide"
+      },
+      {
+        "stepRef": "ui-foundation",
+        "text": "Shared Foundations of UI Architecture"
+      },
+      {
+        "stepRef": "ui-model",
+        "text": "From Requirements to Screens and Actions"
+      },
+      {
+        "stepRef": "view-display",
+        "text": "Projecting Business Data into Presentation Contracts"
+      },
+      {
+        "stepRef": "ui-realization",
+        "text": "Choosing among Three UI Architectures"
+      },
+      {
+        "stepRef": "web-ui",
+        "text": "Composing the Standard Web UI"
+      },
+      {
+        "stepRef": "flutter-ui",
+        "text": "Building Multiscreen UI Applications on a Flutter Framework Connected to Textus"
+      },
+      {
+        "stepRef": "external-ui",
+        "text": "Connecting a Custom UI through REST or gRPC"
+      },
+      {
+        "stepRef": "ui-consistency",
+        "text": "Maintaining Consistency between Presentation and Business Execution"
+      },
+      {
+        "stepRef": "ui-context",
+        "text": "Aligning Presentation Context and Access Authority"
+      },
+      {
+        "stepRef": "ui-mutation",
+        "text": "Connecting User Actions to Confirmed State"
+      },
+      {
+        "stepRef": "ui-development",
+        "text": "Developing across Models, Generation, and Execution"
+      },
+      {
+        "stepRef": "ui-conclusion",
+        "text": "Conclusion"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "textus-cncf-ui-architecture-node-1",
+        "text": "Connect models and runtime infrastructure to support multiple UIs"
+      },
+      {
+        "nodeRef": "ui-foundation-node-1",
+        "text": "Separate business meaning from UI realization"
+      },
+      {
+        "nodeRef": "ui-model-node-1",
+        "text": "Separate screen meaning from implementation"
+      },
+      {
+        "nodeRef": "ui-model-node-2",
+        "text": "Bind interactions to public contracts"
+      },
+      {
+        "nodeRef": "ui-model-node-3",
+        "text": "Verify the path from requirements to operations"
+      },
+      {
+        "nodeRef": "view-display-node-1",
+        "text": "Views define read-side meaning"
+      },
+      {
+        "nodeRef": "view-display-node-2",
+        "text": "Display defines the presentation projection"
+      },
+      {
+        "nodeRef": "view-display-node-3",
+        "text": "Share meaning and contracts"
+      },
+      {
+        "nodeRef": "ui-realization-node-1",
+        "text": "Choose shared infrastructure and custom development boundaries"
+      },
+      {
+        "nodeRef": "web-ui-node-1",
+        "text": "Compose the initial page on the server"
+      },
+      {
+        "nodeRef": "web-ui-node-2",
+        "text": "Map semantic widgets to presentation"
+      },
+      {
+        "nodeRef": "web-ui-node-3",
+        "text": "Add interactive behavior progressively"
+      },
+      {
+        "nodeRef": "flutter-ui-node-1",
+        "text": "Separate device infrastructure from application UI semantics"
+      },
+      {
+        "nodeRef": "flutter-ui-node-2",
+        "text": "Prefer configuration and supplement it where needed"
+      },
+      {
+        "nodeRef": "flutter-ui-node-3",
+        "text": "Adapt to screen sizes and input methods in each environment"
+      },
+      {
+        "nodeRef": "external-ui-node-1",
+        "text": "Choose UI technology and deployment independently"
+      },
+      {
+        "nodeRef": "external-ui-node-2",
+        "text": "Connect transport to public business contracts"
+      },
+      {
+        "nodeRef": "external-ui-node-3",
+        "text": "Combine UI freedom with shared business execution"
+      },
+      {
+        "nodeRef": "ui-consistency-node-1",
+        "text": "Establish execution boundaries shared by all UIs"
+      },
+      {
+        "nodeRef": "ui-context-node-1",
+        "text": "Carry the context needed for presentation"
+      },
+      {
+        "nodeRef": "ui-context-node-2",
+        "text": "Separate action availability from execution authorization"
+      },
+      {
+        "nodeRef": "ui-mutation-node-1",
+        "text": "Separate read and mutation contracts"
+      },
+      {
+        "nodeRef": "ui-mutation-node-2",
+        "text": "Distinguish execution outcome from display refresh"
+      },
+      {
+        "nodeRef": "ui-mutation-node-3",
+        "text": "Verify communication and presentation responsibilities separately"
+      },
+      {
+        "nodeRef": "ui-development-node-1",
+        "text": "Define the boundary between generation and custom code"
+      },
+      {
+        "nodeRef": "ui-development-node-2",
+        "text": "Evolve models and frameworks through concrete applications"
+      },
+      {
+        "nodeRef": "ui-development-node-3",
+        "text": "Distinguish architectural scope from available functionality"
+      },
+      {
+        "nodeRef": "ui-conclusion-node-1",
+        "text": "Share business contracts across presentation choices"
+      },
+      {
+        "nodeRef": "flutter-ui-node-platforms",
+        "text": "Deploy across environments through an application framework connected to Textus"
+      },
+      {
+        "nodeRef": "flutter-ui-node-model-driven",
+        "text": "Model-driven UI supports deployment across UI platforms"
+      }
+    ]
+  }
+}

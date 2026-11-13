@@ -1,0 +1,37 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBorderColor #899DA9
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam sequenceParticipantBackgroundColor #F0F6F8
+skinparam sequenceLifeLineBorderColor #899DA9
+skinparam sequenceMessageAlign center
+skinparam noteBackgroundColor #FFF8E9
+skinparam noteBorderColor #C5B88B
+skinparam dpi 170
+skinparam ranksep 15
+skinparam nodesep 20
+top to bottom direction
+rectangle "Standard Web UI\nBrowser" as web
+rectangle "Textus Flutter UI\nMobile / Web / Desktop" as flutter
+rectangle "Custom UI\nWeb / Native" as custom
+package "Textus" {
+ rectangle "Page assembly\nView / display definition" as page
+ rectangle "Public API\nTyped input / output" as api
+ rectangle "Service / Operation\nAuth / authorization / validation" as operation
+ rectangle "Domain model\nRules / state / persistence" as domain
+}
+web --> page : Page request / HTML
+flutter --> api : Shared client
+custom --> api : REST / gRPC
+page --> operation
+api --> operation
+operation --> domain
+@enduml

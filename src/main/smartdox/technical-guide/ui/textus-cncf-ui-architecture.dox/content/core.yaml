@@ -1,0 +1,541 @@
+{
+  "schema": "cozy.content-core.logic-tree.v1",
+  "id": "textus-cncf-ui-architecture",
+  "root": {
+    "id": "textus-cncf-ui-architecture",
+    "semanticRole": "explanation",
+    "claims": [
+      "textus-cncf-ui-architecture-claim-1"
+    ],
+    "structure": {
+      "pattern": "sequence",
+      "nodes": [
+        {
+          "id": "textus-cncf-ui-architecture-node-1",
+          "role": "step"
+        }
+      ],
+      "relations": []
+    },
+    "flow": {
+      "id": "textus-cncf-ui-architecture-flow",
+      "transitions": [
+        {
+          "id": "textus-cncf-ui-architecture-transition-1",
+          "relationType": "next",
+          "fromStepId": "ui-foundation",
+          "toStepId": "ui-realization"
+        },
+        {
+          "id": "textus-cncf-ui-architecture-transition-2",
+          "relationType": "next",
+          "fromStepId": "ui-realization",
+          "toStepId": "ui-consistency"
+        },
+        {
+          "id": "textus-cncf-ui-architecture-transition-3",
+          "relationType": "next",
+          "fromStepId": "ui-consistency",
+          "toStepId": "ui-development"
+        },
+        {
+          "id": "textus-cncf-ui-architecture-transition-4",
+          "relationType": "next",
+          "fromStepId": "ui-development",
+          "toStepId": "ui-conclusion"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "ui-foundation",
+        "semanticRole": "explanation",
+        "claims": [
+          "ui-foundation-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ui-foundation-node-1",
+              "role": "step"
+            }
+          ],
+          "relations": []
+        },
+        "flow": {
+          "id": "ui-foundation-flow",
+          "transitions": [
+            {
+              "id": "ui-foundation-transition-1",
+              "relationType": "next",
+              "fromStepId": "ui-model",
+              "toStepId": "view-display"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ui-model",
+            "semanticRole": "explanation",
+            "claims": [
+              "ui-model-claim-1",
+              "ui-model-claim-2",
+              "ui-model-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ui-model-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ui-model-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "ui-model-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ui-model-relation-1",
+                  "relationType": "next",
+                  "from": "ui-model-node-1",
+                  "to": "ui-model-node-2"
+                },
+                {
+                  "id": "ui-model-relation-2",
+                  "relationType": "next",
+                  "from": "ui-model-node-2",
+                  "to": "ui-model-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ui-model-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "view-display",
+            "semanticRole": "explanation",
+            "claims": [
+              "view-display-claim-1",
+              "view-display-claim-2",
+              "view-display-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "view-display-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "view-display-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "view-display-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "view-display-relation-1",
+                  "relationType": "next",
+                  "from": "view-display-node-1",
+                  "to": "view-display-node-2"
+                },
+                {
+                  "id": "view-display-relation-2",
+                  "relationType": "next",
+                  "from": "view-display-node-2",
+                  "to": "view-display-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "view-display-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ui-realization",
+        "semanticRole": "explanation",
+        "claims": [
+          "ui-realization-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ui-realization-node-1",
+              "role": "step"
+            }
+          ],
+          "relations": []
+        },
+        "flow": {
+          "id": "ui-realization-flow",
+          "transitions": [
+            {
+              "id": "ui-realization-transition-1",
+              "relationType": "next",
+              "fromStepId": "web-ui",
+              "toStepId": "flutter-ui"
+            },
+            {
+              "id": "ui-realization-transition-2",
+              "relationType": "next",
+              "fromStepId": "flutter-ui",
+              "toStepId": "external-ui"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "web-ui",
+            "semanticRole": "explanation",
+            "claims": [
+              "web-ui-claim-1",
+              "web-ui-claim-2",
+              "web-ui-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "web-ui-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "web-ui-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "web-ui-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "web-ui-relation-1",
+                  "relationType": "next",
+                  "from": "web-ui-node-1",
+                  "to": "web-ui-node-2"
+                },
+                {
+                  "id": "web-ui-relation-2",
+                  "relationType": "next",
+                  "from": "web-ui-node-2",
+                  "to": "web-ui-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "web-ui-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "flutter-ui",
+            "semanticRole": "explanation",
+            "claims": [
+              "flutter-ui-claim-platforms",
+              "flutter-ui-claim-model-driven",
+              "flutter-ui-claim-1",
+              "flutter-ui-claim-2",
+              "flutter-ui-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "flutter-ui-node-platforms",
+                  "role": "step"
+                },
+                {
+                  "id": "flutter-ui-node-model-driven",
+                  "role": "step"
+                },
+                {
+                  "id": "flutter-ui-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "flutter-ui-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "flutter-ui-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "flutter-ui-relation-platforms-model",
+                  "relationType": "next",
+                  "from": "flutter-ui-node-platforms",
+                  "to": "flutter-ui-node-model-driven"
+                },
+                {
+                  "id": "flutter-ui-relation-model-runtime",
+                  "relationType": "next",
+                  "from": "flutter-ui-node-model-driven",
+                  "to": "flutter-ui-node-1"
+                },
+                {
+                  "id": "flutter-ui-relation-1",
+                  "relationType": "next",
+                  "from": "flutter-ui-node-1",
+                  "to": "flutter-ui-node-2"
+                },
+                {
+                  "id": "flutter-ui-relation-2",
+                  "relationType": "next",
+                  "from": "flutter-ui-node-2",
+                  "to": "flutter-ui-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "flutter-ui-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "external-ui",
+            "semanticRole": "explanation",
+            "claims": [
+              "external-ui-claim-1",
+              "external-ui-claim-2",
+              "external-ui-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "external-ui-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "external-ui-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "external-ui-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "external-ui-relation-1",
+                  "relationType": "next",
+                  "from": "external-ui-node-1",
+                  "to": "external-ui-node-2"
+                },
+                {
+                  "id": "external-ui-relation-2",
+                  "relationType": "next",
+                  "from": "external-ui-node-2",
+                  "to": "external-ui-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "external-ui-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ui-consistency",
+        "semanticRole": "explanation",
+        "claims": [
+          "ui-consistency-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ui-consistency-node-1",
+              "role": "step"
+            }
+          ],
+          "relations": []
+        },
+        "flow": {
+          "id": "ui-consistency-flow",
+          "transitions": [
+            {
+              "id": "ui-consistency-transition-1",
+              "relationType": "next",
+              "fromStepId": "ui-context",
+              "toStepId": "ui-mutation"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ui-context",
+            "semanticRole": "explanation",
+            "claims": [
+              "ui-context-claim-1",
+              "ui-context-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ui-context-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ui-context-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ui-context-relation-1",
+                  "relationType": "next",
+                  "from": "ui-context-node-1",
+                  "to": "ui-context-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ui-context-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ui-mutation",
+            "semanticRole": "explanation",
+            "claims": [
+              "ui-mutation-claim-1",
+              "ui-mutation-claim-2",
+              "ui-mutation-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ui-mutation-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ui-mutation-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "ui-mutation-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ui-mutation-relation-1",
+                  "relationType": "next",
+                  "from": "ui-mutation-node-1",
+                  "to": "ui-mutation-node-2"
+                },
+                {
+                  "id": "ui-mutation-relation-2",
+                  "relationType": "next",
+                  "from": "ui-mutation-node-2",
+                  "to": "ui-mutation-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ui-mutation-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ui-development",
+        "semanticRole": "explanation",
+        "claims": [
+          "ui-development-claim-1",
+          "ui-development-claim-2",
+          "ui-development-claim-3"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ui-development-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ui-development-node-2",
+              "role": "step"
+            },
+            {
+              "id": "ui-development-node-3",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ui-development-relation-1",
+              "relationType": "next",
+              "from": "ui-development-node-1",
+              "to": "ui-development-node-2"
+            },
+            {
+              "id": "ui-development-relation-2",
+              "relationType": "next",
+              "from": "ui-development-node-2",
+              "to": "ui-development-node-3"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ui-development-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "ui-conclusion",
+        "semanticRole": "explanation",
+        "claims": [
+          "ui-conclusion-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ui-conclusion-node-1",
+              "role": "step"
+            }
+          ],
+          "relations": []
+        },
+        "flow": {
+          "id": "ui-conclusion-flow",
+          "transitions": []
+        },
+        "steps": []
+      }
+    ]
+  }
+}

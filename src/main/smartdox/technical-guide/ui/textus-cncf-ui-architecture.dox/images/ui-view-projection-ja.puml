@@ -1,0 +1,32 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBorderColor #899DA9
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam sequenceParticipantBackgroundColor #F0F6F8
+skinparam sequenceLifeLineBorderColor #899DA9
+skinparam sequenceMessageAlign center
+skinparam noteBackgroundColor #FFF8E9
+skinparam noteBorderColor #C5B88B
+skinparam dpi 170
+skinparam ranksep 15
+skinparam nodesep 20
+left to right direction
+rectangle "業務状態" as state
+rectangle "認可されたView\n参照用の意味" as view
+rectangle "Display\n表示項目・値・操作" as display
+rectangle "画面" as screen
+rectangle "Operation\n型付き入力・識別子" as op
+state -right-> view : 参照
+view -right-> display : 投影
+ display -down-> screen : 表示
+screen -left-> op : 更新要求
+op -up-> state : 規則に従い更新
+@enduml

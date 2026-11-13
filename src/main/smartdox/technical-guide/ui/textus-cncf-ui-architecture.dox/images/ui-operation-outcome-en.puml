@@ -1,0 +1,38 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBorderColor #899DA9
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam sequenceParticipantBackgroundColor #F0F6F8
+skinparam sequenceLifeLineBorderColor #899DA9
+skinparam sequenceMessageAlign center
+skinparam noteBackgroundColor #FFF8E9
+skinparam noteBorderColor #C5B88B
+skinparam dpi 170
+skinparam ranksep 15
+skinparam nodesep 20
+participant "UI / shared client" as UI
+participant "Public Operation" as API
+participant "Domain / UoW" as D
+UI -> API : Typed input / identity / context
+API -> D : Authorize / check rules and conflicts
+alt Rejection or conflict
+ D --> UI : Reason / re-enter or re-read
+else Committed
+ D -> D : Commit mutation
+ D --> UI : Committed result
+ UI -> API : Read current state
+ API --> UI : View / read result
+end
+note over UI, API
+ Check execution status when the response is unknown.
+ A failed UI refresh does not justify repeating the mutation.
+end note
+@enduml

@@ -1,0 +1,37 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBorderColor #899DA9
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam sequenceParticipantBackgroundColor #F0F6F8
+skinparam sequenceLifeLineBorderColor #899DA9
+skinparam sequenceMessageAlign center
+skinparam noteBackgroundColor #FFF8E9
+skinparam noteBorderColor #C5B88B
+skinparam dpi 170
+skinparam ranksep 15
+skinparam nodesep 20
+top to bottom direction
+rectangle "標準Web UI\nブラウザー" as web
+rectangle "Textus Flutter UI\nモバイル・Web・デスクトップ" as flutter
+rectangle "独自UI\nWeb・ネイティブ" as custom
+package "Textus" {
+ rectangle "Webページ構成\nView・表示定義" as page
+ rectangle "公開API\n型付き入出力" as api
+ rectangle "Service / Operation\n認証・認可・入力検査" as operation
+ rectangle "ドメイン・モデル\n業務規則・状態・永続化" as domain
+}
+web --> page : ページ要求 / HTML
+flutter --> api : 共通クライアント
+custom --> api : REST / gRPC
+page --> operation
+api --> operation
+operation --> domain
+@enduml
