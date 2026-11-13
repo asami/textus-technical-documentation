@@ -1,0 +1,36 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 15
+skinparam nodesep 20
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam noteBackgroundColor #FFF8E9
+skinparam dpi 170
+participant "アプリケーション\n操作の組立て" as app
+participant "入力検査・\n純粋計算" as calc
+participant "インタープリタ" as interpreter
+participant "UoW" as uow
+participant "保存Provider" as store
+app -> calc : 数量・通貨・価格・規則
+calc --> app : Consequence[更新候補]
+app -> interpreter : 成功値を含む保存プログラム
+interpreter -> interpreter : 操作の契約・認可を確認
+interpreter -> store : 更新と必要な競合条件
+store --> interpreter : 操作結果
+interpreter -> uow : commit
+uow -> store : 参加する更新を確定
+store --> uow : 確定結果
+uow --> interpreter : commit結果
+interpreter --> app : Consequence[確定結果]
+note over interpreter,store
+業務計算の成功と、更新確定の成功を区別する
+end note
+
+@enduml

@@ -1,0 +1,35 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 15
+skinparam nodesep 20
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam noteBackgroundColor #FFF8E9
+skinparam dpi 170
+rectangle "業務側の記述\n型・純粋計算・操作の合成" as business
+rectangle "結果の意味\nConsequence / Conclusion" as outcome
+rectangle "受付と実行の管理\nJob / Task・容量制御" as job
+rectangle "個々の操作と確定\nインタープリタ / UoW" as uow
+rectangle "実際の入出力\nProvider / 保存 / 配送" as provider
+business -down-> job : Job受付
+business -right-> uow : 直接実行
+job -down-> uow : Taskと実行文脈
+uow -down-> provider : 認可後に実行
+provider -up-> uow : 応答
+uow -right-> outcome : 終了を含む結果と失敗
+outcome -up-> business : 意味を保って返す
+note left of job
+応答・受付・負荷を管理
+end note
+note left of uow
+確定・終了を管理
+end note
+
+@enduml

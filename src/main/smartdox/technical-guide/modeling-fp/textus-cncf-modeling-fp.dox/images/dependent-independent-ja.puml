@@ -1,0 +1,34 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 15
+skinparam nodesep 20
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam noteBackgroundColor #FFF8E9
+skinparam dpi 170
+rectangle "依存する処理" {
+ rectangle "検査\nConsequence[A]" as first
+ rectangle "計算\nAからConsequence[B]" as next
+ rectangle "失敗を返す" as stop
+ first -down-> next : Success / flatMap
+ first -right-> stop : Failure
+}
+rectangle "独立した入力検査" {
+ rectangle "数量の検査" as q
+ rectangle "通貨の検査" as c
+ rectangle "zipで集約\n値の組 / Conclusionの結合" as zip
+ q -down-> zip
+ c -down-> zip
+}
+note bottom of zip
+独立性を表す。並列実行の指定ではない。
+end note
+
+@enduml

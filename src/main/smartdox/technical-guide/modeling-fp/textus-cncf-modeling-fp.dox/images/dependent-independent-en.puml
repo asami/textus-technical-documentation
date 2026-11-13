@@ -1,0 +1,34 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 15
+skinparam nodesep 20
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam noteBackgroundColor #FFF8E9
+skinparam dpi 170
+rectangle "Dependent work" {
+ rectangle "Validation\nConsequence[A]" as first
+ rectangle "Calculation\nA to Consequence[B]" as next
+ rectangle "Return failure" as stop
+ first -down-> next : Success / flatMap
+ first -right-> stop : Failure
+}
+rectangle "Independent input checks" {
+ rectangle "Check quantity" as q
+ rectangle "Check currency" as c
+ rectangle "Accumulate with zip\nPair values / Combine Conclusions" as zip
+ q -down-> zip
+ c -down-> zip
+}
+note bottom of zip
+Independence does not specify parallel execution.
+end note
+
+@enduml

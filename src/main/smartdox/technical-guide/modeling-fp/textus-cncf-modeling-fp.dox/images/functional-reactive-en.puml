@@ -1,0 +1,35 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 15
+skinparam nodesep 20
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam noteBackgroundColor #FFF8E9
+skinparam dpi 170
+rectangle "Business description\nTypes, pure calculations, composition" as business
+rectangle "Outcome semantics\nConsequence / Conclusion" as outcome
+rectangle "Admission and scheduling\nJobs / Tasks, capacity control" as job
+rectangle "Operations and commitment\nInterpreter / UoW" as uow
+rectangle "Concrete I/O\nProviders / Storage / Delivery" as provider
+business -down-> job : submit as Job
+business -right-> uow : execute directly
+job -down-> uow : Task and execution context
+uow -down-> provider : authorize / execute
+provider -up-> uow : response
+uow -right-> outcome : outcome including termination
+outcome -up-> business : preserve meaning
+note left of job
+Manage response, admission and load
+end note
+note left of uow
+Manage commit and cleanup
+end note
+
+@enduml

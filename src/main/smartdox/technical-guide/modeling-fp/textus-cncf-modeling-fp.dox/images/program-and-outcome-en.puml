@@ -1,0 +1,28 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 15
+skinparam nodesep 20
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam noteBackgroundColor #FFF8E9
+skinparam dpi 170
+rectangle "Pure calculation outcome\nConsequence[A]" as value
+rectangle "Typed operation\nUnitOfWorkOp[A]" as op
+rectangle "Program description\nProgram = Free" as free
+rectangle "Program with outcomes\nUowM = ConsequenceT over Program" as combined
+rectangle "Interpreter / UoW\nExecute and commit operations" as run
+rectangle "Execution outcome\nConsequence[A]" as out
+op -down-> free : compose operations
+free -down-> combined
+value -right-> combined : incorporate outcome rules
+combined -down-> run : request execution
+run -down-> out : outcome including commitment
+
+@enduml

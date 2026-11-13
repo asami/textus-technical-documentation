@@ -1,0 +1,2889 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-modeling-fp-document-ja",
+  "core": {
+    "id": "textus-cncf-modeling-fp"
+  },
+  "locale": "ja",
+  "document": {
+    "title": "Textus/CNCF Modeling and FP技術ガイド",
+    "sections": [
+      {
+        "id": "textus-cncf-modeling-fp-section",
+        "heading": "Textus/CNCF Modeling and FP技術ガイド",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-modeling-fp"
+          ],
+          "claims": [
+            "textus-cncf-modeling-fp-claim-1"
+          ],
+          "nodes": [
+            "textus-cncf-modeling-fp-node-1",
+            "textus-cncf-modeling-fp-node-2"
+          ],
+          "relations": [
+            "textus-cncf-modeling-fp-relation-1"
+          ],
+          "flows": [
+            "textus-cncf-modeling-fp-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "textus-cncf-modeling-fp-paragraph-1",
+            "kind": "paragraph",
+            "text": "本書は、業務モデルを型と関数で具体化し、成功・失敗、保存、通信を含む実行へつなぐ仕組みを説明します。型、純粋関数型プログラミング、Consequence、Free Monad、UoWの組合せを、Textus/CNCFの実装に沿って整理します。関数型モデリングの2冊を補助線に、リアクティブな実行との接続までを扱います。",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-modeling-fp"
+              ],
+              "claims": [
+                "textus-cncf-modeling-fp-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-modeling-fp-node-1",
+                "textus-cncf-modeling-fp-node-2"
+              ],
+              "relations": [
+                "textus-cncf-modeling-fp-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-modeling-fp-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "fp-landscape-section",
+            "heading": "モデリングから実行までの関係",
+            "coreRefs": {
+              "steps": [
+                "fp-landscape"
+              ],
+              "claims": [
+                "fp-landscape-claim-1",
+                "fp-landscape-claim-2"
+              ],
+              "nodes": [
+                "fp-landscape-node-1",
+                "fp-landscape-node-2"
+              ],
+              "relations": [
+                "fp-landscape-relation-1"
+              ],
+              "flows": [
+                "fp-landscape-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-landscape-paragraph-1",
+                "kind": "paragraph",
+                "text": "DDD技術ガイドでは、業務の意味、処理の進行、更新と保存、参照と表示を組み合わせる全体像を扱いました。本書では、その内側でモデルをプログラムとして記述する方法を扱います。ユースケースは定義済みとし、業務概念と操作が、どの型、計算、実行処理へ対応するかを確認します。",
+                "coreRefs": {
+                  "steps": [
+                    "fp-landscape"
+                  ],
+                  "claims": [
+                    "fp-landscape-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-landscape-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "fp-landscape-flow"
+                  ]
+                }
+              },
+              {
+                "id": "fp-landscape-paragraph-2",
+                "kind": "paragraph",
+                "text": "型は扱える値と接続を定め、純粋関数はその値に対する計算を表します。Consequenceは計算結果と失敗を共通の形で返します。保存や通信が必要になったところで、操作をFree Monadによるプログラムとして組み合わせ、インタープリタとUoWへ渡します。前段で定めた意味を、後段が解釈できる契約として引き継ぐ構成です。",
+                "coreRefs": {
+                  "steps": [
+                    "fp-landscape"
+                  ],
+                  "claims": [
+                    "fp-landscape-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-landscape-node-2"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "fp-landscape-flow"
+                  ]
+                }
+              },
+              {
+                "id": "model-to-execution",
+                "kind": "figure",
+                "asset": "images/model-to-execution-ja.png",
+                "caption": "モデルの意味を型・計算・操作・実行へ引き継ぐ",
+                "alt": "モデルの意味を型・計算・操作・実行へ引き継ぐ",
+                "coreRefs": {
+                  "steps": [
+                    "fp-landscape"
+                  ],
+                  "claims": [
+                    "fp-landscape-claim-1",
+                    "fp-landscape-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-landscape-node-1",
+                    "fp-landscape-node-2"
+                  ],
+                  "relations": [
+                    "fp-landscape-relation-1"
+                  ],
+                  "flows": [
+                    "fp-landscape-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "fp-types-section",
+            "heading": "業務の意味を型と契約へ具体化する",
+            "coreRefs": {
+              "steps": [
+                "fp-types"
+              ],
+              "claims": [
+                "fp-types-claim-1"
+              ],
+              "nodes": [
+                "fp-types-node-1",
+                "fp-types-node-2"
+              ],
+              "relations": [
+                "fp-types-relation-1"
+              ],
+              "flows": [
+                "fp-types-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-types-paragraph-1",
+                "kind": "paragraph",
+                "text": "モデリングでは、同じ文字列や数値でも業務上の意味を区別します。その区別を型へ引き継ぐと、値を受け渡す処理が共通の仕様を利用できます。型は、モデルの概念を実装の接点に残す役割を持ちます。",
+                "coreRefs": {
+                  "steps": [
+                    "fp-types"
+                  ],
+                  "claims": [
+                    "fp-types-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-types-node-1",
+                    "fp-types-node-2"
+                  ],
+                  "relations": [
+                    "fp-types-relation-1"
+                  ],
+                  "flows": [
+                    "fp-types-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "fp-domain-types-section",
+                "heading": "値・状態・制約を型で表す",
+                "coreRefs": {
+                  "steps": [
+                    "fp-domain-types"
+                  ],
+                  "claims": [
+                    "fp-domain-types-claim-1",
+                    "fp-domain-types-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-domain-types-node-1",
+                    "fp-domain-types-node-2"
+                  ],
+                  "relations": [
+                    "fp-domain-types-relation-1"
+                  ],
+                  "flows": [
+                    "fp-domain-types-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-domain-types-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "見積りの数量、単価、金額は、それぞれ異なる意味を持ちます。数量と金額を同じ数値型のまま受け渡す代わりに、QuantityやMoneyなどの型で区別します。複数項目をまとめる積型と、いずれかの状態を表す和型を使うと、必要な項目と選択肢をモデルに沿って表現できます。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-domain-types"
+                      ],
+                      "claims": [
+                        "fp-domain-types-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-domain-types-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-domain-types-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-domain-types-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "入力を制約付きの型へ変換する入口では、数量の範囲や通貨などを検査します。未検査の値と検査済みの値を型で分け、生成経路を限定すれば、後続の関数は検査済みの値を前提にできます。対象の現在状態や他のデータとの整合性など、実行時に分かる条件は、対応する業務操作と保存時の検査へ残します。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-domain-types"
+                      ],
+                      "claims": [
+                        "fp-domain-types-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-domain-types-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-domain-types-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "type-decisions",
+                    "kind": "table",
+                    "caption": "モデル上の判断と型・検査の対応",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "モデル上の判断"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "実装への表し方"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "確認すること"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "type-decisions-row-1",
+                        "cells": [
+                          "数量と金額を区別",
+                          "Quantity / Money",
+                          "不適合な型の受渡し"
+                        ]
+                      },
+                      {
+                        "id": "type-decisions-row-2",
+                        "cells": [
+                          "必須項目と状態の選択肢",
+                          "積型・和型",
+                          "項目と分岐の扱い"
+                        ]
+                      },
+                      {
+                        "id": "type-decisions-row-3",
+                        "cells": [
+                          "入力の値域や通貨",
+                          "検査を通した型の構築",
+                          "不正値の拒否"
+                        ]
+                      },
+                      {
+                        "id": "type-decisions-row-4",
+                        "cells": [
+                          "現在状態や競合条件",
+                          "業務操作＋保存時の検査",
+                          "実行時の成立条件"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "fp-domain-types"
+                      ],
+                      "claims": [
+                        "fp-domain-types-claim-1",
+                        "fp-domain-types-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-domain-types-node-1",
+                        "fp-domain-types-node-2"
+                      ],
+                      "relations": [
+                        "fp-domain-types-relation-1"
+                      ],
+                      "flows": [
+                        "fp-domain-types-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-typed-contracts-section",
+                "heading": "CMLの定義を再利用できる接点へ渡す",
+                "coreRefs": {
+                  "steps": [
+                    "fp-typed-contracts"
+                  ],
+                  "claims": [
+                    "fp-typed-contracts-claim-1",
+                    "fp-typed-contracts-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-typed-contracts-node-1",
+                    "fp-typed-contracts-node-2"
+                  ],
+                  "relations": [
+                    "fp-typed-contracts-relation-1"
+                  ],
+                  "flows": [
+                    "fp-typed-contracts-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-typed-contracts-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "CMLで記述したEntity・Value・DatatypeやOperationの定義を、Cozyが型付きコードや実装の接点へ具体化します。補完する業務計算も、その型を入力と結果に使います。モデルで区別した概念を実装で作り直さず、既存の操作と接続できるため、再利用とグルーコードの作成を支えます。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-typed-contracts"
+                      ],
+                      "claims": [
+                        "fp-typed-contracts-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-typed-contracts-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-typed-contracts-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-typed-contracts-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "型が合うことは接続可能性の確認であり、業務上の意味が等しいことの全証明ではありません。通貨の変換、単位の変換、規則の版などは、名前と明示的な変換処理へ表します。モデルの意味、型の契約、変換規則をそろえることで、接続時に判断し直す範囲を減らします。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-typed-contracts"
+                      ],
+                      "claims": [
+                        "fp-typed-contracts-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-typed-contracts-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-typed-contracts-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "fp-pure-section",
+            "heading": "業務計算を純粋関数として組み合わせる",
+            "coreRefs": {
+              "steps": [
+                "fp-pure"
+              ],
+              "claims": [
+                "fp-pure-claim-1"
+              ],
+              "nodes": [
+                "fp-pure-node-1",
+                "fp-pure-node-2"
+              ],
+              "relations": [
+                "fp-pure-relation-1"
+              ],
+              "flows": [
+                "fp-pure-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-pure-paragraph-1",
+                "kind": "paragraph",
+                "text": "型が値と接続の形を定めた後は、業務規則を計算として記述します。入力から結果を求める部分を、データの取得・保存や実行管理から分けることで、モデルの規則を単独で理解し、検証しやすくします。",
+                "coreRefs": {
+                  "steps": [
+                    "fp-pure"
+                  ],
+                  "claims": [
+                    "fp-pure-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-pure-node-1",
+                    "fp-pure-node-2"
+                  ],
+                  "relations": [
+                    "fp-pure-relation-1"
+                  ],
+                  "flows": [
+                    "fp-pure-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "fp-pure-calculation-section",
+                "heading": "変化する情報を明示的な入力にする",
+                "coreRefs": {
+                  "steps": [
+                    "fp-pure-calculation"
+                  ],
+                  "claims": [
+                    "fp-pure-calculation-claim-1",
+                    "fp-pure-calculation-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-pure-calculation-node-1",
+                    "fp-pure-calculation-node-2"
+                  ],
+                  "relations": [
+                    "fp-pure-calculation-relation-1"
+                  ],
+                  "flows": [
+                    "fp-pure-calculation-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-pure-calculation-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "見積金額を求める計算では、数量、単価、割引規則、丸め規則を入力として扱います。現在時刻や更新される価格表を関数の内部で読み取る代わりに、取得した日時や規則の版を渡します。不変の入力から結果を返す純粋関数にすると、同じ入力で同じ結果を再現できます。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-pure-calculation"
+                      ],
+                      "claims": [
+                        "fp-pure-calculation-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-pure-calculation-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-pure-calculation-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-pure-calculation-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "業務上の状態変更も、現在の状態と操作から次の状態の候補を返す計算として表せます。その候補を作ることと、共有された永続状態へ確定することを分けます。業務規則の検証には計算の入出力を使い、競合や認可、保存の成否は後述する実行経路で確認します。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-pure-calculation"
+                      ],
+                      "claims": [
+                        "fp-pure-calculation-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-pure-calculation-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-pure-calculation-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-type-guarantees-section",
+                "heading": "型による保証と業務規則の検証を組み合わせる",
+                "coreRefs": {
+                  "steps": [
+                    "fp-type-guarantees"
+                  ],
+                  "claims": [
+                    "fp-type-guarantees-claim-1",
+                    "fp-type-guarantees-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-type-guarantees-node-1",
+                    "fp-type-guarantees-node-2"
+                  ],
+                  "relations": [
+                    "fp-type-guarantees-relation-1"
+                  ],
+                  "flows": [
+                    "fp-type-guarantees-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-type-guarantees-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "カーリー＝ハワード対応は、型を命題、型を持つプログラムを証明として捉える基礎になります。型に表した入力・出力の条件を保ちながら純粋関数を合成することで、値の取り違えや接続の不整合をコンパイル時に検出できる範囲が広がります。許される状態を型へ絞る設計は、実行して初めて判明する誤りを減らします。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-type-guarantees"
+                      ],
+                      "claims": [
+                        "fp-type-guarantees-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-type-guarantees-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-type-guarantees-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-type-guarantees-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "この対応をScalaプログラム全体の業務的正しさの証明とは扱いません。保証の対象は型へ表した性質と、その前提を守るコードです。割引率や丸め方が要求通りか、処理が終了するか、外部システムが正しく応答するかは別に確認します。型検査、純粋計算の実例・性質の検査、実行境界の検査を分担します。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-type-guarantees"
+                      ],
+                      "claims": [
+                        "fp-type-guarantees-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-type-guarantees-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-type-guarantees-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "fp-consequence-section",
+            "heading": "成功と失敗を計算の契約に含める",
+            "coreRefs": {
+              "steps": [
+                "fp-consequence"
+              ],
+              "claims": [
+                "fp-consequence-claim-1"
+              ],
+              "nodes": [
+                "fp-consequence-node-1",
+                "fp-consequence-node-2"
+              ],
+              "relations": [
+                "fp-consequence-relation-1"
+              ],
+              "flows": [
+                "fp-consequence-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-consequence-paragraph-1",
+                "kind": "paragraph",
+                "text": "業務の計算には、入力が不正、規則に合わない、対象が見つからないなど、正常な値を返せない場合があります。失敗を計算の外へ逃がさず、結果の型と合成規則に含めることで、次の処理がその可能性を扱えるようにします。",
+                "coreRefs": {
+                  "steps": [
+                    "fp-consequence"
+                  ],
+                  "claims": [
+                    "fp-consequence-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-consequence-node-1",
+                    "fp-consequence-node-2"
+                  ],
+                  "relations": [
+                    "fp-consequence-relation-1"
+                  ],
+                  "flows": [
+                    "fp-consequence-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "fp-result-model-section",
+                "heading": "ConsequenceとConclusionで結果の意味をそろえる",
+                "coreRefs": {
+                  "steps": [
+                    "fp-result-model"
+                  ],
+                  "claims": [
+                    "fp-result-model-claim-1",
+                    "fp-result-model-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-result-model-node-1",
+                    "fp-result-model-node-2"
+                  ],
+                  "relations": [
+                    "fp-result-model-relation-1"
+                  ],
+                  "flows": [
+                    "fp-result-model-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-result-model-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Textus/CNCFはConsequence[A]を共通の結果型として使います。成功はA型の値を持つSuccess、失敗はConclusionを持つFailureです。Conclusionには観測した事実、その解釈、対処の方向、状態や原因のつながりを保持します。業務計算、部品間の呼出し、実行基盤が同じ形式で結果を扱えます。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-result-model"
+                      ],
+                      "claims": [
+                        "fp-result-model-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-result-model-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-result-model-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-result-model-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Consequenceを返すだけで、その関数が純粋になるわけではありません。外部APIを呼ぶ処理でも同じ結果型を使えます。純粋計算には入力だけへの依存を保ち、例外を投げる外部ライブラリとの境界ではConsequence.applyやrunで失敗を正規化します。結果の表現と、処理が作用を持つかどうかを分けて判断します。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-result-model"
+                      ],
+                      "claims": [
+                        "fp-result-model-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-result-model-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-result-model-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-composition-section",
+                "heading": "依存する処理と独立した検査を組み分ける",
+                "coreRefs": {
+                  "steps": [
+                    "fp-composition"
+                  ],
+                  "claims": [
+                    "fp-composition-claim-1",
+                    "fp-composition-claim-2",
+                    "fp-composition-claim-3"
+                  ],
+                  "nodes": [
+                    "fp-composition-node-1",
+                    "fp-composition-node-2",
+                    "fp-composition-node-3"
+                  ],
+                  "relations": [
+                    "fp-composition-relation-1",
+                    "fp-composition-relation-2"
+                  ],
+                  "flows": [
+                    "fp-composition-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-composition-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "前の成功値を使う処理はflatMapでつなぎます。見積りの検査が成功した場合だけ金額計算へ進む、といった依存関係です。失敗時には後続を呼ばず、同じ失敗を返します。mapは成功値を別の値へ変換します。このモナドの合成規則によって、各関数へ同じ成功・失敗の分岐を繰り返し書く範囲を減らせます。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-composition"
+                      ],
+                      "claims": [
+                        "fp-composition-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-composition-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-composition-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-composition-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "数量と通貨など、互いの結果を必要としない入力検査はzip系APIでまとめます。Consequenceのzipは、両方が失敗した場合にConclusionを結合します。独立した検査のエラーを一度に伝え、依存する計算は失敗時に止める、という業務上の違いをAPIの選択へ表します。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-composition"
+                      ],
+                      "claims": [
+                        "fp-composition-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-composition-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-composition-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-composition-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "zipによるエラー集約とflatMapによる打切りは異なる規則です。前者をアプリカティブな合成として使いますが、任意のMonadの合成を選べば同じ集約になるとは限りません。また、独立性を表すことと並列に実行することは別です。Consequenceのzip自体は、入力結果を並列に計算するスケジューラーではありません。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-composition"
+                      ],
+                      "claims": [
+                        "fp-composition-claim-3"
+                      ],
+                      "nodes": [
+                        "fp-composition-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-composition-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "dependent-independent",
+                    "kind": "figure",
+                    "asset": "images/dependent-independent-ja.png",
+                    "caption": "依存する処理の打切りと、独立した検査のエラー集約",
+                    "alt": "依存する処理の打切りと、独立した検査のエラー集約",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-composition"
+                      ],
+                      "claims": [
+                        "fp-composition-claim-1",
+                        "fp-composition-claim-2",
+                        "fp-composition-claim-3"
+                      ],
+                      "nodes": [
+                        "fp-composition-node-1",
+                        "fp-composition-node-2",
+                        "fp-composition-node-3"
+                      ],
+                      "relations": [
+                        "fp-composition-relation-1",
+                        "fp-composition-relation-2"
+                      ],
+                      "flows": [
+                        "fp-composition-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "composition-choices",
+                    "kind": "table",
+                    "caption": "計算の関係に応じて合成を選ぶ",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "関係"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "API"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "結果の扱い"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "composition-choices-row-1",
+                        "cells": [
+                          "成功値の変換",
+                          "map",
+                          "成功値を変換し、失敗を保持"
+                        ]
+                      },
+                      {
+                        "id": "composition-choices-row-2",
+                        "cells": [
+                          "前の成功値に依存",
+                          "flatMap",
+                          "成功時に続行、失敗時に打切り"
+                        ]
+                      },
+                      {
+                        "id": "composition-choices-row-3",
+                        "cells": [
+                          "独立した入力検査",
+                          "zip / zipWith / zip3With",
+                          "失敗情報を集約"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "fp-composition"
+                      ],
+                      "claims": [
+                        "fp-composition-claim-1",
+                        "fp-composition-claim-2",
+                        "fp-composition-claim-3"
+                      ],
+                      "nodes": [
+                        "fp-composition-node-1",
+                        "fp-composition-node-2",
+                        "fp-composition-node-3"
+                      ],
+                      "relations": [
+                        "fp-composition-relation-1",
+                        "fp-composition-relation-2"
+                      ],
+                      "flows": [
+                        "fp-composition-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "fp-effects-section",
+            "heading": "UoWで実行する操作をプログラムとして記述する",
+            "coreRefs": {
+              "steps": [
+                "fp-effects"
+              ],
+              "claims": [
+                "fp-effects-claim-1"
+              ],
+              "nodes": [
+                "fp-effects-node-1",
+                "fp-effects-node-2"
+              ],
+              "relations": [
+                "fp-effects-relation-1"
+              ],
+              "flows": [
+                "fp-effects-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-effects-paragraph-1",
+                "kind": "paragraph",
+                "text": "結果の意味をそろえても、保存や通信をどこで実行し、誰が管理するかは別に決める必要があります。Textus/CNCFではUoW（Unit of Work）を実行管理の単位とし、そこで扱う操作を型付きのAPIとして提供します。Free Monadは、それらの操作を実行前の記述として組み合わせるために使います。",
+                "coreRefs": {
+                  "steps": [
+                    "fp-effects"
+                  ],
+                  "claims": [
+                    "fp-effects-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-effects-node-1",
+                    "fp-effects-node-2"
+                  ],
+                  "relations": [
+                    "fp-effects-relation-1"
+                  ],
+                  "flows": [
+                    "fp-effects-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "fp-operation-algebra-section",
+                "heading": "操作の語彙と入出力を定める",
+                "coreRefs": {
+                  "steps": [
+                    "fp-operation-algebra"
+                  ],
+                  "claims": [
+                    "fp-operation-algebra-claim-1",
+                    "fp-operation-algebra-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-operation-algebra-node-1",
+                    "fp-operation-algebra-node-2"
+                  ],
+                  "relations": [
+                    "fp-operation-algebra-relation-1"
+                  ],
+                  "flows": [
+                    "fp-operation-algebra-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-operation-algebra-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "UnitOfWorkOp[A]は、結果としてAを返す操作の種類と引数を表します。EntityStoreの取得・更新やHTTP呼出しなどを、この型付きの語彙として用意します。業務処理は公開された操作を組み合わせ、操作の実行方法は対応するインタープリタが担当します。この操作体系を、Scalaの中で使う内部DSLとして扱えます。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-operation-algebra"
+                      ],
+                      "claims": [
+                        "fp-operation-algebra-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-operation-algebra-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-operation-algebra-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-operation-algebra-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "語彙を定めることには、実装手段と接続条件を共有する効果があります。保存処理を使う側が、接続先の選択や認可、トランザクション制御を毎回作り直す範囲を減らせます。共通経路を外れる直接I/Oは型だけでは防げないため、依存関係の検査とレビューで境界への適合を確認します。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-operation-algebra"
+                      ],
+                      "claims": [
+                        "fp-operation-algebra-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-operation-algebra-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-operation-algebra-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-free-program-section",
+                "heading": "Free Monadで記述と解釈を分ける",
+                "coreRefs": {
+                  "steps": [
+                    "fp-free-program"
+                  ],
+                  "claims": [
+                    "fp-free-program-claim-1",
+                    "fp-free-program-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-free-program-node-1",
+                    "fp-free-program-node-2"
+                  ],
+                  "relations": [
+                    "fp-free-program-relation-1"
+                  ],
+                  "flows": [
+                    "fp-free-program-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-free-program-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "CNCFのProgram[F, A]は、操作Fを組み合わせて結果Aを得るFree Monadのプログラムです。保存する、応答を受けて次の操作を選ぶ、といった依存関係を記述できます。組立てる関数が操作記述と不変の値だけを扱えば、外部操作を含むプログラムも純粋な記述として構成できます。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-free-program"
+                      ],
+                      "claims": [
+                        "fp-free-program-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-free-program-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-free-program-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-free-program-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "インタープリタは、操作を一つずつ実際の処理へ対応付け、結果を次の段階へ渡します。Free Monadは外部処理を安全にする機構そのものではなく、業務の記述と実行方針を分離する構造です。実行結果に依存する分岐もあるため、全経路を実行前に一覧できるとは限りません。検証では、与えた応答に対して現れる操作と結果を確認します。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-free-program"
+                      ],
+                      "claims": [
+                        "fp-free-program-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-free-program-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-free-program-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-combined-result-section",
+                "heading": "Consequenceを操作記述へ組み込む",
+                "coreRefs": {
+                  "steps": [
+                    "fp-combined-result"
+                  ],
+                  "claims": [
+                    "fp-combined-result-claim-1",
+                    "fp-combined-result-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-combined-result-node-1",
+                    "fp-combined-result-node-2"
+                  ],
+                  "relations": [
+                    "fp-combined-result-relation-1"
+                  ],
+                  "flows": [
+                    "fp-combined-result-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-combined-result-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Consequenceだけでは、保存や通信を後で実行する操作記述にはなりません。一方、Free Monadだけでは、業務上の失敗をどの形式で返して後続を止めるかは定まりません。CNCFはConsequenceTを用い、Programの結果にConsequenceを組み込んだUowMを定義します。操作の記述と、成功・失敗を伴う合成を同時に扱うための組合せです。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-combined-result"
+                      ],
+                      "claims": [
+                        "fp-combined-result-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-combined-result-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-combined-result-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-combined-result-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "純粋計算が返したConsequenceをこのプログラムへ持ち上げ、成功値を保存操作へ渡すことができます。業務上の失敗なら後続操作を組み立てず、実行時の失敗も同じ結果体系で上位へ返します。型は操作の入出力を、合成規則は結果の接続を、インタープリタとUoWは実際の作用と確定を担当します。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-combined-result"
+                      ],
+                      "claims": [
+                        "fp-combined-result-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-combined-result-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-combined-result-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "program-and-outcome",
+                    "kind": "figure",
+                    "asset": "images/program-and-outcome-ja.png",
+                    "caption": "Consequenceは結果、Free Monadは操作の記述を担当する",
+                    "alt": "Consequenceは結果、Free Monadは操作の記述を担当する",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-combined-result"
+                      ],
+                      "claims": [
+                        "fp-combined-result-claim-1",
+                        "fp-combined-result-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-combined-result-node-1",
+                        "fp-combined-result-node-2"
+                      ],
+                      "relations": [
+                        "fp-combined-result-relation-1"
+                      ],
+                      "flows": [
+                        "fp-combined-result-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "fp-execution-section",
+            "heading": "記述した操作を共通の実行経路へ渡す",
+            "coreRefs": {
+              "steps": [
+                "fp-execution"
+              ],
+              "claims": [
+                "fp-execution-claim-1"
+              ],
+              "nodes": [
+                "fp-execution-node-1",
+                "fp-execution-node-2"
+              ],
+              "relations": [
+                "fp-execution-relation-1"
+              ],
+              "flows": [
+                "fp-execution-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-execution-paragraph-1",
+                "kind": "paragraph",
+                "text": "組み立てたプログラムは、実行コンテキストに結び付いたインタープリタへ渡します。ここで業務上の操作記述を、認可、Provider、保存先、UoWの終了処理へ接続します。モデルの規則に従った計算と、環境に依存する制御を組み合わせて動作させます。",
+                "coreRefs": {
+                  "steps": [
+                    "fp-execution"
+                  ],
+                  "claims": [
+                    "fp-execution-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-execution-node-1",
+                    "fp-execution-node-2"
+                  ],
+                  "relations": [
+                    "fp-execution-relation-1"
+                  ],
+                  "flows": [
+                    "fp-execution-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "fp-commit-section",
+                "heading": "計算の成功と更新の確定を区別する",
+                "coreRefs": {
+                  "steps": [
+                    "fp-commit"
+                  ],
+                  "claims": [
+                    "fp-commit-claim-1",
+                    "fp-commit-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-commit-node-1",
+                    "fp-commit-node-2"
+                  ],
+                  "relations": [
+                    "fp-commit-relation-1"
+                  ],
+                  "flows": [
+                    "fp-commit-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-commit-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "標準のUnitOfWorkInterpreter.runは、プログラムの操作を解釈し、業務結果も成功ならUoWのcommitへ進みます。commitの成功を確認してから結果の値を返し、業務計算や操作が失敗した場合はabortの経路へ進みます。既存UoWの中で評価だけを行うAPIでは、呼出し側が確定・中止を所有します。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-commit"
+                      ],
+                      "claims": [
+                        "fp-commit-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-commit-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-commit-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-commit-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "見積金額を計算できたこと、更新候補が妥当なこと、保存先へ更新を確定できたことは異なる結果です。確定までに別の更新と競合する場合があるため、必要な競合検査を保存経路へ接続します。Consequenceの成功値が何の完了を意味するかをAPIごとに定め、受付や計算の成功を永続化の成功として返さないようにします。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-commit"
+                      ],
+                      "claims": [
+                        "fp-commit-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-commit-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-commit-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-failure-resources-section",
+                "heading": "失敗時の終了と再実行の条件を定める",
+                "coreRefs": {
+                  "steps": [
+                    "fp-failure-resources"
+                  ],
+                  "claims": [
+                    "fp-failure-resources-claim-1",
+                    "fp-failure-resources-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-failure-resources-node-1",
+                    "fp-failure-resources-node-2"
+                  ],
+                  "relations": [
+                    "fp-failure-resources-relation-1"
+                  ],
+                  "flows": [
+                    "fp-failure-resources-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-failure-resources-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "UoWは、トランザクションに参加する資源の確定・中止と、動作中に取得した資源の解放を分けて管理します。処理が失敗した場合にも、主たる失敗と終了処理の失敗を構造化した情報として保持します。個々の業務関数に終了処理を散在させず、実行の所有者に集める構成です。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-failure-resources"
+                      ],
+                      "claims": [
+                        "fp-failure-resources-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-failure-resources-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-failure-resources-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-failure-resources-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "送信済みの外部通信などは、UoWのabortだけでは取り消せません。再実行する処理には重複を識別する条件、必要なら補償の操作とその確定範囲を定めます。純粋計算は同じ入力で再現し、作用の再実行は業務とProviderの契約に従う、という分担で復旧を設計します。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-failure-resources"
+                      ],
+                      "claims": [
+                        "fp-failure-resources-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-failure-resources-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-failure-resources-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "fp-reactive-section",
+            "heading": "関数型の記述をリアクティブな実行へつなぐ",
+            "coreRefs": {
+              "steps": [
+                "fp-reactive"
+              ],
+              "claims": [
+                "fp-reactive-claim-1"
+              ],
+              "nodes": [
+                "fp-reactive-node-1",
+                "fp-reactive-node-2"
+              ],
+              "relations": [
+                "fp-reactive-relation-1"
+              ],
+              "flows": [
+                "fp-reactive-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-reactive-paragraph-1",
+                "kind": "paragraph",
+                "text": "負荷の変動や部分的な障害がある環境では、業務規則を保ちながら応答を続ける構成が必要です。リアクティブ宣言は、応答性、耐障害性、弾力性、メッセージ駆動の四つの特性を整理しています。FPは処理の意味と合成を明示し、実行基盤は待機、隔離、配送、資源配分を管理します。両者を接続することで、業務ロジックへ実行制御を混在させる範囲を減らします。",
+                "coreRefs": {
+                  "steps": [
+                    "fp-reactive"
+                  ],
+                  "claims": [
+                    "fp-reactive-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-reactive-node-1",
+                    "fp-reactive-node-2"
+                  ],
+                  "relations": [
+                    "fp-reactive-relation-1"
+                  ],
+                  "flows": [
+                    "fp-reactive-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "fp-asynchrony-section",
+                "heading": "依存関係を保って非同期処理を実行する",
+                "coreRefs": {
+                  "steps": [
+                    "fp-asynchrony"
+                  ],
+                  "claims": [
+                    "fp-asynchrony-claim-1",
+                    "fp-asynchrony-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-asynchrony-node-1",
+                    "fp-asynchrony-node-2"
+                  ],
+                  "relations": [
+                    "fp-asynchrony-relation-1"
+                  ],
+                  "flows": [
+                    "fp-asynchrony-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-asynchrony-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "前段の結果が必要な処理はモナドで順につなぎ、独立した処理はアプリカティブな構造で表します。非同期の実行機構がこの独立性を利用できる場合には、同時実行数や待機容量を制限した上で並行実行を選べます。ConsequenceやFree Monadを使うこと自体が、非同期化や並列化を行うわけではありません。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-asynchrony"
+                      ],
+                      "claims": [
+                        "fp-asynchrony-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-asynchrony-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-asynchrony-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-asynchrony-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Textus/CNCFでは、長い処理を明示的にJobへ渡し、Taskから共通の操作・UoW経路を利用できます。Jobの受付、各処理の確定、Job全体の完了を区別して結果を確認します。UIを待たせ続けずに進捗を確認でき、同期・非同期で業務計算と失敗の意味を共有できます。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-asynchrony"
+                      ],
+                      "claims": [
+                        "fp-asynchrony-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-asynchrony-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-asynchrony-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-reactive-quality-section",
+                "heading": "四つの特性を支える組合せを確認する",
+                "coreRefs": {
+                  "steps": [
+                    "fp-reactive-quality"
+                  ],
+                  "claims": [
+                    "fp-reactive-quality-claim-1",
+                    "fp-reactive-quality-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-reactive-quality-node-1",
+                    "fp-reactive-quality-node-2"
+                  ],
+                  "relations": [
+                    "fp-reactive-quality-relation-1"
+                  ],
+                  "flows": [
+                    "fp-reactive-quality-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-reactive-quality-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "純粋な計算と不変の値は、処理の分割や再現を容易にします。構造化した失敗は、呼出し側や実行管理側が復旧を判断する材料になります。型付きのCommand・Eventと実行の所有者を組み合わせると、業務上の意味を保ってメッセージを受け渡し、隔離した処理へ仕事を渡しやすくなります。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-reactive-quality"
+                      ],
+                      "claims": [
+                        "fp-reactive-quality-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-reactive-quality-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-reactive-quality-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-reactive-quality-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "応答性や弾力性には、Jobの待機容量、同時実行数、Domainの処理能力、配送経路の流量制御を合わせる必要があります。耐障害性には、隔離、再試行条件、資源解放、確定済み状態からの復旧を組み合わせます。FPはこれらの制御を適用しやすい記述を提供し、実際の品質は選択した実行機構と運用構成で成立します。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-reactive-quality"
+                      ],
+                      "claims": [
+                        "fp-reactive-quality-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-reactive-quality-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-reactive-quality-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "functional-reactive",
+                    "kind": "figure",
+                    "asset": "images/functional-reactive-ja.png",
+                    "caption": "FPの記述をJob・UoW・Providerと結び付けてリアクティブ性を支える",
+                    "alt": "FPの記述をJob・UoW・Providerと結び付けてリアクティブ性を支える",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-reactive-quality"
+                      ],
+                      "claims": [
+                        "fp-reactive-quality-claim-1",
+                        "fp-reactive-quality-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-reactive-quality-node-1",
+                        "fp-reactive-quality-node-2"
+                      ],
+                      "relations": [
+                        "fp-reactive-quality-relation-1"
+                      ],
+                      "flows": [
+                        "fp-reactive-quality-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-mapping",
+                    "kind": "table",
+                    "caption": "リアクティブの四特性とFP・実行基盤の分担",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "特性"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "FPが提供する構造"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "組み合わせる実行機構"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "reactive-mapping-row-1",
+                        "cells": [
+                          "応答性",
+                          "計算と待機・作用を分離",
+                          "Job受付、期限、同時実行制限"
+                        ]
+                      },
+                      {
+                        "id": "reactive-mapping-row-2",
+                        "cells": [
+                          "耐障害性",
+                          "不変の入力、構造化した失敗",
+                          "隔離、終了処理、再試行・復旧方針"
+                        ]
+                      },
+                      {
+                        "id": "reactive-mapping-row-3",
+                        "cells": [
+                          "弾力性",
+                          "独立した計算と明示的な状態依存",
+                          "容量計測、負荷分散、受付・流量制御"
+                        ]
+                      },
+                      {
+                        "id": "reactive-mapping-row-4",
+                        "cells": [
+                          "メッセージ駆動",
+                          "型付きCommand・Eventと結果",
+                          "非同期配送、キュー、重複・順序の管理"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "fp-reactive-quality"
+                      ],
+                      "claims": [
+                        "fp-reactive-quality-claim-1",
+                        "fp-reactive-quality-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-reactive-quality-node-1",
+                        "fp-reactive-quality-node-2"
+                      ],
+                      "relations": [
+                        "fp-reactive-quality-relation-1"
+                      ],
+                      "flows": [
+                        "fp-reactive-quality-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "fp-example-section",
+            "heading": "見積りの確定でモデルと実行の接続を確認する",
+            "coreRefs": {
+              "steps": [
+                "fp-example"
+              ],
+              "claims": [
+                "fp-example-claim-1",
+                "fp-example-claim-2"
+              ],
+              "nodes": [
+                "fp-example-node-1",
+                "fp-example-node-2"
+              ],
+              "relations": [
+                "fp-example-relation-1"
+              ],
+              "flows": [
+                "fp-example-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-example-paragraph-1",
+                "kind": "paragraph",
+                "text": "数量と通貨を独立に検査し、検査済みの値を見積計算へ渡します。価格表と規則の版を入力に含め、純粋計算で金額と更新候補を得ます。Consequenceが成功した値だけを保存操作へ接続し、Free Monadによるプログラムとしてインタープリタへ渡します。",
+                "coreRefs": {
+                  "steps": [
+                    "fp-example"
+                  ],
+                  "claims": [
+                    "fp-example-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-example-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "fp-example-flow"
+                  ]
+                }
+              },
+              {
+                "id": "fp-example-paragraph-2",
+                "kind": "paragraph",
+                "text": "実行側は認可と必要な競合条件を確認し、UoWで更新を確定します。更新後の通知やViewへの反映は、選択した配信・投影経路へつなぎます。図は成功時の役割の接続を示します。入力不正、業務条件不成立、保存時競合では、止まる位置と返す結果が異なります。",
+                "coreRefs": {
+                  "steps": [
+                    "fp-example"
+                  ],
+                  "claims": [
+                    "fp-example-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-example-node-2"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "fp-example-flow"
+                  ]
+                }
+              },
+              {
+                "id": "quotation-execution",
+                "kind": "figure",
+                "asset": "images/quotation-execution-ja.png",
+                "caption": "成功時の例：計算、操作記述、解釈、確定を分担する",
+                "alt": "成功時の例：計算、操作記述、解釈、確定を分担する",
+                "coreRefs": {
+                  "steps": [
+                    "fp-example"
+                  ],
+                  "claims": [
+                    "fp-example-claim-1",
+                    "fp-example-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-example-node-1",
+                    "fp-example-node-2"
+                  ],
+                  "relations": [
+                    "fp-example-relation-1"
+                  ],
+                  "flows": [
+                    "fp-example-flow"
+                  ]
+                }
+              },
+              {
+                "id": "example-boundaries",
+                "kind": "table",
+                "caption": "見積り確定で分担する判断と結果",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "境界"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "判断・動作"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "返す結果の意味"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "example-boundaries-row-1",
+                    "cells": [
+                      "入力検査",
+                      "数量と通貨を独立に検査",
+                      "検査済み値または集約した入力エラー"
+                    ]
+                  },
+                  {
+                    "id": "example-boundaries-row-2",
+                    "cells": [
+                      "純粋計算",
+                      "価格と規則から更新候補を計算",
+                      "妥当な候補または業務条件の不成立"
+                    ]
+                  },
+                  {
+                    "id": "example-boundaries-row-3",
+                    "cells": [
+                      "操作の解釈",
+                      "認可・Provider・競合条件を適用",
+                      "操作の結果または実行時の失敗"
+                    ]
+                  },
+                  {
+                    "id": "example-boundaries-row-4",
+                    "cells": [
+                      "UoWの終了",
+                      "commit / abortと資源解放",
+                      "確定を含む実行の結果"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "fp-example"
+                  ],
+                  "claims": [
+                    "fp-example-claim-1",
+                    "fp-example-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-example-node-1",
+                    "fp-example-node-2"
+                  ],
+                  "relations": [
+                    "fp-example-relation-1"
+                  ],
+                  "flows": [
+                    "fp-example-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "fp-verification-section",
+            "heading": "モデル・計算・実行の境界ごとに検証する",
+            "coreRefs": {
+              "steps": [
+                "fp-verification"
+              ],
+              "claims": [
+                "fp-verification-claim-1"
+              ],
+              "nodes": [
+                "fp-verification-node-1",
+                "fp-verification-node-2"
+              ],
+              "relations": [
+                "fp-verification-relation-1"
+              ],
+              "flows": [
+                "fp-verification-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-verification-paragraph-1",
+                "kind": "paragraph",
+                "text": "同じ規則を全体の結合試験だけで確認するのではなく、型、純粋計算、操作記述、実行境界に検証を分けます。どの段階で何を保証するかを明確にすると、変更時に確認すべき範囲も整理できます。",
+                "coreRefs": {
+                  "steps": [
+                    "fp-verification"
+                  ],
+                  "claims": [
+                    "fp-verification-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-verification-node-1",
+                    "fp-verification-node-2"
+                  ],
+                  "relations": [
+                    "fp-verification-relation-1"
+                  ],
+                  "flows": [
+                    "fp-verification-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "fp-verification-cases-section",
+                "heading": "実例・性質・操作記録を使い分ける",
+                "coreRefs": {
+                  "steps": [
+                    "fp-verification-cases"
+                  ],
+                  "claims": [
+                    "fp-verification-cases-claim-1",
+                    "fp-verification-cases-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-verification-cases-node-1",
+                    "fp-verification-cases-node-2"
+                  ],
+                  "relations": [
+                    "fp-verification-cases-relation-1"
+                  ],
+                  "flows": [
+                    "fp-verification-cases-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-verification-cases-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "純粋計算は、既知の入力と期待結果に加え、通貨を変えずに計算する、許されない数量を受け付けない、といった性質で検証できます。Consequenceの合成では、独立したエラーが失われないことと、失敗後に依存する処理へ進まないことを確認します。モナドなどの合成則と業務上の性質は、どちらも型検査だけで自動的に確認されるものではありません。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-verification-cases"
+                      ],
+                      "claims": [
+                        "fp-verification-cases-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-verification-cases-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-verification-cases-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-verification-cases-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "操作記述には、応答を与えるテスト用インタープリタや記録機構を使い、実際の通信を行わずに選ばれる操作を確認できます。CNCFの計画・記録契約も、与えた型付き応答に沿って訪れた操作を記録する範囲を定めています。実Providerによる認可、競合、commit・abort、資源解放は別の検証対象とし、記録機構の結果を本番実行の証明には置き換えません。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-verification-cases"
+                      ],
+                      "claims": [
+                        "fp-verification-cases-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-verification-cases-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-verification-cases-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "verification-mapping",
+                    "kind": "table",
+                    "caption": "確認したい性質と検証の境界",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "確認したいこと"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "用いる確認"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "分担する範囲"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "verification-mapping-row-1",
+                        "cells": [
+                          "意味の異なる値を接続していないか",
+                          "型検査",
+                          "型に表した接続条件"
+                        ]
+                      },
+                      {
+                        "id": "verification-mapping-row-2",
+                        "cells": [
+                          "計算が業務規則を満たすか",
+                          "実例・性質の検査",
+                          "固定した入力に対する出力"
+                        ]
+                      },
+                      {
+                        "id": "verification-mapping-row-3",
+                        "cells": [
+                          "失敗が適切に伝わるか",
+                          "合成の検査",
+                          "打切り・集約・結果の意味"
+                        ]
+                      },
+                      {
+                        "id": "verification-mapping-row-4",
+                        "cells": [
+                          "意図した操作を選ぶか",
+                          "テスト用解釈・操作記録",
+                          "与えた応答に対する経路"
+                        ]
+                      },
+                      {
+                        "id": "verification-mapping-row-5",
+                        "cells": [
+                          "実環境で正しく終了するか",
+                          "Provider・結合検証",
+                          "認可・競合・確定・資源解放"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "fp-verification-cases"
+                      ],
+                      "claims": [
+                        "fp-verification-cases-claim-1",
+                        "fp-verification-cases-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-verification-cases-node-1",
+                        "fp-verification-cases-node-2"
+                      ],
+                      "relations": [
+                        "fp-verification-cases-relation-1"
+                      ],
+                      "flows": [
+                        "fp-verification-cases-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-ai-harness-section",
+                "heading": "AIによる補完をモデルと共通契約へ沿わせる",
+                "coreRefs": {
+                  "steps": [
+                    "fp-ai-harness"
+                  ],
+                  "claims": [
+                    "fp-ai-harness-claim-1",
+                    "fp-ai-harness-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-ai-harness-node-1",
+                    "fp-ai-harness-node-2"
+                  ],
+                  "relations": [
+                    "fp-ai-harness-relation-1"
+                  ],
+                  "flows": [
+                    "fp-ai-harness-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-ai-harness-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "純粋関数型、モナド、Free Monadは、学習と手作業の記述に負担があります。AIに型と操作契約、既存の合成例を与えることで、この構造に沿う補完コードを作成しやすくなります。人間は業務の意味、失敗時の扱い、確定範囲を定め、型検査と境界ごとの検証で生成物を確認します。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-ai-harness"
+                      ],
+                      "claims": [
+                        "fp-ai-harness-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-ai-harness-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-ai-harness-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-ai-harness-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "型は値と接続を、Consequenceは結果の扱いを、操作DSLとUoWは実装と実行の境界を限定します。既存の処理を再利用し、必要な補完とグルーコードをこの範囲へ置くことで、AIが独自の制御を作り込む範囲を減らせます。この組合せがプログラミング・ハーネスとしても機能し、修正とレビューをモデル上の意味に沿って進める助けになります。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-ai-harness"
+                      ],
+                      "claims": [
+                        "fp-ai-harness-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-ai-harness-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-ai-harness-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "fp-conclusion-section",
+            "heading": "まとめ",
+            "coreRefs": {
+              "steps": [
+                "fp-conclusion"
+              ],
+              "claims": [
+                "fp-conclusion-claim-1"
+              ],
+              "nodes": [
+                "fp-conclusion-node-1",
+                "fp-conclusion-node-2"
+              ],
+              "relations": [
+                "fp-conclusion-relation-1"
+              ],
+              "flows": [
+                "fp-conclusion-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-conclusion-paragraph-1",
+                "kind": "paragraph",
+                "text": "型と純粋関数で業務モデルを計算へ具体化し、Consequenceで成功・失敗をつなぎ、Free Monadで操作を記述し、UoWの共通経路で実行します。この分担により、モデルの意味を保ちながら、業務計算とリアクティブな実行制御を組み合わせられます。AIによる補完にも同じ契約と検証を適用し、高度な手法を開発へ取り入れやすくします。",
+                "coreRefs": {
+                  "steps": [
+                    "fp-conclusion"
+                  ],
+                  "claims": [
+                    "fp-conclusion-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-conclusion-node-1",
+                    "fp-conclusion-node-2"
+                  ],
+                  "relations": [
+                    "fp-conclusion-relation-1"
+                  ],
+                  "flows": [
+                    "fp-conclusion-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "fp-appendix-section",
+            "heading": "付録：参考文献と実装上の対応",
+            "coreRefs": {
+              "steps": [
+                "fp-appendix"
+              ],
+              "claims": [
+                "fp-appendix-claim-1"
+              ],
+              "nodes": [
+                "fp-appendix-node-1",
+                "fp-appendix-node-2"
+              ],
+              "relations": [
+                "fp-appendix-relation-1"
+              ],
+              "flows": [
+                "fp-appendix-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-appendix-paragraph-1",
+                "kind": "paragraph",
+                "text": "2冊は、本書で用いるモデリング技術を整理する補助線です。F#やScala/Scalazの書籍中の実装をそのままTextus/CNCFの仕様とは扱いません。対応表に示す考え方を参照し、製品固有の型と実行契約はローカルの設計・実装を根拠に説明しています。",
+                "coreRefs": {
+                  "steps": [
+                    "fp-appendix"
+                  ],
+                  "claims": [
+                    "fp-appendix-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-appendix-node-1",
+                    "fp-appendix-node-2"
+                  ],
+                  "relations": [
+                    "fp-appendix-relation-1"
+                  ],
+                  "flows": [
+                    "fp-appendix-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "fp-bibliography-section",
+                "heading": "2冊の参考文献と本文の対応",
+                "coreRefs": {
+                  "steps": [
+                    "fp-bibliography"
+                  ],
+                  "claims": [
+                    "fp-bibliography-claim-1",
+                    "fp-bibliography-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-bibliography-node-1",
+                    "fp-bibliography-node-2"
+                  ],
+                  "relations": [
+                    "fp-bibliography-relation-1"
+                  ],
+                  "flows": [
+                    "fp-bibliography-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-bibliography-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Scott Wlaschin, Domain Modeling Made Functional: Tackle Software Complexity with Domain-Driven Design and F#（Pragmatic Bookshelf, 2018）。型による業務概念と制約の表現、関数としての処理の接続を参照します。https://pragprog.com/titles/swdddf/domain-modeling-made-functional/ 。公開抜粋：https://media.pragprog.com/titles/swdddf/modeling.pdf",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-bibliography"
+                      ],
+                      "claims": [
+                        "fp-bibliography-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-bibliography-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-bibliography-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-bibliography-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Debasish Ghosh, Functional and Reactive Domain Modeling（Manning, 2016）。操作の契約と実装の分離、純粋な業務計算と作用の分離、リアクティブなモデルとの接続を参照します。https://www.manning.com/books/functional-and-reactive-domain-modeling 。公開目次：https://www.oreilly.com/library/view/functional-and-reactive/9781617292248/",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-bibliography"
+                      ],
+                      "claims": [
+                        "fp-bibliography-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-bibliography-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-bibliography-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "book-mapping",
+                    "kind": "table",
+                    "caption": "参考文献を本文の技術へ対応付ける",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "参考文献"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "参照する考え方"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "本文での適用"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "book-mapping-row-1",
+                        "cells": [
+                          "Domain Modeling Made Functional",
+                          "型による概念・値・状態の表現",
+                          "業務の意味を型と契約へ具体化"
+                        ]
+                      },
+                      {
+                        "id": "book-mapping-row-2",
+                        "cells": [
+                          "Domain Modeling Made Functional",
+                          "型付きの関数と結果の接続",
+                          "純粋計算と結果の契約"
+                        ]
+                      },
+                      {
+                        "id": "book-mapping-row-3",
+                        "cells": [
+                          "Functional and Reactive Domain Modeling",
+                          "操作の契約と解釈の分離",
+                          "操作DSL・Free Monad・インタープリタ"
+                        ]
+                      },
+                      {
+                        "id": "book-mapping-row-4",
+                        "cells": [
+                          "Functional and Reactive Domain Modeling",
+                          "純粋計算と作用の分離",
+                          "ConsequenceとUoWを組み合わせる構成"
+                        ]
+                      },
+                      {
+                        "id": "book-mapping-row-5",
+                        "cells": [
+                          "Functional and Reactive Domain Modeling",
+                          "関数型モデルとリアクティブな構成",
+                          "四特性と実行基盤の役割分担"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "fp-bibliography"
+                      ],
+                      "claims": [
+                        "fp-bibliography-claim-1",
+                        "fp-bibliography-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-bibliography-node-1",
+                        "fp-bibliography-node-2"
+                      ],
+                      "relations": [
+                        "fp-bibliography-relation-1"
+                      ],
+                      "flows": [
+                        "fp-bibliography-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-implementation-names-section",
+                "heading": "CNCFの型と実行APIの対応",
+                "coreRefs": {
+                  "steps": [
+                    "fp-implementation-names"
+                  ],
+                  "claims": [
+                    "fp-implementation-names-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-implementation-names-node-1",
+                    "fp-implementation-names-node-2"
+                  ],
+                  "relations": [
+                    "fp-implementation-names-relation-1"
+                  ],
+                  "flows": [
+                    "fp-implementation-names-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-implementation-names-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "以下はCNCFのkernel.scala、unitofwork/types.scala、UnitOfWorkInterpreterとsimplemodeling-libのConsequence・ConsequenceTの対応です。現在のCNCFのFree実装はCatsのFreeを使用します。書籍で使われるScalazとの共通点は抽象化の考え方にあり、ライブラリやAPIの同一性を前提にしません。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-implementation-names"
+                      ],
+                      "claims": [
+                        "fp-implementation-names-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-implementation-names-node-1",
+                        "fp-implementation-names-node-2"
+                      ],
+                      "relations": [
+                        "fp-implementation-names-relation-1"
+                      ],
+                      "flows": [
+                        "fp-implementation-names-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "implementation-mapping",
+                    "kind": "table",
+                    "caption": "役割とCNCFの実装名",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "役割"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "実装名・型"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "保持または実行するもの"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "implementation-mapping-row-1",
+                        "cells": [
+                          "処理結果",
+                          "Consequence[A]",
+                          "SuccessのA / FailureのConclusion"
+                        ]
+                      },
+                      {
+                        "id": "implementation-mapping-row-2",
+                        "cells": [
+                          "構造化した失敗",
+                          "Conclusion",
+                          "観測・解釈・対処・状態・原因"
+                        ]
+                      },
+                      {
+                        "id": "implementation-mapping-row-3",
+                        "cells": [
+                          "一つの型付き操作",
+                          "UnitOfWorkOp[A]",
+                          "操作の引数と結果型"
+                        ]
+                      },
+                      {
+                        "id": "implementation-mapping-row-4",
+                        "cells": [
+                          "操作を合成した記述",
+                          "Program[F, A] = Free[F, A]",
+                          "操作Fからなるプログラム"
+                        ]
+                      },
+                      {
+                        "id": "implementation-mapping-row-5",
+                        "cells": [
+                          "記述と結果の組合せ",
+                          "UowM[F, A]",
+                          "ConsequenceTでProgramと結果を合成"
+                        ]
+                      },
+                      {
+                        "id": "implementation-mapping-row-6",
+                        "cells": [
+                          "CNCFの操作へ固定した型",
+                          "ExecProgram[A] / ExecUowM[A]",
+                          "FをUnitOfWorkOpへ具体化"
+                        ]
+                      },
+                      {
+                        "id": "implementation-mapping-row-7",
+                        "cells": [
+                          "解釈と終了の管理",
+                          "UnitOfWorkInterpreter / UnitOfWork",
+                          "操作実行、確定・中止、資源解放"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "fp-implementation-names"
+                      ],
+                      "claims": [
+                        "fp-implementation-names-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-implementation-names-node-1",
+                        "fp-implementation-names-node-2"
+                      ],
+                      "relations": [
+                        "fp-implementation-names-relation-1"
+                      ],
+                      "flows": [
+                        "fp-implementation-names-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-sources-section",
+                "heading": "補助資料と内部資料",
+                "coreRefs": {
+                  "steps": [
+                    "fp-sources"
+                  ],
+                  "claims": [
+                    "fp-sources-claim-1",
+                    "fp-sources-claim-2",
+                    "fp-sources-claim-3"
+                  ],
+                  "nodes": [
+                    "fp-sources-node-1",
+                    "fp-sources-node-2"
+                  ],
+                  "relations": [
+                    "fp-sources-relation-1"
+                  ],
+                  "flows": [
+                    "fp-sources-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-sources-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "公開補助資料：CatsのFree Monad解説（https://typelevel.org/cats/datatypes/freemonad.html）、リアクティブ宣言（https://www.reactivemanifesto.org/）。書籍の紹介・公開目次・公開抜粋で確認できる範囲と、製品固有の実装上の説明を区別して参照しています。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-sources"
+                      ],
+                      "claims": [
+                        "fp-sources-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-sources-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-sources-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-sources-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "内部資料：SimpleModeling.org「プログラミング・ハーネス」第6回のCoreと日英本文。Textus技術文書のDDDモデリング技術ガイド、リアクティブ技術ガイド。前者から型・Consequence・Free Monad・UoWの役割分担を引き継ぎ、モデリングから実行への説明として再構成しています。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-sources"
+                      ],
+                      "claims": [
+                        "fp-sources-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-sources-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-sources-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-sources-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "内部の設計・実装資料：CNCF docs/rules/consequence.md、docs/design/free-unitofwork-execution-model.md、docs/design/unitofwork-program-planning.md、docs/design/unit-of-work-resource-lifecycle.md。実装はorg.goldenport.cncf配下のkernel.scala、unitofwork/types.scala、UnitOfWorkOp.scala、UnitOfWorkInterpreter.scalaと、simplemodeling-libのorg.goldenport配下のConsequence.scala、Conclusion.scala、ConsequenceT.scala。計画・記録契約の設計範囲と、実行APIとして確認した動作を区別しています。",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-sources"
+                      ],
+                      "claims": [
+                        "fp-sources-claim-3"
+                      ],
+                      "nodes": [
+                        "fp-sources-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-sources-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "fp-landscape",
+        "text": "モデリングから実行までの関係"
+      },
+      {
+        "stepRef": "fp-domain-types",
+        "text": "値・状態・制約を型で表す"
+      },
+      {
+        "stepRef": "fp-typed-contracts",
+        "text": "CMLの定義を再利用できる接点へ渡す"
+      },
+      {
+        "stepRef": "fp-types",
+        "text": "業務の意味を型と契約へ具体化する"
+      },
+      {
+        "stepRef": "fp-pure-calculation",
+        "text": "変化する情報を明示的な入力にする"
+      },
+      {
+        "stepRef": "fp-type-guarantees",
+        "text": "型による保証と業務規則の検証を組み合わせる"
+      },
+      {
+        "stepRef": "fp-pure",
+        "text": "業務計算を純粋関数として組み合わせる"
+      },
+      {
+        "stepRef": "fp-result-model",
+        "text": "ConsequenceとConclusionで結果の意味をそろえる"
+      },
+      {
+        "stepRef": "fp-composition",
+        "text": "依存する処理と独立した検査を組み分ける"
+      },
+      {
+        "stepRef": "fp-consequence",
+        "text": "成功と失敗を計算の契約に含める"
+      },
+      {
+        "stepRef": "fp-operation-algebra",
+        "text": "操作の語彙と入出力を定める"
+      },
+      {
+        "stepRef": "fp-free-program",
+        "text": "Free Monadで記述と解釈を分ける"
+      },
+      {
+        "stepRef": "fp-combined-result",
+        "text": "Consequenceを操作記述へ組み込む"
+      },
+      {
+        "stepRef": "fp-effects",
+        "text": "UoWで実行する操作をプログラムとして記述する"
+      },
+      {
+        "stepRef": "fp-commit",
+        "text": "計算の成功と更新の確定を区別する"
+      },
+      {
+        "stepRef": "fp-failure-resources",
+        "text": "失敗時の終了と再実行の条件を定める"
+      },
+      {
+        "stepRef": "fp-execution",
+        "text": "記述した操作を共通の実行経路へ渡す"
+      },
+      {
+        "stepRef": "fp-asynchrony",
+        "text": "依存関係を保って非同期処理を実行する"
+      },
+      {
+        "stepRef": "fp-reactive-quality",
+        "text": "四つの特性を支える組合せを確認する"
+      },
+      {
+        "stepRef": "fp-reactive",
+        "text": "関数型の記述をリアクティブな実行へつなぐ"
+      },
+      {
+        "stepRef": "fp-example",
+        "text": "見積りの確定でモデルと実行の接続を確認する"
+      },
+      {
+        "stepRef": "fp-verification-cases",
+        "text": "実例・性質・操作記録を使い分ける"
+      },
+      {
+        "stepRef": "fp-ai-harness",
+        "text": "AIによる補完をモデルと共通契約へ沿わせる"
+      },
+      {
+        "stepRef": "fp-verification",
+        "text": "モデル・計算・実行の境界ごとに検証する"
+      },
+      {
+        "stepRef": "fp-conclusion",
+        "text": "まとめ"
+      },
+      {
+        "stepRef": "fp-bibliography",
+        "text": "2冊の参考文献と本文の対応"
+      },
+      {
+        "stepRef": "fp-implementation-names",
+        "text": "CNCFの型と実行APIの対応"
+      },
+      {
+        "stepRef": "fp-sources",
+        "text": "補助資料と内部資料"
+      },
+      {
+        "stepRef": "fp-appendix",
+        "text": "付録：参考文献と実装上の対応"
+      },
+      {
+        "stepRef": "textus-cncf-modeling-fp",
+        "text": "Textus/CNCF Modeling and FP技術ガイド"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "fp-landscape-node-1",
+        "text": "業務モデルを実装上の契約へ具体化する"
+      },
+      {
+        "nodeRef": "fp-landscape-node-2",
+        "text": "計算・結果・作用・実行を接続する"
+      },
+      {
+        "nodeRef": "fp-domain-types-node-1",
+        "text": "概念と状態の区別を表現する"
+      },
+      {
+        "nodeRef": "fp-domain-types-node-2",
+        "text": "構築時検査と実行時検査を分担する"
+      },
+      {
+        "nodeRef": "fp-typed-contracts-node-1",
+        "text": "モデルの型を生成物と補完処理で共有する"
+      },
+      {
+        "nodeRef": "fp-typed-contracts-node-2",
+        "text": "意味の変換を明示して再利用する"
+      },
+      {
+        "nodeRef": "fp-types-node-1",
+        "text": "意味の区別を型へ残す"
+      },
+      {
+        "nodeRef": "fp-types-node-2",
+        "text": "共有する契約で処理を接続する"
+      },
+      {
+        "nodeRef": "fp-pure-calculation-node-1",
+        "text": "時刻・規則・データを入力へ集める"
+      },
+      {
+        "nodeRef": "fp-pure-calculation-node-2",
+        "text": "状態の候補と永続化を分ける"
+      },
+      {
+        "nodeRef": "fp-type-guarantees-node-1",
+        "text": "型で表した条件を合成して保つ"
+      },
+      {
+        "nodeRef": "fp-type-guarantees-node-2",
+        "text": "型・業務規則・外部動作を分けて検証する"
+      },
+      {
+        "nodeRef": "fp-pure-node-1",
+        "text": "規則を入力から結果への計算にする"
+      },
+      {
+        "nodeRef": "fp-pure-node-2",
+        "text": "計算を実行環境から分離する"
+      },
+      {
+        "nodeRef": "fp-result-model-node-1",
+        "text": "成功値と構造化した失敗を返す"
+      },
+      {
+        "nodeRef": "fp-result-model-node-2",
+        "text": "結果型と純粋性を区別する"
+      },
+      {
+        "nodeRef": "fp-composition-node-1",
+        "text": "依存する計算を失敗時に止める"
+      },
+      {
+        "nodeRef": "fp-composition-node-2",
+        "text": "独立した検査の結果を集約する"
+      },
+      {
+        "nodeRef": "fp-composition-node-3",
+        "text": "合成の意味と実行方法を分ける"
+      },
+      {
+        "nodeRef": "fp-consequence-node-1",
+        "text": "失敗を結果の一部として表す"
+      },
+      {
+        "nodeRef": "fp-consequence-node-2",
+        "text": "結果の接続規則を共有する"
+      },
+      {
+        "nodeRef": "fp-operation-algebra-node-1",
+        "text": "操作ごとの入力と結果を型へ表す"
+      },
+      {
+        "nodeRef": "fp-operation-algebra-node-2",
+        "text": "操作の利用と実行方法を分担する"
+      },
+      {
+        "nodeRef": "fp-free-program-node-1",
+        "text": "外部操作を純粋な記述へ組み込む"
+      },
+      {
+        "nodeRef": "fp-free-program-node-2",
+        "text": "解釈と応答によって実行を進める"
+      },
+      {
+        "nodeRef": "fp-combined-result-node-1",
+        "text": "操作記述と結果の規則を重ねる"
+      },
+      {
+        "nodeRef": "fp-combined-result-node-2",
+        "text": "計算から作用へ同じ契約を引き継ぐ"
+      },
+      {
+        "nodeRef": "fp-effects-node-1",
+        "text": "操作の実行管理をUoWへまとめる"
+      },
+      {
+        "nodeRef": "fp-effects-node-2",
+        "text": "実行前の操作記述を合成する"
+      },
+      {
+        "nodeRef": "fp-commit-node-1",
+        "text": "業務結果とcommitの成功を確認する"
+      },
+      {
+        "nodeRef": "fp-commit-node-2",
+        "text": "成功値が表す完了範囲を定める"
+      },
+      {
+        "nodeRef": "fp-failure-resources-node-1",
+        "text": "終了処理を実行の所有者へ集める"
+      },
+      {
+        "nodeRef": "fp-failure-resources-node-2",
+        "text": "作用の再実行に必要な契約を定める"
+      },
+      {
+        "nodeRef": "fp-execution-node-1",
+        "text": "操作を認可とProviderへ接続する"
+      },
+      {
+        "nodeRef": "fp-execution-node-2",
+        "text": "処理結果を確定と終了処理へつなぐ"
+      },
+      {
+        "nodeRef": "fp-asynchrony-node-1",
+        "text": "依存・独立の構造を実行方針へ渡す"
+      },
+      {
+        "nodeRef": "fp-asynchrony-node-2",
+        "text": "JobとUoWで受付と確定を分担する"
+      },
+      {
+        "nodeRef": "fp-reactive-quality-node-1",
+        "text": "値・結果・メッセージの意味を共有する"
+      },
+      {
+        "nodeRef": "fp-reactive-quality-node-2",
+        "text": "容量・隔離・復旧を実行構成で実現する"
+      },
+      {
+        "nodeRef": "fp-reactive-node-1",
+        "text": "四特性に必要な実行制御を整理する"
+      },
+      {
+        "nodeRef": "fp-reactive-node-2",
+        "text": "FPの合成と実行基盤を接続する"
+      },
+      {
+        "nodeRef": "fp-example-node-1",
+        "text": "入力の検査と純粋計算をつなぐ"
+      },
+      {
+        "nodeRef": "fp-example-node-2",
+        "text": "成功した候補を共通経路で確定する"
+      },
+      {
+        "nodeRef": "fp-verification-cases-node-1",
+        "text": "計算と結果合成を局所的に確認する"
+      },
+      {
+        "nodeRef": "fp-verification-cases-node-2",
+        "text": "操作記述と実Providerの検査を分担する"
+      },
+      {
+        "nodeRef": "fp-ai-harness-node-1",
+        "text": "高度な合成手法をAIによる補完へ利用する"
+      },
+      {
+        "nodeRef": "fp-ai-harness-node-2",
+        "text": "型・結果・実行の契約で変更範囲を限定する"
+      },
+      {
+        "nodeRef": "fp-verification-node-1",
+        "text": "責務に対応した検証を配置する"
+      },
+      {
+        "nodeRef": "fp-verification-node-2",
+        "text": "変更箇所に応じて確認範囲を絞る"
+      },
+      {
+        "nodeRef": "fp-conclusion-node-1",
+        "text": "モデルの意味を結果と実行へ保つ"
+      },
+      {
+        "nodeRef": "fp-conclusion-node-2",
+        "text": "共通契約を開発と検証の基盤にする"
+      },
+      {
+        "nodeRef": "fp-bibliography-node-1",
+        "text": "型によるモデリングをWlaschinへ対応付ける"
+      },
+      {
+        "nodeRef": "fp-bibliography-node-2",
+        "text": "操作とリアクティブな実行をGhoshへ対応付ける"
+      },
+      {
+        "nodeRef": "fp-implementation-names-node-1",
+        "text": "役割を具体的な型へ対応付ける"
+      },
+      {
+        "nodeRef": "fp-implementation-names-node-2",
+        "text": "型の定義と実行の所有者を区別する"
+      },
+      {
+        "nodeRef": "fp-sources-node-1",
+        "text": "公開資料で一般的な技術を確認する"
+      },
+      {
+        "nodeRef": "fp-sources-node-2",
+        "text": "内部資料で製品の対応を確認する"
+      },
+      {
+        "nodeRef": "fp-appendix-node-1",
+        "text": "書籍の考え方と説明箇所を対応付ける"
+      },
+      {
+        "nodeRef": "fp-appendix-node-2",
+        "text": "製品固有の実装名と根拠を確認する"
+      },
+      {
+        "nodeRef": "textus-cncf-modeling-fp-node-1",
+        "text": "モデルの意味を型と計算へ引き継ぐ"
+      },
+      {
+        "nodeRef": "textus-cncf-modeling-fp-node-2",
+        "text": "結果と作用を組み合わせて共通基盤で実行する"
+      }
+    ]
+  }
+}

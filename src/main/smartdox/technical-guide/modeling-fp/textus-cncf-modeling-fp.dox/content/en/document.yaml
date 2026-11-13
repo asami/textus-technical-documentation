@@ -1,0 +1,2889 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-modeling-fp-document-en",
+  "core": {
+    "id": "textus-cncf-modeling-fp"
+  },
+  "locale": "en",
+  "document": {
+    "title": "Textus/CNCF Modeling and FP — Technical Guide",
+    "sections": [
+      {
+        "id": "textus-cncf-modeling-fp-section",
+        "heading": "Textus/CNCF Modeling and FP — Technical Guide",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-modeling-fp"
+          ],
+          "claims": [
+            "textus-cncf-modeling-fp-claim-1"
+          ],
+          "nodes": [
+            "textus-cncf-modeling-fp-node-1",
+            "textus-cncf-modeling-fp-node-2"
+          ],
+          "relations": [
+            "textus-cncf-modeling-fp-relation-1"
+          ],
+          "flows": [
+            "textus-cncf-modeling-fp-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "textus-cncf-modeling-fp-paragraph-1",
+            "kind": "paragraph",
+            "text": "This guide explains how business models become types and functions and connect to execution involving success, failure, persistence and communication. It follows the combination of types, pure functional programming, Consequence, Free Monad and UoW in Textus/CNCF. Two books on functional domain modeling provide reference perspectives, extending to the connection with reactive execution.",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-modeling-fp"
+              ],
+              "claims": [
+                "textus-cncf-modeling-fp-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-modeling-fp-node-1",
+                "textus-cncf-modeling-fp-node-2"
+              ],
+              "relations": [
+                "textus-cncf-modeling-fp-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-modeling-fp-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "fp-landscape-section",
+            "heading": "From Modeling to Execution",
+            "coreRefs": {
+              "steps": [
+                "fp-landscape"
+              ],
+              "claims": [
+                "fp-landscape-claim-1",
+                "fp-landscape-claim-2"
+              ],
+              "nodes": [
+                "fp-landscape-node-1",
+                "fp-landscape-node-2"
+              ],
+              "relations": [
+                "fp-landscape-relation-1"
+              ],
+              "flows": [
+                "fp-landscape-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-landscape-paragraph-1",
+                "kind": "paragraph",
+                "text": "The DDD guide explains the overall combination of business meaning, progression, updates and persistence, and reading and presentation. This guide examines how those models are expressed as programs. Assuming use cases are already defined, it relates business concepts and operations to types, calculations and executable work.",
+                "coreRefs": {
+                  "steps": [
+                    "fp-landscape"
+                  ],
+                  "claims": [
+                    "fp-landscape-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-landscape-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "fp-landscape-flow"
+                  ]
+                }
+              },
+              {
+                "id": "fp-landscape-paragraph-2",
+                "kind": "paragraph",
+                "text": "Types define admissible values and connections; pure functions describe calculations over them. Consequence provides a shared representation of results and failure. Persistence and communication are composed as Free Monad programs and passed to an interpreter and UoW. Each stage carries established meaning forward through contracts understood by the next stage.",
+                "coreRefs": {
+                  "steps": [
+                    "fp-landscape"
+                  ],
+                  "claims": [
+                    "fp-landscape-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-landscape-node-2"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "fp-landscape-flow"
+                  ]
+                }
+              },
+              {
+                "id": "model-to-execution",
+                "kind": "figure",
+                "asset": "images/model-to-execution-en.png",
+                "caption": "Carry model meaning through types, calculations, operations and execution",
+                "alt": "Carry model meaning through types, calculations, operations and execution",
+                "coreRefs": {
+                  "steps": [
+                    "fp-landscape"
+                  ],
+                  "claims": [
+                    "fp-landscape-claim-1",
+                    "fp-landscape-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-landscape-node-1",
+                    "fp-landscape-node-2"
+                  ],
+                  "relations": [
+                    "fp-landscape-relation-1"
+                  ],
+                  "flows": [
+                    "fp-landscape-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "fp-types-section",
+            "heading": "Making Business Meaning Concrete in Types and Contracts",
+            "coreRefs": {
+              "steps": [
+                "fp-types"
+              ],
+              "claims": [
+                "fp-types-claim-1"
+              ],
+              "nodes": [
+                "fp-types-node-1",
+                "fp-types-node-2"
+              ],
+              "relations": [
+                "fp-types-relation-1"
+              ],
+              "flows": [
+                "fp-types-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-types-paragraph-1",
+                "kind": "paragraph",
+                "text": "Modeling distinguishes business meanings even when values share primitive representations. Carrying these distinctions into types gives communicating functions a shared specification. Types preserve model concepts at implementation boundaries.",
+                "coreRefs": {
+                  "steps": [
+                    "fp-types"
+                  ],
+                  "claims": [
+                    "fp-types-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-types-node-1",
+                    "fp-types-node-2"
+                  ],
+                  "relations": [
+                    "fp-types-relation-1"
+                  ],
+                  "flows": [
+                    "fp-types-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "fp-domain-types-section",
+                "heading": "Representing Values, States and Constraints with Types",
+                "coreRefs": {
+                  "steps": [
+                    "fp-domain-types"
+                  ],
+                  "claims": [
+                    "fp-domain-types-claim-1",
+                    "fp-domain-types-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-domain-types-node-1",
+                    "fp-domain-types-node-2"
+                  ],
+                  "relations": [
+                    "fp-domain-types-relation-1"
+                  ],
+                  "flows": [
+                    "fp-domain-types-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-domain-types-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Quantity, unit price and amount have different meanings in a quotation. Types such as Quantity and Money distinguish them rather than passing interchangeable primitive numbers. Product types group required fields, while sum types represent alternatives such as distinct states.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-domain-types"
+                      ],
+                      "claims": [
+                        "fp-domain-types-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-domain-types-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-domain-types-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-domain-types-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "The boundary constructing constrained values checks conditions such as quantity ranges and currency. Distinguishing unchecked from checked values and controlling construction lets downstream functions rely on validated inputs. Conditions involving current state or other records remain in business operations and commit-time checks.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-domain-types"
+                      ],
+                      "claims": [
+                        "fp-domain-types-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-domain-types-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-domain-types-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "type-decisions",
+                    "kind": "table",
+                    "caption": "Model decisions, types and checks",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Model decision"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Implementation form"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Check"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "type-decisions-row-1",
+                        "cells": [
+                          "Quantity differs from amount",
+                          "Quantity / Money",
+                          "Incompatible value connections"
+                        ]
+                      },
+                      {
+                        "id": "type-decisions-row-2",
+                        "cells": [
+                          "Required fields and state alternatives",
+                          "Product / sum types",
+                          "Fields and cases"
+                        ]
+                      },
+                      {
+                        "id": "type-decisions-row-3",
+                        "cells": [
+                          "Ranges and currency",
+                          "Validated construction",
+                          "Rejection of invalid values"
+                        ]
+                      },
+                      {
+                        "id": "type-decisions-row-4",
+                        "cells": [
+                          "Current state and conflicts",
+                          "Business operation + storage check",
+                          "Runtime preconditions"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "fp-domain-types"
+                      ],
+                      "claims": [
+                        "fp-domain-types-claim-1",
+                        "fp-domain-types-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-domain-types-node-1",
+                        "fp-domain-types-node-2"
+                      ],
+                      "relations": [
+                        "fp-domain-types-relation-1"
+                      ],
+                      "flows": [
+                        "fp-domain-types-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-typed-contracts-section",
+                "heading": "Carrying CML Definitions into Reusable Interfaces",
+                "coreRefs": {
+                  "steps": [
+                    "fp-typed-contracts"
+                  ],
+                  "claims": [
+                    "fp-typed-contracts-claim-1",
+                    "fp-typed-contracts-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-typed-contracts-node-1",
+                    "fp-typed-contracts-node-2"
+                  ],
+                  "relations": [
+                    "fp-typed-contracts-relation-1"
+                  ],
+                  "flows": [
+                    "fp-typed-contracts-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-typed-contracts-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Cozy projects CML Entity, Value, Datatype and Operation definitions into typed code and implementation interfaces. Supplementary calculations use those types for inputs and results. Existing operations can be reused and connected without redefining the model’s concepts, supporting reuse and glue code.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-typed-contracts"
+                      ],
+                      "claims": [
+                        "fp-typed-contracts-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-typed-contracts-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-typed-contracts-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-typed-contracts-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Compatible types establish connectability, not complete semantic equivalence. Currency and unit conversions and rule versions remain explicit in names and conversion functions. Aligning model meaning, type contracts and conversion rules reduces decisions that must be repeated at each connection.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-typed-contracts"
+                      ],
+                      "claims": [
+                        "fp-typed-contracts-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-typed-contracts-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-typed-contracts-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "fp-pure-section",
+            "heading": "Composing Business Calculations as Pure Functions",
+            "coreRefs": {
+              "steps": [
+                "fp-pure"
+              ],
+              "claims": [
+                "fp-pure-claim-1"
+              ],
+              "nodes": [
+                "fp-pure-node-1",
+                "fp-pure-node-2"
+              ],
+              "relations": [
+                "fp-pure-relation-1"
+              ],
+              "flows": [
+                "fp-pure-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-pure-paragraph-1",
+                "kind": "paragraph",
+                "text": "After types define values and connections, business rules become calculations. Separating input-to-result computation from acquisition, persistence and execution management makes model rules easier to understand and verify independently.",
+                "coreRefs": {
+                  "steps": [
+                    "fp-pure"
+                  ],
+                  "claims": [
+                    "fp-pure-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-pure-node-1",
+                    "fp-pure-node-2"
+                  ],
+                  "relations": [
+                    "fp-pure-relation-1"
+                  ],
+                  "flows": [
+                    "fp-pure-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "fp-pure-calculation-section",
+                "heading": "Making Changing Information Explicit Input",
+                "coreRefs": {
+                  "steps": [
+                    "fp-pure-calculation"
+                  ],
+                  "claims": [
+                    "fp-pure-calculation-claim-1",
+                    "fp-pure-calculation-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-pure-calculation-node-1",
+                    "fp-pure-calculation-node-2"
+                  ],
+                  "relations": [
+                    "fp-pure-calculation-relation-1"
+                  ],
+                  "flows": [
+                    "fp-pure-calculation-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-pure-calculation-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "A quotation calculation takes quantity, unit price, discount rules and rounding rules as inputs. Instead of reading the clock or a mutable price catalog inside the function, it receives the relevant time and rule version. Pure functions over immutable inputs reproduce the same outcome for the same input.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-pure-calculation"
+                      ],
+                      "claims": [
+                        "fp-pure-calculation-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-pure-calculation-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-pure-calculation-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-pure-calculation-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "State changes can be modeled as calculations from current state and an operation to a proposed next state. Constructing a candidate is separated from committing shared persistent state. Input/output cases test the rule; authorization, conflicts and persistence outcomes are checked along the execution path.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-pure-calculation"
+                      ],
+                      "claims": [
+                        "fp-pure-calculation-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-pure-calculation-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-pure-calculation-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-type-guarantees-section",
+                "heading": "Combining Type Guarantees with Rule Verification",
+                "coreRefs": {
+                  "steps": [
+                    "fp-type-guarantees"
+                  ],
+                  "claims": [
+                    "fp-type-guarantees-claim-1",
+                    "fp-type-guarantees-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-type-guarantees-node-1",
+                    "fp-type-guarantees-node-2"
+                  ],
+                  "relations": [
+                    "fp-type-guarantees-relation-1"
+                  ],
+                  "flows": [
+                    "fp-type-guarantees-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-type-guarantees-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "The Curry–Howard correspondence provides a foundation for viewing types as propositions and typed programs as proofs. Composing pure functions while preserving encoded input/output conditions expands compile-time detection of mismatched values and connections. Restricting representations to admissible states reduces errors discovered only at runtime.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-type-guarantees"
+                      ],
+                      "claims": [
+                        "fp-type-guarantees-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-type-guarantees-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-type-guarantees-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-type-guarantees-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "This is not a proof of complete business correctness for arbitrary Scala programs. Guarantees concern properties encoded in types and code respecting their assumptions. Discount rules, rounding requirements, termination and external responses require additional checks. Type checking, example and property tests of pure calculations, and execution-boundary checks have distinct roles.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-type-guarantees"
+                      ],
+                      "claims": [
+                        "fp-type-guarantees-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-type-guarantees-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-type-guarantees-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "fp-consequence-section",
+            "heading": "Including Success and Failure in Calculation Contracts",
+            "coreRefs": {
+              "steps": [
+                "fp-consequence"
+              ],
+              "claims": [
+                "fp-consequence-claim-1"
+              ],
+              "nodes": [
+                "fp-consequence-node-1",
+                "fp-consequence-node-2"
+              ],
+              "relations": [
+                "fp-consequence-relation-1"
+              ],
+              "flows": [
+                "fp-consequence-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-consequence-paragraph-1",
+                "kind": "paragraph",
+                "text": "Business calculations may reject inputs, fail a rule or find no matching object. Representing failure in the result type and composition rules lets subsequent processing account for these outcomes instead of leaving them outside the calculation contract.",
+                "coreRefs": {
+                  "steps": [
+                    "fp-consequence"
+                  ],
+                  "claims": [
+                    "fp-consequence-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-consequence-node-1",
+                    "fp-consequence-node-2"
+                  ],
+                  "relations": [
+                    "fp-consequence-relation-1"
+                  ],
+                  "flows": [
+                    "fp-consequence-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "fp-result-model-section",
+                "heading": "Aligning Outcome Meaning with Consequence and Conclusion",
+                "coreRefs": {
+                  "steps": [
+                    "fp-result-model"
+                  ],
+                  "claims": [
+                    "fp-result-model-claim-1",
+                    "fp-result-model-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-result-model-node-1",
+                    "fp-result-model-node-2"
+                  ],
+                  "relations": [
+                    "fp-result-model-relation-1"
+                  ],
+                  "flows": [
+                    "fp-result-model-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-result-model-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Textus/CNCF uses Consequence[A] as its shared result type. Success carries a value of type A; Failure carries a Conclusion. Conclusion retains observations, interpretation, disposition, status and causal information. Calculations, component calls and the runtime can therefore exchange outcomes in a common form.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-result-model"
+                      ],
+                      "claims": [
+                        "fp-result-model-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-result-model-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-result-model-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-result-model-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Returning Consequence does not make a function pure: external calls can use the same result type. Pure calculations must still depend only on their inputs. At boundaries with exception-throwing libraries, Consequence.apply or run normalizes exceptions into failure. Outcome representation and the presence of effects are separate concerns.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-result-model"
+                      ],
+                      "claims": [
+                        "fp-result-model-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-result-model-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-result-model-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-composition-section",
+                "heading": "Distinguishing Dependent Processing from Independent Validation",
+                "coreRefs": {
+                  "steps": [
+                    "fp-composition"
+                  ],
+                  "claims": [
+                    "fp-composition-claim-1",
+                    "fp-composition-claim-2",
+                    "fp-composition-claim-3"
+                  ],
+                  "nodes": [
+                    "fp-composition-node-1",
+                    "fp-composition-node-2",
+                    "fp-composition-node-3"
+                  ],
+                  "relations": [
+                    "fp-composition-relation-1",
+                    "fp-composition-relation-2"
+                  ],
+                  "flows": [
+                    "fp-composition-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-composition-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "flatMap connects work that depends on a previous success value, such as calculating an amount only after validation succeeds. Failure skips the continuation and propagates unchanged. map transforms a success value. These monadic composition rules reduce repeated success/failure branching in individual functions.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-composition"
+                      ],
+                      "claims": [
+                        "fp-composition-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-composition-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-composition-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-composition-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Independent input checks, such as quantity and currency validation, use zip-based APIs. Consequence.zip combines Conclusions when both checks fail. API choice expresses a business distinction: report independent validation errors together, but stop dependent computation after failure.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-composition"
+                      ],
+                      "claims": [
+                        "fp-composition-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-composition-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-composition-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-composition-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Error accumulation with zip and short-circuiting with flatMap are different rules. The former provides applicative-style composition; choosing an arbitrary Monad composition does not imply the same accumulation. Independence is also distinct from parallel execution: Consequence.zip is not a scheduler that computes its arguments concurrently.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-composition"
+                      ],
+                      "claims": [
+                        "fp-composition-claim-3"
+                      ],
+                      "nodes": [
+                        "fp-composition-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-composition-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "dependent-independent",
+                    "kind": "figure",
+                    "asset": "images/dependent-independent-en.png",
+                    "caption": "Dependent short-circuiting and independent error accumulation",
+                    "alt": "Dependent short-circuiting and independent error accumulation",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-composition"
+                      ],
+                      "claims": [
+                        "fp-composition-claim-1",
+                        "fp-composition-claim-2",
+                        "fp-composition-claim-3"
+                      ],
+                      "nodes": [
+                        "fp-composition-node-1",
+                        "fp-composition-node-2",
+                        "fp-composition-node-3"
+                      ],
+                      "relations": [
+                        "fp-composition-relation-1",
+                        "fp-composition-relation-2"
+                      ],
+                      "flows": [
+                        "fp-composition-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "composition-choices",
+                    "kind": "table",
+                    "caption": "Choose composition from computation relationships",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Relationship"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "API"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Outcome behavior"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "composition-choices-row-1",
+                        "cells": [
+                          "Transform a success value",
+                          "map",
+                          "Transform success; preserve failure"
+                        ]
+                      },
+                      {
+                        "id": "composition-choices-row-2",
+                        "cells": [
+                          "Depend on a preceding value",
+                          "flatMap",
+                          "Continue on success; stop on failure"
+                        ]
+                      },
+                      {
+                        "id": "composition-choices-row-3",
+                        "cells": [
+                          "Independent input validation",
+                          "zip / zipWith / zip3With",
+                          "Accumulate failure information"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "fp-composition"
+                      ],
+                      "claims": [
+                        "fp-composition-claim-1",
+                        "fp-composition-claim-2",
+                        "fp-composition-claim-3"
+                      ],
+                      "nodes": [
+                        "fp-composition-node-1",
+                        "fp-composition-node-2",
+                        "fp-composition-node-3"
+                      ],
+                      "relations": [
+                        "fp-composition-relation-1",
+                        "fp-composition-relation-2"
+                      ],
+                      "flows": [
+                        "fp-composition-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "fp-effects-section",
+            "heading": "Describing Programs of Operations Executed through UoW",
+            "coreRefs": {
+              "steps": [
+                "fp-effects"
+              ],
+              "claims": [
+                "fp-effects-claim-1"
+              ],
+              "nodes": [
+                "fp-effects-node-1",
+                "fp-effects-node-2"
+              ],
+              "relations": [
+                "fp-effects-relation-1"
+              ],
+              "flows": [
+                "fp-effects-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-effects-paragraph-1",
+                "kind": "paragraph",
+                "text": "Shared outcome semantics do not determine where persistence or communication occurs or who manages it. Textus/CNCF uses UoW, or Unit of Work, as a unit of execution management and exposes typed operations for that path. Free Monad composes those operations into a program description before execution.",
+                "coreRefs": {
+                  "steps": [
+                    "fp-effects"
+                  ],
+                  "claims": [
+                    "fp-effects-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-effects-node-1",
+                    "fp-effects-node-2"
+                  ],
+                  "relations": [
+                    "fp-effects-relation-1"
+                  ],
+                  "flows": [
+                    "fp-effects-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "fp-operation-algebra-section",
+                "heading": "Defining an Operation Vocabulary and Its Types",
+                "coreRefs": {
+                  "steps": [
+                    "fp-operation-algebra"
+                  ],
+                  "claims": [
+                    "fp-operation-algebra-claim-1",
+                    "fp-operation-algebra-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-operation-algebra-node-1",
+                    "fp-operation-algebra-node-2"
+                  ],
+                  "relations": [
+                    "fp-operation-algebra-relation-1"
+                  ],
+                  "flows": [
+                    "fp-operation-algebra-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-operation-algebra-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "UnitOfWorkOp[A] represents an operation and its arguments with a result type A. EntityStore reads and writes and HTTP requests are part of this typed vocabulary. Business programs compose public operations; the interpreter supplies their execution. This forms an internal DSL used within Scala.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-operation-algebra"
+                      ],
+                      "claims": [
+                        "fp-operation-algebra-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-operation-algebra-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-operation-algebra-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-operation-algebra-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "An explicit vocabulary shares implementation choices and connection contracts. Callers need less repeated code for target selection, authorization and transaction control. Types alone cannot prevent direct I/O outside the common path, so dependency checks and review verify adherence to that boundary.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-operation-algebra"
+                      ],
+                      "claims": [
+                        "fp-operation-algebra-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-operation-algebra-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-operation-algebra-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-free-program-section",
+                "heading": "Separating Description from Interpretation with Free Monad",
+                "coreRefs": {
+                  "steps": [
+                    "fp-free-program"
+                  ],
+                  "claims": [
+                    "fp-free-program-claim-1",
+                    "fp-free-program-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-free-program-node-1",
+                    "fp-free-program-node-2"
+                  ],
+                  "relations": [
+                    "fp-free-program-relation-1"
+                  ],
+                  "flows": [
+                    "fp-free-program-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-free-program-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "CNCF’s Program[F, A] is a Free Monad program combining operations F to obtain A. It describes dependencies such as saving data and choosing later operations from earlier responses. When construction handles only descriptions and immutable values, a program involving external operations can be assembled purely.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-free-program"
+                      ],
+                      "claims": [
+                        "fp-free-program-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-free-program-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-free-program-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-free-program-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "The interpreter maps operations to concrete processing and supplies results to later steps. Free Monad separates business description from execution policy; it does not itself make external processing safe. Branches may depend on runtime responses, so not every path is enumerable beforehand. Verification checks operations and outcomes for supplied responses.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-free-program"
+                      ],
+                      "claims": [
+                        "fp-free-program-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-free-program-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-free-program-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-combined-result-section",
+                "heading": "Combining Consequence with Operation Descriptions",
+                "coreRefs": {
+                  "steps": [
+                    "fp-combined-result"
+                  ],
+                  "claims": [
+                    "fp-combined-result-claim-1",
+                    "fp-combined-result-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-combined-result-node-1",
+                    "fp-combined-result-node-2"
+                  ],
+                  "relations": [
+                    "fp-combined-result-relation-1"
+                  ],
+                  "flows": [
+                    "fp-combined-result-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-combined-result-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Consequence alone is not a deferred description of persistence or communication. Free Monad alone does not select how business failure is represented or stops a continuation. CNCF uses ConsequenceT to define UowM, combining a Program with Consequence outcomes. The combination handles operation descriptions and success/failure composition together.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-combined-result"
+                      ],
+                      "claims": [
+                        "fp-combined-result-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-combined-result-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-combined-result-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-combined-result-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "A Consequence returned by a pure calculation can be lifted into the program, and its success value passed to a persistence operation. Business failure skips later operation construction; runtime failures return through the same outcome vocabulary. Types govern operation inputs and outputs, composition governs result flow, and the interpreter with UoW governs effects and commitment.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-combined-result"
+                      ],
+                      "claims": [
+                        "fp-combined-result-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-combined-result-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-combined-result-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "program-and-outcome",
+                    "kind": "figure",
+                    "asset": "images/program-and-outcome-en.png",
+                    "caption": "Consequence handles outcomes; Free Monad handles operation descriptions",
+                    "alt": "Consequence handles outcomes; Free Monad handles operation descriptions",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-combined-result"
+                      ],
+                      "claims": [
+                        "fp-combined-result-claim-1",
+                        "fp-combined-result-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-combined-result-node-1",
+                        "fp-combined-result-node-2"
+                      ],
+                      "relations": [
+                        "fp-combined-result-relation-1"
+                      ],
+                      "flows": [
+                        "fp-combined-result-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "fp-execution-section",
+            "heading": "Passing Described Operations to Shared Execution",
+            "coreRefs": {
+              "steps": [
+                "fp-execution"
+              ],
+              "claims": [
+                "fp-execution-claim-1"
+              ],
+              "nodes": [
+                "fp-execution-node-1",
+                "fp-execution-node-2"
+              ],
+              "relations": [
+                "fp-execution-relation-1"
+              ],
+              "flows": [
+                "fp-execution-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-execution-paragraph-1",
+                "kind": "paragraph",
+                "text": "The assembled program is passed to an interpreter bound to an execution context. This connects described operations to authorization, Providers, storage and UoW termination. Model-governed calculations combine with environment-dependent controls to produce behavior.",
+                "coreRefs": {
+                  "steps": [
+                    "fp-execution"
+                  ],
+                  "claims": [
+                    "fp-execution-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-execution-node-1",
+                    "fp-execution-node-2"
+                  ],
+                  "relations": [
+                    "fp-execution-relation-1"
+                  ],
+                  "flows": [
+                    "fp-execution-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "fp-commit-section",
+                "heading": "Distinguishing Successful Calculation from Committed Updates",
+                "coreRefs": {
+                  "steps": [
+                    "fp-commit"
+                  ],
+                  "claims": [
+                    "fp-commit-claim-1",
+                    "fp-commit-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-commit-node-1",
+                    "fp-commit-node-2"
+                  ],
+                  "relations": [
+                    "fp-commit-relation-1"
+                  ],
+                  "flows": [
+                    "fp-commit-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-commit-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "The standard UnitOfWorkInterpreter.run interprets the program and proceeds to UoW commit when the business outcome also succeeds. It returns the value after commit succeeds; failed calculation or interpretation follows the abort path. Evaluation-only APIs within an existing UoW leave commit or abort ownership with the caller.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-commit"
+                      ],
+                      "claims": [
+                        "fp-commit-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-commit-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-commit-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-commit-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Calculating a quotation, validating a candidate update and committing it to storage are distinct outcomes. Concurrent changes may occur before commitment, requiring appropriate storage-side conflict checks. Each API defines what its Consequence success means; successful acceptance or calculation must not be presented as durable completion.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-commit"
+                      ],
+                      "claims": [
+                        "fp-commit-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-commit-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-commit-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-failure-resources-section",
+                "heading": "Defining Failure Cleanup and Conditions for Re-execution",
+                "coreRefs": {
+                  "steps": [
+                    "fp-failure-resources"
+                  ],
+                  "claims": [
+                    "fp-failure-resources-claim-1",
+                    "fp-failure-resources-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-failure-resources-node-1",
+                    "fp-failure-resources-node-2"
+                  ],
+                  "relations": [
+                    "fp-failure-resources-relation-1"
+                  ],
+                  "flows": [
+                    "fp-failure-resources-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-failure-resources-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "UoW separately manages transaction participants and the release of operational resources acquired during execution. Primary failures and cleanup failures remain structured information. Cleanup belongs with the execution owner rather than being scattered across business functions.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-failure-resources"
+                      ],
+                      "claims": [
+                        "fp-failure-resources-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-failure-resources-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-failure-resources-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-failure-resources-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Already-sent external communication is not undone by UoW abort. Re-executed work requires duplicate-detection conditions and, where needed, compensation operations and their commit boundaries. Recovery distinguishes reproducible pure calculations from effectful retries governed by business and Provider contracts.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-failure-resources"
+                      ],
+                      "claims": [
+                        "fp-failure-resources-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-failure-resources-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-failure-resources-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "fp-reactive-section",
+            "heading": "Connecting Functional Descriptions to Reactive Execution",
+            "coreRefs": {
+              "steps": [
+                "fp-reactive"
+              ],
+              "claims": [
+                "fp-reactive-claim-1"
+              ],
+              "nodes": [
+                "fp-reactive-node-1",
+                "fp-reactive-node-2"
+              ],
+              "relations": [
+                "fp-reactive-relation-1"
+              ],
+              "flows": [
+                "fp-reactive-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-reactive-paragraph-1",
+                "kind": "paragraph",
+                "text": "Variable load and partial failures require systems to remain responsive while preserving business rules. The Reactive Manifesto identifies responsiveness, resilience, elasticity and message-driven operation. FP makes computation meaning and composition explicit; runtime infrastructure manages waiting, isolation, delivery and resource allocation. Connecting the two reduces execution-control code mixed into business logic.",
+                "coreRefs": {
+                  "steps": [
+                    "fp-reactive"
+                  ],
+                  "claims": [
+                    "fp-reactive-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-reactive-node-1",
+                    "fp-reactive-node-2"
+                  ],
+                  "relations": [
+                    "fp-reactive-relation-1"
+                  ],
+                  "flows": [
+                    "fp-reactive-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "fp-asynchrony-section",
+                "heading": "Executing Asynchronous Work while Preserving Dependencies",
+                "coreRefs": {
+                  "steps": [
+                    "fp-asynchrony"
+                  ],
+                  "claims": [
+                    "fp-asynchrony-claim-1",
+                    "fp-asynchrony-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-asynchrony-node-1",
+                    "fp-asynchrony-node-2"
+                  ],
+                  "relations": [
+                    "fp-asynchrony-relation-1"
+                  ],
+                  "flows": [
+                    "fp-asynchrony-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-asynchrony-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Monadic composition preserves result dependencies, while applicative structure expresses independence. An asynchronous execution mechanism that can exploit that independence may choose concurrency under bounded capacity. Consequence and Free Monad do not themselves make processing asynchronous or parallel.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-asynchrony"
+                      ],
+                      "claims": [
+                        "fp-asynchrony-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-asynchrony-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-asynchrony-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-asynchrony-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Textus/CNCF can explicitly submit long work as a Job whose Tasks use shared operation and UoW paths. Job acceptance, individual commits and overall completion are distinct. This supports progress tracking without indefinitely blocking the UI and shares business calculations and failure meanings across synchronous and asynchronous use.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-asynchrony"
+                      ],
+                      "claims": [
+                        "fp-asynchrony-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-asynchrony-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-asynchrony-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-reactive-quality-section",
+                "heading": "Relating the Combination to the Four Reactive Traits",
+                "coreRefs": {
+                  "steps": [
+                    "fp-reactive-quality"
+                  ],
+                  "claims": [
+                    "fp-reactive-quality-claim-1",
+                    "fp-reactive-quality-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-reactive-quality-node-1",
+                    "fp-reactive-quality-node-2"
+                  ],
+                  "relations": [
+                    "fp-reactive-quality-relation-1"
+                  ],
+                  "flows": [
+                    "fp-reactive-quality-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-reactive-quality-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Pure calculations and immutable values make work easier to partition and reproduce. Structured failure provides information for recovery decisions. Typed Commands and Events combined with explicit execution owners preserve business meaning across messages and isolated processing units.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-reactive-quality"
+                      ],
+                      "claims": [
+                        "fp-reactive-quality-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-reactive-quality-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-reactive-quality-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-reactive-quality-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Responsiveness and elasticity require coordination among Job queue capacity, concurrency limits, Domain capacity and delivery flow control. Resilience combines isolation, retry conditions, cleanup and recovery from committed state. FP supplies descriptions to which these controls can be applied; actual quality depends on the selected execution mechanisms and operational configuration.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-reactive-quality"
+                      ],
+                      "claims": [
+                        "fp-reactive-quality-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-reactive-quality-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-reactive-quality-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "functional-reactive",
+                    "kind": "figure",
+                    "asset": "images/functional-reactive-en.png",
+                    "caption": "Connect FP descriptions with Jobs, UoW and Providers to support reactive behavior",
+                    "alt": "Connect FP descriptions with Jobs, UoW and Providers to support reactive behavior",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-reactive-quality"
+                      ],
+                      "claims": [
+                        "fp-reactive-quality-claim-1",
+                        "fp-reactive-quality-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-reactive-quality-node-1",
+                        "fp-reactive-quality-node-2"
+                      ],
+                      "relations": [
+                        "fp-reactive-quality-relation-1"
+                      ],
+                      "flows": [
+                        "fp-reactive-quality-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "reactive-mapping",
+                    "kind": "table",
+                    "caption": "Reactive traits: FP and runtime responsibilities",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Trait"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Structure supplied by FP"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Combined runtime mechanisms"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "reactive-mapping-row-1",
+                        "cells": [
+                          "Responsive",
+                          "Separate calculation from waiting/effects",
+                          "Job acceptance, deadlines, concurrency limits"
+                        ]
+                      },
+                      {
+                        "id": "reactive-mapping-row-2",
+                        "cells": [
+                          "Resilient",
+                          "Immutable inputs; structured failure",
+                          "Isolation, cleanup, retry/recovery policy"
+                        ]
+                      },
+                      {
+                        "id": "reactive-mapping-row-3",
+                        "cells": [
+                          "Elastic",
+                          "Independent work; explicit state dependencies",
+                          "Capacity metrics, load distribution, admission/flow control"
+                        ]
+                      },
+                      {
+                        "id": "reactive-mapping-row-4",
+                        "cells": [
+                          "Message driven",
+                          "Typed Commands, Events and outcomes",
+                          "Asynchronous delivery, queues, deduplication/ordering"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "fp-reactive-quality"
+                      ],
+                      "claims": [
+                        "fp-reactive-quality-claim-1",
+                        "fp-reactive-quality-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-reactive-quality-node-1",
+                        "fp-reactive-quality-node-2"
+                      ],
+                      "relations": [
+                        "fp-reactive-quality-relation-1"
+                      ],
+                      "flows": [
+                        "fp-reactive-quality-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "fp-example-section",
+            "heading": "Tracing Model-to-Execution Connections through Quotation Confirmation",
+            "coreRefs": {
+              "steps": [
+                "fp-example"
+              ],
+              "claims": [
+                "fp-example-claim-1",
+                "fp-example-claim-2"
+              ],
+              "nodes": [
+                "fp-example-node-1",
+                "fp-example-node-2"
+              ],
+              "relations": [
+                "fp-example-relation-1"
+              ],
+              "flows": [
+                "fp-example-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-example-paragraph-1",
+                "kind": "paragraph",
+                "text": "Quantity and currency are validated independently, then validated values enter the quotation calculation. A price snapshot and rule version are explicit inputs to the pure computation of an amount and proposed update. Only successful Consequence values connect to persistence operations in a Free Monad program passed to the interpreter.",
+                "coreRefs": {
+                  "steps": [
+                    "fp-example"
+                  ],
+                  "claims": [
+                    "fp-example-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-example-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "fp-example-flow"
+                  ]
+                }
+              },
+              {
+                "id": "fp-example-paragraph-2",
+                "kind": "paragraph",
+                "text": "Execution checks authorization and required concurrency conditions and commits updates through UoW. Notifications and View updates follow the selected delivery and projection path. The diagram traces responsibilities on success. Invalid inputs, rejected business conditions and storage conflicts stop at different boundaries and return different outcomes.",
+                "coreRefs": {
+                  "steps": [
+                    "fp-example"
+                  ],
+                  "claims": [
+                    "fp-example-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-example-node-2"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "fp-example-flow"
+                  ]
+                }
+              },
+              {
+                "id": "quotation-execution",
+                "kind": "figure",
+                "asset": "images/quotation-execution-en.png",
+                "caption": "Success path: separate calculation, program construction, interpretation and commitment",
+                "alt": "Success path: separate calculation, program construction, interpretation and commitment",
+                "coreRefs": {
+                  "steps": [
+                    "fp-example"
+                  ],
+                  "claims": [
+                    "fp-example-claim-1",
+                    "fp-example-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-example-node-1",
+                    "fp-example-node-2"
+                  ],
+                  "relations": [
+                    "fp-example-relation-1"
+                  ],
+                  "flows": [
+                    "fp-example-flow"
+                  ]
+                }
+              },
+              {
+                "id": "example-boundaries",
+                "kind": "table",
+                "caption": "Decisions and outcomes in quotation confirmation",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Boundary"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Decision or behavior"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "Meaning of the result"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "example-boundaries-row-1",
+                    "cells": [
+                      "Input validation",
+                      "Check quantity and currency independently",
+                      "Validated values or accumulated input errors"
+                    ]
+                  },
+                  {
+                    "id": "example-boundaries-row-2",
+                    "cells": [
+                      "Pure calculation",
+                      "Calculate candidate from prices and rules",
+                      "Valid candidate or rejected business condition"
+                    ]
+                  },
+                  {
+                    "id": "example-boundaries-row-3",
+                    "cells": [
+                      "Interpretation",
+                      "Apply authorization, Provider and conflict checks",
+                      "Operation outcome or execution failure"
+                    ]
+                  },
+                  {
+                    "id": "example-boundaries-row-4",
+                    "cells": [
+                      "UoW termination",
+                      "Commit/abort and release resources",
+                      "Execution outcome including commitment"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "fp-example"
+                  ],
+                  "claims": [
+                    "fp-example-claim-1",
+                    "fp-example-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-example-node-1",
+                    "fp-example-node-2"
+                  ],
+                  "relations": [
+                    "fp-example-relation-1"
+                  ],
+                  "flows": [
+                    "fp-example-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "fp-verification-section",
+            "heading": "Verifying Models, Calculations and Execution Boundaries",
+            "coreRefs": {
+              "steps": [
+                "fp-verification"
+              ],
+              "claims": [
+                "fp-verification-claim-1"
+              ],
+              "nodes": [
+                "fp-verification-node-1",
+                "fp-verification-node-2"
+              ],
+              "relations": [
+                "fp-verification-relation-1"
+              ],
+              "flows": [
+                "fp-verification-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-verification-paragraph-1",
+                "kind": "paragraph",
+                "text": "Verification is divided among types, pure calculations, operation descriptions and execution boundaries instead of relying solely on end-to-end tests. Explicit responsibilities also clarify what must be checked after a change.",
+                "coreRefs": {
+                  "steps": [
+                    "fp-verification"
+                  ],
+                  "claims": [
+                    "fp-verification-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-verification-node-1",
+                    "fp-verification-node-2"
+                  ],
+                  "relations": [
+                    "fp-verification-relation-1"
+                  ],
+                  "flows": [
+                    "fp-verification-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "fp-verification-cases-section",
+                "heading": "Using Examples, Properties and Operation Records",
+                "coreRefs": {
+                  "steps": [
+                    "fp-verification-cases"
+                  ],
+                  "claims": [
+                    "fp-verification-cases-claim-1",
+                    "fp-verification-cases-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-verification-cases-node-1",
+                    "fp-verification-cases-node-2"
+                  ],
+                  "relations": [
+                    "fp-verification-cases-relation-1"
+                  ],
+                  "flows": [
+                    "fp-verification-cases-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-verification-cases-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Pure calculations support known input/output examples and properties such as preserving currency or rejecting invalid quantities. Consequence composition is checked for error accumulation and skipped dependent work after failure. Neither algebraic composition laws nor business properties are automatically established by type checking alone.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-verification-cases"
+                      ],
+                      "claims": [
+                        "fp-verification-cases-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-verification-cases-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-verification-cases-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-verification-cases-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "A test interpreter or recorder can supply responses and inspect selected operations without performing real communication. CNCF’s planning and recording contract likewise defines recording of visited operations under supplied typed responses. Real Provider authorization, conflicts, commit/abort and resource release need separate verification; a recorded simulation does not establish production behavior.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-verification-cases"
+                      ],
+                      "claims": [
+                        "fp-verification-cases-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-verification-cases-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-verification-cases-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "verification-mapping",
+                    "kind": "table",
+                    "caption": "Properties and verification boundaries",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Question"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Verification"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Scope"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "verification-mapping-row-1",
+                        "cells": [
+                          "Are incompatible values connected?",
+                          "Type checking",
+                          "Encoded connection conditions"
+                        ]
+                      },
+                      {
+                        "id": "verification-mapping-row-2",
+                        "cells": [
+                          "Does calculation satisfy business rules?",
+                          "Example and property tests",
+                          "Outputs for fixed inputs"
+                        ]
+                      },
+                      {
+                        "id": "verification-mapping-row-3",
+                        "cells": [
+                          "Does failure propagate correctly?",
+                          "Composition checks",
+                          "Short-circuiting, accumulation, outcome meaning"
+                        ]
+                      },
+                      {
+                        "id": "verification-mapping-row-4",
+                        "cells": [
+                          "Are intended operations selected?",
+                          "Test interpretation / recording",
+                          "Paths under supplied responses"
+                        ]
+                      },
+                      {
+                        "id": "verification-mapping-row-5",
+                        "cells": [
+                          "Does real execution terminate correctly?",
+                          "Provider and integration checks",
+                          "Authorization, conflicts, commit, cleanup"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "fp-verification-cases"
+                      ],
+                      "claims": [
+                        "fp-verification-cases-claim-1",
+                        "fp-verification-cases-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-verification-cases-node-1",
+                        "fp-verification-cases-node-2"
+                      ],
+                      "relations": [
+                        "fp-verification-cases-relation-1"
+                      ],
+                      "flows": [
+                        "fp-verification-cases-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-ai-harness-section",
+                "heading": "Keeping AI Supplementation within Models and Shared Contracts",
+                "coreRefs": {
+                  "steps": [
+                    "fp-ai-harness"
+                  ],
+                  "claims": [
+                    "fp-ai-harness-claim-1",
+                    "fp-ai-harness-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-ai-harness-node-1",
+                    "fp-ai-harness-node-2"
+                  ],
+                  "relations": [
+                    "fp-ai-harness-relation-1"
+                  ],
+                  "flows": [
+                    "fp-ai-harness-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-ai-harness-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Pure functional programming, monads and Free Monad require learning and manual effort. Supplying AI with types, operation contracts and established composition examples helps produce supplementary code within this structure. People define business meaning, failure handling and commit boundaries, while type checks and boundary-specific verification check the result.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-ai-harness"
+                      ],
+                      "claims": [
+                        "fp-ai-harness-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-ai-harness-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-ai-harness-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-ai-harness-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Types constrain values and connections, Consequence standardizes outcomes, and the operation DSL with UoW bounds implementation and execution. Reuse and supplementary glue within these contracts reduce independently invented control logic. The combination also functions as a programming harness, keeping changes and reviews tied to model meaning.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-ai-harness"
+                      ],
+                      "claims": [
+                        "fp-ai-harness-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-ai-harness-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-ai-harness-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "fp-conclusion-section",
+            "heading": "Conclusion",
+            "coreRefs": {
+              "steps": [
+                "fp-conclusion"
+              ],
+              "claims": [
+                "fp-conclusion-claim-1"
+              ],
+              "nodes": [
+                "fp-conclusion-node-1",
+                "fp-conclusion-node-2"
+              ],
+              "relations": [
+                "fp-conclusion-relation-1"
+              ],
+              "flows": [
+                "fp-conclusion-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-conclusion-paragraph-1",
+                "kind": "paragraph",
+                "text": "Types and pure functions turn business models into calculations; Consequence connects outcomes, Free Monad describes operations, and the shared UoW path executes them. This division combines business calculation with reactive execution controls while preserving model meaning. Applying the same contracts and verification to AI supplementation makes these advanced techniques more accessible in development.",
+                "coreRefs": {
+                  "steps": [
+                    "fp-conclusion"
+                  ],
+                  "claims": [
+                    "fp-conclusion-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-conclusion-node-1",
+                    "fp-conclusion-node-2"
+                  ],
+                  "relations": [
+                    "fp-conclusion-relation-1"
+                  ],
+                  "flows": [
+                    "fp-conclusion-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "fp-appendix-section",
+            "heading": "Appendix: References and Implementation Mappings",
+            "coreRefs": {
+              "steps": [
+                "fp-appendix"
+              ],
+              "claims": [
+                "fp-appendix-claim-1"
+              ],
+              "nodes": [
+                "fp-appendix-node-1",
+                "fp-appendix-node-2"
+              ],
+              "relations": [
+                "fp-appendix-relation-1"
+              ],
+              "flows": [
+                "fp-appendix-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "fp-appendix-paragraph-1",
+                "kind": "paragraph",
+                "text": "The two books provide reference perspectives for techniques used in this guide. Their F# and Scala/Scalaz implementations are not treated as Textus/CNCF specifications. The table relates their ideas to this guide; product-specific types and execution contracts are grounded in local designs and implementations.",
+                "coreRefs": {
+                  "steps": [
+                    "fp-appendix"
+                  ],
+                  "claims": [
+                    "fp-appendix-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-appendix-node-1",
+                    "fp-appendix-node-2"
+                  ],
+                  "relations": [
+                    "fp-appendix-relation-1"
+                  ],
+                  "flows": [
+                    "fp-appendix-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "fp-bibliography-section",
+                "heading": "The Two Books and Their Use in This Guide",
+                "coreRefs": {
+                  "steps": [
+                    "fp-bibliography"
+                  ],
+                  "claims": [
+                    "fp-bibliography-claim-1",
+                    "fp-bibliography-claim-2"
+                  ],
+                  "nodes": [
+                    "fp-bibliography-node-1",
+                    "fp-bibliography-node-2"
+                  ],
+                  "relations": [
+                    "fp-bibliography-relation-1"
+                  ],
+                  "flows": [
+                    "fp-bibliography-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-bibliography-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Scott Wlaschin, Domain Modeling Made Functional: Tackle Software Complexity with Domain-Driven Design and F# (Pragmatic Bookshelf, 2018). Referenced for business concepts and constraints represented in types and connected as functions. https://pragprog.com/titles/swdddf/domain-modeling-made-functional/ . Public excerpt: https://media.pragprog.com/titles/swdddf/modeling.pdf",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-bibliography"
+                      ],
+                      "claims": [
+                        "fp-bibliography-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-bibliography-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-bibliography-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-bibliography-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Debasish Ghosh, Functional and Reactive Domain Modeling (Manning, 2016). Referenced for separating operation contracts from implementations, pure domain calculations from effects, and connections to reactive modeling. https://www.manning.com/books/functional-and-reactive-domain-modeling . Public contents: https://www.oreilly.com/library/view/functional-and-reactive/9781617292248/",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-bibliography"
+                      ],
+                      "claims": [
+                        "fp-bibliography-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-bibliography-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-bibliography-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "book-mapping",
+                    "kind": "table",
+                    "caption": "Relating references to techniques used in the guide",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Reference"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Referenced idea"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Use in this guide"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "book-mapping-row-1",
+                        "cells": [
+                          "Domain Modeling Made Functional",
+                          "Concepts, values and states as types",
+                          "Business meaning in types and contracts"
+                        ]
+                      },
+                      {
+                        "id": "book-mapping-row-2",
+                        "cells": [
+                          "Domain Modeling Made Functional",
+                          "Typed functions and outcome connections",
+                          "Pure calculations and outcome contracts"
+                        ]
+                      },
+                      {
+                        "id": "book-mapping-row-3",
+                        "cells": [
+                          "Functional and Reactive Domain Modeling",
+                          "Separate operation contracts from interpretation",
+                          "Operation DSL, Free Monad and interpreter"
+                        ]
+                      },
+                      {
+                        "id": "book-mapping-row-4",
+                        "cells": [
+                          "Functional and Reactive Domain Modeling",
+                          "Separate calculations from effects",
+                          "Composition of Consequence and UoW"
+                        ]
+                      },
+                      {
+                        "id": "book-mapping-row-5",
+                        "cells": [
+                          "Functional and Reactive Domain Modeling",
+                          "Functional models in reactive architectures",
+                          "Four traits and runtime responsibilities"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "fp-bibliography"
+                      ],
+                      "claims": [
+                        "fp-bibliography-claim-1",
+                        "fp-bibliography-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-bibliography-node-1",
+                        "fp-bibliography-node-2"
+                      ],
+                      "relations": [
+                        "fp-bibliography-relation-1"
+                      ],
+                      "flows": [
+                        "fp-bibliography-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-implementation-names-section",
+                "heading": "CNCF Types and Execution APIs",
+                "coreRefs": {
+                  "steps": [
+                    "fp-implementation-names"
+                  ],
+                  "claims": [
+                    "fp-implementation-names-claim-1"
+                  ],
+                  "nodes": [
+                    "fp-implementation-names-node-1",
+                    "fp-implementation-names-node-2"
+                  ],
+                  "relations": [
+                    "fp-implementation-names-relation-1"
+                  ],
+                  "flows": [
+                    "fp-implementation-names-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-implementation-names-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "The following maps CNCF kernel.scala, unitofwork/types.scala and UnitOfWorkInterpreter to simplemodeling-lib Consequence and ConsequenceT. Current CNCF uses Cats Free. The connection to the book’s Scalaz examples is conceptual, not an assumption of identical libraries or APIs.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-implementation-names"
+                      ],
+                      "claims": [
+                        "fp-implementation-names-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-implementation-names-node-1",
+                        "fp-implementation-names-node-2"
+                      ],
+                      "relations": [
+                        "fp-implementation-names-relation-1"
+                      ],
+                      "flows": [
+                        "fp-implementation-names-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "implementation-mapping",
+                    "kind": "table",
+                    "caption": "Responsibilities and CNCF implementation names",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Role"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Implementation / type"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Represents or executes"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "implementation-mapping-row-1",
+                        "cells": [
+                          "Computation outcome",
+                          "Consequence[A]",
+                          "Success A or Failure Conclusion"
+                        ]
+                      },
+                      {
+                        "id": "implementation-mapping-row-2",
+                        "cells": [
+                          "Structured failure",
+                          "Conclusion",
+                          "Observation, interpretation, disposition, status, causes"
+                        ]
+                      },
+                      {
+                        "id": "implementation-mapping-row-3",
+                        "cells": [
+                          "One typed operation",
+                          "UnitOfWorkOp[A]",
+                          "Operation arguments and result type"
+                        ]
+                      },
+                      {
+                        "id": "implementation-mapping-row-4",
+                        "cells": [
+                          "Composed operation description",
+                          "Program[F, A] = Free[F, A]",
+                          "Program made of operations F"
+                        ]
+                      },
+                      {
+                        "id": "implementation-mapping-row-5",
+                        "cells": [
+                          "Description plus outcome",
+                          "UowM[F, A]",
+                          "ConsequenceT combines Program and outcome"
+                        ]
+                      },
+                      {
+                        "id": "implementation-mapping-row-6",
+                        "cells": [
+                          "Concrete CNCF vocabulary",
+                          "ExecProgram[A] / ExecUowM[A]",
+                          "F specialized to UnitOfWorkOp"
+                        ]
+                      },
+                      {
+                        "id": "implementation-mapping-row-7",
+                        "cells": [
+                          "Interpretation and termination",
+                          "UnitOfWorkInterpreter / UnitOfWork",
+                          "Operations, commit/abort and cleanup"
+                        ]
+                      }
+                    ],
+                    "coreRefs": {
+                      "steps": [
+                        "fp-implementation-names"
+                      ],
+                      "claims": [
+                        "fp-implementation-names-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-implementation-names-node-1",
+                        "fp-implementation-names-node-2"
+                      ],
+                      "relations": [
+                        "fp-implementation-names-relation-1"
+                      ],
+                      "flows": [
+                        "fp-implementation-names-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "fp-sources-section",
+                "heading": "Supporting and Internal Sources",
+                "coreRefs": {
+                  "steps": [
+                    "fp-sources"
+                  ],
+                  "claims": [
+                    "fp-sources-claim-1",
+                    "fp-sources-claim-2",
+                    "fp-sources-claim-3"
+                  ],
+                  "nodes": [
+                    "fp-sources-node-1",
+                    "fp-sources-node-2"
+                  ],
+                  "relations": [
+                    "fp-sources-relation-1"
+                  ],
+                  "flows": [
+                    "fp-sources-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "fp-sources-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Public supporting sources: Cats Free Monad documentation (https://typelevel.org/cats/datatypes/freemonad.html) and the Reactive Manifesto (https://www.reactivemanifesto.org/). References distinguish material verified through public descriptions, contents and excerpts from product-specific implementation evidence.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-sources"
+                      ],
+                      "claims": [
+                        "fp-sources-claim-1"
+                      ],
+                      "nodes": [
+                        "fp-sources-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-sources-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-sources-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Internal sources: the Core and bilingual manuscript of SimpleModeling.org’s sixth harness article, Programming Harness; the DDD Modeling and Reactive technical guides. The harness article’s roles for types, Consequence, Free Monad and UoW are reorganized here around model-to-execution continuity.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-sources"
+                      ],
+                      "claims": [
+                        "fp-sources-claim-2"
+                      ],
+                      "nodes": [
+                        "fp-sources-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-sources-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "fp-sources-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Internal design and implementation sources: CNCF docs/rules/consequence.md, docs/design/free-unitofwork-execution-model.md, docs/design/unitofwork-program-planning.md and docs/design/unit-of-work-resource-lifecycle.md; org.goldenport.cncf kernel.scala and unitofwork/types.scala, UnitOfWorkOp.scala and UnitOfWorkInterpreter.scala; simplemodeling-lib org.goldenport Consequence.scala, Conclusion.scala and ConsequenceT.scala. Planning/recording design scope is distinguished from behavior established by execution API implementations.",
+                    "coreRefs": {
+                      "steps": [
+                        "fp-sources"
+                      ],
+                      "claims": [
+                        "fp-sources-claim-3"
+                      ],
+                      "nodes": [
+                        "fp-sources-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "fp-sources-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "fp-landscape",
+        "text": "From Modeling to Execution"
+      },
+      {
+        "stepRef": "fp-domain-types",
+        "text": "Representing Values, States and Constraints with Types"
+      },
+      {
+        "stepRef": "fp-typed-contracts",
+        "text": "Carrying CML Definitions into Reusable Interfaces"
+      },
+      {
+        "stepRef": "fp-types",
+        "text": "Making Business Meaning Concrete in Types and Contracts"
+      },
+      {
+        "stepRef": "fp-pure-calculation",
+        "text": "Making Changing Information Explicit Input"
+      },
+      {
+        "stepRef": "fp-type-guarantees",
+        "text": "Combining Type Guarantees with Rule Verification"
+      },
+      {
+        "stepRef": "fp-pure",
+        "text": "Composing Business Calculations as Pure Functions"
+      },
+      {
+        "stepRef": "fp-result-model",
+        "text": "Aligning Outcome Meaning with Consequence and Conclusion"
+      },
+      {
+        "stepRef": "fp-composition",
+        "text": "Distinguishing Dependent Processing from Independent Validation"
+      },
+      {
+        "stepRef": "fp-consequence",
+        "text": "Including Success and Failure in Calculation Contracts"
+      },
+      {
+        "stepRef": "fp-operation-algebra",
+        "text": "Defining an Operation Vocabulary and Its Types"
+      },
+      {
+        "stepRef": "fp-free-program",
+        "text": "Separating Description from Interpretation with Free Monad"
+      },
+      {
+        "stepRef": "fp-combined-result",
+        "text": "Combining Consequence with Operation Descriptions"
+      },
+      {
+        "stepRef": "fp-effects",
+        "text": "Describing Programs of Operations Executed through UoW"
+      },
+      {
+        "stepRef": "fp-commit",
+        "text": "Distinguishing Successful Calculation from Committed Updates"
+      },
+      {
+        "stepRef": "fp-failure-resources",
+        "text": "Defining Failure Cleanup and Conditions for Re-execution"
+      },
+      {
+        "stepRef": "fp-execution",
+        "text": "Passing Described Operations to Shared Execution"
+      },
+      {
+        "stepRef": "fp-asynchrony",
+        "text": "Executing Asynchronous Work while Preserving Dependencies"
+      },
+      {
+        "stepRef": "fp-reactive-quality",
+        "text": "Relating the Combination to the Four Reactive Traits"
+      },
+      {
+        "stepRef": "fp-reactive",
+        "text": "Connecting Functional Descriptions to Reactive Execution"
+      },
+      {
+        "stepRef": "fp-example",
+        "text": "Tracing Model-to-Execution Connections through Quotation Confirmation"
+      },
+      {
+        "stepRef": "fp-verification-cases",
+        "text": "Using Examples, Properties and Operation Records"
+      },
+      {
+        "stepRef": "fp-ai-harness",
+        "text": "Keeping AI Supplementation within Models and Shared Contracts"
+      },
+      {
+        "stepRef": "fp-verification",
+        "text": "Verifying Models, Calculations and Execution Boundaries"
+      },
+      {
+        "stepRef": "fp-conclusion",
+        "text": "Conclusion"
+      },
+      {
+        "stepRef": "fp-bibliography",
+        "text": "The Two Books and Their Use in This Guide"
+      },
+      {
+        "stepRef": "fp-implementation-names",
+        "text": "CNCF Types and Execution APIs"
+      },
+      {
+        "stepRef": "fp-sources",
+        "text": "Supporting and Internal Sources"
+      },
+      {
+        "stepRef": "fp-appendix",
+        "text": "Appendix: References and Implementation Mappings"
+      },
+      {
+        "stepRef": "textus-cncf-modeling-fp",
+        "text": "Textus/CNCF Modeling and FP — Technical Guide"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "fp-landscape-node-1",
+        "text": "Project business models into implementation contracts"
+      },
+      {
+        "nodeRef": "fp-landscape-node-2",
+        "text": "Connect calculation, outcome, effect and execution"
+      },
+      {
+        "nodeRef": "fp-domain-types-node-1",
+        "text": "Represent distinctions among concepts and states"
+      },
+      {
+        "nodeRef": "fp-domain-types-node-2",
+        "text": "Separate construction checks from runtime checks"
+      },
+      {
+        "nodeRef": "fp-typed-contracts-node-1",
+        "text": "Share model types across generated and supplementary code"
+      },
+      {
+        "nodeRef": "fp-typed-contracts-node-2",
+        "text": "Reuse through explicit semantic conversion"
+      },
+      {
+        "nodeRef": "fp-types-node-1",
+        "text": "Preserve semantic distinctions in types"
+      },
+      {
+        "nodeRef": "fp-types-node-2",
+        "text": "Connect processing through shared contracts"
+      },
+      {
+        "nodeRef": "fp-pure-calculation-node-1",
+        "text": "Make time, rules and data explicit inputs"
+      },
+      {
+        "nodeRef": "fp-pure-calculation-node-2",
+        "text": "Separate candidate state from persistence"
+      },
+      {
+        "nodeRef": "fp-type-guarantees-node-1",
+        "text": "Preserve encoded conditions through composition"
+      },
+      {
+        "nodeRef": "fp-type-guarantees-node-2",
+        "text": "Verify types, business rules and external behavior separately"
+      },
+      {
+        "nodeRef": "fp-pure-node-1",
+        "text": "Express rules as input-to-result calculations"
+      },
+      {
+        "nodeRef": "fp-pure-node-2",
+        "text": "Separate calculations from their execution environment"
+      },
+      {
+        "nodeRef": "fp-result-model-node-1",
+        "text": "Return success values or structured failure"
+      },
+      {
+        "nodeRef": "fp-result-model-node-2",
+        "text": "Distinguish result types from purity"
+      },
+      {
+        "nodeRef": "fp-composition-node-1",
+        "text": "Stop dependent calculations after failure"
+      },
+      {
+        "nodeRef": "fp-composition-node-2",
+        "text": "Accumulate independent validation outcomes"
+      },
+      {
+        "nodeRef": "fp-composition-node-3",
+        "text": "Separate composition semantics from execution strategy"
+      },
+      {
+        "nodeRef": "fp-consequence-node-1",
+        "text": "Represent failure as part of the outcome"
+      },
+      {
+        "nodeRef": "fp-consequence-node-2",
+        "text": "Share outcome composition rules"
+      },
+      {
+        "nodeRef": "fp-operation-algebra-node-1",
+        "text": "Type operation inputs and results"
+      },
+      {
+        "nodeRef": "fp-operation-algebra-node-2",
+        "text": "Separate using operations from implementing them"
+      },
+      {
+        "nodeRef": "fp-free-program-node-1",
+        "text": "Include external operations in a pure description"
+      },
+      {
+        "nodeRef": "fp-free-program-node-2",
+        "text": "Advance execution through interpretation and responses"
+      },
+      {
+        "nodeRef": "fp-combined-result-node-1",
+        "text": "Combine operation descriptions with outcome rules"
+      },
+      {
+        "nodeRef": "fp-combined-result-node-2",
+        "text": "Carry shared contracts from calculations into effects"
+      },
+      {
+        "nodeRef": "fp-effects-node-1",
+        "text": "Place operation execution under UoW management"
+      },
+      {
+        "nodeRef": "fp-effects-node-2",
+        "text": "Compose operation descriptions before execution"
+      },
+      {
+        "nodeRef": "fp-commit-node-1",
+        "text": "Check both business success and commit success"
+      },
+      {
+        "nodeRef": "fp-commit-node-2",
+        "text": "Define the completion scope represented by success"
+      },
+      {
+        "nodeRef": "fp-failure-resources-node-1",
+        "text": "Centralize cleanup with the execution owner"
+      },
+      {
+        "nodeRef": "fp-failure-resources-node-2",
+        "text": "Specify contracts needed for effectful retries"
+      },
+      {
+        "nodeRef": "fp-execution-node-1",
+        "text": "Connect operations to authorization and Providers"
+      },
+      {
+        "nodeRef": "fp-execution-node-2",
+        "text": "Connect outcomes to commitment and termination"
+      },
+      {
+        "nodeRef": "fp-asynchrony-node-1",
+        "text": "Pass dependency and independence to execution policy"
+      },
+      {
+        "nodeRef": "fp-asynchrony-node-2",
+        "text": "Separate acceptance and commitment through Jobs and UoW"
+      },
+      {
+        "nodeRef": "fp-reactive-quality-node-1",
+        "text": "Share meaning across values, outcomes and messages"
+      },
+      {
+        "nodeRef": "fp-reactive-quality-node-2",
+        "text": "Realize capacity control, isolation and recovery in the runtime"
+      },
+      {
+        "nodeRef": "fp-reactive-node-1",
+        "text": "Identify execution controls supporting the four traits"
+      },
+      {
+        "nodeRef": "fp-reactive-node-2",
+        "text": "Connect FP composition to runtime mechanisms"
+      },
+      {
+        "nodeRef": "fp-example-node-1",
+        "text": "Connect input validation to pure calculation"
+      },
+      {
+        "nodeRef": "fp-example-node-2",
+        "text": "Commit valid candidates through the shared path"
+      },
+      {
+        "nodeRef": "fp-verification-cases-node-1",
+        "text": "Verify calculations and outcome composition locally"
+      },
+      {
+        "nodeRef": "fp-verification-cases-node-2",
+        "text": "Separate program-description checks from real Provider tests"
+      },
+      {
+        "nodeRef": "fp-ai-harness-node-1",
+        "text": "Use AI supplementation with advanced composition techniques"
+      },
+      {
+        "nodeRef": "fp-ai-harness-node-2",
+        "text": "Constrain changes through type, outcome and execution contracts"
+      },
+      {
+        "nodeRef": "fp-verification-node-1",
+        "text": "Place verification at responsibility boundaries"
+      },
+      {
+        "nodeRef": "fp-verification-node-2",
+        "text": "Focus checks according to the change"
+      },
+      {
+        "nodeRef": "fp-conclusion-node-1",
+        "text": "Preserve model meaning through outcomes and execution"
+      },
+      {
+        "nodeRef": "fp-conclusion-node-2",
+        "text": "Use shared contracts as a development and verification foundation"
+      },
+      {
+        "nodeRef": "fp-bibliography-node-1",
+        "text": "Relate type-based modeling to Wlaschin"
+      },
+      {
+        "nodeRef": "fp-bibliography-node-2",
+        "text": "Relate operations and reactive execution to Ghosh"
+      },
+      {
+        "nodeRef": "fp-implementation-names-node-1",
+        "text": "Map responsibilities to concrete types"
+      },
+      {
+        "nodeRef": "fp-implementation-names-node-2",
+        "text": "Distinguish type definitions from execution ownership"
+      },
+      {
+        "nodeRef": "fp-sources-node-1",
+        "text": "Use public references for general techniques"
+      },
+      {
+        "nodeRef": "fp-sources-node-2",
+        "text": "Use internal evidence for product mappings"
+      },
+      {
+        "nodeRef": "fp-appendix-node-1",
+        "text": "Relate book ideas to guide sections"
+      },
+      {
+        "nodeRef": "fp-appendix-node-2",
+        "text": "Identify product implementations and evidence"
+      },
+      {
+        "nodeRef": "textus-cncf-modeling-fp-node-1",
+        "text": "Carry model meaning into types and calculations"
+      },
+      {
+        "nodeRef": "textus-cncf-modeling-fp-node-2",
+        "text": "Combine outcomes and effects for shared execution"
+      }
+    ]
+  }
+}

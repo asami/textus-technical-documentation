@@ -1,0 +1,36 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 15
+skinparam nodesep 20
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam noteBackgroundColor #FFF8E9
+skinparam dpi 170
+participant "Application\nProgram construction" as app
+participant "Validation /\nPure calculation" as calc
+participant "Interpreter" as interpreter
+participant "UoW" as uow
+participant "Storage Provider" as store
+app -> calc : Quantity, currency, prices, rules
+calc --> app : Consequence[Candidate]
+app -> interpreter : Persistence program with success value
+interpreter -> interpreter : Check contracts and authorization
+interpreter -> store : Update and required conflict conditions
+store --> interpreter : Operation outcome
+interpreter -> uow : commit
+uow -> store : Commit participating changes
+store --> uow : Commit outcome
+uow --> interpreter : Commit result
+interpreter --> app : Consequence[CommittedResult]
+note over interpreter,store
+Calculation success and commit success are distinct
+end note
+
+@enduml

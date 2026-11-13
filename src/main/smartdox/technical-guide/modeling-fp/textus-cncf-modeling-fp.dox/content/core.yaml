@@ -1,0 +1,1163 @@
+{
+  "schema": "cozy.content-core.logic-tree.v1",
+  "id": "textus-cncf-modeling-fp",
+  "root": {
+    "id": "textus-cncf-modeling-fp",
+    "semanticRole": "explanation",
+    "claims": [
+      "textus-cncf-modeling-fp-claim-1"
+    ],
+    "structure": {
+      "pattern": "sequence",
+      "nodes": [
+        {
+          "id": "textus-cncf-modeling-fp-node-1",
+          "role": "step"
+        },
+        {
+          "id": "textus-cncf-modeling-fp-node-2",
+          "role": "step"
+        }
+      ],
+      "relations": [
+        {
+          "id": "textus-cncf-modeling-fp-relation-1",
+          "relationType": "next",
+          "from": "textus-cncf-modeling-fp-node-1",
+          "to": "textus-cncf-modeling-fp-node-2"
+        }
+      ]
+    },
+    "flow": {
+      "id": "textus-cncf-modeling-fp-flow",
+      "transitions": [
+        {
+          "id": "textus-cncf-modeling-fp-transition-1",
+          "relationType": "next",
+          "fromStepId": "fp-landscape",
+          "toStepId": "fp-types"
+        },
+        {
+          "id": "textus-cncf-modeling-fp-transition-2",
+          "relationType": "next",
+          "fromStepId": "fp-types",
+          "toStepId": "fp-pure"
+        },
+        {
+          "id": "textus-cncf-modeling-fp-transition-3",
+          "relationType": "next",
+          "fromStepId": "fp-pure",
+          "toStepId": "fp-consequence"
+        },
+        {
+          "id": "textus-cncf-modeling-fp-transition-4",
+          "relationType": "next",
+          "fromStepId": "fp-consequence",
+          "toStepId": "fp-effects"
+        },
+        {
+          "id": "textus-cncf-modeling-fp-transition-5",
+          "relationType": "next",
+          "fromStepId": "fp-effects",
+          "toStepId": "fp-execution"
+        },
+        {
+          "id": "textus-cncf-modeling-fp-transition-6",
+          "relationType": "next",
+          "fromStepId": "fp-execution",
+          "toStepId": "fp-reactive"
+        },
+        {
+          "id": "textus-cncf-modeling-fp-transition-7",
+          "relationType": "next",
+          "fromStepId": "fp-reactive",
+          "toStepId": "fp-example"
+        },
+        {
+          "id": "textus-cncf-modeling-fp-transition-8",
+          "relationType": "next",
+          "fromStepId": "fp-example",
+          "toStepId": "fp-verification"
+        },
+        {
+          "id": "textus-cncf-modeling-fp-transition-9",
+          "relationType": "next",
+          "fromStepId": "fp-verification",
+          "toStepId": "fp-conclusion"
+        },
+        {
+          "id": "textus-cncf-modeling-fp-transition-10",
+          "relationType": "next",
+          "fromStepId": "fp-conclusion",
+          "toStepId": "fp-appendix"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "fp-landscape",
+        "semanticRole": "explanation",
+        "claims": [
+          "fp-landscape-claim-1",
+          "fp-landscape-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "fp-landscape-node-1",
+              "role": "step"
+            },
+            {
+              "id": "fp-landscape-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "fp-landscape-relation-1",
+              "relationType": "next",
+              "from": "fp-landscape-node-1",
+              "to": "fp-landscape-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "fp-landscape-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "fp-types",
+        "semanticRole": "explanation",
+        "claims": [
+          "fp-types-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "fp-types-node-1",
+              "role": "step"
+            },
+            {
+              "id": "fp-types-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "fp-types-relation-1",
+              "relationType": "next",
+              "from": "fp-types-node-1",
+              "to": "fp-types-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "fp-types-flow",
+          "transitions": [
+            {
+              "id": "fp-types-transition-1",
+              "relationType": "next",
+              "fromStepId": "fp-domain-types",
+              "toStepId": "fp-typed-contracts"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "fp-domain-types",
+            "semanticRole": "explanation",
+            "claims": [
+              "fp-domain-types-claim-1",
+              "fp-domain-types-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "fp-domain-types-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-domain-types-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "fp-domain-types-relation-1",
+                  "relationType": "next",
+                  "from": "fp-domain-types-node-1",
+                  "to": "fp-domain-types-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "fp-domain-types-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "fp-typed-contracts",
+            "semanticRole": "explanation",
+            "claims": [
+              "fp-typed-contracts-claim-1",
+              "fp-typed-contracts-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "fp-typed-contracts-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-typed-contracts-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "fp-typed-contracts-relation-1",
+                  "relationType": "next",
+                  "from": "fp-typed-contracts-node-1",
+                  "to": "fp-typed-contracts-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "fp-typed-contracts-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "fp-pure",
+        "semanticRole": "explanation",
+        "claims": [
+          "fp-pure-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "fp-pure-node-1",
+              "role": "step"
+            },
+            {
+              "id": "fp-pure-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "fp-pure-relation-1",
+              "relationType": "next",
+              "from": "fp-pure-node-1",
+              "to": "fp-pure-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "fp-pure-flow",
+          "transitions": [
+            {
+              "id": "fp-pure-transition-1",
+              "relationType": "next",
+              "fromStepId": "fp-pure-calculation",
+              "toStepId": "fp-type-guarantees"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "fp-pure-calculation",
+            "semanticRole": "explanation",
+            "claims": [
+              "fp-pure-calculation-claim-1",
+              "fp-pure-calculation-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "fp-pure-calculation-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-pure-calculation-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "fp-pure-calculation-relation-1",
+                  "relationType": "next",
+                  "from": "fp-pure-calculation-node-1",
+                  "to": "fp-pure-calculation-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "fp-pure-calculation-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "fp-type-guarantees",
+            "semanticRole": "explanation",
+            "claims": [
+              "fp-type-guarantees-claim-1",
+              "fp-type-guarantees-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "fp-type-guarantees-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-type-guarantees-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "fp-type-guarantees-relation-1",
+                  "relationType": "next",
+                  "from": "fp-type-guarantees-node-1",
+                  "to": "fp-type-guarantees-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "fp-type-guarantees-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "fp-consequence",
+        "semanticRole": "explanation",
+        "claims": [
+          "fp-consequence-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "fp-consequence-node-1",
+              "role": "step"
+            },
+            {
+              "id": "fp-consequence-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "fp-consequence-relation-1",
+              "relationType": "next",
+              "from": "fp-consequence-node-1",
+              "to": "fp-consequence-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "fp-consequence-flow",
+          "transitions": [
+            {
+              "id": "fp-consequence-transition-1",
+              "relationType": "next",
+              "fromStepId": "fp-result-model",
+              "toStepId": "fp-composition"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "fp-result-model",
+            "semanticRole": "explanation",
+            "claims": [
+              "fp-result-model-claim-1",
+              "fp-result-model-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "fp-result-model-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-result-model-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "fp-result-model-relation-1",
+                  "relationType": "next",
+                  "from": "fp-result-model-node-1",
+                  "to": "fp-result-model-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "fp-result-model-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "fp-composition",
+            "semanticRole": "explanation",
+            "claims": [
+              "fp-composition-claim-1",
+              "fp-composition-claim-2",
+              "fp-composition-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "fp-composition-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-composition-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-composition-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "fp-composition-relation-1",
+                  "relationType": "next",
+                  "from": "fp-composition-node-1",
+                  "to": "fp-composition-node-2"
+                },
+                {
+                  "id": "fp-composition-relation-2",
+                  "relationType": "next",
+                  "from": "fp-composition-node-2",
+                  "to": "fp-composition-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "fp-composition-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "fp-effects",
+        "semanticRole": "explanation",
+        "claims": [
+          "fp-effects-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "fp-effects-node-1",
+              "role": "step"
+            },
+            {
+              "id": "fp-effects-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "fp-effects-relation-1",
+              "relationType": "next",
+              "from": "fp-effects-node-1",
+              "to": "fp-effects-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "fp-effects-flow",
+          "transitions": [
+            {
+              "id": "fp-effects-transition-1",
+              "relationType": "next",
+              "fromStepId": "fp-operation-algebra",
+              "toStepId": "fp-free-program"
+            },
+            {
+              "id": "fp-effects-transition-2",
+              "relationType": "next",
+              "fromStepId": "fp-free-program",
+              "toStepId": "fp-combined-result"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "fp-operation-algebra",
+            "semanticRole": "explanation",
+            "claims": [
+              "fp-operation-algebra-claim-1",
+              "fp-operation-algebra-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "fp-operation-algebra-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-operation-algebra-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "fp-operation-algebra-relation-1",
+                  "relationType": "next",
+                  "from": "fp-operation-algebra-node-1",
+                  "to": "fp-operation-algebra-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "fp-operation-algebra-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "fp-free-program",
+            "semanticRole": "explanation",
+            "claims": [
+              "fp-free-program-claim-1",
+              "fp-free-program-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "fp-free-program-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-free-program-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "fp-free-program-relation-1",
+                  "relationType": "next",
+                  "from": "fp-free-program-node-1",
+                  "to": "fp-free-program-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "fp-free-program-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "fp-combined-result",
+            "semanticRole": "explanation",
+            "claims": [
+              "fp-combined-result-claim-1",
+              "fp-combined-result-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "fp-combined-result-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-combined-result-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "fp-combined-result-relation-1",
+                  "relationType": "next",
+                  "from": "fp-combined-result-node-1",
+                  "to": "fp-combined-result-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "fp-combined-result-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "fp-execution",
+        "semanticRole": "explanation",
+        "claims": [
+          "fp-execution-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "fp-execution-node-1",
+              "role": "step"
+            },
+            {
+              "id": "fp-execution-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "fp-execution-relation-1",
+              "relationType": "next",
+              "from": "fp-execution-node-1",
+              "to": "fp-execution-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "fp-execution-flow",
+          "transitions": [
+            {
+              "id": "fp-execution-transition-1",
+              "relationType": "next",
+              "fromStepId": "fp-commit",
+              "toStepId": "fp-failure-resources"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "fp-commit",
+            "semanticRole": "explanation",
+            "claims": [
+              "fp-commit-claim-1",
+              "fp-commit-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "fp-commit-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-commit-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "fp-commit-relation-1",
+                  "relationType": "next",
+                  "from": "fp-commit-node-1",
+                  "to": "fp-commit-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "fp-commit-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "fp-failure-resources",
+            "semanticRole": "explanation",
+            "claims": [
+              "fp-failure-resources-claim-1",
+              "fp-failure-resources-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "fp-failure-resources-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-failure-resources-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "fp-failure-resources-relation-1",
+                  "relationType": "next",
+                  "from": "fp-failure-resources-node-1",
+                  "to": "fp-failure-resources-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "fp-failure-resources-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "fp-reactive",
+        "semanticRole": "explanation",
+        "claims": [
+          "fp-reactive-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "fp-reactive-node-1",
+              "role": "step"
+            },
+            {
+              "id": "fp-reactive-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "fp-reactive-relation-1",
+              "relationType": "next",
+              "from": "fp-reactive-node-1",
+              "to": "fp-reactive-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "fp-reactive-flow",
+          "transitions": [
+            {
+              "id": "fp-reactive-transition-1",
+              "relationType": "next",
+              "fromStepId": "fp-asynchrony",
+              "toStepId": "fp-reactive-quality"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "fp-asynchrony",
+            "semanticRole": "explanation",
+            "claims": [
+              "fp-asynchrony-claim-1",
+              "fp-asynchrony-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "fp-asynchrony-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-asynchrony-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "fp-asynchrony-relation-1",
+                  "relationType": "next",
+                  "from": "fp-asynchrony-node-1",
+                  "to": "fp-asynchrony-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "fp-asynchrony-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "fp-reactive-quality",
+            "semanticRole": "explanation",
+            "claims": [
+              "fp-reactive-quality-claim-1",
+              "fp-reactive-quality-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "fp-reactive-quality-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-reactive-quality-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "fp-reactive-quality-relation-1",
+                  "relationType": "next",
+                  "from": "fp-reactive-quality-node-1",
+                  "to": "fp-reactive-quality-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "fp-reactive-quality-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "fp-example",
+        "semanticRole": "explanation",
+        "claims": [
+          "fp-example-claim-1",
+          "fp-example-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "fp-example-node-1",
+              "role": "step"
+            },
+            {
+              "id": "fp-example-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "fp-example-relation-1",
+              "relationType": "next",
+              "from": "fp-example-node-1",
+              "to": "fp-example-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "fp-example-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "fp-verification",
+        "semanticRole": "explanation",
+        "claims": [
+          "fp-verification-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "fp-verification-node-1",
+              "role": "step"
+            },
+            {
+              "id": "fp-verification-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "fp-verification-relation-1",
+              "relationType": "next",
+              "from": "fp-verification-node-1",
+              "to": "fp-verification-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "fp-verification-flow",
+          "transitions": [
+            {
+              "id": "fp-verification-transition-1",
+              "relationType": "next",
+              "fromStepId": "fp-verification-cases",
+              "toStepId": "fp-ai-harness"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "fp-verification-cases",
+            "semanticRole": "explanation",
+            "claims": [
+              "fp-verification-cases-claim-1",
+              "fp-verification-cases-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "fp-verification-cases-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-verification-cases-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "fp-verification-cases-relation-1",
+                  "relationType": "next",
+                  "from": "fp-verification-cases-node-1",
+                  "to": "fp-verification-cases-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "fp-verification-cases-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "fp-ai-harness",
+            "semanticRole": "explanation",
+            "claims": [
+              "fp-ai-harness-claim-1",
+              "fp-ai-harness-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "fp-ai-harness-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-ai-harness-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "fp-ai-harness-relation-1",
+                  "relationType": "next",
+                  "from": "fp-ai-harness-node-1",
+                  "to": "fp-ai-harness-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "fp-ai-harness-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "fp-conclusion",
+        "semanticRole": "explanation",
+        "claims": [
+          "fp-conclusion-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "fp-conclusion-node-1",
+              "role": "step"
+            },
+            {
+              "id": "fp-conclusion-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "fp-conclusion-relation-1",
+              "relationType": "next",
+              "from": "fp-conclusion-node-1",
+              "to": "fp-conclusion-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "fp-conclusion-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "fp-appendix",
+        "semanticRole": "explanation",
+        "claims": [
+          "fp-appendix-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "fp-appendix-node-1",
+              "role": "step"
+            },
+            {
+              "id": "fp-appendix-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "fp-appendix-relation-1",
+              "relationType": "next",
+              "from": "fp-appendix-node-1",
+              "to": "fp-appendix-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "fp-appendix-flow",
+          "transitions": [
+            {
+              "id": "fp-appendix-transition-1",
+              "relationType": "next",
+              "fromStepId": "fp-bibliography",
+              "toStepId": "fp-implementation-names"
+            },
+            {
+              "id": "fp-appendix-transition-2",
+              "relationType": "next",
+              "fromStepId": "fp-implementation-names",
+              "toStepId": "fp-sources"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "fp-bibliography",
+            "semanticRole": "explanation",
+            "claims": [
+              "fp-bibliography-claim-1",
+              "fp-bibliography-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "fp-bibliography-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-bibliography-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "fp-bibliography-relation-1",
+                  "relationType": "next",
+                  "from": "fp-bibliography-node-1",
+                  "to": "fp-bibliography-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "fp-bibliography-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "fp-implementation-names",
+            "semanticRole": "explanation",
+            "claims": [
+              "fp-implementation-names-claim-1"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "fp-implementation-names-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-implementation-names-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "fp-implementation-names-relation-1",
+                  "relationType": "next",
+                  "from": "fp-implementation-names-node-1",
+                  "to": "fp-implementation-names-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "fp-implementation-names-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "fp-sources",
+            "semanticRole": "explanation",
+            "claims": [
+              "fp-sources-claim-1",
+              "fp-sources-claim-2",
+              "fp-sources-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "fp-sources-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "fp-sources-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "fp-sources-relation-1",
+                  "relationType": "next",
+                  "from": "fp-sources-node-1",
+                  "to": "fp-sources-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "fp-sources-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      }
+    ]
+  }
+}

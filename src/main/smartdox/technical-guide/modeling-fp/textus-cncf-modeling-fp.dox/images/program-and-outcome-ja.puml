@@ -1,0 +1,28 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 15
+skinparam nodesep 20
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam noteBackgroundColor #FFF8E9
+skinparam dpi 170
+rectangle "純粋計算の結果\nConsequence[A]" as value
+rectangle "型付き操作\nUnitOfWorkOp[A]" as op
+rectangle "プログラムの記述\nProgram = Free" as free
+rectangle "結果を含むプログラム\nUowM = ConsequenceT over Program" as combined
+rectangle "インタープリタ / UoW\n操作を実行・確定" as run
+rectangle "実行結果\nConsequence[A]" as out
+op -down-> free : 操作を組み合わせる
+free -down-> combined
+value -right-> combined : 結果の規則を組み込む
+combined -down-> run : 実行を依頼
+run -down-> out : 確定を含む結果
+
+@enduml

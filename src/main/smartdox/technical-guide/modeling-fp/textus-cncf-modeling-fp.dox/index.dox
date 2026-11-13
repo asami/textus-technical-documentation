@@ -1,0 +1,250 @@
+Textus/CNCF Modeling and FP — Technical Guide｜Textus/CNCF Modeling and FP技術ガイド
+================================================================================
+
+# HEAD
+
+status=draft
+published_at=2026-10-27
+document=textus-cncf-modeling-fp
+
+## SUMMARY
+
+<span lang="ja">本書は、業務モデルを型と関数で具体化し、成功・失敗、保存、通信を含む実行へつなぐ仕組みを説明します。型、純粋関数型プログラミング、Consequence、Free Monad、UoWの組合せを、Textus/CNCFの実装に沿って整理します。関数型モデリングの2冊を補助線に、リアクティブな実行との接続までを扱います。</span><span lang="en">This guide explains how business models become types and functions and connect to execution involving success, failure, persistence and communication. It follows the combination of types, pure functional programming, Consequence, Free Monad and UoW in Textus/CNCF. Two books on functional domain modeling provide reference perspectives, extending to the connection with reactive execution.</span>
+
+# From Modeling to Execution｜モデリングから実行までの関係
+
+<span lang="ja">DDD技術ガイドでは、業務の意味、処理の進行、更新と保存、参照と表示を組み合わせる全体像を扱いました。本書では、その内側でモデルをプログラムとして記述する方法を扱います。ユースケースは定義済みとし、業務概念と操作が、どの型、計算、実行処理へ対応するかを確認します。</span><span lang="en">The DDD guide explains the overall combination of business meaning, progression, updates and persistence, and reading and presentation. This guide examines how those models are expressed as programs. Assuming use cases are already defined, it relates business concepts and operations to types, calculations and executable work.</span>
+
+<span lang="ja">型は扱える値と接続を定め、純粋関数はその値に対する計算を表します。Consequenceは計算結果と失敗を共通の形で返します。保存や通信が必要になったところで、操作をFree Monadによるプログラムとして組み合わせ、インタープリタとUoWへ渡します。前段で定めた意味を、後段が解釈できる契約として引き継ぐ構成です。</span><span lang="en">Types define admissible values and connections; pure functions describe calculations over them. Consequence provides a shared representation of results and failure. Persistence and communication are composed as Free Monad programs and passed to an interpreter and UoW. Each stage carries established meaning forward through contracts understood by the next stage.</span>
+
+<span lang="ja">[[images/model-to-execution-ja.png]]</span><span lang="en">[[images/model-to-execution-en.png]]</span>
+
+<span lang="ja">モデルの意味を型・計算・操作・実行へ引き継ぐ</span><span lang="en">Carry model meaning through types, calculations, operations and execution</span>
+
+# Making Business Meaning Concrete in Types and Contracts｜業務の意味を型と契約へ具体化する
+
+<span lang="ja">モデリングでは、同じ文字列や数値でも業務上の意味を区別します。その区別を型へ引き継ぐと、値を受け渡す処理が共通の仕様を利用できます。型は、モデルの概念を実装の接点に残す役割を持ちます。</span><span lang="en">Modeling distinguishes business meanings even when values share primitive representations. Carrying these distinctions into types gives communicating functions a shared specification. Types preserve model concepts at implementation boundaries.</span>
+
+## Representing Values, States and Constraints with Types｜値・状態・制約を型で表す
+
+<span lang="ja">見積りの数量、単価、金額は、それぞれ異なる意味を持ちます。数量と金額を同じ数値型のまま受け渡す代わりに、QuantityやMoneyなどの型で区別します。複数項目をまとめる積型と、いずれかの状態を表す和型を使うと、必要な項目と選択肢をモデルに沿って表現できます。</span><span lang="en">Quantity, unit price and amount have different meanings in a quotation. Types such as Quantity and Money distinguish them rather than passing interchangeable primitive numbers. Product types group required fields, while sum types represent alternatives such as distinct states.</span>
+
+<span lang="ja">入力を制約付きの型へ変換する入口では、数量の範囲や通貨などを検査します。未検査の値と検査済みの値を型で分け、生成経路を限定すれば、後続の関数は検査済みの値を前提にできます。対象の現在状態や他のデータとの整合性など、実行時に分かる条件は、対応する業務操作と保存時の検査へ残します。</span><span lang="en">The boundary constructing constrained values checks conditions such as quantity ranges and currency. Distinguishing unchecked from checked values and controlling construction lets downstream functions rely on validated inputs. Conditions involving current state or other records remain in business operations and commit-time checks.</span>
+
+#+CAPTION: <span lang="ja">モデル上の判断と型・検査の対応</span><span lang="en">Model decisions, types and checks</span>
+| <span lang="ja">モデル上の判断</span><span lang="en">Model decision</span> | <span lang="ja">実装への表し方</span><span lang="en">Implementation form</span> | <span lang="ja">確認すること</span><span lang="en">Check</span> |
+| --- | --- | --- |
+| <span lang="ja">数量と金額を区別</span><span lang="en">Quantity differs from amount</span> | <span lang="ja">Quantity / Money</span><span lang="en">Quantity / Money</span> | <span lang="ja">不適合な型の受渡し</span><span lang="en">Incompatible value connections</span> |
+| <span lang="ja">必須項目と状態の選択肢</span><span lang="en">Required fields and state alternatives</span> | <span lang="ja">積型・和型</span><span lang="en">Product / sum types</span> | <span lang="ja">項目と分岐の扱い</span><span lang="en">Fields and cases</span> |
+| <span lang="ja">入力の値域や通貨</span><span lang="en">Ranges and currency</span> | <span lang="ja">検査を通した型の構築</span><span lang="en">Validated construction</span> | <span lang="ja">不正値の拒否</span><span lang="en">Rejection of invalid values</span> |
+| <span lang="ja">現在状態や競合条件</span><span lang="en">Current state and conflicts</span> | <span lang="ja">業務操作＋保存時の検査</span><span lang="en">Business operation + storage check</span> | <span lang="ja">実行時の成立条件</span><span lang="en">Runtime preconditions</span> |
+
+## Carrying CML Definitions into Reusable Interfaces｜CMLの定義を再利用できる接点へ渡す
+
+<span lang="ja">CMLで記述したEntity・Value・DatatypeやOperationの定義を、Cozyが型付きコードや実装の接点へ具体化します。補完する業務計算も、その型を入力と結果に使います。モデルで区別した概念を実装で作り直さず、既存の操作と接続できるため、再利用とグルーコードの作成を支えます。</span><span lang="en">Cozy projects CML Entity, Value, Datatype and Operation definitions into typed code and implementation interfaces. Supplementary calculations use those types for inputs and results. Existing operations can be reused and connected without redefining the model’s concepts, supporting reuse and glue code.</span>
+
+<span lang="ja">型が合うことは接続可能性の確認であり、業務上の意味が等しいことの全証明ではありません。通貨の変換、単位の変換、規則の版などは、名前と明示的な変換処理へ表します。モデルの意味、型の契約、変換規則をそろえることで、接続時に判断し直す範囲を減らします。</span><span lang="en">Compatible types establish connectability, not complete semantic equivalence. Currency and unit conversions and rule versions remain explicit in names and conversion functions. Aligning model meaning, type contracts and conversion rules reduces decisions that must be repeated at each connection.</span>
+
+# Composing Business Calculations as Pure Functions｜業務計算を純粋関数として組み合わせる
+
+<span lang="ja">型が値と接続の形を定めた後は、業務規則を計算として記述します。入力から結果を求める部分を、データの取得・保存や実行管理から分けることで、モデルの規則を単独で理解し、検証しやすくします。</span><span lang="en">After types define values and connections, business rules become calculations. Separating input-to-result computation from acquisition, persistence and execution management makes model rules easier to understand and verify independently.</span>
+
+## Making Changing Information Explicit Input｜変化する情報を明示的な入力にする
+
+<span lang="ja">見積金額を求める計算では、数量、単価、割引規則、丸め規則を入力として扱います。現在時刻や更新される価格表を関数の内部で読み取る代わりに、取得した日時や規則の版を渡します。不変の入力から結果を返す純粋関数にすると、同じ入力で同じ結果を再現できます。</span><span lang="en">A quotation calculation takes quantity, unit price, discount rules and rounding rules as inputs. Instead of reading the clock or a mutable price catalog inside the function, it receives the relevant time and rule version. Pure functions over immutable inputs reproduce the same outcome for the same input.</span>
+
+<span lang="ja">業務上の状態変更も、現在の状態と操作から次の状態の候補を返す計算として表せます。その候補を作ることと、共有された永続状態へ確定することを分けます。業務規則の検証には計算の入出力を使い、競合や認可、保存の成否は後述する実行経路で確認します。</span><span lang="en">State changes can be modeled as calculations from current state and an operation to a proposed next state. Constructing a candidate is separated from committing shared persistent state. Input/output cases test the rule; authorization, conflicts and persistence outcomes are checked along the execution path.</span>
+
+## Combining Type Guarantees with Rule Verification｜型による保証と業務規則の検証を組み合わせる
+
+<span lang="ja">カーリー＝ハワード対応は、型を命題、型を持つプログラムを証明として捉える基礎になります。型に表した入力・出力の条件を保ちながら純粋関数を合成することで、値の取り違えや接続の不整合をコンパイル時に検出できる範囲が広がります。許される状態を型へ絞る設計は、実行して初めて判明する誤りを減らします。</span><span lang="en">The Curry–Howard correspondence provides a foundation for viewing types as propositions and typed programs as proofs. Composing pure functions while preserving encoded input/output conditions expands compile-time detection of mismatched values and connections. Restricting representations to admissible states reduces errors discovered only at runtime.</span>
+
+<span lang="ja">この対応をScalaプログラム全体の業務的正しさの証明とは扱いません。保証の対象は型へ表した性質と、その前提を守るコードです。割引率や丸め方が要求通りか、処理が終了するか、外部システムが正しく応答するかは別に確認します。型検査、純粋計算の実例・性質の検査、実行境界の検査を分担します。</span><span lang="en">This is not a proof of complete business correctness for arbitrary Scala programs. Guarantees concern properties encoded in types and code respecting their assumptions. Discount rules, rounding requirements, termination and external responses require additional checks. Type checking, example and property tests of pure calculations, and execution-boundary checks have distinct roles.</span>
+
+# Including Success and Failure in Calculation Contracts｜成功と失敗を計算の契約に含める
+
+<span lang="ja">業務の計算には、入力が不正、規則に合わない、対象が見つからないなど、正常な値を返せない場合があります。失敗を計算の外へ逃がさず、結果の型と合成規則に含めることで、次の処理がその可能性を扱えるようにします。</span><span lang="en">Business calculations may reject inputs, fail a rule or find no matching object. Representing failure in the result type and composition rules lets subsequent processing account for these outcomes instead of leaving them outside the calculation contract.</span>
+
+## Aligning Outcome Meaning with Consequence and Conclusion｜ConsequenceとConclusionで結果の意味をそろえる
+
+<span lang="ja">Textus/CNCFは`Consequence[A]`を共通の結果型として使います。成功はA型の値を持つSuccess、失敗はConclusionを持つFailureです。Conclusionには観測した事実、その解釈、対処の方向、状態や原因のつながりを保持します。業務計算、部品間の呼出し、実行基盤が同じ形式で結果を扱えます。</span><span lang="en">Textus/CNCF uses `Consequence[A]` as its shared result type. Success carries a value of type A; Failure carries a Conclusion. Conclusion retains observations, interpretation, disposition, status and causal information. Calculations, component calls and the runtime can therefore exchange outcomes in a common form.</span>
+
+<span lang="ja">Consequenceを返すだけで、その関数が純粋になるわけではありません。外部APIを呼ぶ処理でも同じ結果型を使えます。純粋計算には入力だけへの依存を保ち、例外を投げる外部ライブラリとの境界ではConsequence.applyやrunで失敗を正規化します。結果の表現と、処理が作用を持つかどうかを分けて判断します。</span><span lang="en">Returning Consequence does not make a function pure: external calls can use the same result type. Pure calculations must still depend only on their inputs. At boundaries with exception-throwing libraries, Consequence.apply or run normalizes exceptions into failure. Outcome representation and the presence of effects are separate concerns.</span>
+
+## Distinguishing Dependent Processing from Independent Validation｜依存する処理と独立した検査を組み分ける
+
+<span lang="ja">前の成功値を使う処理はflatMapでつなぎます。見積りの検査が成功した場合だけ金額計算へ進む、といった依存関係です。失敗時には後続を呼ばず、同じ失敗を返します。mapは成功値を別の値へ変換します。このモナドの合成規則によって、各関数へ同じ成功・失敗の分岐を繰り返し書く範囲を減らせます。</span><span lang="en">flatMap connects work that depends on a previous success value, such as calculating an amount only after validation succeeds. Failure skips the continuation and propagates unchanged. map transforms a success value. These monadic composition rules reduce repeated success/failure branching in individual functions.</span>
+
+<span lang="ja">数量と通貨など、互いの結果を必要としない入力検査はzip系APIでまとめます。Consequenceのzipは、両方が失敗した場合にConclusionを結合します。独立した検査のエラーを一度に伝え、依存する計算は失敗時に止める、という業務上の違いをAPIの選択へ表します。</span><span lang="en">Independent input checks, such as quantity and currency validation, use zip-based APIs. Consequence.zip combines Conclusions when both checks fail. API choice expresses a business distinction: report independent validation errors together, but stop dependent computation after failure.</span>
+
+<span lang="ja">zipによるエラー集約とflatMapによる打切りは異なる規則です。前者をアプリカティブな合成として使いますが、任意のMonadの合成を選べば同じ集約になるとは限りません。また、独立性を表すことと並列に実行することは別です。Consequenceのzip自体は、入力結果を並列に計算するスケジューラーではありません。</span><span lang="en">Error accumulation with zip and short-circuiting with flatMap are different rules. The former provides applicative-style composition; choosing an arbitrary Monad composition does not imply the same accumulation. Independence is also distinct from parallel execution: Consequence.zip is not a scheduler that computes its arguments concurrently.</span>
+
+<span lang="ja">[[images/dependent-independent-ja.png]]</span><span lang="en">[[images/dependent-independent-en.png]]</span>
+
+<span lang="ja">依存する処理の打切りと、独立した検査のエラー集約</span><span lang="en">Dependent short-circuiting and independent error accumulation</span>
+
+#+CAPTION: <span lang="ja">計算の関係に応じて合成を選ぶ</span><span lang="en">Choose composition from computation relationships</span>
+| <span lang="ja">関係</span><span lang="en">Relationship</span> | <span lang="ja">API</span><span lang="en">API</span> | <span lang="ja">結果の扱い</span><span lang="en">Outcome behavior</span> |
+| --- | --- | --- |
+| <span lang="ja">成功値の変換</span><span lang="en">Transform a success value</span> | <span lang="ja">map</span><span lang="en">map</span> | <span lang="ja">成功値を変換し、失敗を保持</span><span lang="en">Transform success; preserve failure</span> |
+| <span lang="ja">前の成功値に依存</span><span lang="en">Depend on a preceding value</span> | <span lang="ja">flatMap</span><span lang="en">flatMap</span> | <span lang="ja">成功時に続行、失敗時に打切り</span><span lang="en">Continue on success; stop on failure</span> |
+| <span lang="ja">独立した入力検査</span><span lang="en">Independent input validation</span> | <span lang="ja">zip / zipWith / zip3With</span><span lang="en">zip / zipWith / zip3With</span> | <span lang="ja">失敗情報を集約</span><span lang="en">Accumulate failure information</span> |
+
+# Describing Programs of Operations Executed through UoW｜UoWで実行する操作をプログラムとして記述する
+
+<span lang="ja">結果の意味をそろえても、保存や通信をどこで実行し、誰が管理するかは別に決める必要があります。Textus/CNCFではUoW（Unit of Work）を実行管理の単位とし、そこで扱う操作を型付きのAPIとして提供します。Free Monadは、それらの操作を実行前の記述として組み合わせるために使います。</span><span lang="en">Shared outcome semantics do not determine where persistence or communication occurs or who manages it. Textus/CNCF uses UoW, or Unit of Work, as a unit of execution management and exposes typed operations for that path. Free Monad composes those operations into a program description before execution.</span>
+
+## Defining an Operation Vocabulary and Its Types｜操作の語彙と入出力を定める
+
+<span lang="ja">`UnitOfWorkOp[A]`は、結果としてAを返す操作の種類と引数を表します。EntityStoreの取得・更新やHTTP呼出しなどを、この型付きの語彙として用意します。業務処理は公開された操作を組み合わせ、操作の実行方法は対応するインタープリタが担当します。この操作体系を、Scalaの中で使う内部DSLとして扱えます。</span><span lang="en">`UnitOfWorkOp[A]` represents an operation and its arguments with a result type A. EntityStore reads and writes and HTTP requests are part of this typed vocabulary. Business programs compose public operations; the interpreter supplies their execution. This forms an internal DSL used within Scala.</span>
+
+<span lang="ja">語彙を定めることには、実装手段と接続条件を共有する効果があります。保存処理を使う側が、接続先の選択や認可、トランザクション制御を毎回作り直す範囲を減らせます。共通経路を外れる直接I/Oは型だけでは防げないため、依存関係の検査とレビューで境界への適合を確認します。</span><span lang="en">An explicit vocabulary shares implementation choices and connection contracts. Callers need less repeated code for target selection, authorization and transaction control. Types alone cannot prevent direct I/O outside the common path, so dependency checks and review verify adherence to that boundary.</span>
+
+## Separating Description from Interpretation with Free Monad｜Free Monadで記述と解釈を分ける
+
+<span lang="ja">CNCFの`Program[F, A]`は、操作Fを組み合わせて結果Aを得るFree Monadのプログラムです。保存する、応答を受けて次の操作を選ぶ、といった依存関係を記述できます。組立てる関数が操作記述と不変の値だけを扱えば、外部操作を含むプログラムも純粋な記述として構成できます。</span><span lang="en">CNCF’s `Program[F, A]` is a Free Monad program combining operations F to obtain A. It describes dependencies such as saving data and choosing later operations from earlier responses. When construction handles only descriptions and immutable values, a program involving external operations can be assembled purely.</span>
+
+<span lang="ja">インタープリタは、操作を一つずつ実際の処理へ対応付け、結果を次の段階へ渡します。Free Monadは外部処理を安全にする機構そのものではなく、業務の記述と実行方針を分離する構造です。実行結果に依存する分岐もあるため、全経路を実行前に一覧できるとは限りません。検証では、与えた応答に対して現れる操作と結果を確認します。</span><span lang="en">The interpreter maps operations to concrete processing and supplies results to later steps. Free Monad separates business description from execution policy; it does not itself make external processing safe. Branches may depend on runtime responses, so not every path is enumerable beforehand. Verification checks operations and outcomes for supplied responses.</span>
+
+## Combining Consequence with Operation Descriptions｜Consequenceを操作記述へ組み込む
+
+<span lang="ja">Consequenceだけでは、保存や通信を後で実行する操作記述にはなりません。一方、Free Monadだけでは、業務上の失敗をどの形式で返して後続を止めるかは定まりません。CNCFはConsequenceTを用い、Programの結果にConsequenceを組み込んだUowMを定義します。操作の記述と、成功・失敗を伴う合成を同時に扱うための組合せです。</span><span lang="en">Consequence alone is not a deferred description of persistence or communication. Free Monad alone does not select how business failure is represented or stops a continuation. CNCF uses ConsequenceT to define UowM, combining a Program with Consequence outcomes. The combination handles operation descriptions and success/failure composition together.</span>
+
+<span lang="ja">純粋計算が返したConsequenceをこのプログラムへ持ち上げ、成功値を保存操作へ渡すことができます。業務上の失敗なら後続操作を組み立てず、実行時の失敗も同じ結果体系で上位へ返します。型は操作の入出力を、合成規則は結果の接続を、インタープリタとUoWは実際の作用と確定を担当します。</span><span lang="en">A Consequence returned by a pure calculation can be lifted into the program, and its success value passed to a persistence operation. Business failure skips later operation construction; runtime failures return through the same outcome vocabulary. Types govern operation inputs and outputs, composition governs result flow, and the interpreter with UoW governs effects and commitment.</span>
+
+<span lang="ja">[[images/program-and-outcome-ja.png]]</span><span lang="en">[[images/program-and-outcome-en.png]]</span>
+
+<span lang="ja">Consequenceは結果、Free Monadは操作の記述を担当する</span><span lang="en">Consequence handles outcomes; Free Monad handles operation descriptions</span>
+
+# Passing Described Operations to Shared Execution｜記述した操作を共通の実行経路へ渡す
+
+<span lang="ja">組み立てたプログラムは、実行コンテキストに結び付いたインタープリタへ渡します。ここで業務上の操作記述を、認可、Provider、保存先、UoWの終了処理へ接続します。モデルの規則に従った計算と、環境に依存する制御を組み合わせて動作させます。</span><span lang="en">The assembled program is passed to an interpreter bound to an execution context. This connects described operations to authorization, Providers, storage and UoW termination. Model-governed calculations combine with environment-dependent controls to produce behavior.</span>
+
+## Distinguishing Successful Calculation from Committed Updates｜計算の成功と更新の確定を区別する
+
+<span lang="ja">標準のUnitOfWorkInterpreter.runは、プログラムの操作を解釈し、業務結果も成功ならUoWのcommitへ進みます。commitの成功を確認してから結果の値を返し、業務計算や操作が失敗した場合はabortの経路へ進みます。既存UoWの中で評価だけを行うAPIでは、呼出し側が確定・中止を所有します。</span><span lang="en">The standard UnitOfWorkInterpreter.run interprets the program and proceeds to UoW commit when the business outcome also succeeds. It returns the value after commit succeeds; failed calculation or interpretation follows the abort path. Evaluation-only APIs within an existing UoW leave commit or abort ownership with the caller.</span>
+
+<span lang="ja">見積金額を計算できたこと、更新候補が妥当なこと、保存先へ更新を確定できたことは異なる結果です。確定までに別の更新と競合する場合があるため、必要な競合検査を保存経路へ接続します。Consequenceの成功値が何の完了を意味するかをAPIごとに定め、受付や計算の成功を永続化の成功として返さないようにします。</span><span lang="en">Calculating a quotation, validating a candidate update and committing it to storage are distinct outcomes. Concurrent changes may occur before commitment, requiring appropriate storage-side conflict checks. Each API defines what its Consequence success means; successful acceptance or calculation must not be presented as durable completion.</span>
+
+## Defining Failure Cleanup and Conditions for Re-execution｜失敗時の終了と再実行の条件を定める
+
+<span lang="ja">UoWは、トランザクションに参加する資源の確定・中止と、動作中に取得した資源の解放を分けて管理します。処理が失敗した場合にも、主たる失敗と終了処理の失敗を構造化した情報として保持します。個々の業務関数に終了処理を散在させず、実行の所有者に集める構成です。</span><span lang="en">UoW separately manages transaction participants and the release of operational resources acquired during execution. Primary failures and cleanup failures remain structured information. Cleanup belongs with the execution owner rather than being scattered across business functions.</span>
+
+<span lang="ja">送信済みの外部通信などは、UoWのabortだけでは取り消せません。再実行する処理には重複を識別する条件、必要なら補償の操作とその確定範囲を定めます。純粋計算は同じ入力で再現し、作用の再実行は業務とProviderの契約に従う、という分担で復旧を設計します。</span><span lang="en">Already-sent external communication is not undone by UoW abort. Re-executed work requires duplicate-detection conditions and, where needed, compensation operations and their commit boundaries. Recovery distinguishes reproducible pure calculations from effectful retries governed by business and Provider contracts.</span>
+
+# Connecting Functional Descriptions to Reactive Execution｜関数型の記述をリアクティブな実行へつなぐ
+
+<span lang="ja">負荷の変動や部分的な障害がある環境では、業務規則を保ちながら応答を続ける構成が必要です。リアクティブ宣言は、応答性、耐障害性、弾力性、メッセージ駆動の四つの特性を整理しています。FPは処理の意味と合成を明示し、実行基盤は待機、隔離、配送、資源配分を管理します。両者を接続することで、業務ロジックへ実行制御を混在させる範囲を減らします。</span><span lang="en">Variable load and partial failures require systems to remain responsive while preserving business rules. The Reactive Manifesto identifies responsiveness, resilience, elasticity and message-driven operation. FP makes computation meaning and composition explicit; runtime infrastructure manages waiting, isolation, delivery and resource allocation. Connecting the two reduces execution-control code mixed into business logic.</span>
+
+## Executing Asynchronous Work while Preserving Dependencies｜依存関係を保って非同期処理を実行する
+
+<span lang="ja">前段の結果が必要な処理はモナドで順につなぎ、独立した処理はアプリカティブな構造で表します。非同期の実行機構がこの独立性を利用できる場合には、同時実行数や待機容量を制限した上で並行実行を選べます。ConsequenceやFree Monadを使うこと自体が、非同期化や並列化を行うわけではありません。</span><span lang="en">Monadic composition preserves result dependencies, while applicative structure expresses independence. An asynchronous execution mechanism that can exploit that independence may choose concurrency under bounded capacity. Consequence and Free Monad do not themselves make processing asynchronous or parallel.</span>
+
+<span lang="ja">Textus/CNCFでは、長い処理を明示的にJobへ渡し、Taskから共通の操作・UoW経路を利用できます。Jobの受付、各処理の確定、Job全体の完了を区別して結果を確認します。UIを待たせ続けずに進捗を確認でき、同期・非同期で業務計算と失敗の意味を共有できます。</span><span lang="en">Textus/CNCF can explicitly submit long work as a Job whose Tasks use shared operation and UoW paths. Job acceptance, individual commits and overall completion are distinct. This supports progress tracking without indefinitely blocking the UI and shares business calculations and failure meanings across synchronous and asynchronous use.</span>
+
+## Relating the Combination to the Four Reactive Traits｜四つの特性を支える組合せを確認する
+
+<span lang="ja">純粋な計算と不変の値は、処理の分割や再現を容易にします。構造化した失敗は、呼出し側や実行管理側が復旧を判断する材料になります。型付きのCommand・Eventと実行の所有者を組み合わせると、業務上の意味を保ってメッセージを受け渡し、隔離した処理へ仕事を渡しやすくなります。</span><span lang="en">Pure calculations and immutable values make work easier to partition and reproduce. Structured failure provides information for recovery decisions. Typed Commands and Events combined with explicit execution owners preserve business meaning across messages and isolated processing units.</span>
+
+<span lang="ja">応答性や弾力性には、Jobの待機容量、同時実行数、Domainの処理能力、配送経路の流量制御を合わせる必要があります。耐障害性には、隔離、再試行条件、資源解放、確定済み状態からの復旧を組み合わせます。FPはこれらの制御を適用しやすい記述を提供し、実際の品質は選択した実行機構と運用構成で成立します。</span><span lang="en">Responsiveness and elasticity require coordination among Job queue capacity, concurrency limits, Domain capacity and delivery flow control. Resilience combines isolation, retry conditions, cleanup and recovery from committed state. FP supplies descriptions to which these controls can be applied; actual quality depends on the selected execution mechanisms and operational configuration.</span>
+
+<span lang="ja">[[images/functional-reactive-ja.png]]</span><span lang="en">[[images/functional-reactive-en.png]]</span>
+
+<span lang="ja">FPの記述をJob・UoW・Providerと結び付けてリアクティブ性を支える</span><span lang="en">Connect FP descriptions with Jobs, UoW and Providers to support reactive behavior</span>
+
+#+CAPTION: <span lang="ja">リアクティブの四特性とFP・実行基盤の分担</span><span lang="en">Reactive traits: FP and runtime responsibilities</span>
+| <span lang="ja">特性</span><span lang="en">Trait</span> | <span lang="ja">FPが提供する構造</span><span lang="en">Structure supplied by FP</span> | <span lang="ja">組み合わせる実行機構</span><span lang="en">Combined runtime mechanisms</span> |
+| --- | --- | --- |
+| <span lang="ja">応答性</span><span lang="en">Responsive</span> | <span lang="ja">計算と待機・作用を分離</span><span lang="en">Separate calculation from waiting/effects</span> | <span lang="ja">Job受付、期限、同時実行制限</span><span lang="en">Job acceptance, deadlines, concurrency limits</span> |
+| <span lang="ja">耐障害性</span><span lang="en">Resilient</span> | <span lang="ja">不変の入力、構造化した失敗</span><span lang="en">Immutable inputs; structured failure</span> | <span lang="ja">隔離、終了処理、再試行・復旧方針</span><span lang="en">Isolation, cleanup, retry/recovery policy</span> |
+| <span lang="ja">弾力性</span><span lang="en">Elastic</span> | <span lang="ja">独立した計算と明示的な状態依存</span><span lang="en">Independent work; explicit state dependencies</span> | <span lang="ja">容量計測、負荷分散、受付・流量制御</span><span lang="en">Capacity metrics, load distribution, admission/flow control</span> |
+| <span lang="ja">メッセージ駆動</span><span lang="en">Message driven</span> | <span lang="ja">型付きCommand・Eventと結果</span><span lang="en">Typed Commands, Events and outcomes</span> | <span lang="ja">非同期配送、キュー、重複・順序の管理</span><span lang="en">Asynchronous delivery, queues, deduplication/ordering</span> |
+
+# Tracing Model-to-Execution Connections through Quotation Confirmation｜見積りの確定でモデルと実行の接続を確認する
+
+<span lang="ja">数量と通貨を独立に検査し、検査済みの値を見積計算へ渡します。価格表と規則の版を入力に含め、純粋計算で金額と更新候補を得ます。Consequenceが成功した値だけを保存操作へ接続し、Free Monadによるプログラムとしてインタープリタへ渡します。</span><span lang="en">Quantity and currency are validated independently, then validated values enter the quotation calculation. A price snapshot and rule version are explicit inputs to the pure computation of an amount and proposed update. Only successful Consequence values connect to persistence operations in a Free Monad program passed to the interpreter.</span>
+
+<span lang="ja">実行側は認可と必要な競合条件を確認し、UoWで更新を確定します。更新後の通知やViewへの反映は、選択した配信・投影経路へつなぎます。図は成功時の役割の接続を示します。入力不正、業務条件不成立、保存時競合では、止まる位置と返す結果が異なります。</span><span lang="en">Execution checks authorization and required concurrency conditions and commits updates through UoW. Notifications and View updates follow the selected delivery and projection path. The diagram traces responsibilities on success. Invalid inputs, rejected business conditions and storage conflicts stop at different boundaries and return different outcomes.</span>
+
+<span lang="ja">[[images/quotation-execution-ja.png]]</span><span lang="en">[[images/quotation-execution-en.png]]</span>
+
+<span lang="ja">成功時の例：計算、操作記述、解釈、確定を分担する</span><span lang="en">Success path: separate calculation, program construction, interpretation and commitment</span>
+
+#+CAPTION: <span lang="ja">見積り確定で分担する判断と結果</span><span lang="en">Decisions and outcomes in quotation confirmation</span>
+| <span lang="ja">境界</span><span lang="en">Boundary</span> | <span lang="ja">判断・動作</span><span lang="en">Decision or behavior</span> | <span lang="ja">返す結果の意味</span><span lang="en">Meaning of the result</span> |
+| --- | --- | --- |
+| <span lang="ja">入力検査</span><span lang="en">Input validation</span> | <span lang="ja">数量と通貨を独立に検査</span><span lang="en">Check quantity and currency independently</span> | <span lang="ja">検査済み値または集約した入力エラー</span><span lang="en">Validated values or accumulated input errors</span> |
+| <span lang="ja">純粋計算</span><span lang="en">Pure calculation</span> | <span lang="ja">価格と規則から更新候補を計算</span><span lang="en">Calculate candidate from prices and rules</span> | <span lang="ja">妥当な候補または業務条件の不成立</span><span lang="en">Valid candidate or rejected business condition</span> |
+| <span lang="ja">操作の解釈</span><span lang="en">Interpretation</span> | <span lang="ja">認可・Provider・競合条件を適用</span><span lang="en">Apply authorization, Provider and conflict checks</span> | <span lang="ja">操作の結果または実行時の失敗</span><span lang="en">Operation outcome or execution failure</span> |
+| <span lang="ja">UoWの終了</span><span lang="en">UoW termination</span> | <span lang="ja">commit / abortと資源解放</span><span lang="en">Commit/abort and release resources</span> | <span lang="ja">確定を含む実行の結果</span><span lang="en">Execution outcome including commitment</span> |
+
+# Verifying Models, Calculations and Execution Boundaries｜モデル・計算・実行の境界ごとに検証する
+
+<span lang="ja">同じ規則を全体の結合試験だけで確認するのではなく、型、純粋計算、操作記述、実行境界に検証を分けます。どの段階で何を保証するかを明確にすると、変更時に確認すべき範囲も整理できます。</span><span lang="en">Verification is divided among types, pure calculations, operation descriptions and execution boundaries instead of relying solely on end-to-end tests. Explicit responsibilities also clarify what must be checked after a change.</span>
+
+## Using Examples, Properties and Operation Records｜実例・性質・操作記録を使い分ける
+
+<span lang="ja">純粋計算は、既知の入力と期待結果に加え、通貨を変えずに計算する、許されない数量を受け付けない、といった性質で検証できます。Consequenceの合成では、独立したエラーが失われないことと、失敗後に依存する処理へ進まないことを確認します。モナドなどの合成則と業務上の性質は、どちらも型検査だけで自動的に確認されるものではありません。</span><span lang="en">Pure calculations support known input/output examples and properties such as preserving currency or rejecting invalid quantities. Consequence composition is checked for error accumulation and skipped dependent work after failure. Neither algebraic composition laws nor business properties are automatically established by type checking alone.</span>
+
+<span lang="ja">操作記述には、応答を与えるテスト用インタープリタや記録機構を使い、実際の通信を行わずに選ばれる操作を確認できます。CNCFの計画・記録契約も、与えた型付き応答に沿って訪れた操作を記録する範囲を定めています。実Providerによる認可、競合、commit・abort、資源解放は別の検証対象とし、記録機構の結果を本番実行の証明には置き換えません。</span><span lang="en">A test interpreter or recorder can supply responses and inspect selected operations without performing real communication. CNCF’s planning and recording contract likewise defines recording of visited operations under supplied typed responses. Real Provider authorization, conflicts, commit/abort and resource release need separate verification; a recorded simulation does not establish production behavior.</span>
+
+#+CAPTION: <span lang="ja">確認したい性質と検証の境界</span><span lang="en">Properties and verification boundaries</span>
+| <span lang="ja">確認したいこと</span><span lang="en">Question</span> | <span lang="ja">用いる確認</span><span lang="en">Verification</span> | <span lang="ja">分担する範囲</span><span lang="en">Scope</span> |
+| --- | --- | --- |
+| <span lang="ja">意味の異なる値を接続していないか</span><span lang="en">Are incompatible values connected?</span> | <span lang="ja">型検査</span><span lang="en">Type checking</span> | <span lang="ja">型に表した接続条件</span><span lang="en">Encoded connection conditions</span> |
+| <span lang="ja">計算が業務規則を満たすか</span><span lang="en">Does calculation satisfy business rules?</span> | <span lang="ja">実例・性質の検査</span><span lang="en">Example and property tests</span> | <span lang="ja">固定した入力に対する出力</span><span lang="en">Outputs for fixed inputs</span> |
+| <span lang="ja">失敗が適切に伝わるか</span><span lang="en">Does failure propagate correctly?</span> | <span lang="ja">合成の検査</span><span lang="en">Composition checks</span> | <span lang="ja">打切り・集約・結果の意味</span><span lang="en">Short-circuiting, accumulation, outcome meaning</span> |
+| <span lang="ja">意図した操作を選ぶか</span><span lang="en">Are intended operations selected?</span> | <span lang="ja">テスト用解釈・操作記録</span><span lang="en">Test interpretation / recording</span> | <span lang="ja">与えた応答に対する経路</span><span lang="en">Paths under supplied responses</span> |
+| <span lang="ja">実環境で正しく終了するか</span><span lang="en">Does real execution terminate correctly?</span> | <span lang="ja">Provider・結合検証</span><span lang="en">Provider and integration checks</span> | <span lang="ja">認可・競合・確定・資源解放</span><span lang="en">Authorization, conflicts, commit, cleanup</span> |
+
+## Keeping AI Supplementation within Models and Shared Contracts｜AIによる補完をモデルと共通契約へ沿わせる
+
+<span lang="ja">純粋関数型、モナド、Free Monadは、学習と手作業の記述に負担があります。AIに型と操作契約、既存の合成例を与えることで、この構造に沿う補完コードを作成しやすくなります。人間は業務の意味、失敗時の扱い、確定範囲を定め、型検査と境界ごとの検証で生成物を確認します。</span><span lang="en">Pure functional programming, monads and Free Monad require learning and manual effort. Supplying AI with types, operation contracts and established composition examples helps produce supplementary code within this structure. People define business meaning, failure handling and commit boundaries, while type checks and boundary-specific verification check the result.</span>
+
+<span lang="ja">型は値と接続を、Consequenceは結果の扱いを、操作DSLとUoWは実装と実行の境界を限定します。既存の処理を再利用し、必要な補完とグルーコードをこの範囲へ置くことで、AIが独自の制御を作り込む範囲を減らせます。この組合せがプログラミング・ハーネスとしても機能し、修正とレビューをモデル上の意味に沿って進める助けになります。</span><span lang="en">Types constrain values and connections, Consequence standardizes outcomes, and the operation DSL with UoW bounds implementation and execution. Reuse and supplementary glue within these contracts reduce independently invented control logic. The combination also functions as a programming harness, keeping changes and reviews tied to model meaning.</span>
+
+# Conclusion｜まとめ
+
+<span lang="ja">型と純粋関数で業務モデルを計算へ具体化し、Consequenceで成功・失敗をつなぎ、Free Monadで操作を記述し、UoWの共通経路で実行します。この分担により、モデルの意味を保ちながら、業務計算とリアクティブな実行制御を組み合わせられます。AIによる補完にも同じ契約と検証を適用し、高度な手法を開発へ取り入れやすくします。</span><span lang="en">Types and pure functions turn business models into calculations; Consequence connects outcomes, Free Monad describes operations, and the shared UoW path executes them. This division combines business calculation with reactive execution controls while preserving model meaning. Applying the same contracts and verification to AI supplementation makes these advanced techniques more accessible in development.</span>
+
+# Appendix: References and Implementation Mappings｜付録：参考文献と実装上の対応
+
+<span lang="ja">2冊は、本書で用いるモデリング技術を整理する補助線です。F#やScala/Scalazの書籍中の実装をそのままTextus/CNCFの仕様とは扱いません。対応表に示す考え方を参照し、製品固有の型と実行契約はローカルの設計・実装を根拠に説明しています。</span><span lang="en">The two books provide reference perspectives for techniques used in this guide. Their F# and Scala/Scalaz implementations are not treated as Textus/CNCF specifications. The table relates their ideas to this guide; product-specific types and execution contracts are grounded in local designs and implementations.</span>
+
+## The Two Books and Their Use in This Guide｜2冊の参考文献と本文の対応
+
+<span lang="ja">Scott Wlaschin, Domain Modeling Made Functional: Tackle Software Complexity with Domain-Driven Design and F#（Pragmatic Bookshelf, 2018）。型による業務概念と制約の表現、関数としての処理の接続を参照します。https://pragprog.com/titles/swdddf/domain-modeling-made-functional/ 。公開抜粋：https://media.pragprog.com/titles/swdddf/modeling.pdf</span><span lang="en">Scott Wlaschin, Domain Modeling Made Functional: Tackle Software Complexity with Domain-Driven Design and F# (Pragmatic Bookshelf, 2018). Referenced for business concepts and constraints represented in types and connected as functions. https://pragprog.com/titles/swdddf/domain-modeling-made-functional/ . Public excerpt: https://media.pragprog.com/titles/swdddf/modeling.pdf</span>
+
+<span lang="ja">Debasish Ghosh, Functional and Reactive Domain Modeling（Manning, 2016）。操作の契約と実装の分離、純粋な業務計算と作用の分離、リアクティブなモデルとの接続を参照します。https://www.manning.com/books/functional-and-reactive-domain-modeling 。公開目次：https://www.oreilly.com/library/view/functional-and-reactive/9781617292248/</span><span lang="en">Debasish Ghosh, Functional and Reactive Domain Modeling (Manning, 2016). Referenced for separating operation contracts from implementations, pure domain calculations from effects, and connections to reactive modeling. https://www.manning.com/books/functional-and-reactive-domain-modeling . Public contents: https://www.oreilly.com/library/view/functional-and-reactive/9781617292248/</span>
+
+#+CAPTION: <span lang="ja">参考文献を本文の技術へ対応付ける</span><span lang="en">Relating references to techniques used in the guide</span>
+| <span lang="ja">参考文献</span><span lang="en">Reference</span> | <span lang="ja">参照する考え方</span><span lang="en">Referenced idea</span> | <span lang="ja">本文での適用</span><span lang="en">Use in this guide</span> |
+| --- | --- | --- |
+| <span lang="ja">Domain Modeling Made Functional</span><span lang="en">Domain Modeling Made Functional</span> | <span lang="ja">型による概念・値・状態の表現</span><span lang="en">Concepts, values and states as types</span> | <span lang="ja">業務の意味を型と契約へ具体化</span><span lang="en">Business meaning in types and contracts</span> |
+| <span lang="ja">Domain Modeling Made Functional</span><span lang="en">Domain Modeling Made Functional</span> | <span lang="ja">型付きの関数と結果の接続</span><span lang="en">Typed functions and outcome connections</span> | <span lang="ja">純粋計算と結果の契約</span><span lang="en">Pure calculations and outcome contracts</span> |
+| <span lang="ja">Functional and Reactive Domain Modeling</span><span lang="en">Functional and Reactive Domain Modeling</span> | <span lang="ja">操作の契約と解釈の分離</span><span lang="en">Separate operation contracts from interpretation</span> | <span lang="ja">操作DSL・Free Monad・インタープリタ</span><span lang="en">Operation DSL, Free Monad and interpreter</span> |
+| <span lang="ja">Functional and Reactive Domain Modeling</span><span lang="en">Functional and Reactive Domain Modeling</span> | <span lang="ja">純粋計算と作用の分離</span><span lang="en">Separate calculations from effects</span> | <span lang="ja">ConsequenceとUoWを組み合わせる構成</span><span lang="en">Composition of Consequence and UoW</span> |
+| <span lang="ja">Functional and Reactive Domain Modeling</span><span lang="en">Functional and Reactive Domain Modeling</span> | <span lang="ja">関数型モデルとリアクティブな構成</span><span lang="en">Functional models in reactive architectures</span> | <span lang="ja">四特性と実行基盤の役割分担</span><span lang="en">Four traits and runtime responsibilities</span> |
+
+## CNCF Types and Execution APIs｜CNCFの型と実行APIの対応
+
+<span lang="ja">以下はCNCFのkernel.scala、unitofwork/types.scala、UnitOfWorkInterpreterとsimplemodeling-libのConsequence・ConsequenceTの対応です。現在のCNCFのFree実装はCatsのFreeを使用します。書籍で使われるScalazとの共通点は抽象化の考え方にあり、ライブラリやAPIの同一性を前提にしません。</span><span lang="en">The following maps CNCF kernel.scala, unitofwork/types.scala and UnitOfWorkInterpreter to simplemodeling-lib Consequence and ConsequenceT. Current CNCF uses Cats Free. The connection to the book’s Scalaz examples is conceptual, not an assumption of identical libraries or APIs.</span>
+
+#+CAPTION: <span lang="ja">役割とCNCFの実装名</span><span lang="en">Responsibilities and CNCF implementation names</span>
+| <span lang="ja">役割</span><span lang="en">Role</span> | <span lang="ja">実装名・型</span><span lang="en">Implementation / type</span> | <span lang="ja">保持または実行するもの</span><span lang="en">Represents or executes</span> |
+| --- | --- | --- |
+| <span lang="ja">処理結果</span><span lang="en">Computation outcome</span> | <span lang="ja">`Consequence[A]`</span><span lang="en">`Consequence[A]`</span> | <span lang="ja">SuccessのA / FailureのConclusion</span><span lang="en">Success A or Failure Conclusion</span> |
+| <span lang="ja">構造化した失敗</span><span lang="en">Structured failure</span> | <span lang="ja">Conclusion</span><span lang="en">Conclusion</span> | <span lang="ja">観測・解釈・対処・状態・原因</span><span lang="en">Observation, interpretation, disposition, status, causes</span> |
+| <span lang="ja">一つの型付き操作</span><span lang="en">One typed operation</span> | <span lang="ja">`UnitOfWorkOp[A]`</span><span lang="en">`UnitOfWorkOp[A]`</span> | <span lang="ja">操作の引数と結果型</span><span lang="en">Operation arguments and result type</span> |
+| <span lang="ja">操作を合成した記述</span><span lang="en">Composed operation description</span> | <span lang="ja">`Program[F, A]` = `Free[F, A]`</span><span lang="en">`Program[F, A]` = `Free[F, A]`</span> | <span lang="ja">操作Fからなるプログラム</span><span lang="en">Program made of operations F</span> |
+| <span lang="ja">記述と結果の組合せ</span><span lang="en">Description plus outcome</span> | <span lang="ja">`UowM[F, A]`</span><span lang="en">`UowM[F, A]`</span> | <span lang="ja">ConsequenceTでProgramと結果を合成</span><span lang="en">ConsequenceT combines Program and outcome</span> |
+| <span lang="ja">CNCFの操作へ固定した型</span><span lang="en">Concrete CNCF vocabulary</span> | <span lang="ja">`ExecProgram[A]` / `ExecUowM[A]`</span><span lang="en">`ExecProgram[A]` / `ExecUowM[A]`</span> | <span lang="ja">FをUnitOfWorkOpへ具体化</span><span lang="en">F specialized to UnitOfWorkOp</span> |
+| <span lang="ja">解釈と終了の管理</span><span lang="en">Interpretation and termination</span> | <span lang="ja">UnitOfWorkInterpreter / UnitOfWork</span><span lang="en">UnitOfWorkInterpreter / UnitOfWork</span> | <span lang="ja">操作実行、確定・中止、資源解放</span><span lang="en">Operations, commit/abort and cleanup</span> |
+
+## Supporting and Internal Sources｜補助資料と内部資料
+
+<span lang="ja">公開補助資料：CatsのFree Monad解説（https://typelevel.org/cats/datatypes/freemonad.html）、リアクティブ宣言（https://www.reactivemanifesto.org/）。書籍の紹介・公開目次・公開抜粋で確認できる範囲と、製品固有の実装上の説明を区別して参照しています。</span><span lang="en">Public supporting sources: Cats Free Monad documentation (https://typelevel.org/cats/datatypes/freemonad.html) and the Reactive Manifesto (https://www.reactivemanifesto.org/). References distinguish material verified through public descriptions, contents and excerpts from product-specific implementation evidence.</span>
+
+<span lang="ja">内部資料：SimpleModeling.org「プログラミング・ハーネス」第6回のCoreと日英本文。Textus技術文書のDDDモデリング技術ガイド、リアクティブ技術ガイド。前者から型・Consequence・Free Monad・UoWの役割分担を引き継ぎ、モデリングから実行への説明として再構成しています。</span><span lang="en">Internal sources: the Core and bilingual manuscript of SimpleModeling.org’s sixth harness article, Programming Harness; the DDD Modeling and Reactive technical guides. The harness article’s roles for types, Consequence, Free Monad and UoW are reorganized here around model-to-execution continuity.</span>
+
+<span lang="ja">内部の設計・実装資料：CNCF docs/rules/consequence.md、docs/design/free-unitofwork-execution-model.md、docs/design/unitofwork-program-planning.md、docs/design/unit-of-work-resource-lifecycle.md。実装はorg.goldenport.cncf配下のkernel.scala、unitofwork/types.scala、UnitOfWorkOp.scala、UnitOfWorkInterpreter.scalaと、simplemodeling-libのorg.goldenport配下のConsequence.scala、Conclusion.scala、ConsequenceT.scala。計画・記録契約の設計範囲と、実行APIとして確認した動作を区別しています。</span><span lang="en">Internal design and implementation sources: CNCF docs/rules/consequence.md, docs/design/free-unitofwork-execution-model.md, docs/design/unitofwork-program-planning.md and docs/design/unit-of-work-resource-lifecycle.md; org.goldenport.cncf kernel.scala and unitofwork/types.scala, UnitOfWorkOp.scala and UnitOfWorkInterpreter.scala; simplemodeling-lib org.goldenport Consequence.scala, Conclusion.scala and ConsequenceT.scala. Planning/recording design scope is distinguished from behavior established by execution API implementations.</span>

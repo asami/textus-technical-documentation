@@ -1,0 +1,32 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 15
+skinparam nodesep 20
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam noteBackgroundColor #FFF8E9
+skinparam dpi 170
+top to bottom direction
+rectangle "Business model / CML\nConcepts, constraints, operations" as model
+rectangle "Typed interfaces\nProjected by Cozy" as types
+rectangle "Pure domain calculation\nExplicit inputs to outcome" as calc
+rectangle "Consequence\nValue / Structured failure" as result
+rectangle "Operation program\nFree Monad + ConsequenceT" as program
+rectangle "Interpreter + UoW\nAuthorization, effects, commit, cleanup" as runtime
+model -down-> types : encode meaning
+ types -down-> calc : input/output contract
+calc -right-> result : return outcome
+result -down-> program : pass success onward
+program -left-> runtime : interpret and execute
+note bottom of runtime
+Shared path for direct calls and Jobs
+end note
+
+@enduml
