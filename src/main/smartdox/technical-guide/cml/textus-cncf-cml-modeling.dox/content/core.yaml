@@ -1,0 +1,737 @@
+{
+  "schema": "cozy.content-core.logic-tree.v1",
+  "id": "textus-cncf-cml-modeling",
+  "root": {
+    "id": "textus-cncf-cml-modeling",
+    "semanticRole": "explanation",
+    "claims": [
+      "textus-cncf-cml-modeling-claim-1"
+    ],
+    "structure": {
+      "pattern": "sequence",
+      "nodes": [
+        {
+          "id": "textus-cncf-cml-modeling-node-1",
+          "role": "step"
+        },
+        {
+          "id": "textus-cncf-cml-modeling-node-2",
+          "role": "step"
+        }
+      ],
+      "relations": [
+        {
+          "id": "textus-cncf-cml-modeling-relation-1",
+          "relationType": "next",
+          "from": "textus-cncf-cml-modeling-node-1",
+          "to": "textus-cncf-cml-modeling-node-2"
+        }
+      ]
+    },
+    "flow": {
+      "id": "textus-cncf-cml-modeling-flow",
+      "transitions": [
+        {
+          "id": "textus-cncf-cml-modeling-transition-1",
+          "relationType": "next",
+          "fromStepId": "cml-purpose",
+          "toStepId": "cml-literate"
+        },
+        {
+          "id": "textus-cncf-cml-modeling-transition-2",
+          "relationType": "next",
+          "fromStepId": "cml-literate",
+          "toStepId": "cml-knowledge"
+        },
+        {
+          "id": "cml-knowledge-transition",
+          "relationType": "next",
+          "fromStepId": "cml-knowledge",
+          "toStepId": "cml-static"
+        },
+        {
+          "id": "textus-cncf-cml-modeling-transition-3",
+          "relationType": "next",
+          "fromStepId": "cml-static",
+          "toStepId": "cml-dynamic"
+        },
+        {
+          "id": "textus-cncf-cml-modeling-transition-4",
+          "relationType": "next",
+          "fromStepId": "cml-dynamic",
+          "toStepId": "cml-rules"
+        },
+        {
+          "id": "textus-cncf-cml-modeling-transition-5",
+          "relationType": "next",
+          "fromStepId": "cml-rules",
+          "toStepId": "cml-contracts"
+        },
+        {
+          "id": "textus-cncf-cml-modeling-transition-6",
+          "relationType": "next",
+          "fromStepId": "cml-contracts",
+          "toStepId": "cml-ui"
+        },
+        {
+          "id": "textus-cncf-cml-modeling-transition-7",
+          "relationType": "next",
+          "fromStepId": "cml-ui",
+          "toStepId": "cml-execution"
+        },
+        {
+          "id": "textus-cncf-cml-modeling-transition-8",
+          "relationType": "next",
+          "fromStepId": "cml-execution",
+          "toStepId": "cml-checks"
+        },
+        {
+          "id": "textus-cncf-cml-modeling-transition-9",
+          "relationType": "next",
+          "fromStepId": "cml-checks",
+          "toStepId": "cml-practice"
+        },
+        {
+          "id": "textus-cncf-cml-modeling-transition-10",
+          "relationType": "next",
+          "fromStepId": "cml-practice",
+          "toStepId": "cml-conclusion"
+        },
+        {
+          "id": "textus-cncf-cml-modeling-transition-11",
+          "relationType": "next",
+          "fromStepId": "cml-conclusion",
+          "toStepId": "cml-sources"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "cml-purpose",
+        "semanticRole": "explanation",
+        "claims": [
+          "cml-purpose-claim-1",
+          "cml-purpose-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "cml-purpose-node-1",
+              "role": "step"
+            },
+            {
+              "id": "cml-purpose-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "cml-purpose-relation-1",
+              "relationType": "next",
+              "from": "cml-purpose-node-1",
+              "to": "cml-purpose-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "cml-purpose-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "cml-literate",
+        "semanticRole": "explanation",
+        "claims": [
+          "cml-literate-claim-1",
+          "cml-literate-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "cml-literate-node-1",
+              "role": "step"
+            },
+            {
+              "id": "cml-literate-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "cml-literate-relation-1",
+              "relationType": "next",
+              "from": "cml-literate-node-1",
+              "to": "cml-literate-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "cml-literate-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "cml-knowledge",
+        "semanticRole": "explanation",
+        "claims": [
+          "cml-knowledge-claim-1",
+          "cml-knowledge-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "cml-knowledge-node-1",
+              "role": "step"
+            },
+            {
+              "id": "cml-knowledge-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "cml-knowledge-relation-1",
+              "relationType": "next",
+              "from": "cml-knowledge-node-1",
+              "to": "cml-knowledge-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "cml-knowledge-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "cml-static",
+        "semanticRole": "explanation",
+        "claims": [
+          "cml-static-claim-1",
+          "cml-static-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "cml-static-node-1",
+              "role": "step"
+            },
+            {
+              "id": "cml-static-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "cml-static-relation-1",
+              "relationType": "next",
+              "from": "cml-static-node-1",
+              "to": "cml-static-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "cml-static-flow",
+          "transitions": []
+        },
+        "steps": [
+          {
+            "id": "cml-types",
+            "semanticRole": "explanation",
+            "claims": [
+              "cml-types-claim-1",
+              "cml-types-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "cml-types-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "cml-types-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "cml-types-relation-1",
+                  "relationType": "next",
+                  "from": "cml-types-node-1",
+                  "to": "cml-types-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "cml-types-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "cml-dynamic",
+        "semanticRole": "explanation",
+        "claims": [
+          "cml-dynamic-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "cml-dynamic-node-1",
+              "role": "step"
+            },
+            {
+              "id": "cml-dynamic-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "cml-dynamic-relation-1",
+              "relationType": "next",
+              "from": "cml-dynamic-node-1",
+              "to": "cml-dynamic-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "cml-dynamic-flow",
+          "transitions": [
+            {
+              "id": "cml-dynamic-transition-1",
+              "relationType": "next",
+              "fromStepId": "cml-usecase",
+              "toStepId": "cml-workflow"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "cml-usecase",
+            "semanticRole": "explanation",
+            "claims": [
+              "cml-usecase-claim-1",
+              "cml-usecase-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "cml-usecase-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "cml-usecase-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "cml-usecase-relation-1",
+                  "relationType": "next",
+                  "from": "cml-usecase-node-1",
+                  "to": "cml-usecase-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "cml-usecase-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "cml-workflow",
+            "semanticRole": "explanation",
+            "claims": [
+              "cml-workflow-claim-1",
+              "cml-workflow-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "cml-workflow-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "cml-workflow-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "cml-workflow-relation-1",
+                  "relationType": "next",
+                  "from": "cml-workflow-node-1",
+                  "to": "cml-workflow-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "cml-workflow-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "cml-rules",
+        "semanticRole": "explanation",
+        "claims": [
+          "cml-rules-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "cml-rules-node-1",
+              "role": "step"
+            },
+            {
+              "id": "cml-rules-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "cml-rules-relation-1",
+              "relationType": "next",
+              "from": "cml-rules-node-1",
+              "to": "cml-rules-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "cml-rules-flow",
+          "transitions": [
+            {
+              "id": "cml-rules-transition-1",
+              "relationType": "next",
+              "fromStepId": "cml-rule-kinds",
+              "toStepId": "cml-rule-execution"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "cml-rule-kinds",
+            "semanticRole": "explanation",
+            "claims": [
+              "cml-rule-kinds-claim-1",
+              "cml-rule-kinds-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "cml-rule-kinds-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "cml-rule-kinds-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "cml-rule-kinds-relation-1",
+                  "relationType": "next",
+                  "from": "cml-rule-kinds-node-1",
+                  "to": "cml-rule-kinds-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "cml-rule-kinds-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "cml-rule-execution",
+            "semanticRole": "explanation",
+            "claims": [
+              "cml-rule-execution-claim-1",
+              "cml-rule-execution-claim-2",
+              "cml-rule-execution-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "cml-rule-execution-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "cml-rule-execution-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "cml-rule-execution-relation-1",
+                  "relationType": "next",
+                  "from": "cml-rule-execution-node-1",
+                  "to": "cml-rule-execution-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "cml-rule-execution-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "cml-contracts",
+        "semanticRole": "explanation",
+        "claims": [
+          "cml-contracts-claim-1",
+          "cml-contracts-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "cml-contracts-node-1",
+              "role": "step"
+            },
+            {
+              "id": "cml-contracts-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "cml-contracts-relation-1",
+              "relationType": "next",
+              "from": "cml-contracts-node-1",
+              "to": "cml-contracts-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "cml-contracts-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "cml-ui",
+        "semanticRole": "explanation",
+        "claims": [
+          "cml-ui-claim-1",
+          "cml-ui-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "cml-ui-node-1",
+              "role": "step"
+            },
+            {
+              "id": "cml-ui-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "cml-ui-relation-1",
+              "relationType": "next",
+              "from": "cml-ui-node-1",
+              "to": "cml-ui-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "cml-ui-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "cml-execution",
+        "semanticRole": "explanation",
+        "claims": [
+          "cml-execution-claim-1",
+          "cml-execution-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "cml-execution-node-1",
+              "role": "step"
+            },
+            {
+              "id": "cml-execution-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "cml-execution-relation-1",
+              "relationType": "next",
+              "from": "cml-execution-node-1",
+              "to": "cml-execution-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "cml-execution-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "cml-checks",
+        "semanticRole": "explanation",
+        "claims": [
+          "cml-checks-claim-1",
+          "cml-checks-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "cml-checks-node-1",
+              "role": "step"
+            },
+            {
+              "id": "cml-checks-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "cml-checks-relation-1",
+              "relationType": "next",
+              "from": "cml-checks-node-1",
+              "to": "cml-checks-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "cml-checks-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "cml-practice",
+        "semanticRole": "explanation",
+        "claims": [
+          "cml-practice-claim-1",
+          "cml-practice-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "cml-practice-node-1",
+              "role": "step"
+            },
+            {
+              "id": "cml-practice-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "cml-practice-relation-1",
+              "relationType": "next",
+              "from": "cml-practice-node-1",
+              "to": "cml-practice-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "cml-practice-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "cml-conclusion",
+        "semanticRole": "explanation",
+        "claims": [
+          "cml-conclusion-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "cml-conclusion-node-1",
+              "role": "step"
+            },
+            {
+              "id": "cml-conclusion-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "cml-conclusion-relation-1",
+              "relationType": "next",
+              "from": "cml-conclusion-node-1",
+              "to": "cml-conclusion-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "cml-conclusion-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "cml-sources",
+        "semanticRole": "explanation",
+        "claims": [
+          "cml-sources-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "cml-sources-node-1",
+              "role": "step"
+            },
+            {
+              "id": "cml-sources-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "cml-sources-relation-1",
+              "relationType": "next",
+              "from": "cml-sources-node-1",
+              "to": "cml-sources-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "cml-sources-flow",
+          "transitions": []
+        },
+        "steps": []
+      }
+    ]
+  }
+}

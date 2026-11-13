@@ -1,0 +1,25 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 20
+skinparam nodesep 25
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam dpi 150
+
+rectangle "用語・要求\nBoK / Use Case" as terms
+rectangle "ドメイン\n型・構造・業務ルール" as domain
+rectangle "アプリケーション\nWorkflow / StateMachine" as app
+rectangle "View / Display\n参照と操作" as ui
+rectangle "Textus/CNCF\nモデル・部品の実行" as exec
+terms -right-> domain : 意味の共有
+terms -down-> app : 実現の対応
+app -up-> domain : 操作・判断
+domain -down-> ui : 参照の意味
+ui -left-> app : 公開操作
+app -down-> exec : 進行の定義
+@enduml

@@ -1,0 +1,2114 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-cml-modeling-document-en",
+  "core": {
+    "id": "textus-cncf-cml-modeling"
+  },
+  "locale": "en",
+  "document": {
+    "title": "CML Modeling Technical Guide",
+    "sections": [
+      {
+        "id": "textus-cncf-cml-modeling-section",
+        "heading": "CML Modeling Technical Guide",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-cml-modeling"
+          ],
+          "claims": [
+            "textus-cncf-cml-modeling-claim-1"
+          ],
+          "nodes": [
+            "textus-cncf-cml-modeling-node-1",
+            "textus-cncf-cml-modeling-node-2"
+          ],
+          "relations": [
+            "textus-cncf-cml-modeling-relation-1"
+          ],
+          "flows": [
+            "textus-cncf-cml-modeling-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "textus-cncf-cml-modeling-paragraph-1",
+            "kind": "paragraph",
+            "text": "CML describes business concepts, rules and behavior as models used in development and execution. This guide connects literate model authoring with static structure, use cases, Workflows, state machines, business rules and UI, explaining how these models combine into applications running on Textus/CNCF.",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-cml-modeling"
+              ],
+              "claims": [
+                "textus-cncf-cml-modeling-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-cml-modeling-node-1",
+                "textus-cncf-cml-modeling-node-2"
+              ],
+              "relations": [
+                "textus-cncf-cml-modeling-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-cml-modeling-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "cml-purpose-section",
+            "heading": "Connecting Business Meaning to Development and Execution",
+            "coreRefs": {
+              "steps": [
+                "cml-purpose"
+              ],
+              "claims": [
+                "cml-purpose-claim-1",
+                "cml-purpose-claim-2"
+              ],
+              "nodes": [
+                "cml-purpose-node-1",
+                "cml-purpose-node-2"
+              ],
+              "relations": [
+                "cml-purpose-relation-1"
+              ],
+              "flows": [
+                "cml-purpose-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-purpose-paragraph-1",
+                "kind": "paragraph",
+                "text": "CML is a model language for business concepts, relationships, rules and behavior. It defines software meaning apart from programming-language and storage details. SimpleModeling uses these models as a foundation for development and execution, reducing repeated translations of business definitions into code, screens and databases.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-purpose"
+                  ],
+                  "claims": [
+                    "cml-purpose-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-purpose-node-1",
+                    "cml-purpose-node-2"
+                  ],
+                  "relations": [
+                    "cml-purpose-relation-1"
+                  ],
+                  "flows": [
+                    "cml-purpose-flow"
+                  ]
+                }
+              },
+              {
+                "id": "cml-purpose-paragraph-2",
+                "kind": "paragraph",
+                "text": "Cozy analyzes CML and projects it into typed APIs, connection structures and executable definitions. Textus/CNCF interprets supported executable definitions and applies shared runtime mechanisms. Business-specific behavior is added within the generated contracts. Authoring models therefore directly establishes what will be implemented and verified.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-purpose"
+                  ],
+                  "claims": [
+                    "cml-purpose-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-purpose-node-1",
+                    "cml-purpose-node-2"
+                  ],
+                  "relations": [
+                    "cml-purpose-relation-1"
+                  ],
+                  "flows": [
+                    "cml-purpose-flow"
+                  ]
+                }
+              },
+              {
+                "id": "model-landscape",
+                "kind": "figure",
+                "coreRefs": {
+                  "steps": [
+                    "cml-purpose"
+                  ],
+                  "claims": [
+                    "cml-purpose-claim-1",
+                    "cml-purpose-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-purpose-node-1",
+                    "cml-purpose-node-2"
+                  ],
+                  "relations": [
+                    "cml-purpose-relation-1"
+                  ],
+                  "flows": [
+                    "cml-purpose-flow"
+                  ]
+                },
+                "asset": "images/model-landscape-en.png",
+                "caption": "Model responsibilities and connections",
+                "alt": "Model responsibilities and connections"
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "cml-literate-section",
+            "heading": "Writing Structure, Metadata and Narrative in One Literate Model",
+            "coreRefs": {
+              "steps": [
+                "cml-literate"
+              ],
+              "claims": [
+                "cml-literate-claim-1",
+                "cml-literate-claim-2"
+              ],
+              "nodes": [
+                "cml-literate-node-1",
+                "cml-literate-node-2"
+              ],
+              "relations": [
+                "cml-literate-relation-1"
+              ],
+              "flows": [
+                "cml-literate-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-literate-paragraph-1",
+                "kind": "paragraph",
+                "text": "CML uses SmartDox to combine headings, attribute tables, metadata and prose. Structures such as Entity and Operation coexist with machine-readable types, multiplicities and constraints, and with explanations of terminology and design rationale. A structural change can therefore be reviewed together with the reason for the definition.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-literate"
+                  ],
+                  "claims": [
+                    "cml-literate-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-literate-node-1",
+                    "cml-literate-node-2"
+                  ],
+                  "relations": [
+                    "cml-literate-relation-1"
+                  ],
+                  "flows": [
+                    "cml-literate-flow"
+                  ]
+                }
+              },
+              {
+                "id": "cml-literate-paragraph-2",
+                "kind": "paragraph",
+                "text": "The processor interprets structure and metadata defined by supported grammar. A sentence saying that a field is required does not itself define required multiplicity. Prose explains meaning and rationale; types, multiplicities and constraints express checkable conditions. Links to BoK terminology should likewise identify the intended terms and model elements rather than treating similar names as identical concepts.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-literate"
+                  ],
+                  "claims": [
+                    "cml-literate-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-literate-node-1",
+                    "cml-literate-node-2"
+                  ],
+                  "relations": [
+                    "cml-literate-relation-1"
+                  ],
+                  "flows": [
+                    "cml-literate-flow"
+                  ]
+                }
+              },
+              {
+                "id": "literate-layers",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "cml-literate"
+                  ],
+                  "claims": [
+                    "cml-literate-claim-1",
+                    "cml-literate-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-literate-node-1",
+                    "cml-literate-node-2"
+                  ],
+                  "relations": [
+                    "cml-literate-relation-1"
+                  ],
+                  "flows": [
+                    "cml-literate-flow"
+                  ]
+                },
+                "caption": "Three layers of a literate model",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Layer"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Content"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "Use"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "literate-layers-row-1",
+                    "cells": [
+                      "Structure",
+                      "Entities, Operations, Workflows",
+                      "Define elements and connections"
+                    ]
+                  },
+                  {
+                    "id": "literate-layers-row-2",
+                    "cells": [
+                      "Metadata",
+                      "Types, multiplicity, constraints, kind",
+                      "Define interpretation and checks"
+                    ]
+                  },
+                  {
+                    "id": "literate-layers-row-3",
+                    "cells": [
+                      "Narrative",
+                      "Meaning, rationale, examples, diagrams",
+                      "Support understanding and review"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "cml-knowledge-section",
+            "heading": "Connecting Term References and Runtime Knowledge",
+            "coreRefs": {
+              "steps": [
+                "cml-knowledge"
+              ],
+              "claims": [
+                "cml-knowledge-claim-1",
+                "cml-knowledge-claim-2"
+              ],
+              "nodes": [
+                "cml-knowledge-node-1",
+                "cml-knowledge-node-2"
+              ],
+              "relations": [
+                "cml-knowledge-relation-1"
+              ],
+              "flows": [
+                "cml-knowledge-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-knowledge-paragraph-1",
+                "kind": "paragraph",
+                "text": "Mapping BoK terms and project decisions to CML elements preserves the meaning of types, relationships and rules. Cozy terminology metadata handles declared term references, model elements, labels, attribution and scope; matching names do not establish synonymy. Designing Domain Models from a BoK explains the design procedure.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-knowledge"
+                  ],
+                  "claims": [
+                    "cml-knowledge-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-knowledge-node-1",
+                    "cml-knowledge-node-2"
+                  ],
+                  "relations": [
+                    "cml-knowledge-relation-1"
+                  ],
+                  "flows": [
+                    "cml-knowledge-flow"
+                  ]
+                }
+              },
+              {
+                "id": "cml-knowledge-paragraph-2",
+                "kind": "paragraph",
+                "text": "Model definitions and runtime Entities remain distinct. CNCF Information is itself generated from canonical CML; mappings that extract information from business Entities and their runtime connections are specified separately. Using Entities as Knowledge describes retaining meaning, provenance and access conditions across Information, representations such as RDF, and search or AI delivery.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-knowledge"
+                  ],
+                  "claims": [
+                    "cml-knowledge-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-knowledge-node-1",
+                    "cml-knowledge-node-2"
+                  ],
+                  "relations": [
+                    "cml-knowledge-relation-1"
+                  ],
+                  "flows": [
+                    "cml-knowledge-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "cml-static-section",
+            "heading": "Defining Value Meaning and Update Boundaries",
+            "coreRefs": {
+              "steps": [
+                "cml-static"
+              ],
+              "claims": [
+                "cml-static-claim-1",
+                "cml-static-claim-2"
+              ],
+              "nodes": [
+                "cml-static-node-1",
+                "cml-static-node-2"
+              ],
+              "relations": [
+                "cml-static-relation-1"
+              ],
+              "flows": [
+                "cml-static-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-static-paragraph-1",
+                "kind": "paragraph",
+                "text": "Domain models center on static business structure. Entities identify objects whose identity persists; Values describe value-shaped structures; Datatypes express named data types and constraints. Aggregates establish the scope of related state and update consistency. These distinctions separate values with different meanings even when represented by the same primitive type and clarify which operations change which state.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-static"
+                  ],
+                  "claims": [
+                    "cml-static-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-static-node-1",
+                    "cml-static-node-2"
+                  ],
+                  "relations": [
+                    "cml-static-relation-1"
+                  ],
+                  "flows": [
+                    "cml-static-flow"
+                  ]
+                }
+              },
+              {
+                "id": "cml-static-paragraph-2",
+                "kind": "paragraph",
+                "text": "Attributes declare types, multiplicities and constraints such as length and range. Accepted constraints are carried into generated construction and decoding, Operation inputs, persistence conversion and form metadata. Applying the same definitions at business boundaries as well as screens reduces differences between entry points.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-static"
+                  ],
+                  "claims": [
+                    "cml-static-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-static-node-1",
+                    "cml-static-node-2"
+                  ],
+                  "relations": [
+                    "cml-static-relation-1"
+                  ],
+                  "flows": [
+                    "cml-static-flow"
+                  ]
+                }
+              },
+              {
+                "id": "static-choice",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "cml-static"
+                  ],
+                  "claims": [
+                    "cml-static-claim-1",
+                    "cml-static-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-static-node-1",
+                    "cml-static-node-2"
+                  ],
+                  "relations": [
+                    "cml-static-relation-1"
+                  ],
+                  "flows": [
+                    "cml-static-flow"
+                  ]
+                },
+                "caption": "Choosing and combining static models",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Subject"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Model"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "Connected rules"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "static-choice-row-1",
+                    "cells": [
+                      "Persistent identity",
+                      "Entity",
+                      "Update operations and lifecycle"
+                    ]
+                  },
+                  {
+                    "id": "static-choice-row-2",
+                    "cells": [
+                      "Composite value",
+                      "Value",
+                      "Attribute types and constraints"
+                    ]
+                  },
+                  {
+                    "id": "static-choice-row-3",
+                    "cells": [
+                      "Named scalar",
+                      "Datatype",
+                      "Construction and decoding conditions"
+                    ]
+                  },
+                  {
+                    "id": "static-choice-row-4",
+                    "cells": [
+                      "Closed vocabulary",
+                      "Powertype",
+                      "Allowed classification values"
+                    ]
+                  },
+                  {
+                    "id": "static-choice-row-5",
+                    "cells": [
+                      "Update consistency scope",
+                      "Aggregate",
+                      "Invariants and commit boundary"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sections": [
+              {
+                "id": "cml-types-section",
+                "heading": "Choosing Datatypes, Powertypes and State Machines",
+                "coreRefs": {
+                  "steps": [
+                    "cml-types"
+                  ],
+                  "claims": [
+                    "cml-types-claim-1",
+                    "cml-types-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-types-node-1",
+                    "cml-types-node-2"
+                  ],
+                  "relations": [
+                    "cml-types-relation-1"
+                  ],
+                  "flows": [
+                    "cml-types-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "cml-types-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "An identifier can be represented by a named Datatype with length and format constraints rather than only by its string representation. Powertypes describe closed vocabularies; state machines describe lifecycles when the model owns their transitions. A list of codes extended by an external system should not be closed merely because its current values are known.",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-types"
+                      ],
+                      "claims": [
+                        "cml-types-claim-1"
+                      ],
+                      "nodes": [
+                        "cml-types-node-1",
+                        "cml-types-node-2"
+                      ],
+                      "relations": [
+                        "cml-types-relation-1"
+                      ],
+                      "flows": [
+                        "cml-types-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "cml-types-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "The following fragment is the LoginName example from Cozy’s accepted Datatype grammar. min-length and max-length specify text length and differ from numeric min and max. Preserving the model name as a type combines construction-time checking with protection against mixing distinct types in implementation.",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-types"
+                      ],
+                      "claims": [
+                        "cml-types-claim-2"
+                      ],
+                      "nodes": [
+                        "cml-types-node-1",
+                        "cml-types-node-2"
+                      ],
+                      "relations": [
+                        "cml-types-relation-1"
+                      ],
+                      "flows": [
+                        "cml-types-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "datatype-example",
+                    "kind": "example",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-types"
+                      ],
+                      "claims": [
+                        "cml-types-claim-1",
+                        "cml-types-claim-2"
+                      ],
+                      "nodes": [
+                        "cml-types-node-1",
+                        "cml-types-node-2"
+                      ],
+                      "relations": [
+                        "cml-types-relation-1"
+                      ],
+                      "flows": [
+                        "cml-types-flow"
+                      ]
+                    },
+                    "title": "Datatype fragment",
+                    "text": "# DATATYPE\n\n## LoginName\n\n### ATTRIBUTE\n\n| name | type | multiplicity | min-length | max-length | pattern |\n|------|------|--------------|------------|------------|---------|\n| value | string | 1 | 5 | 12 | ^user.+$ |\n"
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "cml-dynamic-section",
+            "heading": "Connecting Requirements to Executable Behavior",
+            "coreRefs": {
+              "steps": [
+                "cml-dynamic"
+              ],
+              "claims": [
+                "cml-dynamic-claim-1"
+              ],
+              "nodes": [
+                "cml-dynamic-node-1",
+                "cml-dynamic-node-2"
+              ],
+              "relations": [
+                "cml-dynamic-relation-1"
+              ],
+              "flows": [
+                "cml-dynamic-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-dynamic-paragraph-1",
+                "kind": "paragraph",
+                "text": "Dynamic modeling with CML connects use cases, Workflows and state machines. Use cases are inductive models describing requirements through goals and concrete interaction flows. Workflows and state machines are deductive models defining progression and transition rules for execution. Their different roles support example-based verification and rule-governed execution.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-dynamic"
+                  ],
+                  "claims": [
+                    "cml-dynamic-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-dynamic-node-1",
+                    "cml-dynamic-node-2"
+                  ],
+                  "relations": [
+                    "cml-dynamic-relation-1"
+                  ],
+                  "flows": [
+                    "cml-dynamic-flow"
+                  ]
+                }
+              },
+              {
+                "id": "behavior-connections",
+                "kind": "figure",
+                "coreRefs": {
+                  "steps": [
+                    "cml-dynamic"
+                  ],
+                  "claims": [
+                    "cml-dynamic-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-dynamic-node-1",
+                    "cml-dynamic-node-2"
+                  ],
+                  "relations": [
+                    "cml-dynamic-relation-1"
+                  ],
+                  "flows": [
+                    "cml-dynamic-flow"
+                  ]
+                },
+                "asset": "images/behavior-connections-en.png",
+                "caption": "Example-based verification and rule-governed execution",
+                "alt": "Example-based verification and rule-governed execution"
+              }
+            ],
+            "sections": [
+              {
+                "id": "cml-usecase-section",
+                "heading": "Mapping Use Cases to Operations and State",
+                "coreRefs": {
+                  "steps": [
+                    "cml-usecase"
+                  ],
+                  "claims": [
+                    "cml-usecase-claim-1",
+                    "cml-usecase-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-usecase-node-1",
+                    "cml-usecase-node-2"
+                  ],
+                  "relations": [
+                    "cml-usecase-relation-1"
+                  ],
+                  "flows": [
+                    "cml-usecase-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "cml-usecase-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "A use case describes actors, goals, preconditions, expected outcomes and main, alternate and exceptional flows. Mapping it to Workflows, Operations, Entities and state machines identifies how each part of the requirement is realized. The use case itself is not directly executed; it supports consistency checks against the realizing models.",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-usecase"
+                      ],
+                      "claims": [
+                        "cml-usecase-claim-1"
+                      ],
+                      "nodes": [
+                        "cml-usecase-node-1",
+                        "cml-usecase-node-2"
+                      ],
+                      "relations": [
+                        "cml-usecase-relation-1"
+                      ],
+                      "flows": [
+                        "cml-usecase-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "cml-usecase-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "For an approval requirement, the model connects the authorized role, request state, approval input and resulting state. Examples involving return for revision or insufficient authority expose conditions absent from the normal flow. Interaction diagrams and UML activity diagrams can support explanation, but do not by themselves replace executable CML definitions.",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-usecase"
+                      ],
+                      "claims": [
+                        "cml-usecase-claim-2"
+                      ],
+                      "nodes": [
+                        "cml-usecase-node-1",
+                        "cml-usecase-node-2"
+                      ],
+                      "relations": [
+                        "cml-usecase-relation-1"
+                      ],
+                      "flows": [
+                        "cml-usecase-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "cml-workflow-section",
+                "heading": "Defining Progression and Transitions with Workflows and State Machines",
+                "coreRefs": {
+                  "steps": [
+                    "cml-workflow"
+                  ],
+                  "claims": [
+                    "cml-workflow-claim-1",
+                    "cml-workflow-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-workflow-node-1",
+                    "cml-workflow-node-2"
+                  ],
+                  "relations": [
+                    "cml-workflow-relation-1"
+                  ],
+                  "flows": [
+                    "cml-workflow-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "cml-workflow-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Application models center on Workflows derived from use cases, coordinating domain operations to achieve goals. State machines make states, events and transition conditions explicit. Instead of distributing those conditions among procedures, the model exposes what is permitted in each state.",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-workflow"
+                      ],
+                      "claims": [
+                        "cml-workflow-claim-1"
+                      ],
+                      "nodes": [
+                        "cml-workflow-node-1",
+                        "cml-workflow-node-2"
+                      ],
+                      "relations": [
+                        "cml-workflow-relation-1"
+                      ],
+                      "flows": [
+                        "cml-workflow-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "cml-workflow-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "The current CML WORKFLOW contract normalizes structure into a COMPOSITE-STATEMACHINE and declares required capabilities through REQUIRED-OPERATION. Logical operations in CML are separate from runtime provider bindings. Generated definitions and their bindings enable Textus/CNCF to execute the modeled progression. External connectivity and safe re-execution require their own corresponding contracts rather than following from a Workflow name alone.",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-workflow"
+                      ],
+                      "claims": [
+                        "cml-workflow-claim-2"
+                      ],
+                      "nodes": [
+                        "cml-workflow-node-1",
+                        "cml-workflow-node-2"
+                      ],
+                      "relations": [
+                        "cml-workflow-relation-1"
+                      ],
+                      "flows": [
+                        "cml-workflow-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "cml-rules-section",
+            "heading": "Modeling Business Rules",
+            "coreRefs": {
+              "steps": [
+                "cml-rules"
+              ],
+              "claims": [
+                "cml-rules-claim-1"
+              ],
+              "nodes": [
+                "cml-rules-node-1",
+                "cml-rules-node-2"
+              ],
+              "relations": [
+                "cml-rules-relation-1"
+              ],
+              "flows": [
+                "cml-rules-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-rules-paragraph-1",
+                "kind": "paragraph",
+                "text": "Business rules express conditions, calculations, classification and decision policies. Modeling them as Domain Rules clarifies their meaning and owning domain, with explicit input values or facts, conditions and results. Referencing these rules instead of copying decision logic into screens and Workflows concentrates changes around their definitions.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-rules"
+                  ],
+                  "claims": [
+                    "cml-rules-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-rules-node-1",
+                    "cml-rules-node-2"
+                  ],
+                  "relations": [
+                    "cml-rules-relation-1"
+                  ],
+                  "flows": [
+                    "cml-rules-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "cml-rule-kinds-section",
+                "heading": "Separating Input Constraints, Decisions and Guards",
+                "coreRefs": {
+                  "steps": [
+                    "cml-rule-kinds"
+                  ],
+                  "claims": [
+                    "cml-rule-kinds-claim-1",
+                    "cml-rule-kinds-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-rule-kinds-node-1",
+                    "cml-rule-kinds-node-2"
+                  ],
+                  "relations": [
+                    "cml-rule-kinds-relation-1"
+                  ],
+                  "flows": [
+                    "cml-rule-kinds-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "cml-rule-kinds-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Length and requiredness belong to Datatype or attribute constraints; prices or decisions derived from multiple facts belong to business rules; conditions for a transition belong to guards. A Workflow orders their use. This separates value validity, domain decisions and process progression so they can be checked independently and then composed.",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-rule-kinds"
+                      ],
+                      "claims": [
+                        "cml-rule-kinds-claim-1"
+                      ],
+                      "nodes": [
+                        "cml-rule-kinds-node-1",
+                        "cml-rule-kinds-node-2"
+                      ],
+                      "relations": [
+                        "cml-rule-kinds-relation-1"
+                      ],
+                      "flows": [
+                        "cml-rule-kinds-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "cml-rule-kinds-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "For example, a decision table can compute delivery charges from destination category and purchase amount, and an order-confirmation Workflow can consume the result. Selection among overlapping conditions and the handling of no matching row must be defined. A state machine can require the necessary decisions before confirmation without duplicating the delivery-price calculation.",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-rule-kinds"
+                      ],
+                      "claims": [
+                        "cml-rule-kinds-claim-2"
+                      ],
+                      "nodes": [
+                        "cml-rule-kinds-node-1",
+                        "cml-rule-kinds-node-2"
+                      ],
+                      "relations": [
+                        "cml-rule-kinds-relation-1"
+                      ],
+                      "flows": [
+                        "cml-rule-kinds-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "rule-ownership",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-rule-kinds"
+                      ],
+                      "claims": [
+                        "cml-rule-kinds-claim-1",
+                        "cml-rule-kinds-claim-2"
+                      ],
+                      "nodes": [
+                        "cml-rule-kinds-node-1",
+                        "cml-rule-kinds-node-2"
+                      ],
+                      "relations": [
+                        "cml-rule-kinds-relation-1"
+                      ],
+                      "flows": [
+                        "cml-rule-kinds-flow"
+                      ]
+                    },
+                    "caption": "Rule subjects and application points",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "Question"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "Definition / owner"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "Application point"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "rule-ownership-row-1",
+                        "cells": [
+                          "Is the value admissible?",
+                          "Datatype / attribute constraints",
+                          "Construction / decoding / input"
+                        ]
+                      },
+                      {
+                        "id": "rule-ownership-row-2",
+                        "cells": [
+                          "Which price or decision applies?",
+                          "Domain Rule / decision table",
+                          "Domain decision"
+                        ]
+                      },
+                      {
+                        "id": "rule-ownership-row-3",
+                        "cells": [
+                          "Is this transition allowed?",
+                          "State-machine guard",
+                          "Transition evaluation"
+                        ]
+                      },
+                      {
+                        "id": "rule-ownership-row-4",
+                        "cells": [
+                          "Which operation follows?",
+                          "Workflow",
+                          "Progression management"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "cml-rule-execution-section",
+                "heading": "Separating Rule Evaluation from Action Execution",
+                "coreRefs": {
+                  "steps": [
+                    "cml-rule-execution"
+                  ],
+                  "claims": [
+                    "cml-rule-execution-claim-1",
+                    "cml-rule-execution-claim-2",
+                    "cml-rule-execution-claim-3"
+                  ],
+                  "nodes": [
+                    "cml-rule-execution-node-1",
+                    "cml-rule-execution-node-2"
+                  ],
+                  "relations": [
+                    "cml-rule-execution-relation-1"
+                  ],
+                  "flows": [
+                    "cml-rule-execution-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "cml-rule-execution-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "The CNCF Rule Engine foundation provides models for RuleSets, Facts, WorkingMemory, decision tables, calculations, constraints and derivations. RuleEngine and InferenceEngine are provider-neutral interfaces. Evaluation accepts immutable input and returns decisions, derived facts, explanations and, where applicable, action plans. It does not directly change persistent Entity state.",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-rule-execution"
+                      ],
+                      "claims": [
+                        "cml-rule-execution-claim-1"
+                      ],
+                      "nodes": [
+                        "cml-rule-execution-node-1",
+                        "cml-rule-execution-node-2"
+                      ],
+                      "relations": [
+                        "cml-rule-execution-relation-1"
+                      ],
+                      "flows": [
+                        "cml-rule-execution-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "cml-rule-execution-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Plans targeting Operations, Events or Jobs run through explicit admission and CNCF’s standard execution paths. Rules therefore retain authorization, UoW, Event and Job management. Rule models govern decision grounds, while shared paths govern conditions for applying changes; their combination controls the passage from decision to execution.",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-rule-execution"
+                      ],
+                      "claims": [
+                        "cml-rule-execution-claim-2"
+                      ],
+                      "nodes": [
+                        "cml-rule-execution-node-1",
+                        "cml-rule-execution-node-2"
+                      ],
+                      "relations": [
+                        "cml-rule-execution-relation-1"
+                      ],
+                      "flows": [
+                        "cml-rule-execution-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "cml-rule-execution-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "The general CML RULE DSL and projection from Domain Rule to CNCF Rule Model are treated here as extension directions. Accepted Datatype constraints, guards and Operation contracts are distinguished from the existing Rule Engine foundation; this guide does not assume automatic generation and execution for every business rule. The grammar, generation route and execution provider must be checked for the selected versions.",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-rule-execution"
+                      ],
+                      "claims": [
+                        "cml-rule-execution-claim-3"
+                      ],
+                      "nodes": [
+                        "cml-rule-execution-node-1",
+                        "cml-rule-execution-node-2"
+                      ],
+                      "relations": [
+                        "cml-rule-execution-relation-1"
+                      ],
+                      "flows": [
+                        "cml-rule-execution-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "rule-execution",
+                    "kind": "figure",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-rule-execution"
+                      ],
+                      "claims": [
+                        "cml-rule-execution-claim-1",
+                        "cml-rule-execution-claim-2",
+                        "cml-rule-execution-claim-3"
+                      ],
+                      "nodes": [
+                        "cml-rule-execution-node-1",
+                        "cml-rule-execution-node-2"
+                      ],
+                      "relations": [
+                        "cml-rule-execution-relation-1"
+                      ],
+                      "flows": [
+                        "cml-rule-execution-flow"
+                      ]
+                    },
+                    "asset": "images/rule-execution-en.png",
+                    "caption": "Separating decision evaluation from update execution",
+                    "alt": "Separating decision evaluation from update execution"
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "cml-contracts-section",
+            "heading": "Connecting Models and Implementations through Operation Contracts",
+            "coreRefs": {
+              "steps": [
+                "cml-contracts"
+              ],
+              "claims": [
+                "cml-contracts-claim-1",
+                "cml-contracts-claim-2"
+              ],
+              "nodes": [
+                "cml-contracts-node-1",
+                "cml-contracts-node-2"
+              ],
+              "relations": [
+                "cml-contracts-relation-1"
+              ],
+              "flows": [
+                "cml-contracts-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-contracts-paragraph-1",
+                "kind": "paragraph",
+                "text": "Components own responsibilities and expose capabilities through Services and Operations. An Operation declares its Command or Query kind, input Value and output Result. Reusable inputs use top-level VALUE definitions with an explicit input-kind; one-use inputs can be defined locally. Referenced and locally declared schemas are not combined in the same input direction.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-contracts"
+                  ],
+                  "claims": [
+                    "cml-contracts-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-contracts-node-1",
+                    "cml-contracts-node-2"
+                  ],
+                  "relations": [
+                    "cml-contracts-relation-1"
+                  ],
+                  "flows": [
+                    "cml-contracts-flow"
+                  ]
+                }
+              },
+              {
+                "id": "cml-contracts-paragraph-2",
+                "kind": "paragraph",
+                "text": "The following fragment defines a local Query input Value and a structured Result. Cozy normalizes these definitions into typed interfaces. Explicit types clarify how existing operations can be used, supporting reuse and glue code. AI can supplement specific behavior within these contracts, limiting the need to redesign surrounding structure.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-contracts"
+                  ],
+                  "claims": [
+                    "cml-contracts-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-contracts-node-1",
+                    "cml-contracts-node-2"
+                  ],
+                  "relations": [
+                    "cml-contracts-relation-1"
+                  ],
+                  "flows": [
+                    "cml-contracts-flow"
+                  ]
+                }
+              },
+              {
+                "id": "operation-example",
+                "kind": "example",
+                "coreRefs": {
+                  "steps": [
+                    "cml-contracts"
+                  ],
+                  "claims": [
+                    "cml-contracts-claim-1",
+                    "cml-contracts-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-contracts-node-1",
+                    "cml-contracts-node-2"
+                  ],
+                  "relations": [
+                    "cml-contracts-relation-1"
+                  ],
+                  "flows": [
+                    "cml-contracts-flow"
+                  ]
+                },
+                "title": "Operation fragment",
+                "text": "# SERVICE\n\n## Catalog\n\n### OPERATION\n\n#### searchEntries\n\n##### TYPE\n\nQUERY\n\n##### INPUT\n\n###### VALUE\n\nCatalogQuery\n\n###### ATTRIBUTE\n\n| name | type | multiplicity | min-length | max-length |\n|------|------|--------------|------------|------------|\n| term | string | 1 | 2 | 40 |\n\n##### OUTPUT\n\n###### VALUE\n\nCatalogResult\n\n###### ATTRIBUTE\n\n| name | type | multiplicity |\n|------|------|--------------|\n| titles | string | * |\n"
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "cml-ui-section",
+            "heading": "Separating Reading and Presentation with View and Display",
+            "coreRefs": {
+              "steps": [
+                "cml-ui"
+              ],
+              "claims": [
+                "cml-ui-claim-1",
+                "cml-ui-claim-2"
+              ],
+              "nodes": [
+                "cml-ui-node-1",
+                "cml-ui-node-2"
+              ],
+              "relations": [
+                "cml-ui-relation-1"
+              ],
+              "flows": [
+                "cml-ui-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-ui-paragraph-1",
+                "kind": "paragraph",
+                "text": "A View expresses read results for a purpose; the outer Display defines presentation fields and offered actions. Screens use meaningful results rather than adopting Entity storage shapes as their contracts. Updates return through public Operations, keeping presentation concerns from redefining business rules.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-ui"
+                  ],
+                  "claims": [
+                    "cml-ui-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-ui-node-1",
+                    "cml-ui-node-2"
+                  ],
+                  "relations": [
+                    "cml-ui-relation-1"
+                  ],
+                  "flows": [
+                    "cml-ui-flow"
+                  ]
+                }
+              },
+              {
+                "id": "cml-ui-paragraph-2",
+                "kind": "paragraph",
+                "text": "This separation supports Textus Web UI and smartphone, tablet, Web and desktop applications built on the Flutter application framework integrated with Textus. Independently developed UIs connected through REST or gRPC can also use model-derived types and operation contracts. UI-specific realization remains with the presentation layer while business meaning and rules are shared.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-ui"
+                  ],
+                  "claims": [
+                    "cml-ui-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-ui-node-1",
+                    "cml-ui-node-2"
+                  ],
+                  "relations": [
+                    "cml-ui-relation-1"
+                  ],
+                  "flows": [
+                    "cml-ui-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "cml-execution-section",
+            "heading": "Carrying Models into Generation, Direct Execution and Extensions",
+            "coreRefs": {
+              "steps": [
+                "cml-execution"
+              ],
+              "claims": [
+                "cml-execution-claim-1",
+                "cml-execution-claim-2"
+              ],
+              "nodes": [
+                "cml-execution-node-1",
+                "cml-execution-node-2"
+              ],
+              "relations": [
+                "cml-execution-relation-1"
+              ],
+              "flows": [
+                "cml-execution-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-execution-paragraph-1",
+                "kind": "paragraph",
+                "text": "After parsing and normalization, CML structure and metadata become Scala types and APIs, component connection structures, and executable Workflow and state-machine definitions. Direct model execution means that the platform follows these definitions rather than requiring their rules to be reimplemented as application procedures. Generation, registration and provider binding are part of this realization.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-execution"
+                  ],
+                  "claims": [
+                    "cml-execution-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-execution-node-1",
+                    "cml-execution-node-2"
+                  ],
+                  "relations": [
+                    "cml-execution-relation-1"
+                  ],
+                  "flows": [
+                    "cml-execution-flow"
+                  ]
+                }
+              },
+              {
+                "id": "cml-execution-paragraph-2",
+                "kind": "paragraph",
+                "text": "Calculations or external integrations beyond the model are implemented within typed APIs, with Consequence representing results and mechanisms such as UoW coordinating effects. Models define the intended behavior; the platform manages authorization, commit and failure handling. Provider or deployment changes retain their relationship to the business contracts.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-execution"
+                  ],
+                  "claims": [
+                    "cml-execution-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-execution-node-1",
+                    "cml-execution-node-2"
+                  ],
+                  "relations": [
+                    "cml-execution-relation-1"
+                  ],
+                  "flows": [
+                    "cml-execution-flow"
+                  ]
+                }
+              },
+              {
+                "id": "model-realization",
+                "kind": "figure",
+                "coreRefs": {
+                  "steps": [
+                    "cml-execution"
+                  ],
+                  "claims": [
+                    "cml-execution-claim-1",
+                    "cml-execution-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-execution-node-1",
+                    "cml-execution-node-2"
+                  ],
+                  "relations": [
+                    "cml-execution-relation-1"
+                  ],
+                  "flows": [
+                    "cml-execution-flow"
+                  ]
+                },
+                "asset": "images/model-realization-en.png",
+                "caption": "Realizing models as execution",
+                "alt": "Realizing models as execution"
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "cml-checks-section",
+            "heading": "Changing Models through Cross-model Verification",
+            "coreRefs": {
+              "steps": [
+                "cml-checks"
+              ],
+              "claims": [
+                "cml-checks-claim-1",
+                "cml-checks-claim-2"
+              ],
+              "nodes": [
+                "cml-checks-node-1",
+                "cml-checks-node-2"
+              ],
+              "relations": [
+                "cml-checks-relation-1"
+              ],
+              "flows": [
+                "cml-checks-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-checks-paragraph-1",
+                "kind": "paragraph",
+                "text": "Grammar and reference checks, type checking, semantic model review and execution tests address different errors. A type mismatch can be detected mechanically, whereas the suitability of approval conditions requires requirements and examples. Reviews through textus-cbd-support use models to examine correspondence among use cases, Operations, Entities, Workflows and state machines.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-checks"
+                  ],
+                  "claims": [
+                    "cml-checks-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-checks-node-1",
+                    "cml-checks-node-2"
+                  ],
+                  "relations": [
+                    "cml-checks-relation-1"
+                  ],
+                  "flows": [
+                    "cml-checks-flow"
+                  ]
+                }
+              },
+              {
+                "id": "cml-checks-paragraph-2",
+                "kind": "paragraph",
+                "text": "A change begins by identifying the affected terminology and requirements, then updating relevant types, rules, transitions, operations and Views. Regenerated artifacts undergo mechanical checks and model review, followed by normal, boundary and exceptional examples. Executable models also require review: deterministic processor checks and semantic examination serve complementary purposes.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-checks"
+                  ],
+                  "claims": [
+                    "cml-checks-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-checks-node-1",
+                    "cml-checks-node-2"
+                  ],
+                  "relations": [
+                    "cml-checks-relation-1"
+                  ],
+                  "flows": [
+                    "cml-checks-flow"
+                  ]
+                }
+              },
+              {
+                "id": "check-stages",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "cml-checks"
+                  ],
+                  "claims": [
+                    "cml-checks-claim-1",
+                    "cml-checks-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-checks-node-1",
+                    "cml-checks-node-2"
+                  ],
+                  "relations": [
+                    "cml-checks-relation-1"
+                  ],
+                  "flows": [
+                    "cml-checks-flow"
+                  ]
+                },
+                "caption": "Combining checks",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Stage"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "What is checked"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "Complementary check"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "check-stages-row-1",
+                    "cells": [
+                      "CML parsing / normalization",
+                      "Grammar, type references, kinds, declarations",
+                      "Requirement meaning"
+                    ]
+                  },
+                  {
+                    "id": "check-stages-row-2",
+                    "cells": [
+                      "Typed implementation / compilation",
+                      "Inputs, outputs, type composition",
+                      "Rule validity and execution results"
+                    ]
+                  },
+                  {
+                    "id": "check-stages-row-3",
+                    "cells": [
+                      "Model review",
+                      "Requirements, structure, decisions, progression",
+                      "Actual bindings and failure behavior"
+                    ]
+                  },
+                  {
+                    "id": "check-stages-row-4",
+                    "cells": [
+                      "Execution verification",
+                      "Normal, boundary and exceptional examples",
+                      "Keep definitions and examples aligned"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "cml-practice-section",
+            "heading": "Establishing Model Connections with a Small Use Case",
+            "coreRefs": {
+              "steps": [
+                "cml-practice"
+              ],
+              "claims": [
+                "cml-practice-claim-1",
+                "cml-practice-claim-2"
+              ],
+              "nodes": [
+                "cml-practice-node-1",
+                "cml-practice-node-2"
+              ],
+              "relations": [
+                "cml-practice-relation-1"
+              ],
+              "flows": [
+                "cml-practice-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-practice-paragraph-1",
+                "kind": "paragraph",
+                "text": "Begin with one goal and connect the necessary terminology, inputs and outputs, Entities and Values, decision rules, Workflow and state machines. Add reading and presentation for the same goal and verify the path from user action to result. The focus is consistency of types, meaning and state across models rather than increasing the number of diagrams.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-practice"
+                  ],
+                  "claims": [
+                    "cml-practice-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-practice-node-1",
+                    "cml-practice-node-2"
+                  ],
+                  "relations": [
+                    "cml-practice-relation-1"
+                  ],
+                  "flows": [
+                    "cml-practice-flow"
+                  ]
+                }
+              },
+              {
+                "id": "cml-practice-paragraph-2",
+                "kind": "paragraph",
+                "text": "As more use cases are added, shared concepts and rules are organized in the domain, while goal-specific progression remains in the application. Use-case realization links requirements to implementing models. Model up/down is a different activity: moving between domain-level descriptions and implementation or execution representations, and feeding discovered insights back into the model.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-practice"
+                  ],
+                  "claims": [
+                    "cml-practice-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-practice-node-1",
+                    "cml-practice-node-2"
+                  ],
+                  "relations": [
+                    "cml-practice-relation-1"
+                  ],
+                  "flows": [
+                    "cml-practice-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "cml-conclusion-section",
+            "heading": "Conclusion",
+            "coreRefs": {
+              "steps": [
+                "cml-conclusion"
+              ],
+              "claims": [
+                "cml-conclusion-claim-1"
+              ],
+              "nodes": [
+                "cml-conclusion-node-1",
+                "cml-conclusion-node-2"
+              ],
+              "relations": [
+                "cml-conclusion-relation-1"
+              ],
+              "flows": [
+                "cml-conclusion-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-conclusion-paragraph-1",
+                "kind": "paragraph",
+                "text": "CML modeling divides responsibility among terminology, structure, rules, behavior, reading and presentation while preserving their relationships. Types and constraints govern values, rules govern decisions, and Workflows and state machines govern progression; generation and Textus/CNCF connect these definitions to implementation. This structure supports reuse and change and clarifies the scope of AI supplementation, allowing model-driven development to function as an AI development harness.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-conclusion"
+                  ],
+                  "claims": [
+                    "cml-conclusion-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-conclusion-node-1",
+                    "cml-conclusion-node-2"
+                  ],
+                  "relations": [
+                    "cml-conclusion-relation-1"
+                  ],
+                  "flows": [
+                    "cml-conclusion-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "cml-sources-section",
+            "heading": "Appendix: Sources and Related Guides",
+            "coreRefs": {
+              "steps": [
+                "cml-sources"
+              ],
+              "claims": [
+                "cml-sources-claim-1"
+              ],
+              "nodes": [
+                "cml-sources-node-1",
+                "cml-sources-node-2"
+              ],
+              "relations": [
+                "cml-sources-relation-1"
+              ],
+              "flows": [
+                "cml-sources-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-sources-paragraph-1",
+                "kind": "paragraph",
+                "text": "This guide draws on Cozy’s accepted grammar and generation contracts, CNCF’s Rule Engine foundation and SimpleModeling’s modeling approach. The following are internal repository sources. Latest-grammar design material includes planned work, so extension directions such as the general RULE DSL are distinguished from accepted Datatype, Operation and Workflow contracts.",
+                "coreRefs": {
+                  "steps": [
+                    "cml-sources"
+                  ],
+                  "claims": [
+                    "cml-sources-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-sources-node-1",
+                    "cml-sources-node-2"
+                  ],
+                  "relations": [
+                    "cml-sources-relation-1"
+                  ],
+                  "flows": [
+                    "cml-sources-flow"
+                  ]
+                }
+              },
+              {
+                "id": "source-map",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "cml-sources"
+                  ],
+                  "claims": [
+                    "cml-sources-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-sources-node-1",
+                    "cml-sources-node-2"
+                  ],
+                  "relations": [
+                    "cml-sources-relation-1"
+                  ],
+                  "flows": [
+                    "cml-sources-flow"
+                  ]
+                },
+                "caption": "Internal source material",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Source"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Use in this guide"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "source-map-row-1",
+                    "cells": [
+                      "Cozy: docs/design/cml-grammar.md",
+                      "Accepted grammar and Datatype example"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-2",
+                    "cells": [
+                      "Cozy: docs/spec/cml-value-datatype-contract.md",
+                      "Value, Datatype, Operation and constraint projection"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-3",
+                    "cells": [
+                      "Cozy: src/test/scala/cozy/modeler/CmlOperationLocalMetadataSpec.scala",
+                      "Local Operation syntax and checks"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-4",
+                    "cells": [
+                      "Cozy: docs/spec/cml-workflow-source-contract.md",
+                      "Workflow, CSM and required operations"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-5",
+                    "cells": [
+                      "Cozy: docs/spec/statemachine-workflow-generated-abi-contract.md",
+                      "Generated definitions and provider bindings"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-6",
+                    "cells": [
+                      "Cozy: docs/notes/cml-grammar-latest.md",
+                      "Literate models and RULE extension direction"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-7",
+                    "cells": [
+                      "CNCF: docs/spec/rule-engine-inference-runtime.md",
+                      "Rule evaluation and action admission"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-8",
+                    "cells": [
+                      "SimpleModeling.org: docs/journal/2026/10/2026-10-17-domain-rule-harness-cncf-series.md",
+                      "Domain Rule to runtime integration direction"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "guide-map",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "cml-sources"
+                  ],
+                  "claims": [
+                    "cml-sources-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-sources-node-1",
+                    "cml-sources-node-2"
+                  ],
+                  "relations": [
+                    "cml-sources-relation-1"
+                  ],
+                  "flows": [
+                    "cml-sources-flow"
+                  ]
+                },
+                "caption": "Related guides",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Guide"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Detailed subject"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "guide-map-row-1",
+                    "cells": [
+                      "Overview",
+                      "Models, components and runtime architecture"
+                    ]
+                  },
+                  {
+                    "id": "guide-map-row-2",
+                    "cells": [
+                      "DDD",
+                      "Model roles through DDD and PoEAA"
+                    ]
+                  },
+                  {
+                    "id": "guide-map-row-3",
+                    "cells": [
+                      "Modeling and FP",
+                      "Types, Consequence, Free Monad and UoW"
+                    ]
+                  },
+                  {
+                    "id": "guide-map-row-4",
+                    "cells": [
+                      "UI",
+                      "View, Display and multiple UI platforms"
+                    ]
+                  },
+                  {
+                    "id": "guide-map-row-5",
+                    "cells": [
+                      "Reactive / Security",
+                      "Shared execution mechanisms and quality"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "textus-cncf-cml-modeling",
+        "text": "CML Modeling Technical Guide"
+      },
+      {
+        "stepRef": "cml-purpose",
+        "text": "Connecting Business Meaning to Development and Execution"
+      },
+      {
+        "stepRef": "cml-literate",
+        "text": "Writing Structure, Metadata and Narrative in One Literate Model"
+      },
+      {
+        "stepRef": "cml-static",
+        "text": "Defining Value Meaning and Update Boundaries"
+      },
+      {
+        "stepRef": "cml-types",
+        "text": "Choosing Datatypes, Powertypes and State Machines"
+      },
+      {
+        "stepRef": "cml-dynamic",
+        "text": "Connecting Requirements to Executable Behavior"
+      },
+      {
+        "stepRef": "cml-usecase",
+        "text": "Mapping Use Cases to Operations and State"
+      },
+      {
+        "stepRef": "cml-workflow",
+        "text": "Defining Progression and Transitions with Workflows and State Machines"
+      },
+      {
+        "stepRef": "cml-rules",
+        "text": "Modeling Business Rules"
+      },
+      {
+        "stepRef": "cml-rule-kinds",
+        "text": "Separating Input Constraints, Decisions and Guards"
+      },
+      {
+        "stepRef": "cml-rule-execution",
+        "text": "Separating Rule Evaluation from Action Execution"
+      },
+      {
+        "stepRef": "cml-contracts",
+        "text": "Connecting Models and Implementations through Operation Contracts"
+      },
+      {
+        "stepRef": "cml-ui",
+        "text": "Separating Reading and Presentation with View and Display"
+      },
+      {
+        "stepRef": "cml-execution",
+        "text": "Carrying Models into Generation, Direct Execution and Extensions"
+      },
+      {
+        "stepRef": "cml-checks",
+        "text": "Changing Models through Cross-model Verification"
+      },
+      {
+        "stepRef": "cml-practice",
+        "text": "Establishing Model Connections with a Small Use Case"
+      },
+      {
+        "stepRef": "cml-conclusion",
+        "text": "Conclusion"
+      },
+      {
+        "stepRef": "cml-sources",
+        "text": "Appendix: Sources and Related Guides"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "textus-cncf-cml-modeling-node-1",
+        "text": "Describe business concepts and rules as models"
+      },
+      {
+        "nodeRef": "textus-cncf-cml-modeling-node-2",
+        "text": "Carry model connections into checks, generation and execution"
+      },
+      {
+        "nodeRef": "cml-purpose-node-1",
+        "text": "Describe at domain-level abstraction"
+      },
+      {
+        "nodeRef": "cml-purpose-node-2",
+        "text": "Carry definitions into checks, generation and execution"
+      },
+      {
+        "nodeRef": "cml-literate-node-1",
+        "text": "Keep machine-readable definitions beside explanations"
+      },
+      {
+        "nodeRef": "cml-literate-node-2",
+        "text": "Keep narrative from overriding executable rules"
+      },
+      {
+        "nodeRef": "cml-static-node-1",
+        "text": "Separate identity, values, classification and consistency"
+      },
+      {
+        "nodeRef": "cml-static-node-2",
+        "text": "Project types and constraints across boundaries"
+      },
+      {
+        "nodeRef": "cml-types-node-1",
+        "text": "Define admissible values and classification"
+      },
+      {
+        "nodeRef": "cml-types-node-2",
+        "text": "Treat state changes as explicit rules"
+      },
+      {
+        "nodeRef": "cml-dynamic-node-1",
+        "text": "Separate examples from general progression rules"
+      },
+      {
+        "nodeRef": "cml-dynamic-node-2",
+        "text": "Connect requirements to realizing models"
+      },
+      {
+        "nodeRef": "cml-usecase-node-1",
+        "text": "Describe goals, preconditions and expected outcomes"
+      },
+      {
+        "nodeRef": "cml-usecase-node-2",
+        "text": "Compare main, alternate and exceptional examples"
+      },
+      {
+        "nodeRef": "cml-workflow-node-1",
+        "text": "Make states, events and conditions explicit"
+      },
+      {
+        "nodeRef": "cml-workflow-node-2",
+        "text": "Connect logical operations to execution providers"
+      },
+      {
+        "nodeRef": "cml-rules-node-1",
+        "text": "Make decision conditions and ownership explicit"
+      },
+      {
+        "nodeRef": "cml-rules-node-2",
+        "text": "Connect rules to progression and updates"
+      },
+      {
+        "nodeRef": "cml-rule-kinds-node-1",
+        "text": "Place rules according to what they govern"
+      },
+      {
+        "nodeRef": "cml-rule-kinds-node-2",
+        "text": "Use decision results as progression conditions"
+      },
+      {
+        "nodeRef": "cml-rule-execution-node-1",
+        "text": "Evaluate immutable inputs into results and explanations"
+      },
+      {
+        "nodeRef": "cml-rule-execution-node-2",
+        "text": "Route updates through authorization and UoW"
+      },
+      {
+        "nodeRef": "cml-contracts-node-1",
+        "text": "Define inputs and outputs as meaningful types"
+      },
+      {
+        "nodeRef": "cml-contracts-node-2",
+        "text": "Connect reused and supplementary code to one contract"
+      },
+      {
+        "nodeRef": "cml-ui-node-1",
+        "text": "Model the meaning of read results"
+      },
+      {
+        "nodeRef": "cml-ui-node-2",
+        "text": "Connect presentation and actions to business contracts"
+      },
+      {
+        "nodeRef": "cml-execution-node-1",
+        "text": "Project definitions into processor contracts"
+      },
+      {
+        "nodeRef": "cml-execution-node-2",
+        "text": "Separate business meaning from execution conditions"
+      },
+      {
+        "nodeRef": "cml-checks-node-1",
+        "text": "Assign checks to distinct stages"
+      },
+      {
+        "nodeRef": "cml-checks-node-2",
+        "text": "Update models and examples together"
+      },
+      {
+        "nodeRef": "cml-practice-node-1",
+        "text": "Assemble models for one goal"
+      },
+      {
+        "nodeRef": "cml-practice-node-2",
+        "text": "Extract shared concepts through iteration"
+      },
+      {
+        "nodeRef": "cml-conclusion-node-1",
+        "text": "Share model meaning across execution boundaries"
+      },
+      {
+        "nodeRef": "cml-conclusion-node-2",
+        "text": "Make models and processors the development foundation"
+      },
+      {
+        "nodeRef": "cml-sources-node-1",
+        "text": "Distinguish accepted contracts from extension directions"
+      },
+      {
+        "nodeRef": "cml-sources-node-2",
+        "text": "Follow detailed guides for specific concerns"
+      }
+    ]
+  }
+}

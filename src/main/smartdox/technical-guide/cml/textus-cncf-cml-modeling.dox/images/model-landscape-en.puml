@@ -1,0 +1,25 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 20
+skinparam nodesep 25
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam dpi 150
+
+rectangle "Terms / Requirements\nBoK / Use Case" as terms
+rectangle "Domain\nTypes / Structure / Rules" as domain
+rectangle "Application\nWorkflow / StateMachine" as app
+rectangle "View / Display\nReading and actions" as ui
+rectangle "Textus/CNCF\nModel / Component execution" as exec
+terms -right-> domain : Shared meaning
+terms -down-> app : Realization
+app -up-> domain : Operations / Decisions
+domain -down-> ui : Read semantics
+ui -left-> app : Public operations
+app -down-> exec : Progression definitions
+@enduml

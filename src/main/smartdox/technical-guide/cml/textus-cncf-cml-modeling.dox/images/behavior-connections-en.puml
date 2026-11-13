@@ -1,0 +1,24 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 20
+skinparam nodesep 25
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam dpi 150
+
+rectangle "Use case\nGoal / Examples / Outcomes" as uc
+rectangle "Workflow\nProgression / Required operations" as wf
+rectangle "State machine\nState / Event / Guard" as sm
+rectangle "Operation / Entity\nTyped contracts / State" as op
+rectangle "Comparison / Execution tests\nNormal / Boundary / Exceptional" as test
+uc -right-> wf : Realized by
+wf -down-> sm : State rules
+wf -down-> op : Uses
+uc -down-> test : Expected outcomes
+op -left-> test : Actual outcomes
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 20
+skinparam nodesep 25
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam dpi 150
+
+rectangle "Domain Rule\nMeaning / Inputs / Conditions / Results" as rule
+rectangle "CNCF Rule Model\nRuleSet / Fact / Program" as model
+rectangle "Rule Engine\nEvaluation / Derivation / Plans" as eval
+rectangle "Explicit action admission" as admit
+rectangle "Operation / Event / Job\nAuthorization / UoW / Observation" as run
+rule -right-> model : Projection / Integration design
+model -down-> eval : Immutable inputs
+eval -left-> admit : Results and plans
+admit -down-> run : Standard execution paths
+@enduml

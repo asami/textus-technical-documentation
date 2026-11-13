@@ -1,0 +1,24 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 20
+skinparam nodesep 25
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam dpi 150
+
+rectangle "CML\n構造・メタデータ" as cml
+rectangle "Cozy\n解析・正規化・生成" as cozy
+rectangle "型付きAPI\n再利用・補完実装" as types
+rectangle "実行定義\nWorkflow / StateMachine" as defs
+rectangle "Textus/CNCF\n接続・実行・更新管理" as runtime
+cml -right-> cozy : 定義
+cozy -down-> types : 型・契約
+cozy -down-> defs : モデルの規則
+types -down-> runtime : 業務固有の処理
+defs -down-> runtime : 定義に従う実行
+@enduml

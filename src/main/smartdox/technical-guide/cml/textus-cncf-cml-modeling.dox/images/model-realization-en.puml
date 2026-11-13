@@ -1,0 +1,24 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 20
+skinparam nodesep 25
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam dpi 150
+
+rectangle "CML\nStructure / Metadata" as cml
+rectangle "Cozy\nParse / Normalize / Generate" as cozy
+rectangle "Typed APIs\nReuse / Extensions" as types
+rectangle "Executable definitions\nWorkflow / StateMachine" as defs
+rectangle "Textus/CNCF\nBinding / Execution / Commit" as runtime
+cml -right-> cozy : Definitions
+cozy -down-> types : Types / Contracts
+cozy -down-> defs : Model rules
+types -down-> runtime : Business-specific behavior
+defs -down-> runtime : Definition-driven execution
+@enduml

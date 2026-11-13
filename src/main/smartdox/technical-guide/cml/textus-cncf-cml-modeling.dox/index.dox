@@ -1,0 +1,239 @@
+CML Modeling Technical Guide｜CMLによるモデリング技術ガイド
+================================================================================
+
+# HEAD
+
+status=draft
+published_at=2026-10-27
+document=textus-cncf-cml-modeling
+
+## SUMMARY
+
+<span lang="ja">CMLは、業務の概念・規則・振る舞いを、開発と実行で利用するモデルとして記述する言語です。本書は、文芸モデルの書き方から静的構造、ユースケース、Workflow、状態機械、業務ルール、UIとの接続までを整理し、それらを組み合わせてTextus/CNCFで動作させる道筋を説明します。</span><span lang="en">CML describes business concepts, rules and behavior as models used in development and execution. This guide connects literate model authoring with static structure, use cases, Workflows, state machines, business rules and UI, explaining how these models combine into applications running on Textus/CNCF.</span>
+
+# Connecting Business Meaning to Development and Execution｜CMLで業務の意味を開発と実行へつなぐ
+
+<span lang="ja">CMLは、業務の概念・関係・規則・振る舞いを記述するためのモデル言語です。プログラミング言語や保存形式の詳細から離れ、ソフトウェアが扱う意味をモデルとして定めます。SimpleModelingでは、このモデルを開発と実行の基盤にすることで、業務上の定義をコード、画面、データベースへ個別に書き直す負担を減らします。</span><span lang="en">CML is a model language for business concepts, relationships, rules and behavior. It defines software meaning apart from programming-language and storage details. SimpleModeling uses these models as a foundation for development and execution, reducing repeated translations of business definitions into code, screens and databases.</span>
+
+<span lang="ja">CozyはCMLを解析し、型付きAPI、接続構造、実行定義へ具体化します。Textus/CNCFは実行可能な定義を解釈し、共通の実行機構を適用します。不足する業務固有の処理は、生成された契約に沿って補完します。モデルを記述することが、実装と検証の対象を直接定める作業になります。</span><span lang="en">Cozy analyzes CML and projects it into typed APIs, connection structures and executable definitions. Textus/CNCF interprets supported executable definitions and applies shared runtime mechanisms. Business-specific behavior is added within the generated contracts. Authoring models therefore directly establishes what will be implemented and verified.</span>
+
+<span lang="ja">[[images/model-landscape-ja.png]]</span><span lang="en">[[images/model-landscape-en.png]]</span>
+
+<span lang="ja">モデルの分担と接続</span><span lang="en">Model responsibilities and connections</span>
+
+# Writing Structure, Metadata and Narrative in One Literate Model｜構造・メタデータ・説明を一つの文芸モデルに記述する
+
+<span lang="ja">CMLはSmartDoxを基盤に、見出し、属性表、メタデータ、説明文を組み合わせて記述します。EntityやOperationなどの構造、型・多重度・制約などの機械処理する情報、用語の意味や設計理由を説明する文章が共存します。構造を変更するときに、その定義を採用した理由も同じ文書で確認できます。</span><span lang="en">CML uses SmartDox to combine headings, attribute tables, metadata and prose. Structures such as Entity and Operation coexist with machine-readable types, multiplicities and constraints, and with explanations of terminology and design rationale. A structural change can therefore be reviewed together with the reason for the definition.</span>
+
+<span lang="ja">処理系が解釈するのは、対応する文法で定義された構造とメタデータです。「空欄を認めない」と説明文に書くだけでは、必須属性の定義にはなりません。文章には意味と理由を、型・多重度・制約には検査可能な条件を記述します。BoKの用語集と対応付けるときも、名前が似ているだけで同じ概念とせず、どの用語とモデル要素を結び付けるかを明示します。</span><span lang="en">The processor interprets structure and metadata defined by supported grammar. A sentence saying that a field is required does not itself define required multiplicity. Prose explains meaning and rationale; types, multiplicities and constraints express checkable conditions. Links to BoK terminology should likewise identify the intended terms and model elements rather than treating similar names as identical concepts.</span>
+
+#+CAPTION: <span lang="ja">文芸モデルの三つの層</span><span lang="en">Three layers of a literate model</span>
+| <span lang="ja">層</span><span lang="en">Layer</span> | <span lang="ja">記述する内容</span><span lang="en">Content</span> | <span lang="ja">使い方</span><span lang="en">Use</span> |
+| --- | --- | --- |
+| <span lang="ja">構造</span><span lang="en">Structure</span> | <span lang="ja">Entity・Operation・Workflowなど</span><span lang="en">Entities, Operations, Workflows</span> | <span lang="ja">モデル要素と接続を定める</span><span lang="en">Define elements and connections</span> |
+| <span lang="ja">メタデータ</span><span lang="en">Metadata</span> | <span lang="ja">型・多重度・制約・種別</span><span lang="en">Types, multiplicity, constraints, kind</span> | <span lang="ja">構造の解釈と検査条件を定める</span><span lang="en">Define interpretation and checks</span> |
+| <span lang="ja">説明</span><span lang="en">Narrative</span> | <span lang="ja">意味・理由・実例・補助図</span><span lang="en">Meaning, rationale, examples, diagrams</span> | <span lang="ja">人間とAIによる理解・レビューを支える</span><span lang="en">Support understanding and review</span> |
+
+# Connecting Term References and Runtime Knowledge｜用語参照と実行時の知識を接続する
+
+<span lang="ja">BoKの用語と業務固有の判断をCMLの要素へ対応付けることで、型・関係・規則が何を意味するかを保持します。CozyのTerminologyメタデータは明示された用語参照、モデル要素、ラベル、出典と参照範囲を扱い、同名だけで同義と判断しません。設計の手順は「BoKからドメイン・モデルを設計する」で説明します。</span><span lang="en">Mapping BoK terms and project decisions to CML elements preserves the meaning of types, relationships and rules. Cozy terminology metadata handles declared term references, model elements, labels, attribution and scope; matching names do not establish synonymy. Designing Domain Models from a BoK explains the design procedure.</span>
+
+<span lang="ja">モデル定義と実行時のEntityは区別します。CNCFのInformationもCMLを正本として生成されるモデルであり、業務Entityから必要な情報を取り出す対応と実行時の接続は別に定めます。「Entityを知識として扱う」では、Information、RDF等の知識表現、検索・AI提供へ意味・出典・参照条件を引き継ぐ構成を説明します。</span><span lang="en">Model definitions and runtime Entities remain distinct. CNCF Information is itself generated from canonical CML; mappings that extract information from business Entities and their runtime connections are specified separately. Using Entities as Knowledge describes retaining meaning, provenance and access conditions across Information, representations such as RDF, and search or AI delivery.</span>
+
+# Defining Value Meaning and Update Boundaries｜静的モデルで値の意味と更新の境界を定める
+
+<span lang="ja">ドメイン・モデルは静的構造を中心に業務概念を定めます。Entityは同一性を追跡する対象、Valueは値として扱う構造、Datatypeは名前と制約を持つデータ型を表します。Aggregateでは関連する状態と更新の整合性を扱う範囲を定めます。この分担により、同じ文字列や数値でも意味が違う値を区別し、どの操作がどの状態を変更するかを整理できます。</span><span lang="en">Domain models center on static business structure. Entities identify objects whose identity persists; Values describe value-shaped structures; Datatypes express named data types and constraints. Aggregates establish the scope of related state and update consistency. These distinctions separate values with different meanings even when represented by the same primitive type and clarify which operations change which state.</span>
+
+<span lang="ja">属性には型、多重度、長さや値域などの制約を記述します。受理された制約は、生成される型の構築・読込み、Operation入力、保存との変換、フォームなどの接点へ引き継ぎます。画面だけの入力チェックにせず、同じ定義を業務側の境界にも適用するため、入口ごとの条件のずれを減らせます。</span><span lang="en">Attributes declare types, multiplicities and constraints such as length and range. Accepted constraints are carried into generated construction and decoding, Operation inputs, persistence conversion and form metadata. Applying the same definitions at business boundaries as well as screens reduces differences between entry points.</span>
+
+#+CAPTION: <span lang="ja">静的モデルの選択と組合せ</span><span lang="en">Choosing and combining static models</span>
+| <span lang="ja">対象</span><span lang="en">Subject</span> | <span lang="ja">モデル</span><span lang="en">Model</span> | <span lang="ja">接続する規則</span><span lang="en">Connected rules</span> |
+| --- | --- | --- |
+| <span lang="ja">継続して識別する対象</span><span lang="en">Persistent identity</span> | <span lang="ja">Entity</span><span lang="en">Entity</span> | <span lang="ja">更新操作とライフサイクル</span><span lang="en">Update operations and lifecycle</span> |
+| <span lang="ja">値のまとまり</span><span lang="en">Composite value</span> | <span lang="ja">Value</span><span lang="en">Value</span> | <span lang="ja">構成する属性の型と制約</span><span lang="en">Attribute types and constraints</span> |
+| <span lang="ja">意味を持つ単一値</span><span lang="en">Named scalar</span> | <span lang="ja">Datatype</span><span lang="en">Datatype</span> | <span lang="ja">構築・読込み時の条件</span><span lang="en">Construction and decoding conditions</span> |
+| <span lang="ja">閉じた区分</span><span lang="en">Closed vocabulary</span> | <span lang="ja">Powertype</span><span lang="en">Powertype</span> | <span lang="ja">許される分類値</span><span lang="en">Allowed classification values</span> |
+| <span lang="ja">更新の整合性の範囲</span><span lang="en">Update consistency scope</span> | <span lang="ja">Aggregate</span><span lang="en">Aggregate</span> | <span lang="ja">不変条件と確定の境界</span><span lang="en">Invariants and commit boundary</span> |
+
+## Choosing Datatypes, Powertypes and State Machines｜Datatype・Powertype・状態機械を使い分ける
+
+<span lang="ja">例えば識別子は、文字列という実装型だけでなく、名前付きDatatypeと長さ・形式の制約で表します。有限の区分はPowertypeで表し、その区分への遷移までモデルが所有する場合は状態機械を使います。外部システムが追加するコードの一覧を、その時点の値だけで閉じたPowertypeにすることは避けます。</span><span lang="en">An identifier can be represented by a named Datatype with length and format constraints rather than only by its string representation. Powertypes describe closed vocabularies; state machines describe lifecycles when the model owns their transitions. A list of codes extended by an external system should not be closed merely because its current values are known.</span>
+
+<span lang="ja">次の断片は、Cozyの受理済みDatatype文法にあるLoginNameの例です。min-lengthとmax-lengthは文字列長を表し、数値のminとmaxとは区別します。モデルの名前を型へ保つことで、構築時の検査と、型を使う実装上の取り違えの抑制を組み合わせます。</span><span lang="en">The following fragment is the LoginName example from Cozy’s accepted Datatype grammar. min-length and max-length specify text length and differ from numeric min and max. Preserving the model name as a type combines construction-time checking with protection against mixing distinct types in implementation.</span>
+
+<span lang="ja">Datatypeの記述断片</span><span lang="en">Datatype fragment</span>
+
+#+begin_src cml
+# DATATYPE
+
+## LoginName
+
+### ATTRIBUTE
+
+| name | type | multiplicity | min-length | max-length | pattern |
+|------|------|--------------|------------|------------|---------|
+| value | string | 1 | 5 | 12 | ^user.+$ |
+
+#+end_src
+
+# Connecting Requirements to Executable Behavior｜要求と実行する振る舞いを接続する
+
+<span lang="ja">CMLによる動的モデリングでは、ユースケース、Workflow、状態機械を接続して扱います。ユースケースは目的と具体的な利用の流れから要求を記述する帰納的なモデルです。Workflowと状態機械は、実行時に従う進行や遷移の規則を定める演繹的なモデルです。この違いに応じて、実例による確認と規則に従う実行を使い分けます。</span><span lang="en">Dynamic modeling with CML connects use cases, Workflows and state machines. Use cases are inductive models describing requirements through goals and concrete interaction flows. Workflows and state machines are deductive models defining progression and transition rules for execution. Their different roles support example-based verification and rule-governed execution.</span>
+
+<span lang="ja">[[images/behavior-connections-ja.png]]</span><span lang="en">[[images/behavior-connections-en.png]]</span>
+
+<span lang="ja">実例による検証と規則に従う実行</span><span lang="en">Example-based verification and rule-governed execution</span>
+
+## Mapping Use Cases to Operations and State｜ユースケースを実現する操作と状態へ対応付ける
+
+<span lang="ja">ユースケースにはActor、目的、前提条件、期待する結果、正常・代替・例外の流れを記述します。その内容をWorkflow、Operation、Entity、状態機械へ対応付け、どのモデルが要求のどの部分を実現するかを確認します。ユースケース自体を直接実行するのではなく、実現するモデルとの整合性を検査するために使います。</span><span lang="en">A use case describes actors, goals, preconditions, expected outcomes and main, alternate and exceptional flows. Mapping it to Workflows, Operations, Entities and state machines identifies how each part of the requirement is realized. The use case itself is not directly executed; it supports consistency checks against the realizing models.</span>
+
+<span lang="ja">例えば「申請を承認する」という要求なら、承認できる担当者、申請の状態、承認操作の入力、完了後の状態を対応付けます。差戻しや権限不足の実例も照合すると、正常系だけでは見えない条件を確認できます。相互作用図やUML由来のアクティビティ図は説明を補助しますが、その図だけでCMLの実行定義を代替するものではありません。</span><span lang="en">For an approval requirement, the model connects the authorized role, request state, approval input and resulting state. Examples involving return for revision or insufficient authority expose conditions absent from the normal flow. Interaction diagrams and UML activity diagrams can support explanation, but do not by themselves replace executable CML definitions.</span>
+
+## Defining Progression and Transitions with Workflows and State Machines｜Workflowと状態機械で進行と遷移を定める
+
+<span lang="ja">アプリケーション・モデルは、ユースケースを起点にしたWorkflowを中心に、ドメインの操作を利用して目的を実現する進行を定めます。状態機械は状態、イベント、遷移条件を明示します。条件分岐を複数の手続きへ分散させず、どの状態で何が許されるかをモデルとして確認できるようにします。</span><span lang="en">Application models center on Workflows derived from use cases, coordinating domain operations to achieve goals. State machines make states, events and transition conditions explicit. Instead of distributing those conditions among procedures, the model exposes what is permitted in each state.</span>
+
+<span lang="ja">現在のCMLのWORKFLOW契約では、構造をCOMPOSITE-STATEMACHINEへ正規化し、必要な操作をREQUIRED-OPERATIONで宣言します。CML側の論理的な操作と、実行時に選ぶProviderの接続は分かれています。対応する生成定義と接続先をTextus/CNCFへ渡すことで、モデルの進行規則に従って実行します。Workflow名を書くだけで外部接続や再実行の安全性まで決まるわけではなく、それぞれの契約を合わせます。</span><span lang="en">The current CML WORKFLOW contract normalizes structure into a COMPOSITE-STATEMACHINE and declares required capabilities through REQUIRED-OPERATION. Logical operations in CML are separate from runtime provider bindings. Generated definitions and their bindings enable Textus/CNCF to execute the modeled progression. External connectivity and safe re-execution require their own corresponding contracts rather than following from a Workflow name alone.</span>
+
+# Modeling Business Rules｜業務ルールをモデルとして記述する
+
+<span lang="ja">業務ルールは、対象に成り立つ条件、計算、分類、判断方針を表します。Domain Ruleとして意味と所有するドメインを明確にし、入力となる値や事実、条件、結果を定めます。画面やWorkflowの各所に同じ判定式を複製せず、規則を参照する接点を作ることで、判断の変更を一箇所の定義へ集めやすくなります。</span><span lang="en">Business rules express conditions, calculations, classification and decision policies. Modeling them as Domain Rules clarifies their meaning and owning domain, with explicit input values or facts, conditions and results. Referencing these rules instead of copying decision logic into screens and Workflows concentrates changes around their definitions.</span>
+
+## Separating Input Constraints, Decisions and Guards｜入力制約・業務判断・遷移条件を分ける
+
+<span lang="ja">値の長さや必須性はDatatype・属性の制約に、複数の事実から決まる価格や審査結果は業務ルールに、次の状態へ進める条件は遷移のGuardに置きます。Workflowはそれらを利用する順序を担当します。この分担により、値の妥当性、業務上の判断、処理の進行を別々に確認したうえで組み合わせられます。</span><span lang="en">Length and requiredness belong to Datatype or attribute constraints; prices or decisions derived from multiple facts belong to business rules; conditions for a transition belong to guards. A Workflow orders their use. This separates value validity, domain decisions and process progression so they can be checked independently and then composed.</span>
+
+<span lang="ja">例えば送料は、配送先区分と購入額を入力にする決定表で求め、注文を確定するWorkflowがその結果を利用します。決定表には、条件が重なる場合の選択と、該当する行がない場合の扱いも定めます。状態機械は「必要な判断が完了した場合に確定できる」という遷移条件を持ち、送料の判定式そのものを重複して持ちません。</span><span lang="en">For example, a decision table can compute delivery charges from destination category and purchase amount, and an order-confirmation Workflow can consume the result. Selection among overlapping conditions and the handling of no matching row must be defined. A state machine can require the necessary decisions before confirmation without duplicating the delivery-price calculation.</span>
+
+#+CAPTION: <span lang="ja">規則の対象と適用先</span><span lang="en">Rule subjects and application points</span>
+| <span lang="ja">問い</span><span lang="en">Question</span> | <span lang="ja">記述・所有する場所</span><span lang="en">Definition / owner</span> | <span lang="ja">適用する場所</span><span lang="en">Application point</span> |
+| --- | --- | --- |
+| <span lang="ja">値として受け入れられるか</span><span lang="en">Is the value admissible?</span> | <span lang="ja">Datatype・属性制約</span><span lang="en">Datatype / attribute constraints</span> | <span lang="ja">構築・デコード・入力境界</span><span lang="en">Construction / decoding / input</span> |
+| <span lang="ja">どの価格・判定結果になるか</span><span lang="en">Which price or decision applies?</span> | <span lang="ja">Domain Rule・決定表</span><span lang="en">Domain Rule / decision table</span> | <span lang="ja">ドメインの判断処理</span><span lang="en">Domain decision</span> |
+| <span lang="ja">この状態から遷移できるか</span><span lang="en">Is this transition allowed?</span> | <span lang="ja">状態機械のGuard</span><span lang="en">State-machine guard</span> | <span lang="ja">遷移の評価</span><span lang="en">Transition evaluation</span> |
+| <span lang="ja">次にどの操作を行うか</span><span lang="en">Which operation follows?</span> | <span lang="ja">Workflow</span><span lang="en">Workflow</span> | <span lang="ja">進行の管理</span><span lang="en">Progression management</span> |
+
+## Separating Rule Evaluation from Action Execution｜ルールの評価とActionの実行を分ける
+
+<span lang="ja">CNCFのRule Engine基盤には、RuleSet、Fact、WorkingMemory、決定表、計算・制約・導出などのモデルがあります。RuleEngineとInferenceEngineは特定製品に固定しない接点です。評価では不変の入力を受け取り、判断結果、導出した事実、説明、必要なら実行計画を返します。評価の段階でEntityの永続状態を直接変更しません。</span><span lang="en">The CNCF Rule Engine foundation provides models for RuleSets, Facts, WorkingMemory, decision tables, calculations, constraints and derivations. RuleEngine and InferenceEngine are provider-neutral interfaces. Evaluation accepts immutable input and returns decisions, derived facts, explanations and, where applicable, action plans. It does not directly change persistent Entity state.</span>
+
+<span lang="ja">Operation・Event・Jobへつなぐ計画は、明示的な受入れを経てCNCFの標準実行経路で動かします。そのため、ルールを採用しても認可、UoW、イベントやJobの管理を迂回せずに済みます。規則のモデル化は判断の根拠を、共通経路は更新の条件を受け持ち、両者の組合せで判断から実行までを統制します。</span><span lang="en">Plans targeting Operations, Events or Jobs run through explicit admission and CNCF’s standard execution paths. Rules therefore retain authorization, UoW, Event and Job management. Rule models govern decision grounds, while shared paths govern conditions for applying changes; their combination controls the passage from decision to execution.</span>
+
+<span lang="ja">CMLの一般的なRULE DSLとDomain RuleからCNCF Rule Modelへの具体化は拡張方針として扱います。現行で受理されるDatatype制約やGuard、Operationの契約と、既存のRule Engine基盤を区別し、全ての業務ルールがCMLから自動生成・実行できるとは扱いません。利用する文法・生成経路・実行Providerの組合せを、対象版で確認します。</span><span lang="en">The general CML RULE DSL and projection from Domain Rule to CNCF Rule Model are treated here as extension directions. Accepted Datatype constraints, guards and Operation contracts are distinguished from the existing Rule Engine foundation; this guide does not assume automatic generation and execution for every business rule. The grammar, generation route and execution provider must be checked for the selected versions.</span>
+
+<span lang="ja">[[images/rule-execution-ja.png]]</span><span lang="en">[[images/rule-execution-en.png]]</span>
+
+<span lang="ja">判断の評価と更新の経路を分ける</span><span lang="en">Separating decision evaluation from update execution</span>
+
+# Connecting Models and Implementations through Operation Contracts｜Operationの契約でモデルと実装を接続する
+
+<span lang="ja">Componentが責務を持ち、ServiceとOperationを通じて機能を公開します。OperationにはCommandまたはQueryの種別、入力Value、出力Resultを定めます。再利用する入力はトップレベルのVALUEにinput-kindを明示し、一度だけ使う入力はOperation内に定義できます。参照する型と、その場で定義する型を同じ入力方向へ重ねて指定しません。</span><span lang="en">Components own responsibilities and expose capabilities through Services and Operations. An Operation declares its Command or Query kind, input Value and output Result. Reusable inputs use top-level VALUE definitions with an explicit input-kind; one-use inputs can be defined locally. Referenced and locally declared schemas are not combined in the same input direction.</span>
+
+<span lang="ja">次の断片ではQueryの入力をローカルなValueとして定義し、出力をResultの構造として記述します。Cozyはこれらを正規化し、型付きの接点へ反映します。型によって既存操作の利用条件が明確になり、再利用とグルーコードの作成を支えます。AIはその契約の中で固有の処理を補完するため、周辺の構造を独自に作り直す範囲を抑えられます。</span><span lang="en">The following fragment defines a local Query input Value and a structured Result. Cozy normalizes these definitions into typed interfaces. Explicit types clarify how existing operations can be used, supporting reuse and glue code. AI can supplement specific behavior within these contracts, limiting the need to redesign surrounding structure.</span>
+
+<span lang="ja">Operationの記述断片</span><span lang="en">Operation fragment</span>
+
+#+begin_src cml
+# SERVICE
+
+## Catalog
+
+### OPERATION
+
+#### searchEntries
+
+##### TYPE
+
+QUERY
+
+##### INPUT
+
+###### VALUE
+
+CatalogQuery
+
+###### ATTRIBUTE
+
+| name | type | multiplicity | min-length | max-length |
+|------|------|--------------|------------|------------|
+| term | string | 1 | 2 | 40 |
+
+##### OUTPUT
+
+###### VALUE
+
+CatalogResult
+
+###### ATTRIBUTE
+
+| name | type | multiplicity |
+|------|------|--------------|
+| titles | string | * |
+
+#+end_src
+
+# Separating Reading and Presentation with View and Display｜ViewとDisplayで参照と表示を分担する
+
+<span lang="ja">Viewは利用目的に応じた参照結果を表し、外側のDisplayは表示する項目と操作の提示を定めます。Entityの保存形をそのまま画面の契約にするのではなく、利用者が必要とする意味のまとまりを経由させます。更新は公開Operationへ戻し、表示の都合で業務規則を作り直さないようにします。</span><span lang="en">A View expresses read results for a purpose; the outer Display defines presentation fields and offered actions. Screens use meaningful results rather than adopting Entity storage shapes as their contracts. Updates return through public Operations, keeping presentation concerns from redefining business rules.</span>
+
+<span lang="ja">この分担は、TextusのWeb UIと、Textusに連動するFlutterアプリケーション・フレームワークによるスマートフォン・Tablet・Web・Desktopへの展開を支えます。独自UIをRESTやgRPCで接続する場合にも、モデルから得た型と操作契約を利用できます。表示の具体化はUI側が担当し、業務の意味と規則を共有します。</span><span lang="en">This separation supports Textus Web UI and smartphone, tablet, Web and desktop applications built on the Flutter application framework integrated with Textus. Independently developed UIs connected through REST or gRPC can also use model-derived types and operation contracts. UI-specific realization remains with the presentation layer while business meaning and rules are shared.</span>
+
+# Carrying Models into Generation, Direct Execution and Extensions｜モデルを生成・直接実行・補完実装へ渡す
+
+<span lang="ja">CMLの構造とメタデータは解析・正規化を経て、Scalaの型やAPI、部品の接続構造、Workflow・状態機械の実行定義になります。Textusがモデルを直接実行するとは、実行基盤がその定義に従って動作し、同じ規則を個別の手続きとして再実装しなくてよいということです。必要な生成や登録、実行先との接続は、このための具体化に含まれます。</span><span lang="en">After parsing and normalization, CML structure and metadata become Scala types and APIs, component connection structures, and executable Workflow and state-machine definitions. Direct model execution means that the platform follows these definitions rather than requiring their rules to be reimplemented as application procedures. Generation, registration and provider binding are part of this realization.</span>
+
+<span lang="ja">モデルで表し切れない計算や外部接続は型付きAPIの内側で補完し、Consequenceで結果を扱い、必要な作用をUoWなどの実行機構へ接続します。モデル側で何を行うかを定め、基盤側で認可・更新の確定・失敗の扱いを管理する構成です。接続先や配備構成を変える場合も、業務上の契約との対応を保ちます。</span><span lang="en">Calculations or external integrations beyond the model are implemented within typed APIs, with Consequence representing results and mechanisms such as UoW coordinating effects. Models define the intended behavior; the platform manages authorization, commit and failure handling. Provider or deployment changes retain their relationship to the business contracts.</span>
+
+<span lang="ja">[[images/model-realization-ja.png]]</span><span lang="en">[[images/model-realization-en.png]]</span>
+
+<span lang="ja">モデルから実行への具体化</span><span lang="en">Realizing models as execution</span>
+
+# Changing Models through Cross-model Verification｜モデル間の対応を検査しながら変更する
+
+<span lang="ja">文法と参照の検査、型による検査、モデル間の意味のレビュー、実行による検証は、それぞれ違う誤りを扱います。例えば入力型の不一致は機械的に検出できても、承認条件が業務上適切かは要求と実例に照らして確認します。textus-cbd-supportによるレビューでは、ユースケースとOperation・Entity・Workflow・状態機械の対応を確認する材料としてモデルを使います。</span><span lang="en">Grammar and reference checks, type checking, semantic model review and execution tests address different errors. A type mismatch can be detected mechanically, whereas the suitability of approval conditions requires requirements and examples. Reviews through textus-cbd-support use models to examine correspondence among use cases, Operations, Entities, Workflows and state machines.</span>
+
+<span lang="ja">変更時には、まず用語と要求のどこが変わったかを定め、影響する型、ルール、遷移、操作、Viewを更新します。生成物を作り直し、機械的検査とモデルレビューを行い、正常・境界・例外の実例で確かめます。実行可能なモデルにもレビューを適用し、処理系で確定的に検査できる範囲と、意味を検討する範囲を組み合わせます。</span><span lang="en">A change begins by identifying the affected terminology and requirements, then updating relevant types, rules, transitions, operations and Views. Regenerated artifacts undergo mechanical checks and model review, followed by normal, boundary and exceptional examples. Executable models also require review: deterministic processor checks and semantic examination serve complementary purposes.</span>
+
+#+CAPTION: <span lang="ja">検査を組み合わせる</span><span lang="en">Combining checks</span>
+| <span lang="ja">段階</span><span lang="en">Stage</span> | <span lang="ja">確認する内容</span><span lang="en">What is checked</span> | <span lang="ja">次に確認する内容</span><span lang="en">Complementary check</span> |
+| --- | --- | --- |
+| <span lang="ja">CML解析・正規化</span><span lang="en">CML parsing / normalization</span> | <span lang="ja">文法・型参照・種別・宣言の整合</span><span lang="en">Grammar, type references, kinds, declarations</span> | <span lang="ja">要求の意味との適合</span><span lang="en">Requirement meaning</span> |
+| <span lang="ja">型付き実装・コンパイル</span><span lang="en">Typed implementation / compilation</span> | <span lang="ja">入出力・型の合成</span><span lang="en">Inputs, outputs, type composition</span> | <span lang="ja">規則の妥当性と実行結果</span><span lang="en">Rule validity and execution results</span> |
+| <span lang="ja">モデルレビュー</span><span lang="en">Model review</span> | <span lang="ja">要求・構造・判断・進行の対応</span><span lang="en">Requirements, structure, decisions, progression</span> | <span lang="ja">実際の接続と失敗時の動作</span><span lang="en">Actual bindings and failure behavior</span> |
+| <span lang="ja">実行検証</span><span lang="en">Execution verification</span> | <span lang="ja">正常・境界・例外の実例</span><span lang="en">Normal, boundary and exceptional examples</span> | <span lang="ja">変更した定義と実例の追随</span><span lang="en">Keep definitions and examples aligned</span> |
+
+# Establishing Model Connections with a Small Use Case｜小さなユースケースからモデルの接続を確かめる
+
+<span lang="ja">最初は一つの目的を選び、必要な用語、入出力、EntityとValue、判断規則、Workflowと状態機械の対応をそろえます。参照と表示も同じ目的へ接続し、利用者の操作から結果が返るまでを確認します。図を増やすことより、モデル間で型・意味・状態の対応が保たれていることを確認します。</span><span lang="en">Begin with one goal and connect the necessary terminology, inputs and outputs, Entities and Values, decision rules, Workflow and state machines. Add reading and presentation for the same goal and verify the path from user action to result. The focus is consistency of types, meaning and state across models rather than increasing the number of diagrams.</span>
+
+<span lang="ja">複数のユースケースを扱う中で、共通する概念や規則をドメインへ整理し、各ユースケースを実現する進行はアプリケーション側へ置きます。ユースケースと実現モデルの対応は要求実現の関係です。一方、ドメインに近いモデルを実装・実行の表現へ具体化し、得られた知見をモデルへ戻すモデル・アップ・ダウンは、抽象度をまたぐ作業として区別します。</span><span lang="en">As more use cases are added, shared concepts and rules are organized in the domain, while goal-specific progression remains in the application. Use-case realization links requirements to implementing models. Model up/down is a different activity: moving between domain-level descriptions and implementation or execution representations, and feeding discovered insights back into the model.</span>
+
+# Conclusion｜まとめ
+
+<span lang="ja">CMLによるモデリングでは、用語、構造、規則、振る舞い、参照と表示を分担して記述し、それらの対応を保ちます。型と制約は値の扱いを、ルールは判断を、Workflowと状態機械は進行を定め、生成とTextus/CNCFの実行機構がそれを実装へ結び付けます。この構成は再利用と変更を支え、AIが補完する範囲を明確にするため、モデル駆動開発の仕組みがAI開発のハーネスとしても機能します。</span><span lang="en">CML modeling divides responsibility among terminology, structure, rules, behavior, reading and presentation while preserving their relationships. Types and constraints govern values, rules govern decisions, and Workflows and state machines govern progression; generation and Textus/CNCF connect these definitions to implementation. This structure supports reuse and change and clarifies the scope of AI supplementation, allowing model-driven development to function as an AI development harness.</span>
+
+# Appendix: Sources and Related Guides｜付録：参照資料と関連ガイド
+
+<span lang="ja">本文はCozyの受理済み文法・生成契約、CNCFのRule Engine基盤、SimpleModelingのモデリング方針をもとにしています。以下は内部リポジトリ資料です。最新文法の設計資料には実装予定も含まれるため、一般RULE DSLなどの拡張方針と、受理済みのDatatype・Operation・Workflow契約を区別しています。</span><span lang="en">This guide draws on Cozy’s accepted grammar and generation contracts, CNCF’s Rule Engine foundation and SimpleModeling’s modeling approach. The following are internal repository sources. Latest-grammar design material includes planned work, so extension directions such as the general RULE DSL are distinguished from accepted Datatype, Operation and Workflow contracts.</span>
+
+#+CAPTION: <span lang="ja">内部の参照資料</span><span lang="en">Internal source material</span>
+| <span lang="ja">資料</span><span lang="en">Source</span> | <span lang="ja">本文との対応</span><span lang="en">Use in this guide</span> |
+| --- | --- |
+| <span lang="ja">Cozy: docs/design/cml-grammar.md</span><span lang="en">Cozy: docs/design/cml-grammar.md</span> | <span lang="ja">受理済み文法とDatatypeの例</span><span lang="en">Accepted grammar and Datatype example</span> |
+| <span lang="ja">Cozy: docs/spec/cml-value-datatype-contract.md</span><span lang="en">Cozy: docs/spec/cml-value-datatype-contract.md</span> | <span lang="ja">Value・Datatype・Operation・制約の投影</span><span lang="en">Value, Datatype, Operation and constraint projection</span> |
+| <span lang="ja">Cozy: src/test/scala/cozy/modeler/CmlOperationLocalMetadataSpec.scala</span><span lang="en">Cozy: src/test/scala/cozy/modeler/CmlOperationLocalMetadataSpec.scala</span> | <span lang="ja">Operationローカル型の記法と検査</span><span lang="en">Local Operation syntax and checks</span> |
+| <span lang="ja">Cozy: docs/spec/cml-workflow-source-contract.md</span><span lang="en">Cozy: docs/spec/cml-workflow-source-contract.md</span> | <span lang="ja">WorkflowとCSMの対応・必要操作</span><span lang="en">Workflow, CSM and required operations</span> |
+| <span lang="ja">Cozy: docs/spec/statemachine-workflow-generated-abi-contract.md</span><span lang="en">Cozy: docs/spec/statemachine-workflow-generated-abi-contract.md</span> | <span lang="ja">生成定義とProvider接続の分担</span><span lang="en">Generated definitions and provider bindings</span> |
+| <span lang="ja">Cozy: docs/notes/cml-grammar-latest.md</span><span lang="en">Cozy: docs/notes/cml-grammar-latest.md</span> | <span lang="ja">文芸モデルとRULE拡張方針</span><span lang="en">Literate models and RULE extension direction</span> |
+| <span lang="ja">CNCF: docs/spec/rule-engine-inference-runtime.md</span><span lang="en">CNCF: docs/spec/rule-engine-inference-runtime.md</span> | <span lang="ja">規則評価とAction受入れの分離</span><span lang="en">Rule evaluation and action admission</span> |
+| <span lang="ja">SimpleModeling.org: docs/journal/2026/10/2026-10-17-domain-rule-harness-cncf-series.md</span><span lang="en">SimpleModeling.org: docs/journal/2026/10/2026-10-17-domain-rule-harness-cncf-series.md</span> | <span lang="ja">Domain Ruleから実行への接続方針</span><span lang="en">Domain Rule to runtime integration direction</span> |
+
+#+CAPTION: <span lang="ja">関連ガイド</span><span lang="en">Related guides</span>
+| <span lang="ja">ガイド</span><span lang="en">Guide</span> | <span lang="ja">詳しく扱う内容</span><span lang="en">Detailed subject</span> |
+| --- | --- |
+| <span lang="ja">全体像</span><span lang="en">Overview</span> | <span lang="ja">モデル・部品・実行基盤の組合せ</span><span lang="en">Models, components and runtime architecture</span> |
+| <span lang="ja">DDD</span><span lang="en">DDD</span> | <span lang="ja">DDDとPoEAAを補助線にしたモデルの役割</span><span lang="en">Model roles through DDD and PoEAA</span> |
+| <span lang="ja">Modeling and FP</span><span lang="en">Modeling and FP</span> | <span lang="ja">型・Consequence・Free Monad・UoW</span><span lang="en">Types, Consequence, Free Monad and UoW</span> |
+| <span lang="ja">UI</span><span lang="en">UI</span> | <span lang="ja">View・Displayと複数UI基盤</span><span lang="en">View, Display and multiple UI platforms</span> |
+| <span lang="ja">リアクティブ・セキュリティ</span><span lang="en">Reactive / Security</span> | <span lang="ja">共通の実行機構と品質条件</span><span lang="en">Shared execution mechanisms and quality</span> |

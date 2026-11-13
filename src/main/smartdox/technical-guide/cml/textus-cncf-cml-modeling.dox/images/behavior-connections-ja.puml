@@ -1,0 +1,24 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 20
+skinparam nodesep 25
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam dpi 150
+
+rectangle "ユースケース\n目的・実例・期待結果" as uc
+rectangle "Workflow\n進行・必要操作" as wf
+rectangle "状態機械\n状態・イベント・Guard" as sm
+rectangle "Operation / Entity\n型付き契約・状態" as op
+rectangle "照合・実行検証\n正常・境界・例外" as test
+uc -right-> wf : 実現する
+wf -down-> sm : 状態の規則
+wf -down-> op : 利用する
+uc -down-> test : 期待する結果
+op -left-> test : 実際の結果
+@enduml

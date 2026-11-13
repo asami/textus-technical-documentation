@@ -1,0 +1,9 @@
+# DATATYPE
+
+## LoginName
+
+### ATTRIBUTE
+
+| name | type | multiplicity | min-length | max-length | pattern |
+|------|------|--------------|------------|------------|---------|
+| value | string | 1 | 5 | 12 | ^user.+$ |

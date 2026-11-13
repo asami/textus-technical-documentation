@@ -1,0 +1,23 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 20
+skinparam nodesep 25
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam dpi 150
+
+rectangle "Domain Rule\n意味・入力・条件・結果" as rule
+rectangle "CNCF Rule Model\nRuleSet / Fact / Program" as model
+rectangle "Rule Engine\n評価・導出・説明・実行計画" as eval
+rectangle "明示的なAction受入れ" as admit
+rectangle "Operation / Event / Job\n認可・UoW・観測" as run
+rule -right-> model : 具体化・接続の設計
+model -down-> eval : 不変の入力
+eval -left-> admit : 結果と計画
+admit -down-> run : 標準実行経路
+@enduml

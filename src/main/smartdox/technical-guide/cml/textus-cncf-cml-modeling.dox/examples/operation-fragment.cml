@@ -1,0 +1,35 @@
+# SERVICE
+
+## Catalog
+
+### OPERATION
+
+#### searchEntries
+
+##### TYPE
+
+QUERY
+
+##### INPUT
+
+###### VALUE
+
+CatalogQuery
+
+###### ATTRIBUTE
+
+| name | type | multiplicity | min-length | max-length |
+|------|------|--------------|------------|------------|
+| term | string | 1 | 2 | 40 |
+
+##### OUTPUT
+
+###### VALUE
+
+CatalogResult
+
+###### ATTRIBUTE
+
+| name | type | multiplicity |
+|------|------|--------------|
+| titles | string | * |

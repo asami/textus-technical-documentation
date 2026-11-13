@@ -1,0 +1,2114 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-cml-modeling-document-ja",
+  "core": {
+    "id": "textus-cncf-cml-modeling"
+  },
+  "locale": "ja",
+  "document": {
+    "title": "CMLによるモデリング技術ガイド",
+    "sections": [
+      {
+        "id": "textus-cncf-cml-modeling-section",
+        "heading": "CMLによるモデリング技術ガイド",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-cml-modeling"
+          ],
+          "claims": [
+            "textus-cncf-cml-modeling-claim-1"
+          ],
+          "nodes": [
+            "textus-cncf-cml-modeling-node-1",
+            "textus-cncf-cml-modeling-node-2"
+          ],
+          "relations": [
+            "textus-cncf-cml-modeling-relation-1"
+          ],
+          "flows": [
+            "textus-cncf-cml-modeling-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "textus-cncf-cml-modeling-paragraph-1",
+            "kind": "paragraph",
+            "text": "CMLは、業務の概念・規則・振る舞いを、開発と実行で利用するモデルとして記述する言語です。本書は、文芸モデルの書き方から静的構造、ユースケース、Workflow、状態機械、業務ルール、UIとの接続までを整理し、それらを組み合わせてTextus/CNCFで動作させる道筋を説明します。",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-cml-modeling"
+              ],
+              "claims": [
+                "textus-cncf-cml-modeling-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-cml-modeling-node-1",
+                "textus-cncf-cml-modeling-node-2"
+              ],
+              "relations": [
+                "textus-cncf-cml-modeling-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-cml-modeling-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "cml-purpose-section",
+            "heading": "CMLで業務の意味を開発と実行へつなぐ",
+            "coreRefs": {
+              "steps": [
+                "cml-purpose"
+              ],
+              "claims": [
+                "cml-purpose-claim-1",
+                "cml-purpose-claim-2"
+              ],
+              "nodes": [
+                "cml-purpose-node-1",
+                "cml-purpose-node-2"
+              ],
+              "relations": [
+                "cml-purpose-relation-1"
+              ],
+              "flows": [
+                "cml-purpose-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-purpose-paragraph-1",
+                "kind": "paragraph",
+                "text": "CMLは、業務の概念・関係・規則・振る舞いを記述するためのモデル言語です。プログラミング言語や保存形式の詳細から離れ、ソフトウェアが扱う意味をモデルとして定めます。SimpleModelingでは、このモデルを開発と実行の基盤にすることで、業務上の定義をコード、画面、データベースへ個別に書き直す負担を減らします。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-purpose"
+                  ],
+                  "claims": [
+                    "cml-purpose-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-purpose-node-1",
+                    "cml-purpose-node-2"
+                  ],
+                  "relations": [
+                    "cml-purpose-relation-1"
+                  ],
+                  "flows": [
+                    "cml-purpose-flow"
+                  ]
+                }
+              },
+              {
+                "id": "cml-purpose-paragraph-2",
+                "kind": "paragraph",
+                "text": "CozyはCMLを解析し、型付きAPI、接続構造、実行定義へ具体化します。Textus/CNCFは実行可能な定義を解釈し、共通の実行機構を適用します。不足する業務固有の処理は、生成された契約に沿って補完します。モデルを記述することが、実装と検証の対象を直接定める作業になります。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-purpose"
+                  ],
+                  "claims": [
+                    "cml-purpose-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-purpose-node-1",
+                    "cml-purpose-node-2"
+                  ],
+                  "relations": [
+                    "cml-purpose-relation-1"
+                  ],
+                  "flows": [
+                    "cml-purpose-flow"
+                  ]
+                }
+              },
+              {
+                "id": "model-landscape",
+                "kind": "figure",
+                "coreRefs": {
+                  "steps": [
+                    "cml-purpose"
+                  ],
+                  "claims": [
+                    "cml-purpose-claim-1",
+                    "cml-purpose-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-purpose-node-1",
+                    "cml-purpose-node-2"
+                  ],
+                  "relations": [
+                    "cml-purpose-relation-1"
+                  ],
+                  "flows": [
+                    "cml-purpose-flow"
+                  ]
+                },
+                "asset": "images/model-landscape-ja.png",
+                "caption": "モデルの分担と接続",
+                "alt": "モデルの分担と接続"
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "cml-literate-section",
+            "heading": "構造・メタデータ・説明を一つの文芸モデルに記述する",
+            "coreRefs": {
+              "steps": [
+                "cml-literate"
+              ],
+              "claims": [
+                "cml-literate-claim-1",
+                "cml-literate-claim-2"
+              ],
+              "nodes": [
+                "cml-literate-node-1",
+                "cml-literate-node-2"
+              ],
+              "relations": [
+                "cml-literate-relation-1"
+              ],
+              "flows": [
+                "cml-literate-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-literate-paragraph-1",
+                "kind": "paragraph",
+                "text": "CMLはSmartDoxを基盤に、見出し、属性表、メタデータ、説明文を組み合わせて記述します。EntityやOperationなどの構造、型・多重度・制約などの機械処理する情報、用語の意味や設計理由を説明する文章が共存します。構造を変更するときに、その定義を採用した理由も同じ文書で確認できます。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-literate"
+                  ],
+                  "claims": [
+                    "cml-literate-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-literate-node-1",
+                    "cml-literate-node-2"
+                  ],
+                  "relations": [
+                    "cml-literate-relation-1"
+                  ],
+                  "flows": [
+                    "cml-literate-flow"
+                  ]
+                }
+              },
+              {
+                "id": "cml-literate-paragraph-2",
+                "kind": "paragraph",
+                "text": "処理系が解釈するのは、対応する文法で定義された構造とメタデータです。「空欄を認めない」と説明文に書くだけでは、必須属性の定義にはなりません。文章には意味と理由を、型・多重度・制約には検査可能な条件を記述します。BoKの用語集と対応付けるときも、名前が似ているだけで同じ概念とせず、どの用語とモデル要素を結び付けるかを明示します。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-literate"
+                  ],
+                  "claims": [
+                    "cml-literate-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-literate-node-1",
+                    "cml-literate-node-2"
+                  ],
+                  "relations": [
+                    "cml-literate-relation-1"
+                  ],
+                  "flows": [
+                    "cml-literate-flow"
+                  ]
+                }
+              },
+              {
+                "id": "literate-layers",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "cml-literate"
+                  ],
+                  "claims": [
+                    "cml-literate-claim-1",
+                    "cml-literate-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-literate-node-1",
+                    "cml-literate-node-2"
+                  ],
+                  "relations": [
+                    "cml-literate-relation-1"
+                  ],
+                  "flows": [
+                    "cml-literate-flow"
+                  ]
+                },
+                "caption": "文芸モデルの三つの層",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "層"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "記述する内容"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "使い方"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "literate-layers-row-1",
+                    "cells": [
+                      "構造",
+                      "Entity・Operation・Workflowなど",
+                      "モデル要素と接続を定める"
+                    ]
+                  },
+                  {
+                    "id": "literate-layers-row-2",
+                    "cells": [
+                      "メタデータ",
+                      "型・多重度・制約・種別",
+                      "構造の解釈と検査条件を定める"
+                    ]
+                  },
+                  {
+                    "id": "literate-layers-row-3",
+                    "cells": [
+                      "説明",
+                      "意味・理由・実例・補助図",
+                      "人間とAIによる理解・レビューを支える"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "cml-knowledge-section",
+            "heading": "用語参照と実行時の知識を接続する",
+            "coreRefs": {
+              "steps": [
+                "cml-knowledge"
+              ],
+              "claims": [
+                "cml-knowledge-claim-1",
+                "cml-knowledge-claim-2"
+              ],
+              "nodes": [
+                "cml-knowledge-node-1",
+                "cml-knowledge-node-2"
+              ],
+              "relations": [
+                "cml-knowledge-relation-1"
+              ],
+              "flows": [
+                "cml-knowledge-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-knowledge-paragraph-1",
+                "kind": "paragraph",
+                "text": "BoKの用語と業務固有の判断をCMLの要素へ対応付けることで、型・関係・規則が何を意味するかを保持します。CozyのTerminologyメタデータは明示された用語参照、モデル要素、ラベル、出典と参照範囲を扱い、同名だけで同義と判断しません。設計の手順は「BoKからドメイン・モデルを設計する」で説明します。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-knowledge"
+                  ],
+                  "claims": [
+                    "cml-knowledge-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-knowledge-node-1",
+                    "cml-knowledge-node-2"
+                  ],
+                  "relations": [
+                    "cml-knowledge-relation-1"
+                  ],
+                  "flows": [
+                    "cml-knowledge-flow"
+                  ]
+                }
+              },
+              {
+                "id": "cml-knowledge-paragraph-2",
+                "kind": "paragraph",
+                "text": "モデル定義と実行時のEntityは区別します。CNCFのInformationもCMLを正本として生成されるモデルであり、業務Entityから必要な情報を取り出す対応と実行時の接続は別に定めます。「Entityを知識として扱う」では、Information、RDF等の知識表現、検索・AI提供へ意味・出典・参照条件を引き継ぐ構成を説明します。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-knowledge"
+                  ],
+                  "claims": [
+                    "cml-knowledge-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-knowledge-node-1",
+                    "cml-knowledge-node-2"
+                  ],
+                  "relations": [
+                    "cml-knowledge-relation-1"
+                  ],
+                  "flows": [
+                    "cml-knowledge-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "cml-static-section",
+            "heading": "静的モデルで値の意味と更新の境界を定める",
+            "coreRefs": {
+              "steps": [
+                "cml-static"
+              ],
+              "claims": [
+                "cml-static-claim-1",
+                "cml-static-claim-2"
+              ],
+              "nodes": [
+                "cml-static-node-1",
+                "cml-static-node-2"
+              ],
+              "relations": [
+                "cml-static-relation-1"
+              ],
+              "flows": [
+                "cml-static-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-static-paragraph-1",
+                "kind": "paragraph",
+                "text": "ドメイン・モデルは静的構造を中心に業務概念を定めます。Entityは同一性を追跡する対象、Valueは値として扱う構造、Datatypeは名前と制約を持つデータ型を表します。Aggregateでは関連する状態と更新の整合性を扱う範囲を定めます。この分担により、同じ文字列や数値でも意味が違う値を区別し、どの操作がどの状態を変更するかを整理できます。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-static"
+                  ],
+                  "claims": [
+                    "cml-static-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-static-node-1",
+                    "cml-static-node-2"
+                  ],
+                  "relations": [
+                    "cml-static-relation-1"
+                  ],
+                  "flows": [
+                    "cml-static-flow"
+                  ]
+                }
+              },
+              {
+                "id": "cml-static-paragraph-2",
+                "kind": "paragraph",
+                "text": "属性には型、多重度、長さや値域などの制約を記述します。受理された制約は、生成される型の構築・読込み、Operation入力、保存との変換、フォームなどの接点へ引き継ぎます。画面だけの入力チェックにせず、同じ定義を業務側の境界にも適用するため、入口ごとの条件のずれを減らせます。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-static"
+                  ],
+                  "claims": [
+                    "cml-static-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-static-node-1",
+                    "cml-static-node-2"
+                  ],
+                  "relations": [
+                    "cml-static-relation-1"
+                  ],
+                  "flows": [
+                    "cml-static-flow"
+                  ]
+                }
+              },
+              {
+                "id": "static-choice",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "cml-static"
+                  ],
+                  "claims": [
+                    "cml-static-claim-1",
+                    "cml-static-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-static-node-1",
+                    "cml-static-node-2"
+                  ],
+                  "relations": [
+                    "cml-static-relation-1"
+                  ],
+                  "flows": [
+                    "cml-static-flow"
+                  ]
+                },
+                "caption": "静的モデルの選択と組合せ",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "対象"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "モデル"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "接続する規則"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "static-choice-row-1",
+                    "cells": [
+                      "継続して識別する対象",
+                      "Entity",
+                      "更新操作とライフサイクル"
+                    ]
+                  },
+                  {
+                    "id": "static-choice-row-2",
+                    "cells": [
+                      "値のまとまり",
+                      "Value",
+                      "構成する属性の型と制約"
+                    ]
+                  },
+                  {
+                    "id": "static-choice-row-3",
+                    "cells": [
+                      "意味を持つ単一値",
+                      "Datatype",
+                      "構築・読込み時の条件"
+                    ]
+                  },
+                  {
+                    "id": "static-choice-row-4",
+                    "cells": [
+                      "閉じた区分",
+                      "Powertype",
+                      "許される分類値"
+                    ]
+                  },
+                  {
+                    "id": "static-choice-row-5",
+                    "cells": [
+                      "更新の整合性の範囲",
+                      "Aggregate",
+                      "不変条件と確定の境界"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sections": [
+              {
+                "id": "cml-types-section",
+                "heading": "Datatype・Powertype・状態機械を使い分ける",
+                "coreRefs": {
+                  "steps": [
+                    "cml-types"
+                  ],
+                  "claims": [
+                    "cml-types-claim-1",
+                    "cml-types-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-types-node-1",
+                    "cml-types-node-2"
+                  ],
+                  "relations": [
+                    "cml-types-relation-1"
+                  ],
+                  "flows": [
+                    "cml-types-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "cml-types-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "例えば識別子は、文字列という実装型だけでなく、名前付きDatatypeと長さ・形式の制約で表します。有限の区分はPowertypeで表し、その区分への遷移までモデルが所有する場合は状態機械を使います。外部システムが追加するコードの一覧を、その時点の値だけで閉じたPowertypeにすることは避けます。",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-types"
+                      ],
+                      "claims": [
+                        "cml-types-claim-1"
+                      ],
+                      "nodes": [
+                        "cml-types-node-1",
+                        "cml-types-node-2"
+                      ],
+                      "relations": [
+                        "cml-types-relation-1"
+                      ],
+                      "flows": [
+                        "cml-types-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "cml-types-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "次の断片は、Cozyの受理済みDatatype文法にあるLoginNameの例です。min-lengthとmax-lengthは文字列長を表し、数値のminとmaxとは区別します。モデルの名前を型へ保つことで、構築時の検査と、型を使う実装上の取り違えの抑制を組み合わせます。",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-types"
+                      ],
+                      "claims": [
+                        "cml-types-claim-2"
+                      ],
+                      "nodes": [
+                        "cml-types-node-1",
+                        "cml-types-node-2"
+                      ],
+                      "relations": [
+                        "cml-types-relation-1"
+                      ],
+                      "flows": [
+                        "cml-types-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "datatype-example",
+                    "kind": "example",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-types"
+                      ],
+                      "claims": [
+                        "cml-types-claim-1",
+                        "cml-types-claim-2"
+                      ],
+                      "nodes": [
+                        "cml-types-node-1",
+                        "cml-types-node-2"
+                      ],
+                      "relations": [
+                        "cml-types-relation-1"
+                      ],
+                      "flows": [
+                        "cml-types-flow"
+                      ]
+                    },
+                    "title": "Datatypeの記述断片",
+                    "text": "# DATATYPE\n\n## LoginName\n\n### ATTRIBUTE\n\n| name | type | multiplicity | min-length | max-length | pattern |\n|------|------|--------------|------------|------------|---------|\n| value | string | 1 | 5 | 12 | ^user.+$ |\n"
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "cml-dynamic-section",
+            "heading": "要求と実行する振る舞いを接続する",
+            "coreRefs": {
+              "steps": [
+                "cml-dynamic"
+              ],
+              "claims": [
+                "cml-dynamic-claim-1"
+              ],
+              "nodes": [
+                "cml-dynamic-node-1",
+                "cml-dynamic-node-2"
+              ],
+              "relations": [
+                "cml-dynamic-relation-1"
+              ],
+              "flows": [
+                "cml-dynamic-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-dynamic-paragraph-1",
+                "kind": "paragraph",
+                "text": "CMLによる動的モデリングでは、ユースケース、Workflow、状態機械を接続して扱います。ユースケースは目的と具体的な利用の流れから要求を記述する帰納的なモデルです。Workflowと状態機械は、実行時に従う進行や遷移の規則を定める演繹的なモデルです。この違いに応じて、実例による確認と規則に従う実行を使い分けます。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-dynamic"
+                  ],
+                  "claims": [
+                    "cml-dynamic-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-dynamic-node-1",
+                    "cml-dynamic-node-2"
+                  ],
+                  "relations": [
+                    "cml-dynamic-relation-1"
+                  ],
+                  "flows": [
+                    "cml-dynamic-flow"
+                  ]
+                }
+              },
+              {
+                "id": "behavior-connections",
+                "kind": "figure",
+                "coreRefs": {
+                  "steps": [
+                    "cml-dynamic"
+                  ],
+                  "claims": [
+                    "cml-dynamic-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-dynamic-node-1",
+                    "cml-dynamic-node-2"
+                  ],
+                  "relations": [
+                    "cml-dynamic-relation-1"
+                  ],
+                  "flows": [
+                    "cml-dynamic-flow"
+                  ]
+                },
+                "asset": "images/behavior-connections-ja.png",
+                "caption": "実例による検証と規則に従う実行",
+                "alt": "実例による検証と規則に従う実行"
+              }
+            ],
+            "sections": [
+              {
+                "id": "cml-usecase-section",
+                "heading": "ユースケースを実現する操作と状態へ対応付ける",
+                "coreRefs": {
+                  "steps": [
+                    "cml-usecase"
+                  ],
+                  "claims": [
+                    "cml-usecase-claim-1",
+                    "cml-usecase-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-usecase-node-1",
+                    "cml-usecase-node-2"
+                  ],
+                  "relations": [
+                    "cml-usecase-relation-1"
+                  ],
+                  "flows": [
+                    "cml-usecase-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "cml-usecase-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "ユースケースにはActor、目的、前提条件、期待する結果、正常・代替・例外の流れを記述します。その内容をWorkflow、Operation、Entity、状態機械へ対応付け、どのモデルが要求のどの部分を実現するかを確認します。ユースケース自体を直接実行するのではなく、実現するモデルとの整合性を検査するために使います。",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-usecase"
+                      ],
+                      "claims": [
+                        "cml-usecase-claim-1"
+                      ],
+                      "nodes": [
+                        "cml-usecase-node-1",
+                        "cml-usecase-node-2"
+                      ],
+                      "relations": [
+                        "cml-usecase-relation-1"
+                      ],
+                      "flows": [
+                        "cml-usecase-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "cml-usecase-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "例えば「申請を承認する」という要求なら、承認できる担当者、申請の状態、承認操作の入力、完了後の状態を対応付けます。差戻しや権限不足の実例も照合すると、正常系だけでは見えない条件を確認できます。相互作用図やUML由来のアクティビティ図は説明を補助しますが、その図だけでCMLの実行定義を代替するものではありません。",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-usecase"
+                      ],
+                      "claims": [
+                        "cml-usecase-claim-2"
+                      ],
+                      "nodes": [
+                        "cml-usecase-node-1",
+                        "cml-usecase-node-2"
+                      ],
+                      "relations": [
+                        "cml-usecase-relation-1"
+                      ],
+                      "flows": [
+                        "cml-usecase-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "cml-workflow-section",
+                "heading": "Workflowと状態機械で進行と遷移を定める",
+                "coreRefs": {
+                  "steps": [
+                    "cml-workflow"
+                  ],
+                  "claims": [
+                    "cml-workflow-claim-1",
+                    "cml-workflow-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-workflow-node-1",
+                    "cml-workflow-node-2"
+                  ],
+                  "relations": [
+                    "cml-workflow-relation-1"
+                  ],
+                  "flows": [
+                    "cml-workflow-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "cml-workflow-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "アプリケーション・モデルは、ユースケースを起点にしたWorkflowを中心に、ドメインの操作を利用して目的を実現する進行を定めます。状態機械は状態、イベント、遷移条件を明示します。条件分岐を複数の手続きへ分散させず、どの状態で何が許されるかをモデルとして確認できるようにします。",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-workflow"
+                      ],
+                      "claims": [
+                        "cml-workflow-claim-1"
+                      ],
+                      "nodes": [
+                        "cml-workflow-node-1",
+                        "cml-workflow-node-2"
+                      ],
+                      "relations": [
+                        "cml-workflow-relation-1"
+                      ],
+                      "flows": [
+                        "cml-workflow-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "cml-workflow-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "現在のCMLのWORKFLOW契約では、構造をCOMPOSITE-STATEMACHINEへ正規化し、必要な操作をREQUIRED-OPERATIONで宣言します。CML側の論理的な操作と、実行時に選ぶProviderの接続は分かれています。対応する生成定義と接続先をTextus/CNCFへ渡すことで、モデルの進行規則に従って実行します。Workflow名を書くだけで外部接続や再実行の安全性まで決まるわけではなく、それぞれの契約を合わせます。",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-workflow"
+                      ],
+                      "claims": [
+                        "cml-workflow-claim-2"
+                      ],
+                      "nodes": [
+                        "cml-workflow-node-1",
+                        "cml-workflow-node-2"
+                      ],
+                      "relations": [
+                        "cml-workflow-relation-1"
+                      ],
+                      "flows": [
+                        "cml-workflow-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "cml-rules-section",
+            "heading": "業務ルールをモデルとして記述する",
+            "coreRefs": {
+              "steps": [
+                "cml-rules"
+              ],
+              "claims": [
+                "cml-rules-claim-1"
+              ],
+              "nodes": [
+                "cml-rules-node-1",
+                "cml-rules-node-2"
+              ],
+              "relations": [
+                "cml-rules-relation-1"
+              ],
+              "flows": [
+                "cml-rules-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-rules-paragraph-1",
+                "kind": "paragraph",
+                "text": "業務ルールは、対象に成り立つ条件、計算、分類、判断方針を表します。Domain Ruleとして意味と所有するドメインを明確にし、入力となる値や事実、条件、結果を定めます。画面やWorkflowの各所に同じ判定式を複製せず、規則を参照する接点を作ることで、判断の変更を一箇所の定義へ集めやすくなります。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-rules"
+                  ],
+                  "claims": [
+                    "cml-rules-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-rules-node-1",
+                    "cml-rules-node-2"
+                  ],
+                  "relations": [
+                    "cml-rules-relation-1"
+                  ],
+                  "flows": [
+                    "cml-rules-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "cml-rule-kinds-section",
+                "heading": "入力制約・業務判断・遷移条件を分ける",
+                "coreRefs": {
+                  "steps": [
+                    "cml-rule-kinds"
+                  ],
+                  "claims": [
+                    "cml-rule-kinds-claim-1",
+                    "cml-rule-kinds-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-rule-kinds-node-1",
+                    "cml-rule-kinds-node-2"
+                  ],
+                  "relations": [
+                    "cml-rule-kinds-relation-1"
+                  ],
+                  "flows": [
+                    "cml-rule-kinds-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "cml-rule-kinds-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "値の長さや必須性はDatatype・属性の制約に、複数の事実から決まる価格や審査結果は業務ルールに、次の状態へ進める条件は遷移のGuardに置きます。Workflowはそれらを利用する順序を担当します。この分担により、値の妥当性、業務上の判断、処理の進行を別々に確認したうえで組み合わせられます。",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-rule-kinds"
+                      ],
+                      "claims": [
+                        "cml-rule-kinds-claim-1"
+                      ],
+                      "nodes": [
+                        "cml-rule-kinds-node-1",
+                        "cml-rule-kinds-node-2"
+                      ],
+                      "relations": [
+                        "cml-rule-kinds-relation-1"
+                      ],
+                      "flows": [
+                        "cml-rule-kinds-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "cml-rule-kinds-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "例えば送料は、配送先区分と購入額を入力にする決定表で求め、注文を確定するWorkflowがその結果を利用します。決定表には、条件が重なる場合の選択と、該当する行がない場合の扱いも定めます。状態機械は「必要な判断が完了した場合に確定できる」という遷移条件を持ち、送料の判定式そのものを重複して持ちません。",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-rule-kinds"
+                      ],
+                      "claims": [
+                        "cml-rule-kinds-claim-2"
+                      ],
+                      "nodes": [
+                        "cml-rule-kinds-node-1",
+                        "cml-rule-kinds-node-2"
+                      ],
+                      "relations": [
+                        "cml-rule-kinds-relation-1"
+                      ],
+                      "flows": [
+                        "cml-rule-kinds-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "rule-ownership",
+                    "kind": "table",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-rule-kinds"
+                      ],
+                      "claims": [
+                        "cml-rule-kinds-claim-1",
+                        "cml-rule-kinds-claim-2"
+                      ],
+                      "nodes": [
+                        "cml-rule-kinds-node-1",
+                        "cml-rule-kinds-node-2"
+                      ],
+                      "relations": [
+                        "cml-rule-kinds-relation-1"
+                      ],
+                      "flows": [
+                        "cml-rule-kinds-flow"
+                      ]
+                    },
+                    "caption": "規則の対象と適用先",
+                    "columns": [
+                      {
+                        "id": "col-1",
+                        "heading": "問い"
+                      },
+                      {
+                        "id": "col-2",
+                        "heading": "記述・所有する場所"
+                      },
+                      {
+                        "id": "col-3",
+                        "heading": "適用する場所"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "rule-ownership-row-1",
+                        "cells": [
+                          "値として受け入れられるか",
+                          "Datatype・属性制約",
+                          "構築・デコード・入力境界"
+                        ]
+                      },
+                      {
+                        "id": "rule-ownership-row-2",
+                        "cells": [
+                          "どの価格・判定結果になるか",
+                          "Domain Rule・決定表",
+                          "ドメインの判断処理"
+                        ]
+                      },
+                      {
+                        "id": "rule-ownership-row-3",
+                        "cells": [
+                          "この状態から遷移できるか",
+                          "状態機械のGuard",
+                          "遷移の評価"
+                        ]
+                      },
+                      {
+                        "id": "rule-ownership-row-4",
+                        "cells": [
+                          "次にどの操作を行うか",
+                          "Workflow",
+                          "進行の管理"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "cml-rule-execution-section",
+                "heading": "ルールの評価とActionの実行を分ける",
+                "coreRefs": {
+                  "steps": [
+                    "cml-rule-execution"
+                  ],
+                  "claims": [
+                    "cml-rule-execution-claim-1",
+                    "cml-rule-execution-claim-2",
+                    "cml-rule-execution-claim-3"
+                  ],
+                  "nodes": [
+                    "cml-rule-execution-node-1",
+                    "cml-rule-execution-node-2"
+                  ],
+                  "relations": [
+                    "cml-rule-execution-relation-1"
+                  ],
+                  "flows": [
+                    "cml-rule-execution-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "cml-rule-execution-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "CNCFのRule Engine基盤には、RuleSet、Fact、WorkingMemory、決定表、計算・制約・導出などのモデルがあります。RuleEngineとInferenceEngineは特定製品に固定しない接点です。評価では不変の入力を受け取り、判断結果、導出した事実、説明、必要なら実行計画を返します。評価の段階でEntityの永続状態を直接変更しません。",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-rule-execution"
+                      ],
+                      "claims": [
+                        "cml-rule-execution-claim-1"
+                      ],
+                      "nodes": [
+                        "cml-rule-execution-node-1",
+                        "cml-rule-execution-node-2"
+                      ],
+                      "relations": [
+                        "cml-rule-execution-relation-1"
+                      ],
+                      "flows": [
+                        "cml-rule-execution-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "cml-rule-execution-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Operation・Event・Jobへつなぐ計画は、明示的な受入れを経てCNCFの標準実行経路で動かします。そのため、ルールを採用しても認可、UoW、イベントやJobの管理を迂回せずに済みます。規則のモデル化は判断の根拠を、共通経路は更新の条件を受け持ち、両者の組合せで判断から実行までを統制します。",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-rule-execution"
+                      ],
+                      "claims": [
+                        "cml-rule-execution-claim-2"
+                      ],
+                      "nodes": [
+                        "cml-rule-execution-node-1",
+                        "cml-rule-execution-node-2"
+                      ],
+                      "relations": [
+                        "cml-rule-execution-relation-1"
+                      ],
+                      "flows": [
+                        "cml-rule-execution-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "cml-rule-execution-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "CMLの一般的なRULE DSLとDomain RuleからCNCF Rule Modelへの具体化は拡張方針として扱います。現行で受理されるDatatype制約やGuard、Operationの契約と、既存のRule Engine基盤を区別し、全ての業務ルールがCMLから自動生成・実行できるとは扱いません。利用する文法・生成経路・実行Providerの組合せを、対象版で確認します。",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-rule-execution"
+                      ],
+                      "claims": [
+                        "cml-rule-execution-claim-3"
+                      ],
+                      "nodes": [
+                        "cml-rule-execution-node-1",
+                        "cml-rule-execution-node-2"
+                      ],
+                      "relations": [
+                        "cml-rule-execution-relation-1"
+                      ],
+                      "flows": [
+                        "cml-rule-execution-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "rule-execution",
+                    "kind": "figure",
+                    "coreRefs": {
+                      "steps": [
+                        "cml-rule-execution"
+                      ],
+                      "claims": [
+                        "cml-rule-execution-claim-1",
+                        "cml-rule-execution-claim-2",
+                        "cml-rule-execution-claim-3"
+                      ],
+                      "nodes": [
+                        "cml-rule-execution-node-1",
+                        "cml-rule-execution-node-2"
+                      ],
+                      "relations": [
+                        "cml-rule-execution-relation-1"
+                      ],
+                      "flows": [
+                        "cml-rule-execution-flow"
+                      ]
+                    },
+                    "asset": "images/rule-execution-ja.png",
+                    "caption": "判断の評価と更新の経路を分ける",
+                    "alt": "判断の評価と更新の経路を分ける"
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "cml-contracts-section",
+            "heading": "Operationの契約でモデルと実装を接続する",
+            "coreRefs": {
+              "steps": [
+                "cml-contracts"
+              ],
+              "claims": [
+                "cml-contracts-claim-1",
+                "cml-contracts-claim-2"
+              ],
+              "nodes": [
+                "cml-contracts-node-1",
+                "cml-contracts-node-2"
+              ],
+              "relations": [
+                "cml-contracts-relation-1"
+              ],
+              "flows": [
+                "cml-contracts-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-contracts-paragraph-1",
+                "kind": "paragraph",
+                "text": "Componentが責務を持ち、ServiceとOperationを通じて機能を公開します。OperationにはCommandまたはQueryの種別、入力Value、出力Resultを定めます。再利用する入力はトップレベルのVALUEにinput-kindを明示し、一度だけ使う入力はOperation内に定義できます。参照する型と、その場で定義する型を同じ入力方向へ重ねて指定しません。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-contracts"
+                  ],
+                  "claims": [
+                    "cml-contracts-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-contracts-node-1",
+                    "cml-contracts-node-2"
+                  ],
+                  "relations": [
+                    "cml-contracts-relation-1"
+                  ],
+                  "flows": [
+                    "cml-contracts-flow"
+                  ]
+                }
+              },
+              {
+                "id": "cml-contracts-paragraph-2",
+                "kind": "paragraph",
+                "text": "次の断片ではQueryの入力をローカルなValueとして定義し、出力をResultの構造として記述します。Cozyはこれらを正規化し、型付きの接点へ反映します。型によって既存操作の利用条件が明確になり、再利用とグルーコードの作成を支えます。AIはその契約の中で固有の処理を補完するため、周辺の構造を独自に作り直す範囲を抑えられます。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-contracts"
+                  ],
+                  "claims": [
+                    "cml-contracts-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-contracts-node-1",
+                    "cml-contracts-node-2"
+                  ],
+                  "relations": [
+                    "cml-contracts-relation-1"
+                  ],
+                  "flows": [
+                    "cml-contracts-flow"
+                  ]
+                }
+              },
+              {
+                "id": "operation-example",
+                "kind": "example",
+                "coreRefs": {
+                  "steps": [
+                    "cml-contracts"
+                  ],
+                  "claims": [
+                    "cml-contracts-claim-1",
+                    "cml-contracts-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-contracts-node-1",
+                    "cml-contracts-node-2"
+                  ],
+                  "relations": [
+                    "cml-contracts-relation-1"
+                  ],
+                  "flows": [
+                    "cml-contracts-flow"
+                  ]
+                },
+                "title": "Operationの記述断片",
+                "text": "# SERVICE\n\n## Catalog\n\n### OPERATION\n\n#### searchEntries\n\n##### TYPE\n\nQUERY\n\n##### INPUT\n\n###### VALUE\n\nCatalogQuery\n\n###### ATTRIBUTE\n\n| name | type | multiplicity | min-length | max-length |\n|------|------|--------------|------------|------------|\n| term | string | 1 | 2 | 40 |\n\n##### OUTPUT\n\n###### VALUE\n\nCatalogResult\n\n###### ATTRIBUTE\n\n| name | type | multiplicity |\n|------|------|--------------|\n| titles | string | * |\n"
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "cml-ui-section",
+            "heading": "ViewとDisplayで参照と表示を分担する",
+            "coreRefs": {
+              "steps": [
+                "cml-ui"
+              ],
+              "claims": [
+                "cml-ui-claim-1",
+                "cml-ui-claim-2"
+              ],
+              "nodes": [
+                "cml-ui-node-1",
+                "cml-ui-node-2"
+              ],
+              "relations": [
+                "cml-ui-relation-1"
+              ],
+              "flows": [
+                "cml-ui-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-ui-paragraph-1",
+                "kind": "paragraph",
+                "text": "Viewは利用目的に応じた参照結果を表し、外側のDisplayは表示する項目と操作の提示を定めます。Entityの保存形をそのまま画面の契約にするのではなく、利用者が必要とする意味のまとまりを経由させます。更新は公開Operationへ戻し、表示の都合で業務規則を作り直さないようにします。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-ui"
+                  ],
+                  "claims": [
+                    "cml-ui-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-ui-node-1",
+                    "cml-ui-node-2"
+                  ],
+                  "relations": [
+                    "cml-ui-relation-1"
+                  ],
+                  "flows": [
+                    "cml-ui-flow"
+                  ]
+                }
+              },
+              {
+                "id": "cml-ui-paragraph-2",
+                "kind": "paragraph",
+                "text": "この分担は、TextusのWeb UIと、Textusに連動するFlutterアプリケーション・フレームワークによるスマートフォン・Tablet・Web・Desktopへの展開を支えます。独自UIをRESTやgRPCで接続する場合にも、モデルから得た型と操作契約を利用できます。表示の具体化はUI側が担当し、業務の意味と規則を共有します。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-ui"
+                  ],
+                  "claims": [
+                    "cml-ui-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-ui-node-1",
+                    "cml-ui-node-2"
+                  ],
+                  "relations": [
+                    "cml-ui-relation-1"
+                  ],
+                  "flows": [
+                    "cml-ui-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "cml-execution-section",
+            "heading": "モデルを生成・直接実行・補完実装へ渡す",
+            "coreRefs": {
+              "steps": [
+                "cml-execution"
+              ],
+              "claims": [
+                "cml-execution-claim-1",
+                "cml-execution-claim-2"
+              ],
+              "nodes": [
+                "cml-execution-node-1",
+                "cml-execution-node-2"
+              ],
+              "relations": [
+                "cml-execution-relation-1"
+              ],
+              "flows": [
+                "cml-execution-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-execution-paragraph-1",
+                "kind": "paragraph",
+                "text": "CMLの構造とメタデータは解析・正規化を経て、Scalaの型やAPI、部品の接続構造、Workflow・状態機械の実行定義になります。Textusがモデルを直接実行するとは、実行基盤がその定義に従って動作し、同じ規則を個別の手続きとして再実装しなくてよいということです。必要な生成や登録、実行先との接続は、このための具体化に含まれます。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-execution"
+                  ],
+                  "claims": [
+                    "cml-execution-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-execution-node-1",
+                    "cml-execution-node-2"
+                  ],
+                  "relations": [
+                    "cml-execution-relation-1"
+                  ],
+                  "flows": [
+                    "cml-execution-flow"
+                  ]
+                }
+              },
+              {
+                "id": "cml-execution-paragraph-2",
+                "kind": "paragraph",
+                "text": "モデルで表し切れない計算や外部接続は型付きAPIの内側で補完し、Consequenceで結果を扱い、必要な作用をUoWなどの実行機構へ接続します。モデル側で何を行うかを定め、基盤側で認可・更新の確定・失敗の扱いを管理する構成です。接続先や配備構成を変える場合も、業務上の契約との対応を保ちます。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-execution"
+                  ],
+                  "claims": [
+                    "cml-execution-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-execution-node-1",
+                    "cml-execution-node-2"
+                  ],
+                  "relations": [
+                    "cml-execution-relation-1"
+                  ],
+                  "flows": [
+                    "cml-execution-flow"
+                  ]
+                }
+              },
+              {
+                "id": "model-realization",
+                "kind": "figure",
+                "coreRefs": {
+                  "steps": [
+                    "cml-execution"
+                  ],
+                  "claims": [
+                    "cml-execution-claim-1",
+                    "cml-execution-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-execution-node-1",
+                    "cml-execution-node-2"
+                  ],
+                  "relations": [
+                    "cml-execution-relation-1"
+                  ],
+                  "flows": [
+                    "cml-execution-flow"
+                  ]
+                },
+                "asset": "images/model-realization-ja.png",
+                "caption": "モデルから実行への具体化",
+                "alt": "モデルから実行への具体化"
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "cml-checks-section",
+            "heading": "モデル間の対応を検査しながら変更する",
+            "coreRefs": {
+              "steps": [
+                "cml-checks"
+              ],
+              "claims": [
+                "cml-checks-claim-1",
+                "cml-checks-claim-2"
+              ],
+              "nodes": [
+                "cml-checks-node-1",
+                "cml-checks-node-2"
+              ],
+              "relations": [
+                "cml-checks-relation-1"
+              ],
+              "flows": [
+                "cml-checks-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-checks-paragraph-1",
+                "kind": "paragraph",
+                "text": "文法と参照の検査、型による検査、モデル間の意味のレビュー、実行による検証は、それぞれ違う誤りを扱います。例えば入力型の不一致は機械的に検出できても、承認条件が業務上適切かは要求と実例に照らして確認します。textus-cbd-supportによるレビューでは、ユースケースとOperation・Entity・Workflow・状態機械の対応を確認する材料としてモデルを使います。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-checks"
+                  ],
+                  "claims": [
+                    "cml-checks-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-checks-node-1",
+                    "cml-checks-node-2"
+                  ],
+                  "relations": [
+                    "cml-checks-relation-1"
+                  ],
+                  "flows": [
+                    "cml-checks-flow"
+                  ]
+                }
+              },
+              {
+                "id": "cml-checks-paragraph-2",
+                "kind": "paragraph",
+                "text": "変更時には、まず用語と要求のどこが変わったかを定め、影響する型、ルール、遷移、操作、Viewを更新します。生成物を作り直し、機械的検査とモデルレビューを行い、正常・境界・例外の実例で確かめます。実行可能なモデルにもレビューを適用し、処理系で確定的に検査できる範囲と、意味を検討する範囲を組み合わせます。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-checks"
+                  ],
+                  "claims": [
+                    "cml-checks-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-checks-node-1",
+                    "cml-checks-node-2"
+                  ],
+                  "relations": [
+                    "cml-checks-relation-1"
+                  ],
+                  "flows": [
+                    "cml-checks-flow"
+                  ]
+                }
+              },
+              {
+                "id": "check-stages",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "cml-checks"
+                  ],
+                  "claims": [
+                    "cml-checks-claim-1",
+                    "cml-checks-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-checks-node-1",
+                    "cml-checks-node-2"
+                  ],
+                  "relations": [
+                    "cml-checks-relation-1"
+                  ],
+                  "flows": [
+                    "cml-checks-flow"
+                  ]
+                },
+                "caption": "検査を組み合わせる",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "段階"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "確認する内容"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "次に確認する内容"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "check-stages-row-1",
+                    "cells": [
+                      "CML解析・正規化",
+                      "文法・型参照・種別・宣言の整合",
+                      "要求の意味との適合"
+                    ]
+                  },
+                  {
+                    "id": "check-stages-row-2",
+                    "cells": [
+                      "型付き実装・コンパイル",
+                      "入出力・型の合成",
+                      "規則の妥当性と実行結果"
+                    ]
+                  },
+                  {
+                    "id": "check-stages-row-3",
+                    "cells": [
+                      "モデルレビュー",
+                      "要求・構造・判断・進行の対応",
+                      "実際の接続と失敗時の動作"
+                    ]
+                  },
+                  {
+                    "id": "check-stages-row-4",
+                    "cells": [
+                      "実行検証",
+                      "正常・境界・例外の実例",
+                      "変更した定義と実例の追随"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "cml-practice-section",
+            "heading": "小さなユースケースからモデルの接続を確かめる",
+            "coreRefs": {
+              "steps": [
+                "cml-practice"
+              ],
+              "claims": [
+                "cml-practice-claim-1",
+                "cml-practice-claim-2"
+              ],
+              "nodes": [
+                "cml-practice-node-1",
+                "cml-practice-node-2"
+              ],
+              "relations": [
+                "cml-practice-relation-1"
+              ],
+              "flows": [
+                "cml-practice-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-practice-paragraph-1",
+                "kind": "paragraph",
+                "text": "最初は一つの目的を選び、必要な用語、入出力、EntityとValue、判断規則、Workflowと状態機械の対応をそろえます。参照と表示も同じ目的へ接続し、利用者の操作から結果が返るまでを確認します。図を増やすことより、モデル間で型・意味・状態の対応が保たれていることを確認します。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-practice"
+                  ],
+                  "claims": [
+                    "cml-practice-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-practice-node-1",
+                    "cml-practice-node-2"
+                  ],
+                  "relations": [
+                    "cml-practice-relation-1"
+                  ],
+                  "flows": [
+                    "cml-practice-flow"
+                  ]
+                }
+              },
+              {
+                "id": "cml-practice-paragraph-2",
+                "kind": "paragraph",
+                "text": "複数のユースケースを扱う中で、共通する概念や規則をドメインへ整理し、各ユースケースを実現する進行はアプリケーション側へ置きます。ユースケースと実現モデルの対応は要求実現の関係です。一方、ドメインに近いモデルを実装・実行の表現へ具体化し、得られた知見をモデルへ戻すモデル・アップ・ダウンは、抽象度をまたぐ作業として区別します。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-practice"
+                  ],
+                  "claims": [
+                    "cml-practice-claim-2"
+                  ],
+                  "nodes": [
+                    "cml-practice-node-1",
+                    "cml-practice-node-2"
+                  ],
+                  "relations": [
+                    "cml-practice-relation-1"
+                  ],
+                  "flows": [
+                    "cml-practice-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "cml-conclusion-section",
+            "heading": "まとめ",
+            "coreRefs": {
+              "steps": [
+                "cml-conclusion"
+              ],
+              "claims": [
+                "cml-conclusion-claim-1"
+              ],
+              "nodes": [
+                "cml-conclusion-node-1",
+                "cml-conclusion-node-2"
+              ],
+              "relations": [
+                "cml-conclusion-relation-1"
+              ],
+              "flows": [
+                "cml-conclusion-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-conclusion-paragraph-1",
+                "kind": "paragraph",
+                "text": "CMLによるモデリングでは、用語、構造、規則、振る舞い、参照と表示を分担して記述し、それらの対応を保ちます。型と制約は値の扱いを、ルールは判断を、Workflowと状態機械は進行を定め、生成とTextus/CNCFの実行機構がそれを実装へ結び付けます。この構成は再利用と変更を支え、AIが補完する範囲を明確にするため、モデル駆動開発の仕組みがAI開発のハーネスとしても機能します。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-conclusion"
+                  ],
+                  "claims": [
+                    "cml-conclusion-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-conclusion-node-1",
+                    "cml-conclusion-node-2"
+                  ],
+                  "relations": [
+                    "cml-conclusion-relation-1"
+                  ],
+                  "flows": [
+                    "cml-conclusion-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "cml-sources-section",
+            "heading": "付録：参照資料と関連ガイド",
+            "coreRefs": {
+              "steps": [
+                "cml-sources"
+              ],
+              "claims": [
+                "cml-sources-claim-1"
+              ],
+              "nodes": [
+                "cml-sources-node-1",
+                "cml-sources-node-2"
+              ],
+              "relations": [
+                "cml-sources-relation-1"
+              ],
+              "flows": [
+                "cml-sources-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "cml-sources-paragraph-1",
+                "kind": "paragraph",
+                "text": "本文はCozyの受理済み文法・生成契約、CNCFのRule Engine基盤、SimpleModelingのモデリング方針をもとにしています。以下は内部リポジトリ資料です。最新文法の設計資料には実装予定も含まれるため、一般RULE DSLなどの拡張方針と、受理済みのDatatype・Operation・Workflow契約を区別しています。",
+                "coreRefs": {
+                  "steps": [
+                    "cml-sources"
+                  ],
+                  "claims": [
+                    "cml-sources-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-sources-node-1",
+                    "cml-sources-node-2"
+                  ],
+                  "relations": [
+                    "cml-sources-relation-1"
+                  ],
+                  "flows": [
+                    "cml-sources-flow"
+                  ]
+                }
+              },
+              {
+                "id": "source-map",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "cml-sources"
+                  ],
+                  "claims": [
+                    "cml-sources-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-sources-node-1",
+                    "cml-sources-node-2"
+                  ],
+                  "relations": [
+                    "cml-sources-relation-1"
+                  ],
+                  "flows": [
+                    "cml-sources-flow"
+                  ]
+                },
+                "caption": "内部の参照資料",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "資料"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "本文との対応"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "source-map-row-1",
+                    "cells": [
+                      "Cozy: docs/design/cml-grammar.md",
+                      "受理済み文法とDatatypeの例"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-2",
+                    "cells": [
+                      "Cozy: docs/spec/cml-value-datatype-contract.md",
+                      "Value・Datatype・Operation・制約の投影"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-3",
+                    "cells": [
+                      "Cozy: src/test/scala/cozy/modeler/CmlOperationLocalMetadataSpec.scala",
+                      "Operationローカル型の記法と検査"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-4",
+                    "cells": [
+                      "Cozy: docs/spec/cml-workflow-source-contract.md",
+                      "WorkflowとCSMの対応・必要操作"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-5",
+                    "cells": [
+                      "Cozy: docs/spec/statemachine-workflow-generated-abi-contract.md",
+                      "生成定義とProvider接続の分担"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-6",
+                    "cells": [
+                      "Cozy: docs/notes/cml-grammar-latest.md",
+                      "文芸モデルとRULE拡張方針"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-7",
+                    "cells": [
+                      "CNCF: docs/spec/rule-engine-inference-runtime.md",
+                      "規則評価とAction受入れの分離"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-8",
+                    "cells": [
+                      "SimpleModeling.org: docs/journal/2026/10/2026-10-17-domain-rule-harness-cncf-series.md",
+                      "Domain Ruleから実行への接続方針"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "guide-map",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "cml-sources"
+                  ],
+                  "claims": [
+                    "cml-sources-claim-1"
+                  ],
+                  "nodes": [
+                    "cml-sources-node-1",
+                    "cml-sources-node-2"
+                  ],
+                  "relations": [
+                    "cml-sources-relation-1"
+                  ],
+                  "flows": [
+                    "cml-sources-flow"
+                  ]
+                },
+                "caption": "関連ガイド",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "ガイド"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "詳しく扱う内容"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "guide-map-row-1",
+                    "cells": [
+                      "全体像",
+                      "モデル・部品・実行基盤の組合せ"
+                    ]
+                  },
+                  {
+                    "id": "guide-map-row-2",
+                    "cells": [
+                      "DDD",
+                      "DDDとPoEAAを補助線にしたモデルの役割"
+                    ]
+                  },
+                  {
+                    "id": "guide-map-row-3",
+                    "cells": [
+                      "Modeling and FP",
+                      "型・Consequence・Free Monad・UoW"
+                    ]
+                  },
+                  {
+                    "id": "guide-map-row-4",
+                    "cells": [
+                      "UI",
+                      "View・Displayと複数UI基盤"
+                    ]
+                  },
+                  {
+                    "id": "guide-map-row-5",
+                    "cells": [
+                      "リアクティブ・セキュリティ",
+                      "共通の実行機構と品質条件"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "textus-cncf-cml-modeling",
+        "text": "CMLによるモデリング技術ガイド"
+      },
+      {
+        "stepRef": "cml-purpose",
+        "text": "CMLで業務の意味を開発と実行へつなぐ"
+      },
+      {
+        "stepRef": "cml-literate",
+        "text": "構造・メタデータ・説明を一つの文芸モデルに記述する"
+      },
+      {
+        "stepRef": "cml-static",
+        "text": "静的モデルで値の意味と更新の境界を定める"
+      },
+      {
+        "stepRef": "cml-types",
+        "text": "Datatype・Powertype・状態機械を使い分ける"
+      },
+      {
+        "stepRef": "cml-dynamic",
+        "text": "要求と実行する振る舞いを接続する"
+      },
+      {
+        "stepRef": "cml-usecase",
+        "text": "ユースケースを実現する操作と状態へ対応付ける"
+      },
+      {
+        "stepRef": "cml-workflow",
+        "text": "Workflowと状態機械で進行と遷移を定める"
+      },
+      {
+        "stepRef": "cml-rules",
+        "text": "業務ルールをモデルとして記述する"
+      },
+      {
+        "stepRef": "cml-rule-kinds",
+        "text": "入力制約・業務判断・遷移条件を分ける"
+      },
+      {
+        "stepRef": "cml-rule-execution",
+        "text": "ルールの評価とActionの実行を分ける"
+      },
+      {
+        "stepRef": "cml-contracts",
+        "text": "Operationの契約でモデルと実装を接続する"
+      },
+      {
+        "stepRef": "cml-ui",
+        "text": "ViewとDisplayで参照と表示を分担する"
+      },
+      {
+        "stepRef": "cml-execution",
+        "text": "モデルを生成・直接実行・補完実装へ渡す"
+      },
+      {
+        "stepRef": "cml-checks",
+        "text": "モデル間の対応を検査しながら変更する"
+      },
+      {
+        "stepRef": "cml-practice",
+        "text": "小さなユースケースからモデルの接続を確かめる"
+      },
+      {
+        "stepRef": "cml-conclusion",
+        "text": "まとめ"
+      },
+      {
+        "stepRef": "cml-sources",
+        "text": "付録：参照資料と関連ガイド"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "textus-cncf-cml-modeling-node-1",
+        "text": "業務の概念と規則をモデルで記述する"
+      },
+      {
+        "nodeRef": "textus-cncf-cml-modeling-node-2",
+        "text": "モデル間の接続を検査・生成・実行へ引き継ぐ"
+      },
+      {
+        "nodeRef": "cml-purpose-node-1",
+        "text": "ドメインに近い抽象度で記述する"
+      },
+      {
+        "nodeRef": "cml-purpose-node-2",
+        "text": "同じ定義を検査・生成・実行へ引き継ぐ"
+      },
+      {
+        "nodeRef": "cml-literate-node-1",
+        "text": "機械処理する定義と説明を併記する"
+      },
+      {
+        "nodeRef": "cml-literate-node-2",
+        "text": "説明文で実行規則を上書きしない"
+      },
+      {
+        "nodeRef": "cml-static-node-1",
+        "text": "識別・値・分類・整合性を分担する"
+      },
+      {
+        "nodeRef": "cml-static-node-2",
+        "text": "型と制約を各接点へ投影する"
+      },
+      {
+        "nodeRef": "cml-types-node-1",
+        "text": "値の許容範囲と分類を定める"
+      },
+      {
+        "nodeRef": "cml-types-node-2",
+        "text": "状態の変化を独立した規則として扱う"
+      },
+      {
+        "nodeRef": "cml-dynamic-node-1",
+        "text": "実例と一般的な進行規則を分ける"
+      },
+      {
+        "nodeRef": "cml-dynamic-node-2",
+        "text": "要求を実現モデルへ対応付ける"
+      },
+      {
+        "nodeRef": "cml-usecase-node-1",
+        "text": "目的・前提・期待結果を記述する"
+      },
+      {
+        "nodeRef": "cml-usecase-node-2",
+        "text": "正常・代替・例外の実例を突き合わせる"
+      },
+      {
+        "nodeRef": "cml-workflow-node-1",
+        "text": "状態・イベント・条件を明示する"
+      },
+      {
+        "nodeRef": "cml-workflow-node-2",
+        "text": "論理的な操作と実行先を接続する"
+      },
+      {
+        "nodeRef": "cml-rules-node-1",
+        "text": "判断の条件と責務を明示する"
+      },
+      {
+        "nodeRef": "cml-rules-node-2",
+        "text": "規則を進行と更新へ接続する"
+      },
+      {
+        "nodeRef": "cml-rule-kinds-node-1",
+        "text": "規則の対象に応じて置き場所を選ぶ"
+      },
+      {
+        "nodeRef": "cml-rule-kinds-node-2",
+        "text": "判断結果を進行の条件として利用する"
+      },
+      {
+        "nodeRef": "cml-rule-execution-node-1",
+        "text": "不変の入力から結果と根拠を求める"
+      },
+      {
+        "nodeRef": "cml-rule-execution-node-2",
+        "text": "更新は認可とUoWの経路へ戻す"
+      },
+      {
+        "nodeRef": "cml-contracts-node-1",
+        "text": "入出力を意味のある型として定める"
+      },
+      {
+        "nodeRef": "cml-contracts-node-2",
+        "text": "既存部品と補完実装を同じ契約へ接続する"
+      },
+      {
+        "nodeRef": "cml-ui-node-1",
+        "text": "参照結果の意味をモデル化する"
+      },
+      {
+        "nodeRef": "cml-ui-node-2",
+        "text": "表示と操作を業務契約へ結び付ける"
+      },
+      {
+        "nodeRef": "cml-execution-node-1",
+        "text": "定義を処理系の契約へ具体化する"
+      },
+      {
+        "nodeRef": "cml-execution-node-2",
+        "text": "業務の意味と実行条件を分担する"
+      },
+      {
+        "nodeRef": "cml-checks-node-1",
+        "text": "検査の責務を段階ごとに分ける"
+      },
+      {
+        "nodeRef": "cml-checks-node-2",
+        "text": "モデルと実例を同じ変更へ追随させる"
+      },
+      {
+        "nodeRef": "cml-practice-node-1",
+        "text": "一つの目的に必要なモデルをそろえる"
+      },
+      {
+        "nodeRef": "cml-practice-node-2",
+        "text": "変更しながら共通の概念を取り出す"
+      },
+      {
+        "nodeRef": "cml-conclusion-node-1",
+        "text": "モデルの意味を複数の実行接点で共有する"
+      },
+      {
+        "nodeRef": "cml-conclusion-node-2",
+        "text": "モデルと処理系の組合せを開発の基盤にする"
+      },
+      {
+        "nodeRef": "cml-sources-node-1",
+        "text": "受理済み契約と拡張方針を区別する"
+      },
+      {
+        "nodeRef": "cml-sources-node-2",
+        "text": "目的に応じて詳細資料へ進む"
+      }
+    ]
+  }
+}
