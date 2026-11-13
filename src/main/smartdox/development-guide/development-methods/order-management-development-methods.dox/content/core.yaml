@@ -1,0 +1,834 @@
+{
+  "schema": "cozy.content-core.logic-tree.v1",
+  "id": "order-management-development-methods",
+  "root": {
+    "id": "order-management-development-methods",
+    "semanticRole": "explanation",
+    "claims": [
+      "order-management-development-methods-claim-1"
+    ],
+    "structure": {
+      "pattern": "sequence",
+      "nodes": [
+        {
+          "id": "order-management-development-methods-node-1",
+          "role": "step"
+        },
+        {
+          "id": "order-management-development-methods-node-2",
+          "role": "step"
+        }
+      ],
+      "relations": [
+        {
+          "id": "order-management-development-methods-relation-1",
+          "relationType": "next",
+          "from": "order-management-development-methods-node-1",
+          "to": "order-management-development-methods-node-2"
+        }
+      ]
+    },
+    "flow": {
+      "id": "order-management-development-methods-flow",
+      "transitions": [
+        {
+          "id": "order-management-development-methods-transition-purpose",
+          "relationType": "next",
+          "fromStepId": "order-management-development-methods-purpose",
+          "toStepId": "order-management-development-methods-initial"
+        },
+        {
+          "id": "order-management-development-methods-transition-1",
+          "relationType": "next",
+          "fromStepId": "order-management-development-methods-initial",
+          "toStepId": "order-management-development-methods-conventional"
+        },
+        {
+          "id": "order-management-development-methods-transition-2",
+          "relationType": "next",
+          "fromStepId": "order-management-development-methods-conventional",
+          "toStepId": "order-management-development-methods-ui"
+        },
+        {
+          "id": "order-management-development-methods-transition-3",
+          "relationType": "next",
+          "fromStepId": "order-management-development-methods-ui",
+          "toStepId": "order-management-development-methods-spec"
+        },
+        {
+          "id": "order-management-development-methods-transition-4",
+          "relationType": "next",
+          "fromStepId": "order-management-development-methods-spec",
+          "toStepId": "order-management-development-methods-model"
+        },
+        {
+          "id": "order-management-development-methods-transition-5",
+          "relationType": "next",
+          "fromStepId": "order-management-development-methods-model",
+          "toStepId": "order-management-development-methods-years"
+        },
+        {
+          "id": "order-management-development-methods-transition-6",
+          "relationType": "next",
+          "fromStepId": "order-management-development-methods-years",
+          "toStepId": "order-management-development-methods-adopt"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "order-management-development-methods-purpose",
+        "semanticRole": "explanation",
+        "claims": [
+          "order-management-development-methods-purpose-claim-1",
+          "order-management-development-methods-purpose-claim-2",
+          "order-management-development-methods-purpose-claim-3",
+          "order-management-development-methods-purpose-claim-4",
+          "order-management-development-methods-purpose-claim-5",
+          "order-management-development-methods-purpose-claim-6",
+          "order-management-development-methods-purpose-claim-7",
+          "order-management-development-methods-purpose-claim-8",
+          "order-management-development-methods-purpose-claim-9",
+          "order-management-development-methods-purpose-claim-10",
+          "order-management-development-methods-purpose-claim-11",
+          "order-management-development-methods-purpose-claim-12",
+          "order-management-development-methods-purpose-claim-13",
+          "order-management-development-methods-purpose-claim-14",
+          "order-management-development-methods-purpose-claim-15",
+          "order-management-development-methods-purpose-claim-16",
+          "order-management-development-methods-purpose-claim-17",
+          "order-management-development-methods-purpose-claim-18",
+          "order-management-development-methods-purpose-claim-19",
+          "order-management-development-methods-purpose-claim-20",
+          "order-management-development-methods-purpose-criterion-visible-spec",
+          "order-management-development-methods-purpose-criterion-execution",
+          "order-management-development-methods-purpose-criterion-bounded-context",
+          "order-management-development-methods-purpose-criterion-shared-knowledge",
+          "order-management-development-methods-purpose-criterion-next-year",
+          "order-management-development-methods-purpose-criterion-long-term",
+          "order-management-development-methods-purpose-claim-reuse-unit",
+          "order-management-development-methods-purpose-claim-joint-basis",
+          "order-management-development-methods-purpose-claim-two-warehouse-hold-release-question",
+          "order-management-development-methods-purpose-claim-four-routes-for-same-release-rule",
+          "order-management-development-methods-purpose-claim-release-rule-contract-reason-reading",
+          "order-management-development-methods-purpose-claim-shared-release-acceptance-zero-allocation-zero-dispatch",
+          "order-management-development-methods-purpose-claim-inspect-release-operation-in-adopted-car-specification",
+          "order-management-development-methods-purpose-claim-two-warehouse-shortfall-compare-inventory-and-dispatch-records",
+          "order-management-development-methods-purpose-claim-trace-six-unit-hold-to-release-and-check-zero-allocation-and-dispatch"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "order-management-development-methods-purpose-node-1",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-purpose-node-2",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-purpose-node-3",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-purpose-node-4",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-purpose-node-5",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "order-management-development-methods-purpose-relation-1",
+              "relationType": "next",
+              "from": "order-management-development-methods-purpose-node-1",
+              "to": "order-management-development-methods-purpose-node-2"
+            },
+            {
+              "id": "order-management-development-methods-purpose-relation-2",
+              "relationType": "next",
+              "from": "order-management-development-methods-purpose-node-2",
+              "to": "order-management-development-methods-purpose-node-3"
+            },
+            {
+              "id": "order-management-development-methods-purpose-relation-3",
+              "relationType": "next",
+              "from": "order-management-development-methods-purpose-node-3",
+              "to": "order-management-development-methods-purpose-node-4"
+            },
+            {
+              "id": "order-management-development-methods-purpose-relation-4",
+              "relationType": "next",
+              "from": "order-management-development-methods-purpose-node-4",
+              "to": "order-management-development-methods-purpose-node-5"
+            }
+          ]
+        },
+        "flow": {
+          "id": "order-management-development-methods-purpose-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "order-management-development-methods-initial",
+        "semanticRole": "explanation",
+        "claims": [
+          "order-management-development-methods-initial-claim-1",
+          "order-management-development-methods-initial-claim-2",
+          "order-management-development-methods-initial-claim-3",
+          "order-management-development-methods-initial-claim-4",
+          "order-management-development-methods-initial-claim-first-year-single-warehouse-baseline",
+          "order-management-development-methods-initial-claim-resend-same-dispatch-instruction-one-shipment-acceptance"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "order-management-development-methods-initial-node-1",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-initial-node-2",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-initial-node-3",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-initial-node-4",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "order-management-development-methods-initial-relation-1",
+              "relationType": "next",
+              "from": "order-management-development-methods-initial-node-1",
+              "to": "order-management-development-methods-initial-node-2"
+            },
+            {
+              "id": "order-management-development-methods-initial-relation-2",
+              "relationType": "next",
+              "from": "order-management-development-methods-initial-node-2",
+              "to": "order-management-development-methods-initial-node-3"
+            },
+            {
+              "id": "order-management-development-methods-initial-relation-3",
+              "relationType": "next",
+              "from": "order-management-development-methods-initial-node-3",
+              "to": "order-management-development-methods-initial-node-4"
+            }
+          ]
+        },
+        "flow": {
+          "id": "order-management-development-methods-initial-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "order-management-development-methods-conventional",
+        "semanticRole": "explanation",
+        "claims": [
+          "order-management-development-methods-conventional-claim-1",
+          "order-management-development-methods-conventional-claim-2",
+          "order-management-development-methods-conventional-claim-3",
+          "order-management-development-methods-conventional-claim-4",
+          "order-management-development-methods-conventional-claim-blueprint"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "order-management-development-methods-conventional-node-1",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-conventional-node-2",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-conventional-node-3",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-conventional-node-4",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "order-management-development-methods-conventional-relation-1",
+              "relationType": "next",
+              "from": "order-management-development-methods-conventional-node-1",
+              "to": "order-management-development-methods-conventional-node-2"
+            },
+            {
+              "id": "order-management-development-methods-conventional-relation-2",
+              "relationType": "next",
+              "from": "order-management-development-methods-conventional-node-2",
+              "to": "order-management-development-methods-conventional-node-3"
+            },
+            {
+              "id": "order-management-development-methods-conventional-relation-3",
+              "relationType": "next",
+              "from": "order-management-development-methods-conventional-node-3",
+              "to": "order-management-development-methods-conventional-node-4"
+            }
+          ]
+        },
+        "flow": {
+          "id": "order-management-development-methods-conventional-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "order-management-development-methods-ui",
+        "semanticRole": "explanation",
+        "claims": [
+          "order-management-development-methods-ui-claim-1",
+          "order-management-development-methods-ui-claim-2",
+          "order-management-development-methods-ui-claim-3",
+          "order-management-development-methods-ui-claim-4"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "order-management-development-methods-ui-node-1",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-ui-node-2",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-ui-node-3",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-ui-node-4",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "order-management-development-methods-ui-relation-1",
+              "relationType": "next",
+              "from": "order-management-development-methods-ui-node-1",
+              "to": "order-management-development-methods-ui-node-2"
+            },
+            {
+              "id": "order-management-development-methods-ui-relation-2",
+              "relationType": "next",
+              "from": "order-management-development-methods-ui-node-2",
+              "to": "order-management-development-methods-ui-node-3"
+            },
+            {
+              "id": "order-management-development-methods-ui-relation-3",
+              "relationType": "next",
+              "from": "order-management-development-methods-ui-node-3",
+              "to": "order-management-development-methods-ui-node-4"
+            }
+          ]
+        },
+        "flow": {
+          "id": "order-management-development-methods-ui-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "order-management-development-methods-spec",
+        "semanticRole": "explanation",
+        "claims": [
+          "order-management-development-methods-spec-claim-1",
+          "order-management-development-methods-spec-claim-2",
+          "order-management-development-methods-spec-claim-3",
+          "order-management-development-methods-spec-claim-4"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "order-management-development-methods-spec-node-1",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-spec-node-2",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-spec-node-3",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-spec-node-4",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "order-management-development-methods-spec-relation-1",
+              "relationType": "next",
+              "from": "order-management-development-methods-spec-node-1",
+              "to": "order-management-development-methods-spec-node-2"
+            },
+            {
+              "id": "order-management-development-methods-spec-relation-2",
+              "relationType": "next",
+              "from": "order-management-development-methods-spec-node-2",
+              "to": "order-management-development-methods-spec-node-3"
+            },
+            {
+              "id": "order-management-development-methods-spec-relation-3",
+              "relationType": "next",
+              "from": "order-management-development-methods-spec-node-3",
+              "to": "order-management-development-methods-spec-node-4"
+            }
+          ]
+        },
+        "flow": {
+          "id": "order-management-development-methods-spec-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "order-management-development-methods-model",
+        "semanticRole": "explanation",
+        "claims": [
+          "order-management-development-methods-model-claim-1",
+          "order-management-development-methods-model-claim-2",
+          "order-management-development-methods-model-claim-3",
+          "order-management-development-methods-model-claim-4",
+          "order-management-development-methods-model-claim-archetype-repository",
+          "order-management-development-methods-model-claim-structure-and-behavior",
+          "order-management-development-methods-model-claim-business-rules",
+          "order-management-development-methods-model-claim-implementation-harness",
+          "order-management-development-methods-model-claim-car-specification"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "order-management-development-methods-model-node-1",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-model-node-2",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-model-node-3",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-model-node-4",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "order-management-development-methods-model-relation-1",
+              "relationType": "next",
+              "from": "order-management-development-methods-model-node-1",
+              "to": "order-management-development-methods-model-node-2"
+            },
+            {
+              "id": "order-management-development-methods-model-relation-2",
+              "relationType": "next",
+              "from": "order-management-development-methods-model-node-2",
+              "to": "order-management-development-methods-model-node-3"
+            },
+            {
+              "id": "order-management-development-methods-model-relation-3",
+              "relationType": "next",
+              "from": "order-management-development-methods-model-node-3",
+              "to": "order-management-development-methods-model-node-4"
+            }
+          ]
+        },
+        "flow": {
+          "id": "order-management-development-methods-model-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "order-management-development-methods-years",
+        "semanticRole": "explanation",
+        "claims": [
+          "order-management-development-methods-years-claim-1",
+          "order-management-development-methods-years-claim-2",
+          "order-management-development-methods-years-claim-3",
+          "order-management-development-methods-years-claim-reuse-across-years-projects",
+          "order-management-development-methods-years-claim-handoff-diagram"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "order-management-development-methods-years-node-1",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-years-node-2",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-years-node-3",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "order-management-development-methods-years-relation-1",
+              "relationType": "next",
+              "from": "order-management-development-methods-years-node-1",
+              "to": "order-management-development-methods-years-node-2"
+            },
+            {
+              "id": "order-management-development-methods-years-relation-2",
+              "relationType": "next",
+              "from": "order-management-development-methods-years-node-2",
+              "to": "order-management-development-methods-years-node-3"
+            }
+          ]
+        },
+        "flow": {
+          "id": "order-management-development-methods-years-flow",
+          "transitions": [
+            {
+              "id": "order-management-development-methods-years-transition-1",
+              "relationType": "next",
+              "fromStepId": "order-management-development-methods-years-baseline",
+              "toStepId": "order-management-development-methods-years-warehouses"
+            },
+            {
+              "id": "order-management-development-methods-years-transition-2",
+              "relationType": "next",
+              "fromStepId": "order-management-development-methods-years-warehouses",
+              "toStepId": "order-management-development-methods-years-currency"
+            },
+            {
+              "id": "order-management-development-methods-years-transition-3",
+              "relationType": "next",
+              "fromStepId": "order-management-development-methods-years-currency",
+              "toStepId": "order-management-development-methods-years-channels"
+            },
+            {
+              "id": "order-management-development-methods-years-transition-4",
+              "relationType": "next",
+              "fromStepId": "order-management-development-methods-years-channels",
+              "toStepId": "order-management-development-methods-years-forecast"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "order-management-development-methods-years-baseline",
+            "steps": [],
+            "flow": {
+              "id": "order-management-development-methods-years-baseline-flow",
+              "transitions": []
+            },
+            "semanticRole": "explanation",
+            "claims": [
+              "order-management-development-methods-years-baseline-claim-1",
+              "order-management-development-methods-years-baseline-claim-2",
+              "order-management-development-methods-years-baseline-claim-3",
+              "order-management-development-methods-years-baseline-claim-baseline-for-next-change"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "order-management-development-methods-years-baseline-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "order-management-development-methods-years-baseline-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "order-management-development-methods-years-baseline-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "order-management-development-methods-years-baseline-relation-1",
+                  "relationType": "next",
+                  "from": "order-management-development-methods-years-baseline-node-1",
+                  "to": "order-management-development-methods-years-baseline-node-2"
+                },
+                {
+                  "id": "order-management-development-methods-years-baseline-relation-2",
+                  "relationType": "next",
+                  "from": "order-management-development-methods-years-baseline-node-2",
+                  "to": "order-management-development-methods-years-baseline-node-3"
+                }
+              ]
+            }
+          },
+          {
+            "id": "order-management-development-methods-years-warehouses",
+            "steps": [],
+            "flow": {
+              "id": "order-management-development-methods-years-warehouses-flow",
+              "transitions": []
+            },
+            "semanticRole": "explanation",
+            "claims": [
+              "order-management-development-methods-years-warehouses-claim-1",
+              "order-management-development-methods-years-warehouses-claim-2",
+              "order-management-development-methods-years-warehouses-claim-3",
+              "order-management-development-methods-years-warehouses-claim-open-decision",
+              "order-management-development-methods-years-warehouses-claim-contract-decision",
+              "order-management-development-methods-years-warehouses-claim-release-evidence",
+              "order-management-development-methods-years-warehouses-claim-verify-hold-release-history-and-dispatch-record"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "order-management-development-methods-years-warehouses-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "order-management-development-methods-years-warehouses-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "order-management-development-methods-years-warehouses-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "order-management-development-methods-years-warehouses-relation-1",
+                  "relationType": "next",
+                  "from": "order-management-development-methods-years-warehouses-node-1",
+                  "to": "order-management-development-methods-years-warehouses-node-2"
+                },
+                {
+                  "id": "order-management-development-methods-years-warehouses-relation-2",
+                  "relationType": "next",
+                  "from": "order-management-development-methods-years-warehouses-node-2",
+                  "to": "order-management-development-methods-years-warehouses-node-3"
+                }
+              ]
+            }
+          },
+          {
+            "id": "order-management-development-methods-years-currency",
+            "steps": [],
+            "flow": {
+              "id": "order-management-development-methods-years-currency-flow",
+              "transitions": []
+            },
+            "semanticRole": "explanation",
+            "claims": [
+              "order-management-development-methods-years-currency-claim-1",
+              "order-management-development-methods-years-currency-claim-2",
+              "order-management-development-methods-years-currency-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "order-management-development-methods-years-currency-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "order-management-development-methods-years-currency-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "order-management-development-methods-years-currency-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "order-management-development-methods-years-currency-relation-1",
+                  "relationType": "next",
+                  "from": "order-management-development-methods-years-currency-node-1",
+                  "to": "order-management-development-methods-years-currency-node-2"
+                },
+                {
+                  "id": "order-management-development-methods-years-currency-relation-2",
+                  "relationType": "next",
+                  "from": "order-management-development-methods-years-currency-node-2",
+                  "to": "order-management-development-methods-years-currency-node-3"
+                }
+              ]
+            }
+          },
+          {
+            "id": "order-management-development-methods-years-channels",
+            "steps": [],
+            "flow": {
+              "id": "order-management-development-methods-years-channels-flow",
+              "transitions": []
+            },
+            "semanticRole": "explanation",
+            "claims": [
+              "order-management-development-methods-years-channels-claim-1",
+              "order-management-development-methods-years-channels-claim-2",
+              "order-management-development-methods-years-channels-claim-3",
+              "order-management-development-methods-years-channels-claim-reuse-warehouse-decision",
+              "order-management-development-methods-years-channels-claim-ec-delta-test",
+              "order-management-development-methods-years-channels-claim-receipt-vs-shipping",
+              "order-management-development-methods-years-channels-claim-ec-order-retry-versus-dispatch-instruction-retry"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "order-management-development-methods-years-channels-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "order-management-development-methods-years-channels-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "order-management-development-methods-years-channels-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "order-management-development-methods-years-channels-relation-1",
+                  "relationType": "next",
+                  "from": "order-management-development-methods-years-channels-node-1",
+                  "to": "order-management-development-methods-years-channels-node-2"
+                },
+                {
+                  "id": "order-management-development-methods-years-channels-relation-2",
+                  "relationType": "next",
+                  "from": "order-management-development-methods-years-channels-node-2",
+                  "to": "order-management-development-methods-years-channels-node-3"
+                }
+              ]
+            }
+          },
+          {
+            "id": "order-management-development-methods-years-forecast",
+            "steps": [],
+            "flow": {
+              "id": "order-management-development-methods-years-forecast-flow",
+              "transitions": []
+            },
+            "semanticRole": "explanation",
+            "claims": [
+              "order-management-development-methods-years-forecast-claim-1",
+              "order-management-development-methods-years-forecast-claim-2",
+              "order-management-development-methods-years-forecast-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "order-management-development-methods-years-forecast-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "order-management-development-methods-years-forecast-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "order-management-development-methods-years-forecast-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "order-management-development-methods-years-forecast-relation-1",
+                  "relationType": "next",
+                  "from": "order-management-development-methods-years-forecast-node-1",
+                  "to": "order-management-development-methods-years-forecast-node-2"
+                },
+                {
+                  "id": "order-management-development-methods-years-forecast-relation-2",
+                  "relationType": "next",
+                  "from": "order-management-development-methods-years-forecast-node-2",
+                  "to": "order-management-development-methods-years-forecast-node-3"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "order-management-development-methods-adopt",
+        "semanticRole": "explanation",
+        "claims": [
+          "order-management-development-methods-adopt-claim-1",
+          "order-management-development-methods-adopt-claim-2",
+          "order-management-development-methods-adopt-claim-3",
+          "order-management-development-methods-adopt-claim-4",
+          "order-management-development-methods-adopt-claim-living-final-spec",
+          "order-management-development-methods-adopt-claim-three-questions-0",
+          "order-management-development-methods-adopt-claim-three-questions-1",
+          "order-management-development-methods-adopt-claim-three-questions-2",
+          "order-management-development-methods-adopt-claim-carry-forward-runtime-model-car-bok"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "order-management-development-methods-adopt-node-1",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-adopt-node-2",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-adopt-node-3",
+              "role": "step"
+            },
+            {
+              "id": "order-management-development-methods-adopt-node-4",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "order-management-development-methods-adopt-relation-1",
+              "relationType": "next",
+              "from": "order-management-development-methods-adopt-node-1",
+              "to": "order-management-development-methods-adopt-node-2"
+            },
+            {
+              "id": "order-management-development-methods-adopt-relation-2",
+              "relationType": "next",
+              "from": "order-management-development-methods-adopt-node-2",
+              "to": "order-management-development-methods-adopt-node-3"
+            },
+            {
+              "id": "order-management-development-methods-adopt-relation-3",
+              "relationType": "next",
+              "from": "order-management-development-methods-adopt-node-3",
+              "to": "order-management-development-methods-adopt-node-4"
+            }
+          ]
+        },
+        "flow": {
+          "id": "order-management-development-methods-adopt-flow",
+          "transitions": []
+        },
+        "steps": []
+      }
+    ]
+  }
+}

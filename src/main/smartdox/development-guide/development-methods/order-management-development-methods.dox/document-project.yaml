@@ -1,0 +1,32 @@
+{
+  "schema": "cozy.document-project.v2",
+  "id": "order-management-development-methods",
+  "workflow": {
+    "schema": "cozy.document-workflow.v2",
+    "id": "document-production"
+  },
+  "profile": "standard",
+  "language": "ja",
+  "workspace": {
+    "kind": "directory"
+  },
+  "contentCore": "content/core.yaml",
+  "activeOptionalWorkProducts": [],
+  "semanticScope": {
+    "id": "order-management-development-methods",
+    "localeVariants": [
+      {
+        "project": "order-management-development-methods",
+        "language": "ja",
+        "contentCore": "order-management-development-methods",
+        "workProducts": []
+      },
+      {
+        "project": "order-management-development-methods",
+        "language": "en",
+        "contentCore": "order-management-development-methods",
+        "workProducts": []
+      }
+    ]
+  }
+}

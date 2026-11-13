@@ -1,0 +1,1347 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "order-management-development-methods-document-en",
+  "core": {
+    "id": "order-management-development-methods"
+  },
+  "locale": "en",
+  "document": {
+    "title": "Four Development Methods for Order Management",
+    "sections": [
+      {
+        "id": "order-management-development-methods-section",
+        "heading": "Four Development Methods for Order Management",
+        "coreRefs": {
+          "steps": [
+            "order-management-development-methods"
+          ],
+          "claims": [
+            "order-management-development-methods-claim-1"
+          ],
+          "nodes": [
+            "order-management-development-methods-node-1",
+            "order-management-development-methods-node-2"
+          ],
+          "relations": [
+            "order-management-development-methods-relation-1"
+          ],
+          "flows": [
+            "order-management-development-methods-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "order-management-development-methods-paragraph-1",
+            "kind": "paragraph",
+            "text": "Credit approval and shipment are separate decisions when stock changes while an order awaits approval. We follow the same order across four development methods, from the artifacts accepted in the first release to the evidence a successor can use when changing the system in year five.",
+            "coreRefs": {
+              "steps": [
+                "order-management-development-methods"
+              ],
+              "claims": [
+                "order-management-development-methods-claim-1"
+              ],
+              "nodes": [
+                "order-management-development-methods-node-1",
+                "order-management-development-methods-node-2"
+              ],
+              "relations": [
+                "order-management-development-methods-relation-1"
+              ],
+              "flows": [
+                "order-management-development-methods-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "order-management-development-methods-initial-section",
+            "heading": "Comparing the initial release",
+            "coreRefs": {
+              "steps": [
+                "order-management-development-methods-initial"
+              ],
+              "claims": [
+                "order-management-development-methods-initial-claim-1",
+                "order-management-development-methods-initial-claim-2",
+                "order-management-development-methods-initial-claim-3",
+                "order-management-development-methods-initial-claim-4"
+              ],
+              "nodes": [
+                "order-management-development-methods-initial-node-1",
+                "order-management-development-methods-initial-node-2",
+                "order-management-development-methods-initial-node-3",
+                "order-management-development-methods-initial-node-4"
+              ],
+              "relations": [
+                "order-management-development-methods-initial-relation-1",
+                "order-management-development-methods-initial-relation-2",
+                "order-management-development-methods-initial-relation-3"
+              ],
+              "flows": [
+                "order-management-development-methods-initial-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "order-management-development-methods-initial-paragraph-1",
+                "kind": "paragraph",
+                "text": "Use one acceptance case. An operator registers an order, checks credit, reserves stock, confirms the order and requests shipment. Excess credit requires approval. Insufficient stock puts the reservation on hold. The operator identifies the state from which work can resume. Each method receives the same inputs and expected outcomes.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-initial"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-initial-claim-1"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-initial-node-1",
+                    "order-management-development-methods-initial-node-2",
+                    "order-management-development-methods-initial-node-3",
+                    "order-management-development-methods-initial-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-initial-relation-1",
+                    "order-management-development-methods-initial-relation-2",
+                    "order-management-development-methods-initial-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-initial-flow"
+                  ]
+                }
+              },
+              {
+                "id": "order-management-development-methods-initial-paragraph-2",
+                "kind": "paragraph",
+                "text": "Assume new order management, candidate customer, product and credit components, an inventory extension and external shipping. Verify availability and access for each project. Record both contract matches and gaps. Include authentication, authorization, tracing, testing and acceptance in the initial delivery.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-initial"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-initial-claim-2"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-initial-node-1",
+                    "order-management-development-methods-initial-node-2",
+                    "order-management-development-methods-initial-node-3",
+                    "order-management-development-methods-initial-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-initial-relation-1",
+                    "order-management-development-methods-initial-relation-2",
+                    "order-management-development-methods-initial-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-initial-flow"
+                  ]
+                }
+              },
+              {
+                "id": "order-management-development-methods-initial-paragraph-3",
+                "kind": "paragraph",
+                "text": "Order A requests ten units at a domestic unit price of JPY 1,000. Available credit is JPY 8,000 and stock is six units. For this case the order waits for credit approval, then waits for all ten units before reserving any. When stock reaches ten, reservation can resume, the order can be confirmed and one shipping instruction can be issued. All methods use this policy.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-initial"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-initial-claim-3"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-initial-node-1",
+                    "order-management-development-methods-initial-node-2",
+                    "order-management-development-methods-initial-node-3",
+                    "order-management-development-methods-initial-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-initial-relation-1",
+                    "order-management-development-methods-initial-relation-2",
+                    "order-management-development-methods-initial-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-initial-flow"
+                  ]
+                }
+              },
+              {
+                "id": "order-management-development-methods-initial-paragraph-4",
+                "kind": "paragraph",
+                "text": "Acceptance checks the reserved quantity before approval (zero), shipping instructions while stock is short (zero), and shipping instructions after replenishment and a repeated operation (one). A second order has sufficient credit and stock for the normal path. All teams receive the same candidate components, fixtures and business reviewer.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-initial"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-initial-claim-4"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-initial-node-1",
+                    "order-management-development-methods-initial-node-2",
+                    "order-management-development-methods-initial-node-3",
+                    "order-management-development-methods-initial-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-initial-relation-1",
+                    "order-management-development-methods-initial-relation-2",
+                    "order-management-development-methods-initial-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-initial-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "order-management-development-methods-conventional-section",
+            "heading": "Preserving business decisions in conventional development",
+            "coreRefs": {
+              "steps": [
+                "order-management-development-methods-conventional"
+              ],
+              "claims": [
+                "order-management-development-methods-conventional-claim-1",
+                "order-management-development-methods-conventional-claim-2",
+                "order-management-development-methods-conventional-claim-3",
+                "order-management-development-methods-conventional-claim-4"
+              ],
+              "nodes": [
+                "order-management-development-methods-conventional-node-1",
+                "order-management-development-methods-conventional-node-2",
+                "order-management-development-methods-conventional-node-3",
+                "order-management-development-methods-conventional-node-4"
+              ],
+              "relations": [
+                "order-management-development-methods-conventional-relation-1",
+                "order-management-development-methods-conventional-relation-2",
+                "order-management-development-methods-conventional-relation-3"
+              ],
+              "flows": [
+                "order-management-development-methods-conventional-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "order-management-development-methods-conventional-paragraph-1",
+                "kind": "paragraph",
+                "text": "The team agrees on the credit exception with the operator and distinguishes orders awaiting approval from orders eligible for reservation. With DDD it expresses this distinction in the model, public operations and persistence, then connects them to authorization and transactions in its chosen framework.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-conventional"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-conventional-claim-1"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-conventional-node-1",
+                    "order-management-development-methods-conventional-node-2",
+                    "order-management-development-methods-conventional-node-3",
+                    "order-management-development-methods-conventional-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-conventional-relation-1",
+                    "order-management-development-methods-conventional-relation-2",
+                    "order-management-development-methods-conventional-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-conventional-flow"
+                  ]
+                }
+              },
+              {
+                "id": "order-management-development-methods-conventional-paragraph-2",
+                "kind": "paragraph",
+                "text": "Developers use contract tests for inventory and shipping failures and regression tests for order state. When AI assists implementation, the team identifies which design records, code and tests explain why a change was made.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-conventional"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-conventional-claim-2"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-conventional-node-1",
+                    "order-management-development-methods-conventional-node-2",
+                    "order-management-development-methods-conventional-node-3",
+                    "order-management-development-methods-conventional-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-conventional-relation-1",
+                    "order-management-development-methods-conventional-relation-2",
+                    "order-management-development-methods-conventional-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-conventional-flow"
+                  ]
+                }
+              },
+              {
+                "id": "order-management-development-methods-conventional-paragraph-3",
+                "kind": "paragraph",
+                "text": "Sales agrees the approval and reservation order. The designer maps state transitions and inventory call conditions. The implementer restricts approval to authorized staff and treats stock checking and reservation as one update. For a lost shipping response, the team verifies with the external service how a repeated instruction is identified.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-conventional"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-conventional-claim-3"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-conventional-node-1",
+                    "order-management-development-methods-conventional-node-2",
+                    "order-management-development-methods-conventional-node-3",
+                    "order-management-development-methods-conventional-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-conventional-relation-1",
+                    "order-management-development-methods-conventional-relation-2",
+                    "order-management-development-methods-conventional-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-conventional-flow"
+                  ]
+                }
+              },
+              {
+                "id": "order-management-development-methods-conventional-paragraph-4",
+                "kind": "paragraph",
+                "text": "The handover includes a decision record explaining why approval still requires a full reservation, a state diagram, inventory and shipping contracts, source code and a regression test for A. A successor reruns the test for behavior and reads the decision record for intent. The team maintains the link between them.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-conventional"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-conventional-claim-4"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-conventional-node-1",
+                    "order-management-development-methods-conventional-node-2",
+                    "order-management-development-methods-conventional-node-3",
+                    "order-management-development-methods-conventional-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-conventional-relation-1",
+                    "order-management-development-methods-conventional-relation-2",
+                    "order-management-development-methods-conventional-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-conventional-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "order-management-development-methods-ui-section",
+            "heading": "Discovering exceptions through UI-driven AI development",
+            "coreRefs": {
+              "steps": [
+                "order-management-development-methods-ui"
+              ],
+              "claims": [
+                "order-management-development-methods-ui-claim-1",
+                "order-management-development-methods-ui-claim-2",
+                "order-management-development-methods-ui-claim-3",
+                "order-management-development-methods-ui-claim-4"
+              ],
+              "nodes": [
+                "order-management-development-methods-ui-node-1",
+                "order-management-development-methods-ui-node-2",
+                "order-management-development-methods-ui-node-3",
+                "order-management-development-methods-ui-node-4"
+              ],
+              "relations": [
+                "order-management-development-methods-ui-relation-1",
+                "order-management-development-methods-ui-relation-2",
+                "order-management-development-methods-ui-relation-3"
+              ],
+              "flows": [
+                "order-management-development-methods-ui-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "order-management-development-methods-ui-paragraph-1",
+                "kind": "paragraph",
+                "text": "Have AI generate an order form and ask the customer to enter an order that cannot be filled. A request to send held orders back to sales reveals the next actor and the state the system needs. UI-led discovery can include careful code review. Vibe coding describes one way of iterating on generated results within this comparison.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-ui"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-ui-claim-1"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-ui-node-1",
+                    "order-management-development-methods-ui-node-2",
+                    "order-management-development-methods-ui-node-3",
+                    "order-management-development-methods-ui-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-ui-relation-1",
+                    "order-management-development-methods-ui-relation-2",
+                    "order-management-development-methods-ui-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-ui-flow"
+                  ]
+                }
+              },
+              {
+                "id": "order-management-development-methods-ui-paragraph-2",
+                "kind": "paragraph",
+                "text": "When the screen says On Hold, inspect the stock balance and check that no shipping request was sent. Identify which calls were simulated and which reached real components. Preserve accepted rules as scenarios and acceptance examples.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-ui"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-ui-claim-2"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-ui-node-1",
+                    "order-management-development-methods-ui-node-2",
+                    "order-management-development-methods-ui-node-3",
+                    "order-management-development-methods-ui-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-ui-relation-1",
+                    "order-management-development-methods-ui-relation-2",
+                    "order-management-development-methods-ui-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-ui-flow"
+                  ]
+                }
+              },
+              {
+                "id": "order-management-development-methods-ui-paragraph-3",
+                "kind": "paragraph",
+                "text": "The operator enters A and asks why an approved order still cannot ship. AI revises the screen to distinguish approval status from the stock shortfall. The developer replaces the simulation with inventory service calls and tests competing reservations and duplicate submissions after a page reload.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-ui"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-ui-claim-3"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-ui-node-1",
+                    "order-management-development-methods-ui-node-2",
+                    "order-management-development-methods-ui-node-3",
+                    "order-management-development-methods-ui-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-ui-relation-1",
+                    "order-management-development-methods-ui-relation-2",
+                    "order-management-development-methods-ui-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-ui-flow"
+                  ]
+                }
+              },
+              {
+                "id": "order-management-development-methods-ui-paragraph-4",
+                "kind": "paragraph",
+                "text": "Preserve the confirmed interaction, UI and code, a list of simulated responses and integration tests against real services. Add expected reservation and shipment counts to decisions reached on screen. These expectations survive a UI replacement the following year.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-ui"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-ui-claim-4"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-ui-node-1",
+                    "order-management-development-methods-ui-node-2",
+                    "order-management-development-methods-ui-node-3",
+                    "order-management-development-methods-ui-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-ui-relation-1",
+                    "order-management-development-methods-ui-relation-2",
+                    "order-management-development-methods-ui-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-ui-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "order-management-development-methods-spec-section",
+            "heading": "Connecting specifications to implementation and acceptance",
+            "coreRefs": {
+              "steps": [
+                "order-management-development-methods-spec"
+              ],
+              "claims": [
+                "order-management-development-methods-spec-claim-1",
+                "order-management-development-methods-spec-claim-2",
+                "order-management-development-methods-spec-claim-3",
+                "order-management-development-methods-spec-claim-4"
+              ],
+              "nodes": [
+                "order-management-development-methods-spec-node-1",
+                "order-management-development-methods-spec-node-2",
+                "order-management-development-methods-spec-node-3",
+                "order-management-development-methods-spec-node-4"
+              ],
+              "relations": [
+                "order-management-development-methods-spec-relation-1",
+                "order-management-development-methods-spec-relation-2",
+                "order-management-development-methods-spec-relation-3"
+              ],
+              "flows": [
+                "order-management-development-methods-spec-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "order-management-development-methods-spec-paragraph-1",
+                "kind": "paragraph",
+                "text": "Specify order states, credit-check inputs and the condition for resuming after approval. AI uses the specification and shipping API contract to produce implementation and tests. A business reviewer checks representative outcomes. An example identifies who resumes the process and which operation they invoke.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-spec"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-spec-claim-1"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-spec-node-1",
+                    "order-management-development-methods-spec-node-2",
+                    "order-management-development-methods-spec-node-3",
+                    "order-management-development-methods-spec-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-spec-relation-1",
+                    "order-management-development-methods-spec-relation-2",
+                    "order-management-development-methods-spec-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-spec-flow"
+                  ]
+                }
+              },
+              {
+                "id": "order-management-development-methods-spec-paragraph-2",
+                "kind": "paragraph",
+                "text": "Trace a specification change to operations, components and acceptance tests. Automated checks and review keep the specification aligned with observed behavior as the system evolves.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-spec"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-spec-claim-2"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-spec-node-1",
+                    "order-management-development-methods-spec-node-2",
+                    "order-management-development-methods-spec-node-3",
+                    "order-management-development-methods-spec-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-spec-relation-1",
+                    "order-management-development-methods-spec-relation-2",
+                    "order-management-development-methods-spec-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-spec-flow"
+                  ]
+                }
+              },
+              {
+                "id": "order-management-development-methods-spec-paragraph-3",
+                "kind": "paragraph",
+                "text": "Business and specification owners express A as a decision table. Conditions are approval and full stock availability. Outcomes are order state, reserved quantity and whether shipping is instructed. AI drafts operations and tests; reviewers compare generated expectations with the business-approved table.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-spec"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-spec-claim-3"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-spec-node-1",
+                    "order-management-development-methods-spec-node-2",
+                    "order-management-development-methods-spec-node-3",
+                    "order-management-development-methods-spec-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-spec-relation-1",
+                    "order-management-development-methods-spec-relation-2",
+                    "order-management-development-methods-spec-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-spec-flow"
+                  ]
+                }
+              },
+              {
+                "id": "order-management-development-methods-spec-paragraph-4",
+                "kind": "paragraph",
+                "text": "Handover connects the specification version and business-approved examples to operations, tests and implementation. A change to the resume-after-approval clause triggers review of both the six-unit and ten-unit cases. The next developer starts from the tests run against the known specification version.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-spec"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-spec-claim-4"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-spec-node-1",
+                    "order-management-development-methods-spec-node-2",
+                    "order-management-development-methods-spec-node-3",
+                    "order-management-development-methods-spec-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-spec-relation-1",
+                    "order-management-development-methods-spec-relation-2",
+                    "order-management-development-methods-spec-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-spec-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "order-management-development-methods-model-section",
+            "heading": "Connecting domain models to execution with SimpleModeling and AI",
+            "coreRefs": {
+              "steps": [
+                "order-management-development-methods-model"
+              ],
+              "claims": [
+                "order-management-development-methods-model-claim-1",
+                "order-management-development-methods-model-claim-2",
+                "order-management-development-methods-model-claim-3",
+                "order-management-development-methods-model-claim-4"
+              ],
+              "nodes": [
+                "order-management-development-methods-model-node-1",
+                "order-management-development-methods-model-node-2",
+                "order-management-development-methods-model-node-3",
+                "order-management-development-methods-model-node-4"
+              ],
+              "relations": [
+                "order-management-development-methods-model-relation-1",
+                "order-management-development-methods-model-relation-2",
+                "order-management-development-methods-model-relation-3"
+              ],
+              "flows": [
+                "order-management-development-methods-model-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "order-management-development-methods-model-paragraph-1",
+                "kind": "paragraph",
+                "text": "AI proposes a DDD model and CML for orders, reservations and credit decisions from interviews and component contracts. A human decides whether credit approval guarantees stock. If these are separate conditions, the model preserves that distinction. The same acceptance examples check the intended meaning through Cozy generation and Textus/CNCF execution.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-model"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-model-claim-1"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-model-node-1",
+                    "order-management-development-methods-model-node-2",
+                    "order-management-development-methods-model-node-3",
+                    "order-management-development-methods-model-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-model-relation-1",
+                    "order-management-development-methods-model-relation-2",
+                    "order-management-development-methods-model-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-model-flow"
+                  ]
+                }
+              },
+              {
+                "id": "order-management-development-methods-model-paragraph-2",
+                "kind": "paragraph",
+                "text": "Check candidate services and operations for inputs, outputs, failure states and permissions. Record CAR versions and dependencies. Combine car-lint inspection with a business fit review. Connected execution and regression examples determine whether replacing a component preserves order semantics.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-model"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-model-claim-2"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-model-node-1",
+                    "order-management-development-methods-model-node-2",
+                    "order-management-development-methods-model-node-3",
+                    "order-management-development-methods-model-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-model-relation-1",
+                    "order-management-development-methods-model-relation-2",
+                    "order-management-development-methods-model-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-model-flow"
+                  ]
+                }
+              },
+              {
+                "id": "order-management-development-methods-model-paragraph-3",
+                "kind": "paragraph",
+                "text": "AI uses A to propose CML for order identity and state, approval and the reservation condition. A human approves the distinction and assigns ownership of stock mutations. Cozy generates the derivable structure. Missing policies and external shipping integration are identified and implemented explicitly.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-model"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-model-claim-3"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-model-node-1",
+                    "order-management-development-methods-model-node-2",
+                    "order-management-development-methods-model-node-3",
+                    "order-management-development-methods-model-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-model-relation-1",
+                    "order-management-development-methods-model-relation-2",
+                    "order-management-development-methods-model-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-model-flow"
+                  ]
+                }
+              },
+              {
+                "id": "order-management-development-methods-model-paragraph-4",
+                "kind": "paragraph",
+                "text": "Retain the literate rationale, CML, CAR versions and contracts, supplemental code, acceptance cases and execution results for A. When replacing a component, rerun the short-stock input and inspect its response. CAR format, access checks and the business execution supply distinct evidence.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-model"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-model-claim-4"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-model-node-1",
+                    "order-management-development-methods-model-node-2",
+                    "order-management-development-methods-model-node-3",
+                    "order-management-development-methods-model-node-4"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-model-relation-1",
+                    "order-management-development-methods-model-relation-2",
+                    "order-management-development-methods-model-relation-3"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-model-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "order-management-development-methods-years-section",
+            "heading": "Comparing five years of change",
+            "coreRefs": {
+              "steps": [
+                "order-management-development-methods-years"
+              ],
+              "claims": [
+                "order-management-development-methods-years-claim-1"
+              ],
+              "nodes": [
+                "order-management-development-methods-years-node-1",
+                "order-management-development-methods-years-node-2"
+              ],
+              "relations": [
+                "order-management-development-methods-years-relation-1"
+              ],
+              "flows": [
+                "order-management-development-methods-years-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "order-management-development-methods-years-paragraph-1",
+                "kind": "paragraph",
+                "text": "Start with domestic orders in year one and introduce one change each year. Give maintainers the artifacts handed over by the previous team and the same new requirement. Compare where they recover intent, what they revise and which execution results complete the next handover.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-years"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-years-claim-1"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-years-node-1",
+                    "order-management-development-methods-years-node-2"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-years-relation-1"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-years-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "sections": [],
+                "id": "order-management-development-methods-years-baseline-section",
+                "heading": "Year one — handing over domestic orders",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-years-baseline"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-years-baseline-claim-1",
+                    "order-management-development-methods-years-baseline-claim-2"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-years-baseline-node-1",
+                    "order-management-development-methods-years-baseline-node-2"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-years-baseline-relation-1"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-years-baseline-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "order-management-development-methods-years-baseline-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "At handover ask a successor why yesterday’s approved order A has not shipped. In conventional development they consult the design decision and state transitions and rerun the regression test. In UI-led development they replay the accepted interaction and inspect inventory responses for actual reservations. The first handover connects design to tests; the second connects screen state to service behavior.",
+                    "coreRefs": {
+                      "steps": [
+                        "order-management-development-methods-years-baseline"
+                      ],
+                      "claims": [
+                        "order-management-development-methods-years-baseline-claim-1"
+                      ],
+                      "nodes": [
+                        "order-management-development-methods-years-baseline-node-1",
+                        "order-management-development-methods-years-baseline-node-2"
+                      ],
+                      "relations": [
+                        "order-management-development-methods-years-baseline-relation-1"
+                      ],
+                      "flows": [
+                        "order-management-development-methods-years-baseline-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "order-management-development-methods-years-baseline-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "In specification-led development the successor selects the approved/six-units decision row and reruns its test. In SimpleModeling they follow the CML reservation condition to the inventory component version and operation, then inspect the result. The handover succeeds when the successor can explain the hold using the retained artifacts.",
+                    "coreRefs": {
+                      "steps": [
+                        "order-management-development-methods-years-baseline"
+                      ],
+                      "claims": [
+                        "order-management-development-methods-years-baseline-claim-2"
+                      ],
+                      "nodes": [
+                        "order-management-development-methods-years-baseline-node-1",
+                        "order-management-development-methods-years-baseline-node-2"
+                      ],
+                      "relations": [
+                        "order-management-development-methods-years-baseline-relation-1"
+                      ],
+                      "flows": [
+                        "order-management-development-methods-years-baseline-flow"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "sections": [],
+                "id": "order-management-development-methods-years-warehouses-section",
+                "heading": "Year two — reserving across warehouses",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-years-warehouses"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-years-warehouses-claim-1",
+                    "order-management-development-methods-years-warehouses-claim-2",
+                    "order-management-development-methods-years-warehouses-claim-3"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-years-warehouses-node-1",
+                    "order-management-development-methods-years-warehouses-node-2",
+                    "order-management-development-methods-years-warehouses-node-3"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-years-warehouses-relation-1",
+                    "order-management-development-methods-years-warehouses-relation-2"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-years-warehouses-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "order-management-development-methods-years-warehouses-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Warehouse one holds six units and warehouse two holds four. A still requires a full reservation. Add a case where another order takes the last four first: release the provisional six and return A to hold.",
+                    "coreRefs": {
+                      "steps": [
+                        "order-management-development-methods-years-warehouses"
+                      ],
+                      "claims": [
+                        "order-management-development-methods-years-warehouses-claim-1"
+                      ],
+                      "nodes": [
+                        "order-management-development-methods-years-warehouses-node-1",
+                        "order-management-development-methods-years-warehouses-node-2",
+                        "order-management-development-methods-years-warehouses-node-3"
+                      ],
+                      "relations": [
+                        "order-management-development-methods-years-warehouses-relation-1",
+                        "order-management-development-methods-years-warehouses-relation-2"
+                      ],
+                      "flows": [
+                        "order-management-development-methods-years-warehouses-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "order-management-development-methods-years-warehouses-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Conventional teams split reservations into warehouse lines, migrate storage and test provisional release, preserving state diagrams, migration steps and a contention test. UI-led teams prototype warehouse selection and read both balances after a simulated race. The screen, reproduction steps and service test travel together.",
+                    "coreRefs": {
+                      "steps": [
+                        "order-management-development-methods-years-warehouses"
+                      ],
+                      "claims": [
+                        "order-management-development-methods-years-warehouses-claim-2"
+                      ],
+                      "nodes": [
+                        "order-management-development-methods-years-warehouses-node-1",
+                        "order-management-development-methods-years-warehouses-node-2",
+                        "order-management-development-methods-years-warehouses-node-3"
+                      ],
+                      "relations": [
+                        "order-management-development-methods-years-warehouses-relation-1",
+                        "order-management-development-methods-years-warehouses-relation-2"
+                      ],
+                      "flows": [
+                        "order-management-development-methods-years-warehouses-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "order-management-development-methods-years-warehouses-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Specification-led teams add the one-warehouse-success case and bind the zero balance after release to a test. SimpleModeling teams add the reservation-line/warehouse relationship to CML and check reserve/release contracts. An older component without release needs an extension. The model diff, selected version and two-warehouse execution example remain.",
+                    "coreRefs": {
+                      "steps": [
+                        "order-management-development-methods-years-warehouses"
+                      ],
+                      "claims": [
+                        "order-management-development-methods-years-warehouses-claim-3"
+                      ],
+                      "nodes": [
+                        "order-management-development-methods-years-warehouses-node-1",
+                        "order-management-development-methods-years-warehouses-node-2",
+                        "order-management-development-methods-years-warehouses-node-3"
+                      ],
+                      "relations": [
+                        "order-management-development-methods-years-warehouses-relation-1",
+                        "order-management-development-methods-years-warehouses-relation-2"
+                      ],
+                      "flows": [
+                        "order-management-development-methods-years-warehouses-flow"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "sections": [],
+                "id": "order-management-development-methods-years-currency-section",
+                "heading": "Year three — accepting foreign-currency orders",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-years-currency"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-years-currency-claim-1",
+                    "order-management-development-methods-years-currency-claim-2",
+                    "order-management-development-methods-years-currency-claim-3"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-years-currency-node-1",
+                    "order-management-development-methods-years-currency-node-2",
+                    "order-management-development-methods-years-currency-node-3"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-years-currency-relation-1",
+                    "order-management-development-methods-years-currency-relation-2"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-years-currency-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "order-management-development-methods-years-currency-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "For an overseas variant of A, accept a foreign-currency amount against a domestic credit limit. Preserve the currency, applied exchange rate, conversion date and rounding rule. Every method must reproduce the original approval decision after the rate changes.",
+                    "coreRefs": {
+                      "steps": [
+                        "order-management-development-methods-years-currency"
+                      ],
+                      "claims": [
+                        "order-management-development-methods-years-currency-claim-1"
+                      ],
+                      "nodes": [
+                        "order-management-development-methods-years-currency-node-1",
+                        "order-management-development-methods-years-currency-node-2",
+                        "order-management-development-methods-years-currency-node-3"
+                      ],
+                      "relations": [
+                        "order-management-development-methods-years-currency-relation-1",
+                        "order-management-development-methods-years-currency-relation-2"
+                      ],
+                      "flows": [
+                        "order-management-development-methods-years-currency-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "order-management-development-methods-years-currency-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Conventional teams revise money types, storage and the credit API, keeping migration steps for domestic orders and rounding-boundary tests. UI-led teams review currency and converted amount with sales and reopen A in another locale. Screens and tests of the stored currency and rate distinguish display language from transaction currency.",
+                    "coreRefs": {
+                      "steps": [
+                        "order-management-development-methods-years-currency"
+                      ],
+                      "claims": [
+                        "order-management-development-methods-years-currency-claim-2"
+                      ],
+                      "nodes": [
+                        "order-management-development-methods-years-currency-node-1",
+                        "order-management-development-methods-years-currency-node-2",
+                        "order-management-development-methods-years-currency-node-3"
+                      ],
+                      "relations": [
+                        "order-management-development-methods-years-currency-relation-1",
+                        "order-management-development-methods-years-currency-relation-2"
+                      ],
+                      "flows": [
+                        "order-management-development-methods-years-currency-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "order-management-development-methods-years-currency-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Specification-led teams define when the rate is fixed and add cases sensitive to the approval date. SimpleModeling teams model money, currency and conversion date and check the credit component’s input semantics. Handover centers on versioned rules and calculations in the former, and CML, component contracts and executed conversion cases in the latter.",
+                    "coreRefs": {
+                      "steps": [
+                        "order-management-development-methods-years-currency"
+                      ],
+                      "claims": [
+                        "order-management-development-methods-years-currency-claim-3"
+                      ],
+                      "nodes": [
+                        "order-management-development-methods-years-currency-node-1",
+                        "order-management-development-methods-years-currency-node-2",
+                        "order-management-development-methods-years-currency-node-3"
+                      ],
+                      "relations": [
+                        "order-management-development-methods-years-currency-relation-1",
+                        "order-management-development-methods-years-currency-relation-2"
+                      ],
+                      "flows": [
+                        "order-management-development-methods-years-currency-flow"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "sections": [],
+                "id": "order-management-development-methods-years-channels-section",
+                "heading": "Year four — receiving the same e-commerce order twice",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-years-channels"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-years-channels-claim-1",
+                    "order-management-development-methods-years-channels-claim-2",
+                    "order-management-development-methods-years-channels-claim-3"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-years-channels-node-1",
+                    "order-management-development-methods-years-channels-node-2",
+                    "order-management-development-methods-years-channels-node-3"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-years-channels-relation-1",
+                    "order-management-development-methods-years-channels-relation-2"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-years-channels-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "order-management-development-methods-years-channels-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "A lost acknowledgment causes the channel to resend A. Two receipt attempts may be recorded, but there must be one reservation and one shipping instruction. Conventional teams design uniqueness by channel and external order ID, decide when to commit and acknowledge, and hand over a replay test and support procedure.",
+                    "coreRefs": {
+                      "steps": [
+                        "order-management-development-methods-years-channels"
+                      ],
+                      "claims": [
+                        "order-management-development-methods-years-channels-claim-1"
+                      ],
+                      "nodes": [
+                        "order-management-development-methods-years-channels-node-1",
+                        "order-management-development-methods-years-channels-node-2",
+                        "order-management-development-methods-years-channels-node-3"
+                      ],
+                      "relations": [
+                        "order-management-development-methods-years-channels-relation-1",
+                        "order-management-development-methods-years-channels-relation-2"
+                      ],
+                      "flows": [
+                        "order-management-development-methods-years-channels-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "order-management-development-methods-years-channels-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "UI-led teams use two incoming requests, check the single sales entry and count calls at the shipping endpoint separately. A reproduction fixture includes both receipts. Specification-led teams specify the conditions for returning the same outcome and retain a lost-acknowledgment contract test.",
+                    "coreRefs": {
+                      "steps": [
+                        "order-management-development-methods-years-channels"
+                      ],
+                      "claims": [
+                        "order-management-development-methods-years-channels-claim-2"
+                      ],
+                      "nodes": [
+                        "order-management-development-methods-years-channels-node-1",
+                        "order-management-development-methods-years-channels-node-2",
+                        "order-management-development-methods-years-channels-node-3"
+                      ],
+                      "relations": [
+                        "order-management-development-methods-years-channels-relation-1",
+                        "order-management-development-methods-years-channels-relation-2"
+                      ],
+                      "flows": [
+                        "order-management-development-methods-years-channels-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "order-management-development-methods-years-channels-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "SimpleModeling teams put channel identity in the integration contract and route both channels to the same order operation. They reuse domestic credit and inventory cases, replace the channel component and repeat the replay test. The common order model, channel mapping, component version and execution record remain.",
+                    "coreRefs": {
+                      "steps": [
+                        "order-management-development-methods-years-channels"
+                      ],
+                      "claims": [
+                        "order-management-development-methods-years-channels-claim-3"
+                      ],
+                      "nodes": [
+                        "order-management-development-methods-years-channels-node-1",
+                        "order-management-development-methods-years-channels-node-2",
+                        "order-management-development-methods-years-channels-node-3"
+                      ],
+                      "relations": [
+                        "order-management-development-methods-years-channels-relation-1",
+                        "order-management-development-methods-years-channels-relation-2"
+                      ],
+                      "flows": [
+                        "order-management-development-methods-years-channels-flow"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "sections": [],
+                "id": "order-management-development-methods-years-forecast-section",
+                "heading": "Year five — turning a demand forecast into a purchase",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-years-forecast"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-years-forecast-claim-1",
+                    "order-management-development-methods-years-forecast-claim-2",
+                    "order-management-development-methods-years-forecast-claim-3"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-years-forecast-node-1",
+                    "order-management-development-methods-years-forecast-node-2",
+                    "order-management-development-methods-years-forecast-node-3"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-years-forecast-relation-1",
+                    "order-management-development-methods-years-forecast-relation-2"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-years-forecast-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "order-management-development-methods-years-forecast-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "To reduce stock holds like A’s, introduce forecast-driven replenishment. Purchasing sets an automatic purchase limit and an approval rule. Replace the forecasting model with one that recommends a larger quantity and verify that an order exceeding the limit still awaits approval.",
+                    "coreRefs": {
+                      "steps": [
+                        "order-management-development-methods-years-forecast"
+                      ],
+                      "claims": [
+                        "order-management-development-methods-years-forecast-claim-1"
+                      ],
+                      "nodes": [
+                        "order-management-development-methods-years-forecast-node-1",
+                        "order-management-development-methods-years-forecast-node-2",
+                        "order-management-development-methods-years-forecast-node-3"
+                      ],
+                      "relations": [
+                        "order-management-development-methods-years-forecast-relation-1",
+                        "order-management-development-methods-years-forecast-relation-2"
+                      ],
+                      "flows": [
+                        "order-management-development-methods-years-forecast-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "order-management-development-methods-years-forecast-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Conventional teams replace the forecast adapter and use an integration test to exercise purchasing rules and permissions. They retain the decision, adapter contract and before/after results. UI-led teams let the buyer vary the recommendation, then call the API directly to test enforcement. They preserve the approval screen, interactions and API authorization test.",
+                    "coreRefs": {
+                      "steps": [
+                        "order-management-development-methods-years-forecast"
+                      ],
+                      "claims": [
+                        "order-management-development-methods-years-forecast-claim-2"
+                      ],
+                      "nodes": [
+                        "order-management-development-methods-years-forecast-node-1",
+                        "order-management-development-methods-years-forecast-node-2",
+                        "order-management-development-methods-years-forecast-node-3"
+                      ],
+                      "relations": [
+                        "order-management-development-methods-years-forecast-relation-1",
+                        "order-management-development-methods-years-forecast-relation-2"
+                      ],
+                      "flows": [
+                        "order-management-development-methods-years-forecast-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "order-management-development-methods-years-forecast-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Specification-led teams specify proposal and purchase conditions separately and rerun acceptance cases varying only the forecast. SimpleModeling teams model a prediction as component output and purchase as an authorized operation, using the same cases across CAR versions. The year-five maintainer can explain a forecasting improvement separately from a purchasing-policy change using spec revisions or model and component-contract revisions.",
+                    "coreRefs": {
+                      "steps": [
+                        "order-management-development-methods-years-forecast"
+                      ],
+                      "claims": [
+                        "order-management-development-methods-years-forecast-claim-3"
+                      ],
+                      "nodes": [
+                        "order-management-development-methods-years-forecast-node-1",
+                        "order-management-development-methods-years-forecast-node-2",
+                        "order-management-development-methods-years-forecast-node-3"
+                      ],
+                      "relations": [
+                        "order-management-development-methods-years-forecast-relation-1",
+                        "order-management-development-methods-years-forecast-relation-2"
+                      ],
+                      "flows": [
+                        "order-management-development-methods-years-forecast-flow"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "order-management-development-methods-adopt-section",
+            "heading": "Choosing a combination for a project",
+            "coreRefs": {
+              "steps": [
+                "order-management-development-methods-adopt"
+              ],
+              "claims": [
+                "order-management-development-methods-adopt-claim-1"
+              ],
+              "nodes": [
+                "order-management-development-methods-adopt-node-1",
+                "order-management-development-methods-adopt-node-2"
+              ],
+              "relations": [
+                "order-management-development-methods-adopt-relation-1"
+              ],
+              "flows": [
+                "order-management-development-methods-adopt-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "order-management-development-methods-adopt-paragraph-1",
+                "kind": "paragraph",
+                "text": "Use the initial and longitudinal comparison to choose methods for discovery, agreement, implementation and maintenance. A hold condition discovered in a prototype can enter the domain model and acceptance examples and be checked against the inventory contract. Specification-led acceptance examples can support the same verification.",
+                "coreRefs": {
+                  "steps": [
+                    "order-management-development-methods-adopt"
+                  ],
+                  "claims": [
+                    "order-management-development-methods-adopt-claim-1"
+                  ],
+                  "nodes": [
+                    "order-management-development-methods-adopt-node-1",
+                    "order-management-development-methods-adopt-node-2"
+                  ],
+                  "relations": [
+                    "order-management-development-methods-adopt-relation-1"
+                  ],
+                  "flows": [
+                    "order-management-development-methods-adopt-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  }
+}
