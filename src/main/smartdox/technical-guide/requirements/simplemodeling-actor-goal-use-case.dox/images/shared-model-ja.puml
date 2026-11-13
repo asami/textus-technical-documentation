@@ -1,0 +1,22 @@
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName "Hiragino Sans"
+left to right direction
+rectangle "共通の要求モデル\n（論理上の正本）" as M #E6F5F0 {
+  rectangle "Actor" as A
+  rectangle "ActorGoal" as G
+  rectangle "UseCase" as U
+  G --> A : アクター参照
+  U --> G : ゴール参照
+}
+rectangle "一覧ビュー\nアクター・ゴール・\n対応ユースケース" as L #D4ECE5
+rectangle "詳細ビュー\n条件・主フロー・\n代替／例外フロー" as D #D4ECE5
+M --> L : 投影・編集
+M --> D : 詳細化・参照
+note bottom of M
+未具体化のゴールと未関連の
+ユースケースも検出する。
+関連の多重度は未確定。
+end note
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName "Hiragino Sans"
+left to right direction
+rectangle "ビジョン・背景" as V #E6F5F0
+rectangle "アクターと\nゴールの識別" as A #E6F5F0
+rectangle "アクターゴール\nリストビュー" as L #D4ECE5
+rectangle "ユースケース詳細" as U #D4ECE5
+V --> A
+A --> L : 初期の検討
+L --> U : モデルダウン
+U --> L : モデルアップ
+note bottom of L
+開発中も共通モデルを更新し、
+一覧と詳細を往復する。
+end note
+@enduml

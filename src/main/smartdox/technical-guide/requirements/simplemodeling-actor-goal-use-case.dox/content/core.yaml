@@ -1,0 +1,772 @@
+{
+  "schema": "cozy.content-core.logic-tree.v1",
+  "id": "simplemodeling-actor-goal-use-case",
+  "root": {
+    "id": "simplemodeling-actor-goal-use-case",
+    "semanticRole": "explanation",
+    "claims": [
+      "simplemodeling-actor-goal-use-case-purpose-claim",
+      "simplemodeling-actor-goal-use-case-scope-claim"
+    ],
+    "structure": {
+      "pattern": "sequence",
+      "nodes": [
+        {
+          "id": "simplemodeling-actor-goal-use-case-context-node",
+          "role": "step"
+        },
+        {
+          "id": "simplemodeling-actor-goal-use-case-content-node",
+          "role": "step"
+        }
+      ],
+      "relations": [
+        {
+          "id": "simplemodeling-actor-goal-use-case-relation",
+          "relationType": "next",
+          "from": "simplemodeling-actor-goal-use-case-context-node",
+          "to": "simplemodeling-actor-goal-use-case-content-node"
+        }
+      ]
+    },
+    "flow": {
+      "id": "simplemodeling-actor-goal-use-case-flow",
+      "transitions": [
+        {
+          "id": "aguc-reading-order-1",
+          "relationType": "next",
+          "fromStepId": "aguc-1",
+          "toStepId": "aguc-2"
+        },
+        {
+          "id": "aguc-reading-order-2",
+          "relationType": "next",
+          "fromStepId": "aguc-2",
+          "toStepId": "aguc-3"
+        },
+        {
+          "id": "aguc-reading-order-3",
+          "relationType": "next",
+          "fromStepId": "aguc-3",
+          "toStepId": "aguc-4"
+        },
+        {
+          "id": "aguc-reading-order-4",
+          "relationType": "next",
+          "fromStepId": "aguc-4",
+          "toStepId": "aguc-5"
+        },
+        {
+          "id": "aguc-reading-order-5",
+          "relationType": "next",
+          "fromStepId": "aguc-5",
+          "toStepId": "aguc-6"
+        },
+        {
+          "id": "aguc-reading-order-6",
+          "relationType": "next",
+          "fromStepId": "aguc-6",
+          "toStepId": "aguc-7"
+        },
+        {
+          "id": "aguc-reading-order-7",
+          "relationType": "next",
+          "fromStepId": "aguc-7",
+          "toStepId": "aguc-8"
+        },
+        {
+          "id": "aguc-reading-order-8",
+          "relationType": "next",
+          "fromStepId": "aguc-8",
+          "toStepId": "aguc-9"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "aguc-1",
+        "semanticRole": "explanation",
+        "claims": [
+          "aguc-1-block-1-claim",
+          "aguc-1-block-2-claim",
+          "aguc-1-block-3-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "aguc-1-context-node",
+              "role": "step"
+            },
+            {
+              "id": "aguc-1-content-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "aguc-1-relation",
+              "relationType": "next",
+              "from": "aguc-1-context-node",
+              "to": "aguc-1-content-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "aguc-1-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "aguc-2",
+        "semanticRole": "explanation",
+        "claims": [
+          "aguc-2-block-1-claim",
+          "aguc-2-block-2-claim",
+          "aguc-2-block-3-claim",
+          "aguc-2-block-4-claim",
+          "aguc-2-block-5-claim",
+          "aguc-2-block-6-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "aguc-2-context-node",
+              "role": "step"
+            },
+            {
+              "id": "aguc-2-content-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "aguc-2-relation",
+              "relationType": "next",
+              "from": "aguc-2-context-node",
+              "to": "aguc-2-content-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "aguc-2-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "aguc-3",
+        "semanticRole": "explanation",
+        "claims": [],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "aguc-3-context-node",
+              "role": "step"
+            },
+            {
+              "id": "aguc-3-content-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "aguc-3-relation",
+              "relationType": "next",
+              "from": "aguc-3-context-node",
+              "to": "aguc-3-content-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "aguc-3-flow",
+          "transitions": [
+            {
+              "id": "aguc-3-transition-1",
+              "relationType": "next",
+              "fromStepId": "aguc-3-1",
+              "toStepId": "aguc-3-2"
+            },
+            {
+              "id": "aguc-3-transition-2",
+              "relationType": "next",
+              "fromStepId": "aguc-3-2",
+              "toStepId": "aguc-3-3"
+            },
+            {
+              "id": "aguc-3-transition-3",
+              "relationType": "next",
+              "fromStepId": "aguc-3-3",
+              "toStepId": "aguc-3-4"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "aguc-3-1",
+            "semanticRole": "explanation",
+            "claims": [
+              "aguc-3-1-block-1-claim",
+              "aguc-3-1-block-2-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "aguc-3-1-context-node",
+                  "role": "step"
+                },
+                {
+                  "id": "aguc-3-1-content-node",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "aguc-3-1-relation",
+                  "relationType": "next",
+                  "from": "aguc-3-1-context-node",
+                  "to": "aguc-3-1-content-node"
+                }
+              ]
+            },
+            "flow": {
+              "id": "aguc-3-1-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "aguc-3-2",
+            "semanticRole": "explanation",
+            "claims": [
+              "aguc-3-2-block-1-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "aguc-3-2-context-node",
+                  "role": "step"
+                },
+                {
+                  "id": "aguc-3-2-content-node",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "aguc-3-2-relation",
+                  "relationType": "next",
+                  "from": "aguc-3-2-context-node",
+                  "to": "aguc-3-2-content-node"
+                }
+              ]
+            },
+            "flow": {
+              "id": "aguc-3-2-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "aguc-3-3",
+            "semanticRole": "explanation",
+            "claims": [
+              "aguc-3-3-block-1-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "aguc-3-3-context-node",
+                  "role": "step"
+                },
+                {
+                  "id": "aguc-3-3-content-node",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "aguc-3-3-relation",
+                  "relationType": "next",
+                  "from": "aguc-3-3-context-node",
+                  "to": "aguc-3-3-content-node"
+                }
+              ]
+            },
+            "flow": {
+              "id": "aguc-3-3-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "aguc-3-4",
+            "semanticRole": "explanation",
+            "claims": [
+              "aguc-3-4-block-1-claim",
+              "aguc-3-4-block-2-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "aguc-3-4-context-node",
+                  "role": "step"
+                },
+                {
+                  "id": "aguc-3-4-content-node",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "aguc-3-4-relation",
+                  "relationType": "next",
+                  "from": "aguc-3-4-context-node",
+                  "to": "aguc-3-4-content-node"
+                }
+              ]
+            },
+            "flow": {
+              "id": "aguc-3-4-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "aguc-4",
+        "semanticRole": "explanation",
+        "claims": [
+          "aguc-4-block-1-claim",
+          "aguc-4-block-2-claim",
+          "aguc-4-block-3-claim",
+          "aguc-4-block-4-claim",
+          "aguc-4-block-5-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "aguc-4-context-node",
+              "role": "step"
+            },
+            {
+              "id": "aguc-4-content-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "aguc-4-relation",
+              "relationType": "next",
+              "from": "aguc-4-context-node",
+              "to": "aguc-4-content-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "aguc-4-flow",
+          "transitions": []
+        },
+        "steps": [
+          {
+            "id": "aguc-4-1",
+            "semanticRole": "explanation",
+            "claims": [
+              "aguc-4-1-block-1-claim",
+              "aguc-4-1-block-2-claim",
+              "aguc-4-1-block-3-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "aguc-4-1-context-node",
+                  "role": "step"
+                },
+                {
+                  "id": "aguc-4-1-content-node",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "aguc-4-1-relation",
+                  "relationType": "next",
+                  "from": "aguc-4-1-context-node",
+                  "to": "aguc-4-1-content-node"
+                }
+              ]
+            },
+            "flow": {
+              "id": "aguc-4-1-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "aguc-5",
+        "semanticRole": "explanation",
+        "claims": [],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "aguc-5-context-node",
+              "role": "step"
+            },
+            {
+              "id": "aguc-5-content-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "aguc-5-relation",
+              "relationType": "next",
+              "from": "aguc-5-context-node",
+              "to": "aguc-5-content-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "aguc-5-flow",
+          "transitions": [
+            {
+              "id": "aguc-5-transition-1",
+              "relationType": "next",
+              "fromStepId": "aguc-5-1",
+              "toStepId": "aguc-5-2"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "aguc-5-1",
+            "semanticRole": "explanation",
+            "claims": [
+              "aguc-5-1-block-1-claim",
+              "aguc-5-1-block-2-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "aguc-5-1-context-node",
+                  "role": "step"
+                },
+                {
+                  "id": "aguc-5-1-content-node",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "aguc-5-1-relation",
+                  "relationType": "next",
+                  "from": "aguc-5-1-context-node",
+                  "to": "aguc-5-1-content-node"
+                }
+              ]
+            },
+            "flow": {
+              "id": "aguc-5-1-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "aguc-5-2",
+            "semanticRole": "explanation",
+            "claims": [
+              "aguc-5-2-block-1-claim",
+              "aguc-5-2-block-2-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "aguc-5-2-context-node",
+                  "role": "step"
+                },
+                {
+                  "id": "aguc-5-2-content-node",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "aguc-5-2-relation",
+                  "relationType": "next",
+                  "from": "aguc-5-2-context-node",
+                  "to": "aguc-5-2-content-node"
+                }
+              ]
+            },
+            "flow": {
+              "id": "aguc-5-2-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "aguc-6",
+        "semanticRole": "explanation",
+        "claims": [
+          "aguc-6-block-1-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "aguc-6-context-node",
+              "role": "step"
+            },
+            {
+              "id": "aguc-6-content-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "aguc-6-relation",
+              "relationType": "next",
+              "from": "aguc-6-context-node",
+              "to": "aguc-6-content-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "aguc-6-flow",
+          "transitions": [
+            {
+              "id": "aguc-6-transition-1",
+              "relationType": "next",
+              "fromStepId": "aguc-6-1",
+              "toStepId": "aguc-6-2"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "aguc-6-1",
+            "semanticRole": "explanation",
+            "claims": [
+              "aguc-6-1-block-1-claim",
+              "aguc-6-1-block-2-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "aguc-6-1-context-node",
+                  "role": "step"
+                },
+                {
+                  "id": "aguc-6-1-content-node",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "aguc-6-1-relation",
+                  "relationType": "next",
+                  "from": "aguc-6-1-context-node",
+                  "to": "aguc-6-1-content-node"
+                }
+              ]
+            },
+            "flow": {
+              "id": "aguc-6-1-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "aguc-6-2",
+            "semanticRole": "explanation",
+            "claims": [
+              "aguc-6-2-block-1-claim",
+              "aguc-6-2-block-2-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "aguc-6-2-context-node",
+                  "role": "step"
+                },
+                {
+                  "id": "aguc-6-2-content-node",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "aguc-6-2-relation",
+                  "relationType": "next",
+                  "from": "aguc-6-2-context-node",
+                  "to": "aguc-6-2-content-node"
+                }
+              ]
+            },
+            "flow": {
+              "id": "aguc-6-2-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "aguc-7",
+        "semanticRole": "explanation",
+        "claims": [
+          "aguc-7-block-1-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "aguc-7-context-node",
+              "role": "step"
+            },
+            {
+              "id": "aguc-7-content-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "aguc-7-relation",
+              "relationType": "next",
+              "from": "aguc-7-context-node",
+              "to": "aguc-7-content-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "aguc-7-flow",
+          "transitions": []
+        },
+        "steps": [
+          {
+            "id": "aguc-7-1",
+            "semanticRole": "explanation",
+            "claims": [
+              "aguc-7-1-block-1-claim"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "aguc-7-1-context-node",
+                  "role": "step"
+                },
+                {
+                  "id": "aguc-7-1-content-node",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "aguc-7-1-relation",
+                  "relationType": "next",
+                  "from": "aguc-7-1-context-node",
+                  "to": "aguc-7-1-content-node"
+                }
+              ]
+            },
+            "flow": {
+              "id": "aguc-7-1-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "aguc-8",
+        "semanticRole": "explanation",
+        "claims": [
+          "aguc-8-block-1-claim",
+          "aguc-8-block-2-claim",
+          "aguc-8-block-3-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "aguc-8-context-node",
+              "role": "step"
+            },
+            {
+              "id": "aguc-8-content-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "aguc-8-relation",
+              "relationType": "next",
+              "from": "aguc-8-context-node",
+              "to": "aguc-8-content-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "aguc-8-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "aguc-9",
+        "semanticRole": "explanation",
+        "claims": [
+          "aguc-9-block-1-claim",
+          "aguc-9-block-2-claim",
+          "aguc-9-block-3-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "aguc-9-context-node",
+              "role": "step"
+            },
+            {
+              "id": "aguc-9-content-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "aguc-9-relation",
+              "relationType": "next",
+              "from": "aguc-9-context-node",
+              "to": "aguc-9-content-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "aguc-9-flow",
+          "transitions": []
+        },
+        "steps": []
+      }
+    ]
+  }
+}

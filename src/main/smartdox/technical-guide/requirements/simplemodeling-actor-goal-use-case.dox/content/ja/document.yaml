@@ -1,0 +1,2232 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "simplemodeling-actor-goal-use-case-document-ja",
+  "core": {
+    "id": "simplemodeling-actor-goal-use-case"
+  },
+  "locale": "ja",
+  "document": {
+    "title": "アクターゴールリストビューとユースケースモデル",
+    "sections": [
+      {
+        "id": "simplemodeling-actor-goal-use-case-section",
+        "heading": "アクターゴールリストビューとユースケースモデル",
+        "coreRefs": {
+          "steps": [
+            "simplemodeling-actor-goal-use-case"
+          ],
+          "claims": [
+            "simplemodeling-actor-goal-use-case-purpose-claim",
+            "simplemodeling-actor-goal-use-case-scope-claim"
+          ],
+          "nodes": [
+            "simplemodeling-actor-goal-use-case-context-node",
+            "simplemodeling-actor-goal-use-case-content-node"
+          ],
+          "relations": [
+            "simplemodeling-actor-goal-use-case-relation"
+          ],
+          "flows": [
+            "simplemodeling-actor-goal-use-case-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "simplemodeling-actor-goal-use-case-intro-1",
+            "kind": "paragraph",
+            "text": "アクターゴールリストはユースケースモデルの抽象ビューとして、開発初期から継続して利用する。",
+            "coreRefs": {
+              "steps": [
+                "simplemodeling-actor-goal-use-case"
+              ],
+              "claims": [
+                "simplemodeling-actor-goal-use-case-purpose-claim"
+              ],
+              "nodes": [
+                "simplemodeling-actor-goal-use-case-context-node"
+              ],
+              "relations": [],
+              "flows": [
+                "simplemodeling-actor-goal-use-case-flow"
+              ]
+            }
+          },
+          {
+            "id": "simplemodeling-actor-goal-use-case-intro-2",
+            "kind": "paragraph",
+            "text": "一覧と詳細は共通の要求モデルを参照し、詳細化と俯瞰を往復する。",
+            "coreRefs": {
+              "steps": [
+                "simplemodeling-actor-goal-use-case"
+              ],
+              "claims": [
+                "simplemodeling-actor-goal-use-case-scope-claim"
+              ],
+              "nodes": [
+                "simplemodeling-actor-goal-use-case-content-node"
+              ],
+              "relations": [],
+              "flows": [
+                "simplemodeling-actor-goal-use-case-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "aguc-1-section",
+            "heading": "基本方針",
+            "coreRefs": {
+              "steps": [
+                "aguc-1"
+              ],
+              "claims": [
+                "aguc-1-block-1-claim",
+                "aguc-1-block-2-claim",
+                "aguc-1-block-3-claim"
+              ],
+              "nodes": [
+                "aguc-1-context-node",
+                "aguc-1-content-node"
+              ],
+              "relations": [
+                "aguc-1-relation"
+              ],
+              "flows": [
+                "aguc-1-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "kind": "paragraph",
+                "text": "アクターゴールリストは、ユースケースモデルが持つ「誰が、何を達成したいか」を一覧として表す抽象ビューである。開発の初期に作って捨てる中間成果物ではなく、開発が進んだ後も全体像を確認するために継続して利用する。",
+                "id": "aguc-1-block-1",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-1"
+                  ],
+                  "claims": [
+                    "aguc-1-block-1-claim"
+                  ],
+                  "nodes": [
+                    "aguc-1-context-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-1-flow"
+                  ]
+                }
+              },
+              {
+                "kind": "paragraph",
+                "text": "ユースケースの詳細と一覧は、共通の要求モデルを異なる抽象度で表現する。アクター、ゴール、その対応を同じモデル内で管理し、一覧専用の文章と詳細専用の文章を独立した正本として二重管理しない。",
+                "id": "aguc-1-block-2",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-1"
+                  ],
+                  "claims": [
+                    "aguc-1-block-2-claim"
+                  ],
+                  "nodes": [
+                    "aguc-1-content-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-1-flow"
+                  ]
+                }
+              },
+              {
+                "kind": "paragraph",
+                "text": "本ガイドの中核は、今回合意したこの位置づけと双方向の使い方である。後述する項目名、ID、JSON、関連の多重度は実装設計の提案であり、既存のCML構文・API・実装済み機能を宣言するものではない。",
+                "id": "aguc-1-block-3",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-1"
+                  ],
+                  "claims": [
+                    "aguc-1-block-3-claim"
+                  ],
+                  "nodes": [
+                    "aguc-1-content-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-1-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "aguc-2-section",
+            "heading": "ビジョンからユースケースまで",
+            "coreRefs": {
+              "steps": [
+                "aguc-2"
+              ],
+              "claims": [
+                "aguc-2-block-1-claim",
+                "aguc-2-block-2-claim",
+                "aguc-2-block-3-claim",
+                "aguc-2-block-4-claim",
+                "aguc-2-block-5-claim",
+                "aguc-2-block-6-claim"
+              ],
+              "nodes": [
+                "aguc-2-context-node",
+                "aguc-2-content-node"
+              ],
+              "relations": [
+                "aguc-2-relation"
+              ],
+              "flows": [
+                "aguc-2-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "kind": "paragraph",
+                "text": "要求モデル全体では、ビジョンが実現したい価値と方向を示し、背景・コンテキストが問題と対象範囲を示す。アクターとゴールを明らかにし、それを具体的なユースケースへ詳細化する。",
+                "id": "aguc-2-block-1",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-2"
+                  ],
+                  "claims": [
+                    "aguc-2-block-1-claim"
+                  ],
+                  "nodes": [
+                    "aguc-2-context-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-2-flow"
+                  ]
+                }
+              },
+              {
+                "kind": "paragraph",
+                "text": "ビジョン・背景 → アクターとゴールの識別 → アクターゴールリストビュー ⇄ ユースケース詳細",
+                "id": "aguc-2-block-2",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-2"
+                  ],
+                  "claims": [
+                    "aguc-2-block-2-claim"
+                  ],
+                  "nodes": [
+                    "aguc-2-content-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-2-flow"
+                  ]
+                }
+              },
+              {
+                "kind": "figure",
+                "asset": "images/requirements-path-ja.png",
+                "caption": "ビジョンから一覧・詳細への検討と、開発中の往復",
+                "alt": "ビジョンと背景からアクターとゴールを識別し、一覧と詳細をモデルダウンとモデルアップで往復する。",
+                "id": "aguc-2-block-3",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-2"
+                  ],
+                  "claims": [
+                    "aguc-2-block-3-claim"
+                  ],
+                  "nodes": [
+                    "aguc-2-content-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-2-flow"
+                  ]
+                }
+              },
+              {
+                "kind": "paragraph",
+                "text": "この矢印は最初に検討を進める順序を示す。開発中のモデル更新を一方向に固定するものではない。詳細化で新たなゴールや対象範囲の変化が分かった場合は、共通モデルへ反映し、一覧でも確認する。",
+                "id": "aguc-2-block-4",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-2"
+                  ],
+                  "claims": [
+                    "aguc-2-block-4-claim"
+                  ],
+                  "nodes": [
+                    "aguc-2-content-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-2-flow"
+                  ]
+                }
+              },
+              {
+                "kind": "list",
+                "items": [
+                  {
+                    "text": "ビジョン：なぜ取り組み、誰にどんな価値をもたらすか。",
+                    "id": "aguc-2-block-5-item-1",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-2"
+                      ],
+                      "claims": [
+                        "aguc-2-block-5-claim"
+                      ],
+                      "nodes": [
+                        "aguc-2-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-2-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "text": "背景・コンテキスト：現状の問題、対象領域、システム境界。",
+                    "id": "aguc-2-block-5-item-2",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-2"
+                      ],
+                      "claims": [
+                        "aguc-2-block-5-claim"
+                      ],
+                      "nodes": [
+                        "aguc-2-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-2-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "text": "要求：必要なこと、期待すること、優先すること。",
+                    "id": "aguc-2-block-5-item-3",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-2"
+                      ],
+                      "claims": [
+                        "aguc-2-block-5-claim"
+                      ],
+                      "nodes": [
+                        "aguc-2-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-2-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "text": "ケイパビリティ：システムが提供する能力。アクターのゴールとは観点を分けて整理する。",
+                    "id": "aguc-2-block-5-item-4",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-2"
+                      ],
+                      "claims": [
+                        "aguc-2-block-5-claim"
+                      ],
+                      "nodes": [
+                        "aguc-2-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-2-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "text": "アクターゴールリストビュー：アクター別の達成目的と、その具体化の全体像。",
+                    "id": "aguc-2-block-5-item-5",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-2"
+                      ],
+                      "claims": [
+                        "aguc-2-block-5-claim"
+                      ],
+                      "nodes": [
+                        "aguc-2-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-2-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "text": "ユースケース詳細：目的を達成するための、アクターとシステムの具体的なやり取り。",
+                    "id": "aguc-2-block-5-item-6",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-2"
+                      ],
+                      "claims": [
+                        "aguc-2-block-5-claim"
+                      ],
+                      "nodes": [
+                        "aguc-2-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-2-flow"
+                      ]
+                    }
+                  }
+                ],
+                "id": "aguc-2-block-5",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-2"
+                  ],
+                  "claims": [
+                    "aguc-2-block-5-claim"
+                  ],
+                  "nodes": [
+                    "aguc-2-content-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-2-flow"
+                  ]
+                }
+              },
+              {
+                "kind": "paragraph",
+                "text": "品質要求・制約は、この流れの横断的な条件として関連づける。要求やケイパビリティとゴールをすべて一対一に対応させることや、全要素を別々の文書に分割することは前提としない。各関連の厳密な契約は今後の設計で定める。",
+                "id": "aguc-2-block-6",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-2"
+                  ],
+                  "claims": [
+                    "aguc-2-block-6-claim"
+                  ],
+                  "nodes": [
+                    "aguc-2-content-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-2-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "aguc-3-section",
+            "heading": "二つのビューと抽象度の往復",
+            "coreRefs": {
+              "steps": [
+                "aguc-3"
+              ],
+              "claims": [],
+              "nodes": [
+                "aguc-3-context-node",
+                "aguc-3-content-node"
+              ],
+              "relations": [
+                "aguc-3-relation"
+              ],
+              "flows": [
+                "aguc-3-flow"
+              ]
+            },
+            "blocks": [],
+            "sections": [
+              {
+                "id": "aguc-3-1-section",
+                "heading": "アクターゴールリストビュー",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-3-1"
+                  ],
+                  "claims": [
+                    "aguc-3-1-block-1-claim",
+                    "aguc-3-1-block-2-claim"
+                  ],
+                  "nodes": [
+                    "aguc-3-1-context-node",
+                    "aguc-3-1-content-node"
+                  ],
+                  "relations": [
+                    "aguc-3-1-relation"
+                  ],
+                  "flows": [
+                    "aguc-3-1-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "kind": "paragraph",
+                    "text": "一覧で答える問いは「誰が、何を達成したいか」「今回の対象はどこまでか」「どのゴールにユースケースの具体化があるか」である。ゴールは「保存ボタンを押す」のような操作手順よりも、「資料を後で再利用できる状態にする」のような達成結果として記述する。",
+                    "id": "aguc-3-1-block-1",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-3-1"
+                      ],
+                      "claims": [
+                        "aguc-3-1-block-1-claim"
+                      ],
+                      "nodes": [
+                        "aguc-3-1-context-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-3-1-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "kind": "paragraph",
+                    "text": "最小表示項目はアクター、ゴール、対応するユースケースとする。必要に応じて安定ID、対象範囲、優先度、モデルの詳細化状態、関連するビジョン・要求を表示する。モデルの詳細化状態と、実装・テストの進捗は別の属性として扱う。",
+                    "id": "aguc-3-1-block-2",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-3-1"
+                      ],
+                      "claims": [
+                        "aguc-3-1-block-2-claim"
+                      ],
+                      "nodes": [
+                        "aguc-3-1-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-3-1-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "aguc-3-2-section",
+                "heading": "ユースケース詳細ビュー",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-3-2"
+                  ],
+                  "claims": [
+                    "aguc-3-2-block-1-claim"
+                  ],
+                  "nodes": [
+                    "aguc-3-2-context-node",
+                    "aguc-3-2-content-node"
+                  ],
+                  "relations": [
+                    "aguc-3-2-relation"
+                  ],
+                  "flows": [
+                    "aguc-3-2-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "kind": "paragraph",
+                    "text": "詳細では、名前、目的、主アクター、必要な支援アクター、トリガー、事前条件、事後条件、主フロー、代替フロー、例外フローを扱う。初期段階では、すべての詳細を埋める必要はない。未記述であることが分かる状態で、アクターとゴールから始められるようにする。",
+                    "id": "aguc-3-2-block-1",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-3-2"
+                      ],
+                      "claims": [
+                        "aguc-3-2-block-1-claim"
+                      ],
+                      "nodes": [
+                        "aguc-3-2-context-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-3-2-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "aguc-3-3-section",
+                "heading": "モデルダウン：目的を具体的な振る舞いへ展開する",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-3-3"
+                  ],
+                  "claims": [
+                    "aguc-3-3-block-1-claim"
+                  ],
+                  "nodes": [
+                    "aguc-3-3-context-node",
+                    "aguc-3-3-content-node"
+                  ],
+                  "relations": [
+                    "aguc-3-3-relation"
+                  ],
+                  "flows": [
+                    "aguc-3-3-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "kind": "paragraph",
+                    "text": "一覧から対象のアクターゴールを選び、それを実現するユースケースを追加または詳細化する。条件やフローを記述しても、元のゴールとの対応を保持する。詳細化の結果、一つのゴールを複数のユースケースで支えることが分かっても、対応を追跡できるようにする。",
+                    "id": "aguc-3-3-block-1",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-3-3"
+                      ],
+                      "claims": [
+                        "aguc-3-3-block-1-claim"
+                      ],
+                      "nodes": [
+                        "aguc-3-3-context-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-3-3-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "aguc-3-4-section",
+                "heading": "モデルアップ：詳細から全体の目的を俯瞰する",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-3-4"
+                  ],
+                  "claims": [
+                    "aguc-3-4-block-1-claim",
+                    "aguc-3-4-block-2-claim"
+                  ],
+                  "nodes": [
+                    "aguc-3-4-context-node",
+                    "aguc-3-4-content-node"
+                  ],
+                  "relations": [
+                    "aguc-3-4-relation"
+                  ],
+                  "flows": [
+                    "aguc-3-4-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "kind": "paragraph",
+                    "text": "保持しているアクター・ゴール・ユースケースの関連を使い、詳細なフローを折り畳んで一覧を表示する。詳細データを削除したり、毎回フローから自然言語のゴールを推測し直したりする必要はない。既存ユースケースに関連がなければ、不足として示し、目的を確認して関連を補う。",
+                    "id": "aguc-3-4-block-1",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-3-4"
+                      ],
+                      "claims": [
+                        "aguc-3-4-block-1-claim"
+                      ],
+                      "nodes": [
+                        "aguc-3-4-context-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-3-4-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "kind": "paragraph",
+                    "text": "表示を一覧から詳細へ、詳細から一覧へ切り替えても、同じモデル要素を参照する。抽象化による表示の省略と、データの削除・置換を明確に分ける。",
+                    "id": "aguc-3-4-block-2",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-3-4"
+                      ],
+                      "claims": [
+                        "aguc-3-4-block-2-claim"
+                      ],
+                      "nodes": [
+                        "aguc-3-4-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-3-4-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "aguc-4-section",
+            "heading": "データの持ち方",
+            "coreRefs": {
+              "steps": [
+                "aguc-4"
+              ],
+              "claims": [
+                "aguc-4-block-1-claim",
+                "aguc-4-block-2-claim",
+                "aguc-4-block-3-claim",
+                "aguc-4-block-4-claim",
+                "aguc-4-block-5-claim"
+              ],
+              "nodes": [
+                "aguc-4-context-node",
+                "aguc-4-content-node"
+              ],
+              "relations": [
+                "aguc-4-relation"
+              ],
+              "flows": [
+                "aguc-4-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "kind": "paragraph",
+                "text": "実装上は、要求モデルの中にアクター、アクターとゴールの対応、ユースケース詳細を保持し、アクターゴールリストを投影する構成を提案する。共通モデルは論理上の正本であり、物理的に一つのファイルや一つのテーブルに格納することまでは要求しない。",
+                "id": "aguc-4-block-1",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-4"
+                  ],
+                  "claims": [
+                    "aguc-4-block-1-claim"
+                  ],
+                  "nodes": [
+                    "aguc-4-context-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-4-flow"
+                  ]
+                }
+              },
+              {
+                "kind": "figure",
+                "asset": "images/shared-model-ja.png",
+                "caption": "共通モデルと二つのビューの関係",
+                "alt": "Actor、ActorGoal、UseCaseを共通モデルに保持し、一覧と詳細の二つのビューから利用する。関連の多重度は未確定。",
+                "id": "aguc-4-block-2",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-4"
+                  ],
+                  "claims": [
+                    "aguc-4-block-2-claim"
+                  ],
+                  "nodes": [
+                    "aguc-4-content-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-4-flow"
+                  ]
+                }
+              },
+              {
+                "kind": "list",
+                "items": [
+                  {
+                    "text": "Actor：安定ID、表示名、説明。人だけでなく外部システムも扱えるようにする。",
+                    "id": "aguc-4-block-3-item-1",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-4"
+                      ],
+                      "claims": [
+                        "aguc-4-block-3-claim"
+                      ],
+                      "nodes": [
+                        "aguc-4-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-4-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "text": "ActorGoal：安定ID、アクター参照、達成したい結果。必要に応じて関連するビジョン・要求、優先度、対象範囲を持つ。",
+                    "id": "aguc-4-block-3-item-2",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-4"
+                      ],
+                      "claims": [
+                        "aguc-4-block-3-claim"
+                      ],
+                      "nodes": [
+                        "aguc-4-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-4-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "text": "UseCase：安定ID、名前、ActorGoalへの参照、条件、フローなどの詳細を持つ。主・支援アクターの役割も必要に応じて保持する。",
+                    "id": "aguc-4-block-3-item-3",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-4"
+                      ],
+                      "claims": [
+                        "aguc-4-block-3-claim"
+                      ],
+                      "nodes": [
+                        "aguc-4-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-4-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "text": "ActorGoalListView：上記の要素と関連から生成する一覧。表示条件や並び順は持てるが、ゴール本文を別の正本として複製しない。",
+                    "id": "aguc-4-block-3-item-4",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-4"
+                      ],
+                      "claims": [
+                        "aguc-4-block-3-claim"
+                      ],
+                      "nodes": [
+                        "aguc-4-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-4-flow"
+                      ]
+                    }
+                  }
+                ],
+                "id": "aguc-4-block-3",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-4"
+                  ],
+                  "claims": [
+                    "aguc-4-block-3-claim"
+                  ],
+                  "nodes": [
+                    "aguc-4-content-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-4-flow"
+                  ]
+                }
+              },
+              {
+                "kind": "paragraph",
+                "text": "初期にはActorGoalだけが存在し、対応するUseCaseが未作成でもよい。これにより、ユースケース詳細を先に仮作成しなくても、一覧から検討を始められる。一覧でゴールを編集した場合も、更新対象は同じ共通モデルである。",
+                "id": "aguc-4-block-4",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-4"
+                  ],
+                  "claims": [
+                    "aguc-4-block-4-claim"
+                  ],
+                  "nodes": [
+                    "aguc-4-content-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-4-flow"
+                  ]
+                }
+              },
+              {
+                "kind": "paragraph",
+                "text": "一つのActorGoalと複数のUseCaseとの関連を表現できる設計を例示する。逆方向も複数参照を許すかは、目的の異なるユースケースを過度にまとめないという意味上の判断と併せて定める。本ガイドは多重度を固定しない。",
+                "id": "aguc-4-block-5",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-4"
+                  ],
+                  "claims": [
+                    "aguc-4-block-5-claim"
+                  ],
+                  "nodes": [
+                    "aguc-4-content-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-4-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "aguc-4-1-section",
+                "heading": "概念データ例",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-4-1"
+                  ],
+                  "claims": [
+                    "aguc-4-1-block-1-claim",
+                    "aguc-4-1-block-2-claim",
+                    "aguc-4-1-block-3-claim"
+                  ],
+                  "nodes": [
+                    "aguc-4-1-context-node",
+                    "aguc-4-1-content-node"
+                  ],
+                  "relations": [
+                    "aguc-4-1-relation"
+                  ],
+                  "flows": [
+                    "aguc-4-1-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "kind": "paragraph",
+                    "text": "次のJSONは関係を説明するための簡略例である。ActorGoalにゴール本文を一度だけ持ち、UseCaseはそのIDを参照する。既存の保存形式ではなく、実装時に検討する概念例である。",
+                    "id": "aguc-4-1-block-1",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-4-1"
+                      ],
+                      "claims": [
+                        "aguc-4-1-block-1-claim"
+                      ],
+                      "nodes": [
+                        "aguc-4-1-context-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-4-1-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "kind": "example",
+                    "title": "概念データ例（JSON）",
+                    "text": "{\n  \"actors\": [\n    { \"id\": \"A-01\", \"name\": \"投稿者\" }\n  ],\n  \"actorGoals\": [\n    {\n      \"id\": \"AG-01\",\n      \"actorRef\": \"A-01\",\n      \"goal\": \"資料を保存し、後で再利用したい\",\n      \"scope\": \"in\"\n    }\n  ],\n  \"useCases\": [\n    {\n      \"id\": \"UC-01\",\n      \"name\": \"資料を登録する\",\n      \"actorGoalRefs\": [\"AG-01\"],\n      \"preconditions\": [\"投稿者が認証済みである\"],\n      \"postconditions\": [\"資料が保存され、再取得できる\"],\n      \"mainFlow\": [\n        \"投稿者が資料と必要な情報を指定する\",\n        \"システムが内容を確認して保存する\",\n        \"システムが登録結果を知らせる\"\n      ]\n    }\n  ]\n}",
+                    "id": "aguc-4-1-block-2",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-4-1"
+                      ],
+                      "claims": [
+                        "aguc-4-1-block-2-claim"
+                      ],
+                      "nodes": [
+                        "aguc-4-1-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-4-1-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "kind": "paragraph",
+                    "text": "一覧はActorGoalを起点にアクター名を解決し、参照しているUseCaseを集めて生成する。UseCaseが0件のゴールも表示対象に残す。参照のないユースケースも別途検出できるようにし、一覧から黙って消えた状態にしない。",
+                    "id": "aguc-4-1-block-3",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-4-1"
+                      ],
+                      "claims": [
+                        "aguc-4-1-block-3-claim"
+                      ],
+                      "nodes": [
+                        "aguc-4-1-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-4-1-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "aguc-5-section",
+            "heading": "開発段階ごとの運用",
+            "coreRefs": {
+              "steps": [
+                "aguc-5"
+              ],
+              "claims": [],
+              "nodes": [
+                "aguc-5-context-node",
+                "aguc-5-content-node"
+              ],
+              "relations": [
+                "aguc-5-relation"
+              ],
+              "flows": [
+                "aguc-5-flow"
+              ]
+            },
+            "blocks": [],
+            "sections": [
+              {
+                "id": "aguc-5-1-section",
+                "heading": "初期：一覧から始める",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-5-1"
+                  ],
+                  "claims": [
+                    "aguc-5-1-block-1-claim",
+                    "aguc-5-1-block-2-claim"
+                  ],
+                  "nodes": [
+                    "aguc-5-1-context-node",
+                    "aguc-5-1-content-node"
+                  ],
+                  "relations": [
+                    "aguc-5-1-relation"
+                  ],
+                  "flows": [
+                    "aguc-5-1-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "kind": "list",
+                    "items": [
+                      {
+                        "text": "ビジョン、背景、対象範囲を簡潔に記述する。",
+                        "id": "aguc-5-1-block-1-item-1",
+                        "coreRefs": {
+                          "steps": [
+                            "aguc-5-1"
+                          ],
+                          "claims": [
+                            "aguc-5-1-block-1-claim"
+                          ],
+                          "nodes": [
+                            "aguc-5-1-context-node"
+                          ],
+                          "relations": [],
+                          "flows": [
+                            "aguc-5-1-flow"
+                          ]
+                        }
+                      },
+                      {
+                        "text": "主要なアクターを識別し、各アクターが達成したいゴールを列挙する。",
+                        "id": "aguc-5-1-block-1-item-2",
+                        "coreRefs": {
+                          "steps": [
+                            "aguc-5-1"
+                          ],
+                          "claims": [
+                            "aguc-5-1-block-1-claim"
+                          ],
+                          "nodes": [
+                            "aguc-5-1-context-node"
+                          ],
+                          "relations": [],
+                          "flows": [
+                            "aguc-5-1-flow"
+                          ]
+                        }
+                      },
+                      {
+                        "text": "一覧で抜け漏れ、重複、粒度、対象範囲を確認する。",
+                        "id": "aguc-5-1-block-1-item-3",
+                        "coreRefs": {
+                          "steps": [
+                            "aguc-5-1"
+                          ],
+                          "claims": [
+                            "aguc-5-1-block-1-claim"
+                          ],
+                          "nodes": [
+                            "aguc-5-1-context-node"
+                          ],
+                          "relations": [],
+                          "flows": [
+                            "aguc-5-1-flow"
+                          ]
+                        }
+                      },
+                      {
+                        "text": "優先するゴールからユースケースへモデルダウンし、条件とフローを記述する。",
+                        "id": "aguc-5-1-block-1-item-4",
+                        "coreRefs": {
+                          "steps": [
+                            "aguc-5-1"
+                          ],
+                          "claims": [
+                            "aguc-5-1-block-1-claim"
+                          ],
+                          "nodes": [
+                            "aguc-5-1-context-node"
+                          ],
+                          "relations": [],
+                          "flows": [
+                            "aguc-5-1-flow"
+                          ]
+                        }
+                      }
+                    ],
+                    "id": "aguc-5-1-block-1",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-5-1"
+                      ],
+                      "claims": [
+                        "aguc-5-1-block-1-claim"
+                      ],
+                      "nodes": [
+                        "aguc-5-1-context-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-5-1-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "kind": "paragraph",
+                    "text": "この時点では、一覧に具体化前のゴールが含まれていてよい。未記述の詳細と、対象外と判断したゴールを同じ扱いにしない。",
+                    "id": "aguc-5-1-block-2",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-5-1"
+                      ],
+                      "claims": [
+                        "aguc-5-1-block-2-claim"
+                      ],
+                      "nodes": [
+                        "aguc-5-1-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-5-1-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "aguc-5-2-section",
+                "heading": "進行中：詳細と一覧を往復する",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-5-2"
+                  ],
+                  "claims": [
+                    "aguc-5-2-block-1-claim",
+                    "aguc-5-2-block-2-claim"
+                  ],
+                  "nodes": [
+                    "aguc-5-2-context-node",
+                    "aguc-5-2-content-node"
+                  ],
+                  "relations": [
+                    "aguc-5-2-relation"
+                  ],
+                  "flows": [
+                    "aguc-5-2-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "kind": "list",
+                    "items": [
+                      {
+                        "text": "ユースケースの詳細を更新し、対応するアクターゴールとの整合を確認する。",
+                        "id": "aguc-5-2-block-1-item-1",
+                        "coreRefs": {
+                          "steps": [
+                            "aguc-5-2"
+                          ],
+                          "claims": [
+                            "aguc-5-2-block-1-claim"
+                          ],
+                          "nodes": [
+                            "aguc-5-2-context-node"
+                          ],
+                          "relations": [],
+                          "flows": [
+                            "aguc-5-2-flow"
+                          ]
+                        }
+                      },
+                      {
+                        "text": "モデルアップした一覧で、全体像、具体化されていないゴール、重複、範囲の変化を見る。",
+                        "id": "aguc-5-2-block-1-item-2",
+                        "coreRefs": {
+                          "steps": [
+                            "aguc-5-2"
+                          ],
+                          "claims": [
+                            "aguc-5-2-block-1-claim"
+                          ],
+                          "nodes": [
+                            "aguc-5-2-context-node"
+                          ],
+                          "relations": [],
+                          "flows": [
+                            "aguc-5-2-flow"
+                          ]
+                        }
+                      },
+                      {
+                        "text": "新しい目的が判明した場合はActorGoalを追加し、既存要素との関係を整理する。",
+                        "id": "aguc-5-2-block-1-item-3",
+                        "coreRefs": {
+                          "steps": [
+                            "aguc-5-2"
+                          ],
+                          "claims": [
+                            "aguc-5-2-block-1-claim"
+                          ],
+                          "nodes": [
+                            "aguc-5-2-context-node"
+                          ],
+                          "relations": [],
+                          "flows": [
+                            "aguc-5-2-flow"
+                          ]
+                        }
+                      },
+                      {
+                        "text": "レビューや計画調整では一覧を使い、振る舞いの確認ではユースケース詳細へ移動する。",
+                        "id": "aguc-5-2-block-1-item-4",
+                        "coreRefs": {
+                          "steps": [
+                            "aguc-5-2"
+                          ],
+                          "claims": [
+                            "aguc-5-2-block-1-claim"
+                          ],
+                          "nodes": [
+                            "aguc-5-2-context-node"
+                          ],
+                          "relations": [],
+                          "flows": [
+                            "aguc-5-2-flow"
+                          ]
+                        }
+                      }
+                    ],
+                    "id": "aguc-5-2-block-1",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-5-2"
+                      ],
+                      "claims": [
+                        "aguc-5-2-block-1-claim"
+                      ],
+                      "nodes": [
+                        "aguc-5-2-context-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-5-2-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "kind": "paragraph",
+                    "text": "モデルアップは、開発終盤に一度だけ実施する工程ではない。詳細が増えるほど、一覧ビューを継続して使う価値がある。",
+                    "id": "aguc-5-2-block-2",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-5-2"
+                      ],
+                      "claims": [
+                        "aguc-5-2-block-2-claim"
+                      ],
+                      "nodes": [
+                        "aguc-5-2-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-5-2-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "aguc-6-section",
+            "heading": "一覧と詳細の例",
+            "coreRefs": {
+              "steps": [
+                "aguc-6"
+              ],
+              "claims": [
+                "aguc-6-block-1-claim"
+              ],
+              "nodes": [
+                "aguc-6-context-node",
+                "aguc-6-content-node"
+              ],
+              "relations": [
+                "aguc-6-relation"
+              ],
+              "flows": [
+                "aguc-6-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "kind": "paragraph",
+                "text": "以下は資料編集システムを想定した説明用の例であり、現在のサービスの仕様や実装状況を示すものではない。対応ユースケース欄は参照から表示し、独立した手入力の対応表にしない。",
+                "id": "aguc-6-block-1",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-6"
+                  ],
+                  "claims": [
+                    "aguc-6-block-1-claim"
+                  ],
+                  "nodes": [
+                    "aguc-6-context-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-6-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "aguc-6-1-section",
+                "heading": "アクターゴールリストビューの例",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-6-1"
+                  ],
+                  "claims": [
+                    "aguc-6-1-block-1-claim",
+                    "aguc-6-1-block-2-claim"
+                  ],
+                  "nodes": [
+                    "aguc-6-1-context-node",
+                    "aguc-6-1-content-node"
+                  ],
+                  "relations": [
+                    "aguc-6-1-relation"
+                  ],
+                  "flows": [
+                    "aguc-6-1-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "kind": "table",
+                    "caption": "アクターゴールリストビューの例",
+                    "columns": [
+                      {
+                        "id": "column-1",
+                        "heading": "ゴールID"
+                      },
+                      {
+                        "id": "column-2",
+                        "heading": "アクター"
+                      },
+                      {
+                        "id": "column-3",
+                        "heading": "達成したいこと"
+                      },
+                      {
+                        "id": "column-4",
+                        "heading": "対応するユースケース"
+                      }
+                    ],
+                    "rows": [
+                      {
+                        "id": "aguc-6-1-block-1-row-1",
+                        "cells": [
+                          "AG-01",
+                          "投稿者",
+                          "資料を保存し、後で再利用したい",
+                          "UC-01：資料を登録する"
+                        ]
+                      },
+                      {
+                        "id": "aguc-6-1-block-1-row-2",
+                        "cells": [
+                          "AG-02",
+                          "編集者",
+                          "下書きを公開可能な状態にしたい",
+                          "UC-02：下書きを編集する\nUC-03：公開を依頼する"
+                        ]
+                      },
+                      {
+                        "id": "aguc-6-1-block-1-row-3",
+                        "cells": [
+                          "AG-03",
+                          "確認者",
+                          "公開前に内容の妥当性を確認したい",
+                          "未具体化"
+                        ]
+                      }
+                    ],
+                    "id": "aguc-6-1-block-1",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-6-1"
+                      ],
+                      "claims": [
+                        "aguc-6-1-block-1-claim"
+                      ],
+                      "nodes": [
+                        "aguc-6-1-context-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-6-1-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "kind": "paragraph",
+                    "text": "AG-01を選ぶとUC-01の詳細へ移動する。AG-03は一覧でゴールを識別できているが、ユースケースへの具体化はまだ行っていない。開発初期はこれらの行を作るところから始め、開発中は同じ一覧で具体化の全体像を確認する。",
+                    "id": "aguc-6-1-block-2",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-6-1"
+                      ],
+                      "claims": [
+                        "aguc-6-1-block-2-claim"
+                      ],
+                      "nodes": [
+                        "aguc-6-1-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-6-1-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "aguc-6-2-section",
+                "heading": "UC-01「資料を登録する」の詳細例",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-6-2"
+                  ],
+                  "claims": [
+                    "aguc-6-2-block-1-claim",
+                    "aguc-6-2-block-2-claim"
+                  ],
+                  "nodes": [
+                    "aguc-6-2-context-node",
+                    "aguc-6-2-content-node"
+                  ],
+                  "relations": [
+                    "aguc-6-2-relation"
+                  ],
+                  "flows": [
+                    "aguc-6-2-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "kind": "paragraph",
+                    "text": "目的：AG-01「資料を保存し、後で再利用したい」を具体化する。主アクターはA-01「投稿者」。事前条件は認証済みであること、事後条件は資料が保存されて再取得できることである。",
+                    "id": "aguc-6-2-block-1",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-6-2"
+                      ],
+                      "claims": [
+                        "aguc-6-2-block-1-claim"
+                      ],
+                      "nodes": [
+                        "aguc-6-2-context-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-6-2-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "kind": "paragraph",
+                    "text": "主フローは、資料の指定、内容確認、保存、結果通知とする。代替・例外フローとして入力不足や保存失敗などを検討する。一覧ビューにはこれらの手順を並べず、目的と対応するユースケースの概要を示す。",
+                    "id": "aguc-6-2-block-2",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-6-2"
+                      ],
+                      "claims": [
+                        "aguc-6-2-block-2-claim"
+                      ],
+                      "nodes": [
+                        "aguc-6-2-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-6-2-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "aguc-7-section",
+            "heading": "整合性と更新の原則",
+            "coreRefs": {
+              "steps": [
+                "aguc-7"
+              ],
+              "claims": [
+                "aguc-7-block-1-claim"
+              ],
+              "nodes": [
+                "aguc-7-context-node",
+                "aguc-7-content-node"
+              ],
+              "relations": [
+                "aguc-7-relation"
+              ],
+              "flows": [
+                "aguc-7-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "kind": "list",
+                "items": [
+                  {
+                    "text": "モデル要素のIDは、表示名の変更やビューの切替えで変えない。",
+                    "id": "aguc-7-block-1-item-1",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-7"
+                      ],
+                      "claims": [
+                        "aguc-7-block-1-claim"
+                      ],
+                      "nodes": [
+                        "aguc-7-context-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-7-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "text": "一覧と詳細は同じアクター・ゴールを参照する。表示用キャッシュを持つ場合も、正本から再生成できるようにする。",
+                    "id": "aguc-7-block-1-item-2",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-7"
+                      ],
+                      "claims": [
+                        "aguc-7-block-1-claim"
+                      ],
+                      "nodes": [
+                        "aguc-7-context-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-7-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "text": "アクター、ゴール、ユースケースの改名・関連変更は、両ビューへ反映する。要素の削除時には参照切れを確認する。",
+                    "id": "aguc-7-block-1-item-3",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-7"
+                      ],
+                      "claims": [
+                        "aguc-7-block-1-claim"
+                      ],
+                      "nodes": [
+                        "aguc-7-context-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-7-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "text": "ゴールやユースケースを分割・統合する場合は、対応関係を明示的に更新する。表示名の類似だけで自動的に同一視しない。",
+                    "id": "aguc-7-block-1-item-4",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-7"
+                      ],
+                      "claims": [
+                        "aguc-7-block-1-claim"
+                      ],
+                      "nodes": [
+                        "aguc-7-context-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-7-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "text": "ビューの切替えでは詳細を失わない。ゴールのないユースケースや、未具体化のゴールを可視化する。",
+                    "id": "aguc-7-block-1-item-5",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-7"
+                      ],
+                      "claims": [
+                        "aguc-7-block-1-claim"
+                      ],
+                      "nodes": [
+                        "aguc-7-context-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-7-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "text": "ユースケース一覧の存在だけで、品質要求や制約を満たしたことにはしない。それぞれの関連と確認方法を維持する。",
+                    "id": "aguc-7-block-1-item-6",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-7"
+                      ],
+                      "claims": [
+                        "aguc-7-block-1-claim"
+                      ],
+                      "nodes": [
+                        "aguc-7-context-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-7-flow"
+                      ]
+                    }
+                  }
+                ],
+                "id": "aguc-7-block-1",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-7"
+                  ],
+                  "claims": [
+                    "aguc-7-block-1-claim"
+                  ],
+                  "nodes": [
+                    "aguc-7-context-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-7-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "aguc-7-1-section",
+                "heading": "実装・運用で確認したい振る舞い",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-7-1"
+                  ],
+                  "claims": [
+                    "aguc-7-1-block-1-claim"
+                  ],
+                  "nodes": [
+                    "aguc-7-1-context-node",
+                    "aguc-7-1-content-node"
+                  ],
+                  "relations": [
+                    "aguc-7-1-relation"
+                  ],
+                  "flows": [
+                    "aguc-7-1-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "kind": "paragraph",
+                    "text": "アクターとゴールだけで一覧を表示できること、詳細化後も同じ行から対応するユースケースへ移動できること、詳細の更新を一覧へ反映できること、未関連要素を検出できることを確認する。モデルアップ後に詳細ビューへ戻っても条件とフローが失われないことも確認する。",
+                    "id": "aguc-7-1-block-1",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-7-1"
+                      ],
+                      "claims": [
+                        "aguc-7-1-block-1-claim"
+                      ],
+                      "nodes": [
+                        "aguc-7-1-context-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-7-1-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "aguc-8-section",
+            "heading": "今後確定する設計事項",
+            "coreRefs": {
+              "steps": [
+                "aguc-8"
+              ],
+              "claims": [
+                "aguc-8-block-1-claim",
+                "aguc-8-block-2-claim",
+                "aguc-8-block-3-claim"
+              ],
+              "nodes": [
+                "aguc-8-context-node",
+                "aguc-8-content-node"
+              ],
+              "relations": [
+                "aguc-8-relation"
+              ],
+              "flows": [
+                "aguc-8-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "kind": "paragraph",
+                "text": "一覧ビューとしての位置づけ、開発初期からの利用、詳細化と俯瞰の双方向利用、共通モデルでの情報保持は、本ガイドの中核方針とする。実装に進む際は、次の事項を具体化する。",
+                "id": "aguc-8-block-1",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-8"
+                  ],
+                  "claims": [
+                    "aguc-8-block-1-claim"
+                  ],
+                  "nodes": [
+                    "aguc-8-context-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-8-flow"
+                  ]
+                }
+              },
+              {
+                "kind": "list",
+                "items": [
+                  {
+                    "text": "ActorGoalを独立した型として持つか、要求モデル内の別の構造として表現するか。",
+                    "id": "aguc-8-block-2-item-1",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-8"
+                      ],
+                      "claims": [
+                        "aguc-8-block-2-claim"
+                      ],
+                      "nodes": [
+                        "aguc-8-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-8-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "text": "ゴールとユースケースの関連の多重度、分割・統合時の扱い。",
+                    "id": "aguc-8-block-2-item-2",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-8"
+                      ],
+                      "claims": [
+                        "aguc-8-block-2-claim"
+                      ],
+                      "nodes": [
+                        "aguc-8-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-8-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "text": "ビジョン・要求・ケイパビリティへの参照方法と、品質要求・制約の適用範囲。",
+                    "id": "aguc-8-block-2-item-3",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-8"
+                      ],
+                      "claims": [
+                        "aguc-8-block-2-claim"
+                      ],
+                      "nodes": [
+                        "aguc-8-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-8-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "text": "一覧からの編集範囲、フィルター、並び順、未具体化・未関連要素の見せ方。",
+                    "id": "aguc-8-block-2-item-4",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-8"
+                      ],
+                      "claims": [
+                        "aguc-8-block-2-claim"
+                      ],
+                      "nodes": [
+                        "aguc-8-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-8-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "text": "CMLでの記述形式、メタデータへの投影、既存モデルからの移行方法。",
+                    "id": "aguc-8-block-2-item-5",
+                    "coreRefs": {
+                      "steps": [
+                        "aguc-8"
+                      ],
+                      "claims": [
+                        "aguc-8-block-2-claim"
+                      ],
+                      "nodes": [
+                        "aguc-8-content-node"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "aguc-8-flow"
+                      ]
+                    }
+                  }
+                ],
+                "id": "aguc-8-block-2",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-8"
+                  ],
+                  "claims": [
+                    "aguc-8-block-2-claim"
+                  ],
+                  "nodes": [
+                    "aguc-8-content-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-8-flow"
+                  ]
+                }
+              },
+              {
+                "kind": "paragraph",
+                "text": "本ガイドの作成では、CML、モデルライブラリ、生成器、既存プロジェクトの実装変更は行っていない。上記の設計案と既存実装の対応は、実装着手時に確認する。",
+                "id": "aguc-8-block-3",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-8"
+                  ],
+                  "claims": [
+                    "aguc-8-block-3-claim"
+                  ],
+                  "nodes": [
+                    "aguc-8-content-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-8-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "aguc-9-section",
+            "heading": "参考資料",
+            "coreRefs": {
+              "steps": [
+                "aguc-9"
+              ],
+              "claims": [
+                "aguc-9-block-1-claim",
+                "aguc-9-block-2-claim",
+                "aguc-9-block-3-claim"
+              ],
+              "nodes": [
+                "aguc-9-context-node",
+                "aguc-9-content-node"
+              ],
+              "relations": [
+                "aguc-9-relation"
+              ],
+              "flows": [
+                "aguc-9-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "kind": "paragraph",
+                "text": "本ガイドの中心となる方針は、2026年11月13日のSimpleModeling要求モデリングに関する対話で整理したものである。次の既存資料を、周辺概念とユースケースの記述項目の参考にした。今回のビュー設計が既存資料にすべて規定済みであるとは扱わない。",
+                "id": "aguc-9-block-1",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-9"
+                  ],
+                  "claims": [
+                    "aguc-9-block-1-claim"
+                  ],
+                  "nodes": [
+                    "aguc-9-context-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-9-flow"
+                  ]
+                }
+              },
+              {
+                "kind": "paragraph",
+                "text": "Cozy Requirement Modeling Strategy（draft、2026-04-06）：VISION、REQUIREMENT、QUALITY、CONSTRAINT、CAPABILITY、USE CASE、ACTOR／ROLEの位置づけ。cozy/docs/journal/2026/04/cozy-requirement-modeling-strategy-2026-04-06.md",
+                "id": "aguc-9-block-2",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-9"
+                  ],
+                  "claims": [
+                    "aguc-9-block-2-claim"
+                  ],
+                  "nodes": [
+                    "aguc-9-content-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-9-flow"
+                  ]
+                }
+              },
+              {
+                "kind": "paragraph",
+                "text": "CML Actor and Use Case Model（active-note、2026-07-16）：アクター、ユースケースの基本契約、主・代替・例外フロー。cozy/docs/notes/cml-actor-use-case-model.md",
+                "id": "aguc-9-block-3",
+                "coreRefs": {
+                  "steps": [
+                    "aguc-9"
+                  ],
+                  "claims": [
+                    "aguc-9-block-3-claim"
+                  ],
+                  "nodes": [
+                    "aguc-9-content-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "aguc-9-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "simplemodeling-actor-goal-use-case",
+        "text": "アクターゴールリストビューとユースケースモデル"
+      },
+      {
+        "stepRef": "aguc-1",
+        "text": "基本方針"
+      },
+      {
+        "stepRef": "aguc-2",
+        "text": "ビジョンからユースケースまで"
+      },
+      {
+        "stepRef": "aguc-3",
+        "text": "二つのビューと抽象度の往復"
+      },
+      {
+        "stepRef": "aguc-3-1",
+        "text": "アクターゴールリストビュー"
+      },
+      {
+        "stepRef": "aguc-3-2",
+        "text": "ユースケース詳細ビュー"
+      },
+      {
+        "stepRef": "aguc-3-3",
+        "text": "モデルダウン：目的を具体的な振る舞いへ展開する"
+      },
+      {
+        "stepRef": "aguc-3-4",
+        "text": "モデルアップ：詳細から全体の目的を俯瞰する"
+      },
+      {
+        "stepRef": "aguc-4",
+        "text": "データの持ち方"
+      },
+      {
+        "stepRef": "aguc-4-1",
+        "text": "概念データ例"
+      },
+      {
+        "stepRef": "aguc-5",
+        "text": "開発段階ごとの運用"
+      },
+      {
+        "stepRef": "aguc-5-1",
+        "text": "初期：一覧から始める"
+      },
+      {
+        "stepRef": "aguc-5-2",
+        "text": "進行中：詳細と一覧を往復する"
+      },
+      {
+        "stepRef": "aguc-6",
+        "text": "一覧と詳細の例"
+      },
+      {
+        "stepRef": "aguc-6-1",
+        "text": "アクターゴールリストビューの例"
+      },
+      {
+        "stepRef": "aguc-6-2",
+        "text": "UC-01「資料を登録する」の詳細例"
+      },
+      {
+        "stepRef": "aguc-7",
+        "text": "整合性と更新の原則"
+      },
+      {
+        "stepRef": "aguc-7-1",
+        "text": "実装・運用で確認したい振る舞い"
+      },
+      {
+        "stepRef": "aguc-8",
+        "text": "今後確定する設計事項"
+      },
+      {
+        "stepRef": "aguc-9",
+        "text": "参考資料"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "simplemodeling-actor-goal-use-case-context-node",
+        "text": "アクターゴールリストビューとユースケースモデル：前提"
+      },
+      {
+        "nodeRef": "simplemodeling-actor-goal-use-case-content-node",
+        "text": "アクターゴールリストビューとユースケースモデル：説明"
+      },
+      {
+        "nodeRef": "aguc-1-context-node",
+        "text": "基本方針：前提"
+      },
+      {
+        "nodeRef": "aguc-1-content-node",
+        "text": "基本方針：説明"
+      },
+      {
+        "nodeRef": "aguc-2-context-node",
+        "text": "ビジョンからユースケースまで：前提"
+      },
+      {
+        "nodeRef": "aguc-2-content-node",
+        "text": "ビジョンからユースケースまで：説明"
+      },
+      {
+        "nodeRef": "aguc-3-context-node",
+        "text": "二つのビューと抽象度の往復：前提"
+      },
+      {
+        "nodeRef": "aguc-3-content-node",
+        "text": "二つのビューと抽象度の往復：説明"
+      },
+      {
+        "nodeRef": "aguc-3-1-context-node",
+        "text": "アクターゴールリストビュー：前提"
+      },
+      {
+        "nodeRef": "aguc-3-1-content-node",
+        "text": "アクターゴールリストビュー：説明"
+      },
+      {
+        "nodeRef": "aguc-3-2-context-node",
+        "text": "ユースケース詳細ビュー：前提"
+      },
+      {
+        "nodeRef": "aguc-3-2-content-node",
+        "text": "ユースケース詳細ビュー：説明"
+      },
+      {
+        "nodeRef": "aguc-3-3-context-node",
+        "text": "モデルダウン：目的を具体的な振る舞いへ展開する：前提"
+      },
+      {
+        "nodeRef": "aguc-3-3-content-node",
+        "text": "モデルダウン：目的を具体的な振る舞いへ展開する：説明"
+      },
+      {
+        "nodeRef": "aguc-3-4-context-node",
+        "text": "モデルアップ：詳細から全体の目的を俯瞰する：前提"
+      },
+      {
+        "nodeRef": "aguc-3-4-content-node",
+        "text": "モデルアップ：詳細から全体の目的を俯瞰する：説明"
+      },
+      {
+        "nodeRef": "aguc-4-context-node",
+        "text": "データの持ち方：前提"
+      },
+      {
+        "nodeRef": "aguc-4-content-node",
+        "text": "データの持ち方：説明"
+      },
+      {
+        "nodeRef": "aguc-4-1-context-node",
+        "text": "概念データ例：前提"
+      },
+      {
+        "nodeRef": "aguc-4-1-content-node",
+        "text": "概念データ例：説明"
+      },
+      {
+        "nodeRef": "aguc-5-context-node",
+        "text": "開発段階ごとの運用：前提"
+      },
+      {
+        "nodeRef": "aguc-5-content-node",
+        "text": "開発段階ごとの運用：説明"
+      },
+      {
+        "nodeRef": "aguc-5-1-context-node",
+        "text": "初期：一覧から始める：前提"
+      },
+      {
+        "nodeRef": "aguc-5-1-content-node",
+        "text": "初期：一覧から始める：説明"
+      },
+      {
+        "nodeRef": "aguc-5-2-context-node",
+        "text": "進行中：詳細と一覧を往復する：前提"
+      },
+      {
+        "nodeRef": "aguc-5-2-content-node",
+        "text": "進行中：詳細と一覧を往復する：説明"
+      },
+      {
+        "nodeRef": "aguc-6-context-node",
+        "text": "一覧と詳細の例：前提"
+      },
+      {
+        "nodeRef": "aguc-6-content-node",
+        "text": "一覧と詳細の例：説明"
+      },
+      {
+        "nodeRef": "aguc-6-1-context-node",
+        "text": "アクターゴールリストビューの例：前提"
+      },
+      {
+        "nodeRef": "aguc-6-1-content-node",
+        "text": "アクターゴールリストビューの例：説明"
+      },
+      {
+        "nodeRef": "aguc-6-2-context-node",
+        "text": "UC-01「資料を登録する」の詳細例：前提"
+      },
+      {
+        "nodeRef": "aguc-6-2-content-node",
+        "text": "UC-01「資料を登録する」の詳細例：説明"
+      },
+      {
+        "nodeRef": "aguc-7-context-node",
+        "text": "整合性と更新の原則：前提"
+      },
+      {
+        "nodeRef": "aguc-7-content-node",
+        "text": "整合性と更新の原則：説明"
+      },
+      {
+        "nodeRef": "aguc-7-1-context-node",
+        "text": "実装・運用で確認したい振る舞い：前提"
+      },
+      {
+        "nodeRef": "aguc-7-1-content-node",
+        "text": "実装・運用で確認したい振る舞い：説明"
+      },
+      {
+        "nodeRef": "aguc-8-context-node",
+        "text": "今後確定する設計事項：前提"
+      },
+      {
+        "nodeRef": "aguc-8-content-node",
+        "text": "今後確定する設計事項：説明"
+      },
+      {
+        "nodeRef": "aguc-9-context-node",
+        "text": "参考資料：前提"
+      },
+      {
+        "nodeRef": "aguc-9-content-node",
+        "text": "参考資料：説明"
+      }
+    ]
+  }
+}
