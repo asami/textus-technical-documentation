@@ -1,0 +1,1373 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-quality-attributes-document-ja",
+  "core": {
+    "id": "textus-cncf-quality-attributes"
+  },
+  "locale": "ja",
+  "document": {
+    "title": "Textus/CNCF 非機能要求と品質属性 技術ガイド",
+    "sections": [
+      {
+        "id": "textus-cncf-quality-attributes-section",
+        "heading": "Textus/CNCF 非機能要求と品質属性 技術ガイド",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-quality-attributes"
+          ],
+          "claims": [
+            "textus-cncf-quality-attributes-purpose-claim"
+          ],
+          "nodes": [
+            "textus-cncf-quality-attributes-purpose-node"
+          ],
+          "relations": [],
+          "flows": [
+            "textus-cncf-quality-attributes-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "textus-cncf-quality-attributes-purpose",
+            "kind": "paragraph",
+            "text": "Textus/CNCFは、CMLのモデルとCNCFの標準機能を使う通常の開発から、認可、整合性、リアクティブな実行、観測などの共通機構を利用できるようにしています。本書は、非機能要求と品質属性を起点に、技術の組合せによる効果、基盤と開発者の分担、用途に応じた構成と確認を説明します。",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-quality-attributes"
+              ],
+              "claims": [
+                "textus-cncf-quality-attributes-purpose-claim"
+              ],
+              "nodes": [
+                "textus-cncf-quality-attributes-purpose-node"
+              ],
+              "relations": [],
+              "flows": [
+                "textus-cncf-quality-attributes-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "qa-requirements-section",
+            "heading": "非機能要求を品質属性と利用条件へ具体化する",
+            "coreRefs": {
+              "steps": [
+                "qa-requirements"
+              ],
+              "claims": [
+                "qa-meaning-claim",
+                "qa-scenarios-claim",
+                "qa-requirement-examples-claim"
+              ],
+              "nodes": [
+                "qa-meaning-node",
+                "qa-scenarios-node",
+                "qa-requirement-examples-node"
+              ],
+              "relations": [
+                "qa-requirements-relation-1",
+                "qa-requirements-relation-2"
+              ],
+              "flows": [
+                "qa-requirements-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "qa-meaning",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-requirements"
+                  ],
+                  "claims": [
+                    "qa-meaning-claim"
+                  ],
+                  "nodes": [
+                    "qa-meaning-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-requirements-flow"
+                  ]
+                },
+                "text": "機能要求が「何を行うか」を示すのに対し、非機能要求は、その機能をどのような負荷、障害、利用環境、運用条件の下で提供するかを示します。性能、可用性、セキュリティ、変更容易性などの品質属性は、その要求を整理する観点です。非機能要求には費用や配備環境などの制約も含まれ、複数の品質を合わせて満たす構成を選びます。"
+              },
+              {
+                "id": "qa-scenarios",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-requirements"
+                  ],
+                  "claims": [
+                    "qa-scenarios-claim"
+                  ],
+                  "nodes": [
+                    "qa-scenarios-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-requirements-flow"
+                  ]
+                },
+                "text": "「速い」「止まらない」だけでは、必要な構成を選べません。対象の操作、要求や障害の発生源、発生する事象、負荷などの条件、期待する応答、確認する尺度を定めます。例えば長時間処理では、受付までの時間と処理完了までの時間を分け、障害後には、許容する停止時間と失ってよいデータの範囲を分けます。これは品質属性シナリオによる要求の具体化に対応します。参考：SEI Quality Attribute Workshops, Third Edition（https://www.sei.cmu.edu/documents/716/2003_005_001_14249.pdf）。"
+              },
+              {
+                "id": "qa-requirement-examples",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "qa-requirements"
+                  ],
+                  "claims": [
+                    "qa-requirement-examples-claim"
+                  ],
+                  "nodes": [
+                    "qa-requirement-examples-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-requirements-flow"
+                  ]
+                },
+                "caption": "要求を具体化する観点",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "要求の例"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "明示する条件"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "確認する尺度"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "qa-requirement-examples-row-1",
+                    "cells": [
+                      "混雑時にも操作を受け付ける",
+                      "対象操作、要求量、データ量、同時利用数",
+                      "受付・完了の応答時間、処理量、拒否件数"
+                    ]
+                  },
+                  {
+                    "id": "qa-requirement-examples-row-2",
+                    "cells": [
+                      "障害後も業務を続ける",
+                      "停止する部品、依存先、更新中の処理",
+                      "復旧時間、確定データの保持、重複更新の有無"
+                    ]
+                  },
+                  {
+                    "id": "qa-requirement-examples-row-3",
+                    "cells": [
+                      "担当者だけが対象情報を更新できる",
+                      "主体、対象、操作、業務上の権限",
+                      "許可・拒否の結果、監査記録との対応"
+                    ]
+                  },
+                  {
+                    "id": "qa-requirement-examples-row-4",
+                    "cells": [
+                      "UIや外部サービスを変更できる",
+                      "維持する契約、変更する画面・接続先",
+                      "変更対象の範囲、既存操作の互換性"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "qa-map-section",
+            "heading": "品質属性からTextus/CNCFの対応を見る",
+            "coreRefs": {
+              "steps": [
+                "qa-map"
+              ],
+              "claims": [
+                "qa-map-purpose-claim",
+                "qa-runtime-map-claim",
+                "qa-lifecycle-map-claim"
+              ],
+              "nodes": [
+                "qa-map-purpose-node",
+                "qa-runtime-map-node",
+                "qa-lifecycle-map-node"
+              ],
+              "relations": [
+                "qa-map-relation-1",
+                "qa-map-relation-2"
+              ],
+              "flows": [
+                "qa-map-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "qa-map-purpose",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-map"
+                  ],
+                  "claims": [
+                    "qa-map-purpose-claim"
+                  ],
+                  "nodes": [
+                    "qa-map-purpose-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-map-flow"
+                  ]
+                },
+                "text": "Textus/CNCFでは、品質対策を業務処理ごとに追加する範囲を減らし、モデル、コンポーネントの契約、共通の実行経路へ組み込みます。CMLで定義したモデルとCNCFの標準機能を使うことで、認可、更新管理、非同期実行、観測などが業務処理へ適用されます。次の表は、この仕組みの組合せと品質への効果を整理したものです。品質規格の分類をそのまま転記したものではなく、Textus/CNCFを利用する開発・運用の観点でまとめています。"
+              },
+              {
+                "id": "qa-runtime-map",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "qa-map"
+                  ],
+                  "claims": [
+                    "qa-runtime-map-claim"
+                  ],
+                  "nodes": [
+                    "qa-runtime-map-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-map-flow"
+                  ]
+                },
+                "caption": "実行時の品質と仕組みの組合せ",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "品質属性"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Textus/CNCFでの組合せ"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "得られる効果"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "qa-runtime-map-row-1",
+                    "cells": [
+                      "性能・応答性",
+                      "Working Set・View＋直接実行／Job受付＋負荷制御",
+                      "データ取得と待機を減らし、受付と完了を区別する"
+                    ]
+                  },
+                  {
+                    "id": "qa-runtime-map-row-2",
+                    "cells": [
+                      "スケーラビリティ・弾力性",
+                      "Applicationの伸縮＋Domainの容量管理＋受付制御",
+                      "処理能力と受入れ量を合わせて負荷変動へ対応する"
+                    ]
+                  },
+                  {
+                    "id": "qa-runtime-map-row-3",
+                    "cells": [
+                      "可用性・耐障害性",
+                      "コンポーネント境界＋状態管理＋冗長化・切替え",
+                      "障害の波及を抑え、選択した構成でサービスを継続する"
+                    ]
+                  },
+                  {
+                    "id": "qa-runtime-map-row-4",
+                    "cells": [
+                      "回復可能性",
+                      "永続記録＋状態の再構築＋再試行・補償",
+                      "確定済みの結果を保持し、回復する範囲を判断する"
+                    ]
+                  },
+                  {
+                    "id": "qa-runtime-map-row-5",
+                    "cells": [
+                      "整合性・正確性",
+                      "Aggregate・状態機械＋UoW＋Viewの更新規則",
+                      "更新の不変条件と進行を管理し、参照との関係を保つ"
+                    ]
+                  },
+                  {
+                    "id": "qa-runtime-map-row-6",
+                    "cells": [
+                      "セキュリティ",
+                      "共通の認証文脈＋Operation・Entity認可＋資源制御",
+                      "入口や部品が増えても、同じ経路で操作と対象を保護する"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "qa-lifecycle-map",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "qa-map"
+                  ],
+                  "claims": [
+                    "qa-lifecycle-map-claim"
+                  ],
+                  "nodes": [
+                    "qa-lifecycle-map-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-map-flow"
+                  ]
+                },
+                "caption": "利用・変更・運用の品質と仕組みの組合せ",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "品質属性"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Textus/CNCFでの組合せ"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "得られる効果"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "qa-lifecycle-map-row-1",
+                    "cells": [
+                      "観測可能性・監査可能性",
+                      "実行文脈・相関情報＋Operation・Job・UoWの記録＋監査証跡",
+                      "部品をまたぐ経過と権限行使を関連付けて確認する"
+                    ]
+                  },
+                  {
+                    "id": "qa-lifecycle-map-row-2",
+                    "cells": [
+                      "保守性・機能拡張の柔軟性",
+                      "CML＋型付きAPI＋CBD＋共通実行基盤",
+                      "業務変更と実行制御を分け、変更の影響を局所化する"
+                    ]
+                  },
+                  {
+                    "id": "qa-lifecycle-map-row-3",
+                    "cells": [
+                      "再利用性・相互運用性",
+                      "Component・Service・Operationの契約＋API／SPI",
+                      "内部実装へ依存せず部品や接続先を組み合わせる"
+                    ]
+                  },
+                  {
+                    "id": "qa-lifecycle-map-row-4",
+                    "cells": [
+                      "移植性・複数UIへの展開",
+                      "View・Display・Operation＋Web／Flutter／外部UI",
+                      "業務の規則を共有し、表示基盤を選択できる"
+                    ]
+                  },
+                  {
+                    "id": "qa-lifecycle-map-row-5",
+                    "cells": [
+                      "使用性",
+                      "表示・操作モデル＋入力と失敗の共通表現＋Job進行情報",
+                      "受付・完了・失敗を一貫して利用者へ示す"
+                    ]
+                  },
+                  {
+                    "id": "qa-lifecycle-map-row-6",
+                    "cells": [
+                      "検証容易性",
+                      "モデル検査＋型・純粋計算＋共通の結果表現＋実行記録",
+                      "局所的な規則の検査とシステム動作の確認をつなぐ"
+                    ]
+                  },
+                  {
+                    "id": "qa-lifecycle-map-row-7",
+                    "cells": [
+                      "運用容易性・資源効率・費用",
+                      "標準設定＋容量・常駐範囲・保持期間の調整＋共通運用",
+                      "個別設定と実装を減らし、必要な水準に資源を配分する"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "qa-common-path-section",
+            "heading": "モデルと部品を共通の実行経路へ接続する",
+            "coreRefs": {
+              "steps": [
+                "qa-common-path"
+              ],
+              "claims": [
+                "qa-models-claim",
+                "qa-contracts-claim",
+                "qa-execution-figure-claim",
+                "qa-programs-claim"
+              ],
+              "nodes": [
+                "qa-models-node",
+                "qa-contracts-node",
+                "qa-execution-figure-node",
+                "qa-programs-node"
+              ],
+              "relations": [
+                "qa-common-path-relation-1",
+                "qa-common-path-relation-2",
+                "qa-common-path-relation-3"
+              ],
+              "flows": [
+                "qa-common-path-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "qa-models",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-common-path"
+                  ],
+                  "claims": [
+                    "qa-models-claim"
+                  ],
+                  "nodes": [
+                    "qa-models-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-common-path-flow"
+                  ]
+                },
+                "text": "CMLは、Entityを基盤とするAggregate・View、状態機械を基盤とするWorkflow、業務規則と公開Operationを定義します。実行可能なモデルはTextusが直接実行し、Cozyは型付きAPIや接続構造を生成します。モデルにある意味と制約をコードや画面ごとに再実装する範囲が減り、業務規則と実行時の操作を対応付けられます。"
+              },
+              {
+                "id": "qa-contracts",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-common-path"
+                  ],
+                  "claims": [
+                    "qa-contracts-claim"
+                  ],
+                  "nodes": [
+                    "qa-contracts-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-common-path-flow"
+                  ]
+                },
+                "text": "CBDは、各コンポーネントの責務と公開契約を定めます。外部との接点をAPIとSPIへ集め、内部のデータ操作や外部作用をUoWの経路へ接続することで、独立した部品を共通の認可・確定・資源管理の下で動かします。部品の独立性だけでなく、その部品をどこで再利用しても同じ実行上の扱いへ接続できることが、品質の維持に寄与します。"
+              },
+              {
+                "id": "qa-execution-figure",
+                "kind": "figure",
+                "coreRefs": {
+                  "steps": [
+                    "qa-common-path"
+                  ],
+                  "claims": [
+                    "qa-execution-figure-claim"
+                  ],
+                  "nodes": [
+                    "qa-execution-figure-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-common-path-flow"
+                  ]
+                },
+                "asset": "images/execution-boundaries-ja.png",
+                "caption": "図1　モデルから接続された業務処理が通る共通の実行境界。認可、更新の確定、資源の終了を同じ経路で扱います。",
+                "alt": "図1　モデルから接続された業務処理が通る共通の実行境界。認可、更新の確定、資源の終了を同じ経路で扱います。"
+              },
+              {
+                "id": "qa-programs",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-common-path"
+                  ],
+                  "claims": [
+                    "qa-programs-claim"
+                  ],
+                  "nodes": [
+                    "qa-programs-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-common-path-flow"
+                  ]
+                },
+                "text": "型と純粋関数型の合成は、入力・出力と接続できる処理を明示します。Consequence／Conclusionは成功・失敗とその情報を揃え、Free Monadによる操作記述をUoWの実行へ渡します。複雑な制御を補完コードへ埋め込む範囲を減らすため、AIが作成した処理も共通基盤の管理へ接続しやすくなります。型による検査と実行時の管理は、異なる範囲の誤りを扱う仕組みとして組み合わせます。"
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "qa-reactive-section",
+            "heading": "非同期化の利点と複雑性を実行基盤で扱う",
+            "coreRefs": {
+              "steps": [
+                "qa-reactive"
+              ],
+              "claims": [
+                "qa-reactive-benefits-claim",
+                "qa-reactive-runtime-claim",
+                "qa-tiers-figure-claim",
+                "qa-reactive-balance-claim"
+              ],
+              "nodes": [
+                "qa-reactive-benefits-node",
+                "qa-reactive-runtime-node",
+                "qa-tiers-figure-node",
+                "qa-reactive-balance-node"
+              ],
+              "relations": [
+                "qa-reactive-relation-1",
+                "qa-reactive-relation-2",
+                "qa-reactive-relation-3"
+              ],
+              "flows": [
+                "qa-reactive-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "qa-reactive-benefits",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-reactive"
+                  ],
+                  "claims": [
+                    "qa-reactive-benefits-claim"
+                  ],
+                  "nodes": [
+                    "qa-reactive-benefits-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-reactive-flow"
+                  ]
+                },
+                "text": "リアクティブな構成では、メッセージによって処理間の時間的な依存を減らし、負荷の分散、実行数の調整、障害の隔離を組み合わせます。リアクティブ宣言の応答性、耐障害性、弾力性、メッセージ駆動は、この関係を整理した四つの特性です。非同期化に負荷制御と回復を組み合わせることが、性能、可用性、柔軟性への効果につながります。参考：リアクティブ宣言（https://www.reactivemanifesto.org/ja）。"
+              },
+              {
+                "id": "qa-reactive-runtime",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-reactive"
+                  ],
+                  "claims": [
+                    "qa-reactive-runtime-claim"
+                  ],
+                  "nodes": [
+                    "qa-reactive-runtime-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-reactive-flow"
+                  ]
+                },
+                "text": "非同期処理では、順序、完了、再試行、重複、データの鮮度を扱う必要があります。Textus/CNCFは、Job／Task、状態機械、Workflow、UoW、イベントと共通の結果表現を接続し、これらを管理する経路を用意します。開発者がモデルと標準機能に沿って実装すると、この経路で処理が実行されるため、スケジューラや進行管理を業務処理ごとに作る必要を減らせます。リアクティブ性の実現に必要な技術的な複雑さを基盤へ委ねる構成です。"
+              },
+              {
+                "id": "qa-tiers-figure",
+                "kind": "figure",
+                "coreRefs": {
+                  "steps": [
+                    "qa-reactive"
+                  ],
+                  "claims": [
+                    "qa-tiers-figure-claim"
+                  ],
+                  "nodes": [
+                    "qa-tiers-figure-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-reactive-flow"
+                  ]
+                },
+                "asset": "images/tier-lifetimes-ja.png",
+                "caption": "図2　要求の受付、長時間処理、業務状態、永続状態の分担。受付と完了、処理の進行と更新の確定を区別します。",
+                "alt": "図2　要求の受付、長時間処理、業務状態、永続状態の分担。受付と完了、処理の進行と更新の確定を区別します。"
+              },
+              {
+                "id": "qa-reactive-balance",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-reactive"
+                  ],
+                  "claims": [
+                    "qa-reactive-balance-claim"
+                  ],
+                  "nodes": [
+                    "qa-reactive-balance-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-reactive-flow"
+                  ]
+                },
+                "text": "Application tierの伸縮は、Domain tierとDataStoreの容量に合わせます。DomainではWorking SetとViewで取得の負担を減らし、AggregateとUoWで更新を管理します。参照を高速化する場合も、更新の確定とViewへの反映を区別し、必要な鮮度を定めます。処理能力、応答時間、整合性を同じ実行経路の上で調整することが、個別の高速化とは異なるアーキテクチャ上の効果です。"
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "qa-protection-section",
+            "heading": "保護・整合性・追跡を一つの操作へ適用する",
+            "coreRefs": {
+              "steps": [
+                "qa-protection"
+              ],
+              "claims": [
+                "qa-security-runtime-claim",
+                "qa-audit-consistency-claim",
+                "qa-policy-claim"
+              ],
+              "nodes": [
+                "qa-security-runtime-node",
+                "qa-audit-consistency-node",
+                "qa-policy-node"
+              ],
+              "relations": [
+                "qa-protection-relation-1",
+                "qa-protection-relation-2"
+              ],
+              "flows": [
+                "qa-protection-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "qa-security-runtime",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-protection"
+                  ],
+                  "claims": [
+                    "qa-security-runtime-claim"
+                  ],
+                  "nodes": [
+                    "qa-security-runtime-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-protection-flow"
+                  ]
+                },
+                "text": "Presentation tierは、Web、Flutter、外部の独自UIなどで構成でき、サーバー側の信頼の前提には置きません。Application tierが要求を調整し、Domain tierの公開Operationを呼び出します。標準経路では、共通の認証文脈を引き継ぎ、Operationの認可に加えて、対象Entityと利用資源の条件を確認します。SimpleEntityの所有者・グループなどの基本情報とUNIX型のread／write権限を共通に扱うことで、部品ごとの独自実装を減らします。"
+              },
+              {
+                "id": "qa-audit-consistency",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-protection"
+                  ],
+                  "claims": [
+                    "qa-audit-consistency-claim"
+                  ],
+                  "nodes": [
+                    "qa-audit-consistency-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-protection-flow"
+                  ]
+                },
+                "text": "許可された操作も、Aggregateの不変条件、状態機械の遷移条件、UoWの確定処理に従います。基盤が収集する実行記録と監査証跡を同じ操作や対象へ関連付けると、何が許可され、何が確定し、どこで失敗したかを確認できます。保護の判定、更新管理、観測を同じ経路へ置くことで、認可されたが更新結果を追えない、といった分断を減らします。"
+              },
+              {
+                "id": "qa-policy",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-protection"
+                  ],
+                  "claims": [
+                    "qa-policy-claim"
+                  ],
+                  "nodes": [
+                    "qa-policy-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-protection-flow"
+                  ]
+                },
+                "text": "通常の開発では、CMLの定義と基本設定を標準経路へ接続し、業務ごとに保護や記録の機構を実装する負担を減らします。誰に何を許可するか、監査記録をどれだけ保存するかは用途の条件です。より強い区画分離や機能制限が必要な場合は、配備構成とCapabilityの制限を組み合わせます。共通の基本機構を起点に、必要な範囲を追加する分担です。"
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "qa-evolution-section",
+            "heading": "業務契約を保ちながら変更と利用環境を広げる",
+            "coreRefs": {
+              "steps": [
+                "qa-evolution"
+              ],
+              "claims": [
+                "qa-reuse-claim",
+                "qa-ui-claim",
+                "qa-usability-claim"
+              ],
+              "nodes": [
+                "qa-reuse-node",
+                "qa-ui-node",
+                "qa-usability-node"
+              ],
+              "relations": [
+                "qa-evolution-relation-1",
+                "qa-evolution-relation-2"
+              ],
+              "flows": [
+                "qa-evolution-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "qa-reuse",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-evolution"
+                  ],
+                  "claims": [
+                    "qa-reuse-claim"
+                  ],
+                  "nodes": [
+                    "qa-reuse-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-evolution-flow"
+                  ]
+                },
+                "text": "機能拡張の柔軟性は、処理能力の拡張とは別の品質です。CMLから得られる型付きAPIとComponent／Service／Operationの契約を利用すると、既存部品を再利用し、必要な接続コードを契約に沿って作れます。外部サービスや保存方式をSPIの実装側へ分けることで、接続先の変更が業務モデルへ及ぶ範囲を抑えます。モデル検査、コンパイル、CARの検査、部品のレビューを組み合わせると、変更した契約と実装の不一致を異なる段階で確認できます。"
+              },
+              {
+                "id": "qa-ui",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-evolution"
+                  ],
+                  "claims": [
+                    "qa-ui-claim"
+                  ],
+                  "nodes": [
+                    "qa-ui-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-evolution-flow"
+                  ]
+                },
+                "text": "Viewは参照結果の意味を、Displayは表示への投影を担い、更新は公開Operationへ戻します。この分担を使って標準Web UIやTextusと連動するFlutterアプリケーションを構成すると、業務規則を共有しながらスマートフォン、タブレット、Web、Desktopへ展開できます。RESTやgRPCで独自UIを接続する構成も、公開契約とサーバー側の保護を共有する考え方です。表示技術を選択できることと、業務操作の一貫性を保つことを両立させます。"
+              },
+              {
+                "id": "qa-usability",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-evolution"
+                  ],
+                  "claims": [
+                    "qa-usability-claim"
+                  ],
+                  "nodes": [
+                    "qa-usability-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-evolution-flow"
+                  ]
+                },
+                "text": "使用性には、処理が受け付けられたか、完了したか、入力を直す必要があるかを利用者が理解できることも含まれます。共通の入力検査、Consequence／Conclusion、Jobの進行情報を画面へ対応付けると、状態や失敗の意味を揃えられます。画面寸法、入力手段、アクセシビリティなどの利用条件は、対象のUIで確認します。共通モデルは意味の一貫性を支え、具体的な使いやすさはその意味を利用者へどう提示するかで決まります。"
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "qa-operation-section",
+            "heading": "標準構成を起点に必要な水準へ調整する",
+            "coreRefs": {
+              "steps": [
+                "qa-operation"
+              ],
+              "claims": [
+                "qa-responsibilities-claim",
+                "qa-tradeoffs-claim",
+                "qa-responsibility-table-claim",
+                "qa-verification-claim",
+                "qa-scope-claim"
+              ],
+              "nodes": [
+                "qa-responsibilities-node",
+                "qa-tradeoffs-node",
+                "qa-responsibility-table-node",
+                "qa-verification-node",
+                "qa-scope-node"
+              ],
+              "relations": [
+                "qa-operation-relation-1",
+                "qa-operation-relation-2",
+                "qa-operation-relation-3",
+                "qa-operation-relation-4"
+              ],
+              "flows": [
+                "qa-operation-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "qa-responsibilities",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-operation"
+                  ],
+                  "claims": [
+                    "qa-responsibilities-claim"
+                  ],
+                  "nodes": [
+                    "qa-responsibilities-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-operation-flow"
+                  ]
+                },
+                "text": "標準のモデルと機能を使うことは、品質対策を適用する経路を選ぶことでもあります。開発者は業務の意味を定め、基盤は共通の制御を実行します。処理量、可用性、保持期間などの目標に応じて設定と配備を調整し、業務固有の補償や認可を指定します。用途に必要な条件を決めることと、その条件を適用する機構を自前で開発することを分けることで、導入と運用を簡単にします。"
+              },
+              {
+                "id": "qa-tradeoffs",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-operation"
+                  ],
+                  "claims": [
+                    "qa-tradeoffs-claim"
+                  ],
+                  "nodes": [
+                    "qa-tradeoffs-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-operation-flow"
+                  ]
+                },
+                "text": "品質属性は独立には決まりません。メモリ常駐を増やすと取得時間を減らせる一方、メモリ費用と再構築時間に影響します。参照を非同期に更新すると応答性を高めやすい一方、鮮度の条件が必要です。冗長化や強い区画分離は可用性や保護を支えますが、配備と運用の費用を増やします。求める水準に合わせてこれらを組み合わせ、標準機構の再利用で個別実装と確認の負担を抑えます。"
+              },
+              {
+                "id": "qa-responsibility-table",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "qa-operation"
+                  ],
+                  "claims": [
+                    "qa-responsibility-table-claim"
+                  ],
+                  "nodes": [
+                    "qa-responsibility-table-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-operation-flow"
+                  ]
+                },
+                "caption": "基盤と開発・運用の分担",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "対象"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "共通基盤が担うこと"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "開発・運用で定めること"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "qa-responsibility-table-row-1",
+                    "cells": [
+                      "業務データと進行",
+                      "モデル操作、遷移、更新の確定",
+                      "不変条件、許された遷移、参照の鮮度"
+                    ]
+                  },
+                  {
+                    "id": "qa-responsibility-table-row-2",
+                    "cells": [
+                      "非同期実行",
+                      "受付・進行・結果の管理、資源の管理",
+                      "直接／Jobの選択、処理量、業務固有の再試行・補償"
+                    ]
+                  },
+                  {
+                    "id": "qa-responsibility-table-row-3",
+                    "cells": [
+                      "保護と監査",
+                      "認証文脈、操作・対象の認可、記録",
+                      "利用する認証方式、権限規則、記録の保持と閲覧"
+                    ]
+                  },
+                  {
+                    "id": "qa-responsibility-table-row-4",
+                    "cells": [
+                      "可用性と回復",
+                      "選択した構成での切替え・再構築の経路",
+                      "障害の想定、冗長化範囲、復旧時間と費用"
+                    ]
+                  },
+                  {
+                    "id": "qa-responsibility-table-row-5",
+                    "cells": [
+                      "表示と接続",
+                      "共通の業務・表示契約と接続点",
+                      "UI基盤、外部サービス、利用環境"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "qa-verification",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-operation"
+                  ],
+                  "claims": [
+                    "qa-verification-claim"
+                  ],
+                  "nodes": [
+                    "qa-verification-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-operation-flow"
+                  ]
+                },
+                "text": "モデルと型の検査では、規則や接続の不一致を確認します。実行時には、対象の負荷での応答、障害時の確定状態と回復、許可・拒否と監査記録を確認します。相関情報で受付、Operation、Job／Task、UoWの記録をつなぐと、待機、処理、再試行のどこで目標との差が生じたかを調べられます。結果をモデル・設定・配備の調整へ戻し、同じ条件で確認する流れにします。"
+              },
+              {
+                "id": "qa-scope",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-operation"
+                  ],
+                  "claims": [
+                    "qa-scope-claim"
+                  ],
+                  "nodes": [
+                    "qa-scope-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-operation-flow"
+                  ]
+                },
+                "text": "本書はTextus/CNCFの技術体系と責務分担をまとめています。利用時には採用する版の実装範囲を各専門ガイドで確認します。永続Jobの再開、可用性Profileと交代経路、用途別セキュリティProfileや運用手順、UIの生成経路などには設計・整備中の項目もあります。標準機構による支援と、対象環境で確認した性能や可用性の水準は分けて記録します。"
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "qa-conclusion-section",
+            "heading": "まとめ",
+            "coreRefs": {
+              "steps": [
+                "qa-conclusion"
+              ],
+              "claims": [
+                "qa-conclusion-text-claim"
+              ],
+              "nodes": [
+                "qa-conclusion-text-node"
+              ],
+              "relations": [],
+              "flows": [
+                "qa-conclusion-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "qa-conclusion-text",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-conclusion"
+                  ],
+                  "claims": [
+                    "qa-conclusion-text-claim"
+                  ],
+                  "nodes": [
+                    "qa-conclusion-text-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-conclusion-flow"
+                  ]
+                },
+                "text": "Textus/CNCFは、CMLのモデル、コンポーネントの契約、共通の実行機構を組み合わせ、品質対策を通常の開発と運用の経路へ組み込みます。開発者は業務に必要な条件をモデルと設定へ表し、複雑な実行制御を基盤へ委ねます。標準的な作法で作ることが複数の品質対策の利用につながり、用途に応じた構成と確認によって必要な水準へ調整できることが、このアーキテクチャの効果です。"
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "qa-references-section",
+            "heading": "関連技術ガイドと参考資料",
+            "coreRefs": {
+              "steps": [
+                "qa-references"
+              ],
+              "claims": [
+                "qa-related-claim",
+                "qa-external-claim",
+                "qa-guide-map-claim"
+              ],
+              "nodes": [
+                "qa-related-node",
+                "qa-external-node",
+                "qa-guide-map-node"
+              ],
+              "relations": [
+                "qa-references-relation-1",
+                "qa-references-relation-2"
+              ],
+              "flows": [
+                "qa-references-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "qa-related",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-references"
+                  ],
+                  "claims": [
+                    "qa-related-claim"
+                  ],
+                  "nodes": [
+                    "qa-related-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-references-flow"
+                  ]
+                },
+                "text": "各機構の詳しい説明は、次の技術ガイドに分担します。これらは本リポジトリ内の関連資料です。品質属性から全体を読む場合は本書を入口とし、実装やモデルの詳細は対応するガイドで確認できます。"
+              },
+              {
+                "id": "qa-external",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-references"
+                  ],
+                  "claims": [
+                    "qa-external-claim"
+                  ],
+                  "nodes": [
+                    "qa-external-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-references-flow"
+                  ]
+                },
+                "text": "品質属性シナリオの参考資料は、SEI「Quality Attribute Workshops, Third Edition」（https://www.sei.cmu.edu/documents/716/2003_005_001_14249.pdf）です。リアクティブな構成と四特性の参考資料は、リアクティブ宣言（https://www.reactivemanifesto.org/ja）です。本書のTextus/CNCFとの対応表は、これらの一般的な考え方を踏まえ、関連技術ガイドの内容を品質属性の観点から整理したものです。"
+              },
+              {
+                "id": "qa-guide-map",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "qa-references"
+                  ],
+                  "claims": [
+                    "qa-guide-map-claim"
+                  ],
+                  "nodes": [
+                    "qa-guide-map-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-references-flow"
+                  ]
+                },
+                "caption": "関連ガイドとの分担",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "ガイド"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "主に確認する内容"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "qa-guide-map-row-1",
+                    "cells": [
+                      "Textus/CNCF全体像",
+                      "モデル・部品・実行・UIの全体構成"
+                    ]
+                  },
+                  {
+                    "id": "qa-guide-map-row-2",
+                    "cells": [
+                      "リアクティブ・アーキテクチャ",
+                      "非同期実行、負荷、可用性、回復と品質属性"
+                    ]
+                  },
+                  {
+                    "id": "qa-guide-map-row-3",
+                    "cells": [
+                      "セキュリティ・アーキテクチャ",
+                      "認証・認可、区画、配布、監査と運用"
+                    ]
+                  },
+                  {
+                    "id": "qa-guide-map-row-4",
+                    "cells": [
+                      "UIアーキテクチャ",
+                      "View・Display、Web・Flutter・外部UI"
+                    ]
+                  },
+                  {
+                    "id": "qa-guide-map-row-5",
+                    "cells": [
+                      "DDDモデリング",
+                      "DDD・PoEAAを補助線にした構造と実行"
+                    ]
+                  },
+                  {
+                    "id": "qa-guide-map-row-6",
+                    "cells": [
+                      "Modeling and FP",
+                      "型・Consequence・Free Monad・UoW"
+                    ]
+                  },
+                  {
+                    "id": "qa-guide-map-row-7",
+                    "cells": [
+                      "CMLモデリング",
+                      "構造・規則・振る舞い・UIの記述と検査"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "textus-cncf-quality-attributes",
+        "text": "Textus/CNCF 非機能要求と品質属性 技術ガイド"
+      },
+      {
+        "stepRef": "qa-requirements",
+        "text": "非機能要求を品質属性と利用条件へ具体化する"
+      },
+      {
+        "stepRef": "qa-map",
+        "text": "品質属性からTextus/CNCFの対応を見る"
+      },
+      {
+        "stepRef": "qa-common-path",
+        "text": "モデルと部品を共通の実行経路へ接続する"
+      },
+      {
+        "stepRef": "qa-reactive",
+        "text": "非同期化の利点と複雑性を実行基盤で扱う"
+      },
+      {
+        "stepRef": "qa-protection",
+        "text": "保護・整合性・追跡を一つの操作へ適用する"
+      },
+      {
+        "stepRef": "qa-evolution",
+        "text": "業務契約を保ちながら変更と利用環境を広げる"
+      },
+      {
+        "stepRef": "qa-operation",
+        "text": "標準構成を起点に必要な水準へ調整する"
+      },
+      {
+        "stepRef": "qa-conclusion",
+        "text": "まとめ"
+      },
+      {
+        "stepRef": "qa-references",
+        "text": "関連技術ガイドと参考資料"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "textus-cncf-quality-attributes-purpose-node",
+        "text": "標準のモデルと機能を品質対策へ接続する"
+      },
+      {
+        "nodeRef": "qa-meaning-node",
+        "text": "業務機能を提供する条件を品質属性で整理する"
+      },
+      {
+        "nodeRef": "qa-scenarios-node",
+        "text": "条件と期待する応答を明示して構成を選ぶ"
+      },
+      {
+        "nodeRef": "qa-requirement-examples-node",
+        "text": "要求と確認方法を対応付ける"
+      },
+      {
+        "nodeRef": "qa-map-purpose-node",
+        "text": "標準経路に組み込んだ仕組みを複数の品質へ適用する"
+      },
+      {
+        "nodeRef": "qa-runtime-map-node",
+        "text": "実行の品質をモデルと共通機構の組合せで支える"
+      },
+      {
+        "nodeRef": "qa-lifecycle-map-node",
+        "text": "利用と変更の品質も同じ契約と実行経路で支える"
+      },
+      {
+        "nodeRef": "qa-models-node",
+        "text": "モデルの意味と制約を実行へ引き継ぐ"
+      },
+      {
+        "nodeRef": "qa-contracts-node",
+        "text": "部品の独立性と共通の制御を両立させる"
+      },
+      {
+        "nodeRef": "qa-execution-figure-node",
+        "text": "図1　モデルから接続された業務処理が通る共通の実行境界。認可、更新の確定、資源の終了を同じ経路で扱います。"
+      },
+      {
+        "nodeRef": "qa-programs-node",
+        "text": "記述の検査と実行の管理を組み合わせる"
+      },
+      {
+        "nodeRef": "qa-reactive-benefits-node",
+        "text": "非同期化と制御の組合せでリアクティブな品質を得る"
+      },
+      {
+        "nodeRef": "qa-reactive-runtime-node",
+        "text": "標準的な実装から共通の非同期実行管理を利用する"
+      },
+      {
+        "nodeRef": "qa-tiers-figure-node",
+        "text": "図2　要求の受付、長時間処理、業務状態、永続状態の分担。受付と完了、処理の進行と更新の確定を区別します。"
+      },
+      {
+        "nodeRef": "qa-reactive-balance-node",
+        "text": "容量・応答時間・整合性を合わせて調整する"
+      },
+      {
+        "nodeRef": "qa-security-runtime-node",
+        "text": "複数の入口と部品に共通の保護を適用する"
+      },
+      {
+        "nodeRef": "qa-audit-consistency-node",
+        "text": "認可された操作の確定と経過を追跡する"
+      },
+      {
+        "nodeRef": "qa-policy-node",
+        "text": "基本機構を使い用途固有の規則を指定する"
+      },
+      {
+        "nodeRef": "qa-reuse-node",
+        "text": "再利用と接続の検査で変更範囲を限定する"
+      },
+      {
+        "nodeRef": "qa-ui-node",
+        "text": "表示基盤の選択と業務操作の一貫性を両立する"
+      },
+      {
+        "nodeRef": "qa-usability-node",
+        "text": "共通の状態と結果を利用者に伝わる形へ投影する"
+      },
+      {
+        "nodeRef": "qa-responsibilities-node",
+        "text": "条件の指定と機構の実装を分担する"
+      },
+      {
+        "nodeRef": "qa-responsibility-table-node",
+        "text": "標準利用で得る機構と用途別の判断を対応付ける"
+      },
+      {
+        "nodeRef": "qa-tradeoffs-node",
+        "text": "品質の組合せを必要水準と費用で調整する"
+      },
+      {
+        "nodeRef": "qa-verification-node",
+        "text": "実行記録を条件と構成の調整へ戻す"
+      },
+      {
+        "nodeRef": "qa-scope-node",
+        "text": "採用版の機能と確認した水準を区別する"
+      },
+      {
+        "nodeRef": "qa-conclusion-text-node",
+        "text": "標準的な開発と運用を通じて複数の品質対策を利用する"
+      },
+      {
+        "nodeRef": "qa-related-node",
+        "text": "品質属性から専門ガイドへ接続する"
+      },
+      {
+        "nodeRef": "qa-guide-map-node",
+        "text": "専門資料の役割を区別する"
+      },
+      {
+        "nodeRef": "qa-external-node",
+        "text": "一般的な考え方とTextus/CNCFの対応を区別する"
+      }
+    ]
+  }
+}

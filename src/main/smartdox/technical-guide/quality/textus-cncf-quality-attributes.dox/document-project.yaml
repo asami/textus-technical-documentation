@@ -1,0 +1,32 @@
+{
+  "schema": "cozy.document-project.v2",
+  "id": "textus-cncf-quality-attributes",
+  "workflow": {
+    "schema": "cozy.document-workflow.v2",
+    "id": "document-production"
+  },
+  "profile": "standard",
+  "language": "ja",
+  "workspace": {
+    "kind": "directory"
+  },
+  "contentCore": "content/core.yaml",
+  "activeOptionalWorkProducts": [],
+  "semanticScope": {
+    "id": "textus-cncf-quality-attributes",
+    "localeVariants": [
+      {
+        "project": "textus-cncf-quality-attributes",
+        "language": "ja",
+        "contentCore": "textus-cncf-quality-attributes",
+        "workProducts": []
+      },
+      {
+        "project": "textus-cncf-quality-attributes",
+        "language": "en",
+        "contentCore": "textus-cncf-quality-attributes",
+        "workProducts": []
+      }
+    ]
+  }
+}

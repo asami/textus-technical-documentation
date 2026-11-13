@@ -1,0 +1,502 @@
+{
+  "schema": "cozy.content-core.logic-tree.v1",
+  "id": "textus-cncf-quality-attributes",
+  "root": {
+    "id": "textus-cncf-quality-attributes",
+    "semanticRole": "explanation",
+    "claims": [
+      "textus-cncf-quality-attributes-purpose-claim"
+    ],
+    "structure": {
+      "pattern": "sequence",
+      "nodes": [
+        {
+          "id": "textus-cncf-quality-attributes-purpose-node",
+          "role": "step"
+        }
+      ],
+      "relations": []
+    },
+    "flow": {
+      "id": "textus-cncf-quality-attributes-flow",
+      "transitions": [
+        {
+          "id": "textus-cncf-quality-attributes-transition-1",
+          "relationType": "next",
+          "fromStepId": "qa-requirements",
+          "toStepId": "qa-map"
+        },
+        {
+          "id": "textus-cncf-quality-attributes-transition-2",
+          "relationType": "next",
+          "fromStepId": "qa-map",
+          "toStepId": "qa-common-path"
+        },
+        {
+          "id": "textus-cncf-quality-attributes-transition-3",
+          "relationType": "next",
+          "fromStepId": "qa-common-path",
+          "toStepId": "qa-reactive"
+        },
+        {
+          "id": "textus-cncf-quality-attributes-transition-4",
+          "relationType": "next",
+          "fromStepId": "qa-reactive",
+          "toStepId": "qa-protection"
+        },
+        {
+          "id": "textus-cncf-quality-attributes-transition-5",
+          "relationType": "next",
+          "fromStepId": "qa-protection",
+          "toStepId": "qa-evolution"
+        },
+        {
+          "id": "textus-cncf-quality-attributes-transition-6",
+          "relationType": "next",
+          "fromStepId": "qa-evolution",
+          "toStepId": "qa-operation"
+        },
+        {
+          "id": "textus-cncf-quality-attributes-transition-7",
+          "relationType": "next",
+          "fromStepId": "qa-operation",
+          "toStepId": "qa-conclusion"
+        },
+        {
+          "id": "textus-cncf-quality-attributes-transition-8",
+          "relationType": "next",
+          "fromStepId": "qa-conclusion",
+          "toStepId": "qa-references"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "qa-requirements",
+        "semanticRole": "explanation",
+        "claims": [
+          "qa-meaning-claim",
+          "qa-scenarios-claim",
+          "qa-requirement-examples-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "qa-meaning-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-scenarios-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-requirement-examples-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "qa-requirements-relation-1",
+              "relationType": "next",
+              "from": "qa-meaning-node",
+              "to": "qa-scenarios-node"
+            },
+            {
+              "id": "qa-requirements-relation-2",
+              "relationType": "next",
+              "from": "qa-scenarios-node",
+              "to": "qa-requirement-examples-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "qa-requirements-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "qa-map",
+        "semanticRole": "explanation",
+        "claims": [
+          "qa-map-purpose-claim",
+          "qa-runtime-map-claim",
+          "qa-lifecycle-map-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "qa-map-purpose-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-runtime-map-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-lifecycle-map-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "qa-map-relation-1",
+              "relationType": "next",
+              "from": "qa-map-purpose-node",
+              "to": "qa-runtime-map-node"
+            },
+            {
+              "id": "qa-map-relation-2",
+              "relationType": "next",
+              "from": "qa-runtime-map-node",
+              "to": "qa-lifecycle-map-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "qa-map-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "qa-common-path",
+        "semanticRole": "explanation",
+        "claims": [
+          "qa-models-claim",
+          "qa-contracts-claim",
+          "qa-execution-figure-claim",
+          "qa-programs-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "qa-models-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-contracts-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-execution-figure-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-programs-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "qa-common-path-relation-1",
+              "relationType": "next",
+              "from": "qa-models-node",
+              "to": "qa-contracts-node"
+            },
+            {
+              "id": "qa-common-path-relation-2",
+              "relationType": "next",
+              "from": "qa-contracts-node",
+              "to": "qa-execution-figure-node"
+            },
+            {
+              "id": "qa-common-path-relation-3",
+              "relationType": "next",
+              "from": "qa-execution-figure-node",
+              "to": "qa-programs-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "qa-common-path-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "qa-reactive",
+        "semanticRole": "explanation",
+        "claims": [
+          "qa-reactive-benefits-claim",
+          "qa-reactive-runtime-claim",
+          "qa-tiers-figure-claim",
+          "qa-reactive-balance-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "qa-reactive-benefits-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-reactive-runtime-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-tiers-figure-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-reactive-balance-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "qa-reactive-relation-1",
+              "relationType": "next",
+              "from": "qa-reactive-benefits-node",
+              "to": "qa-reactive-runtime-node"
+            },
+            {
+              "id": "qa-reactive-relation-2",
+              "relationType": "next",
+              "from": "qa-reactive-runtime-node",
+              "to": "qa-tiers-figure-node"
+            },
+            {
+              "id": "qa-reactive-relation-3",
+              "relationType": "next",
+              "from": "qa-tiers-figure-node",
+              "to": "qa-reactive-balance-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "qa-reactive-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "qa-protection",
+        "semanticRole": "explanation",
+        "claims": [
+          "qa-security-runtime-claim",
+          "qa-audit-consistency-claim",
+          "qa-policy-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "qa-security-runtime-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-audit-consistency-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-policy-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "qa-protection-relation-1",
+              "relationType": "next",
+              "from": "qa-security-runtime-node",
+              "to": "qa-audit-consistency-node"
+            },
+            {
+              "id": "qa-protection-relation-2",
+              "relationType": "next",
+              "from": "qa-audit-consistency-node",
+              "to": "qa-policy-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "qa-protection-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "qa-evolution",
+        "semanticRole": "explanation",
+        "claims": [
+          "qa-reuse-claim",
+          "qa-ui-claim",
+          "qa-usability-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "qa-reuse-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-ui-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-usability-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "qa-evolution-relation-1",
+              "relationType": "next",
+              "from": "qa-reuse-node",
+              "to": "qa-ui-node"
+            },
+            {
+              "id": "qa-evolution-relation-2",
+              "relationType": "next",
+              "from": "qa-ui-node",
+              "to": "qa-usability-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "qa-evolution-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "qa-operation",
+        "semanticRole": "explanation",
+        "claims": [
+          "qa-responsibilities-claim",
+          "qa-tradeoffs-claim",
+          "qa-responsibility-table-claim",
+          "qa-verification-claim",
+          "qa-scope-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "qa-responsibilities-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-tradeoffs-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-responsibility-table-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-verification-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-scope-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "qa-operation-relation-1",
+              "relationType": "next",
+              "from": "qa-responsibilities-node",
+              "to": "qa-tradeoffs-node"
+            },
+            {
+              "id": "qa-operation-relation-2",
+              "relationType": "next",
+              "from": "qa-tradeoffs-node",
+              "to": "qa-responsibility-table-node"
+            },
+            {
+              "id": "qa-operation-relation-3",
+              "relationType": "next",
+              "from": "qa-responsibility-table-node",
+              "to": "qa-verification-node"
+            },
+            {
+              "id": "qa-operation-relation-4",
+              "relationType": "next",
+              "from": "qa-verification-node",
+              "to": "qa-scope-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "qa-operation-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "qa-conclusion",
+        "semanticRole": "explanation",
+        "claims": [
+          "qa-conclusion-text-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "qa-conclusion-text-node",
+              "role": "step"
+            }
+          ],
+          "relations": []
+        },
+        "flow": {
+          "id": "qa-conclusion-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "qa-references",
+        "semanticRole": "explanation",
+        "claims": [
+          "qa-related-claim",
+          "qa-external-claim",
+          "qa-guide-map-claim"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "qa-related-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-external-node",
+              "role": "step"
+            },
+            {
+              "id": "qa-guide-map-node",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "qa-references-relation-1",
+              "relationType": "next",
+              "from": "qa-related-node",
+              "to": "qa-external-node"
+            },
+            {
+              "id": "qa-references-relation-2",
+              "relationType": "next",
+              "from": "qa-external-node",
+              "to": "qa-guide-map-node"
+            }
+          ]
+        },
+        "flow": {
+          "id": "qa-references-flow",
+          "transitions": []
+        },
+        "steps": []
+      }
+    ]
+  }
+}

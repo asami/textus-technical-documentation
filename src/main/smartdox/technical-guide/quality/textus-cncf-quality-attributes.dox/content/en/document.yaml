@@ -1,0 +1,1373 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-quality-attributes-document-en",
+  "core": {
+    "id": "textus-cncf-quality-attributes"
+  },
+  "locale": "en",
+  "document": {
+    "title": "Textus/CNCF Non-functional Requirements and Quality Attributes — Technical Guide",
+    "sections": [
+      {
+        "id": "textus-cncf-quality-attributes-section",
+        "heading": "Textus/CNCF Non-functional Requirements and Quality Attributes — Technical Guide",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-quality-attributes"
+          ],
+          "claims": [
+            "textus-cncf-quality-attributes-purpose-claim"
+          ],
+          "nodes": [
+            "textus-cncf-quality-attributes-purpose-node"
+          ],
+          "relations": [],
+          "flows": [
+            "textus-cncf-quality-attributes-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "textus-cncf-quality-attributes-purpose",
+            "kind": "paragraph",
+            "text": "Textus/CNCF makes shared authorization, consistency, reactive execution, and observation available through ordinary development with CML models and standard CNCF facilities. This guide starts from non-functional requirements and quality attributes to explain combined effects, infrastructure and developer responsibilities, and application-specific configuration and verification.",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-quality-attributes"
+              ],
+              "claims": [
+                "textus-cncf-quality-attributes-purpose-claim"
+              ],
+              "nodes": [
+                "textus-cncf-quality-attributes-purpose-node"
+              ],
+              "relations": [],
+              "flows": [
+                "textus-cncf-quality-attributes-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "qa-requirements-section",
+            "heading": "Expressing Non-functional Requirements through Qualities and Conditions",
+            "coreRefs": {
+              "steps": [
+                "qa-requirements"
+              ],
+              "claims": [
+                "qa-meaning-claim",
+                "qa-scenarios-claim",
+                "qa-requirement-examples-claim"
+              ],
+              "nodes": [
+                "qa-meaning-node",
+                "qa-scenarios-node",
+                "qa-requirement-examples-node"
+              ],
+              "relations": [
+                "qa-requirements-relation-1",
+                "qa-requirements-relation-2"
+              ],
+              "flows": [
+                "qa-requirements-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "qa-meaning",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-requirements"
+                  ],
+                  "claims": [
+                    "qa-meaning-claim"
+                  ],
+                  "nodes": [
+                    "qa-meaning-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-requirements-flow"
+                  ]
+                },
+                "text": "Functional requirements describe what a system does. Non-functional requirements describe the load, failures, usage environments, and operating conditions under which it must provide that functionality. Quality attributes such as performance, availability, security, and modifiability provide perspectives for organizing these requirements. Cost and deployment constraints also influence the combination of qualities to support."
+              },
+              {
+                "id": "qa-scenarios",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-requirements"
+                  ],
+                  "claims": [
+                    "qa-scenarios-claim"
+                  ],
+                  "nodes": [
+                    "qa-scenarios-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-requirements-flow"
+                  ]
+                },
+                "text": "Terms such as fast or always available do not select an architecture. Define the affected operation, source and event, conditions such as load, expected response, and response measure. For long-running work, distinguish time to acceptance from time to completion. For recovery, distinguish tolerable downtime from tolerable data loss. This follows the quality attribute scenario approach. Reference: SEI Quality Attribute Workshops, Third Edition (https://www.sei.cmu.edu/documents/716/2003_005_001_14249.pdf)."
+              },
+              {
+                "id": "qa-requirement-examples",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "qa-requirements"
+                  ],
+                  "claims": [
+                    "qa-requirement-examples-claim"
+                  ],
+                  "nodes": [
+                    "qa-requirement-examples-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-requirements-flow"
+                  ]
+                },
+                "caption": "Making requirements concrete",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Example requirement"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Conditions to specify"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "Measures to check"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "qa-requirement-examples-row-1",
+                    "cells": [
+                      "Accept operations during peak demand",
+                      "Operations, demand, data volume, concurrent users",
+                      "Acceptance/completion latency, throughput, rejections"
+                    ]
+                  },
+                  {
+                    "id": "qa-requirement-examples-row-2",
+                    "cells": [
+                      "Continue business after a failure",
+                      "Failed component or dependency; work in progress",
+                      "Recovery time, retained committed data, duplicate updates"
+                    ]
+                  },
+                  {
+                    "id": "qa-requirement-examples-row-3",
+                    "cells": [
+                      "Allow only authorized staff to update data",
+                      "Actor, target, operation, business permissions",
+                      "Allow/deny decisions and corresponding audit records"
+                    ]
+                  },
+                  {
+                    "id": "qa-requirement-examples-row-4",
+                    "cells": [
+                      "Change a UI or external service",
+                      "Contracts to preserve; UI or provider to replace",
+                      "Change scope and compatibility of existing operations"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "qa-map-section",
+            "heading": "Mapping Quality Attributes to Textus/CNCF",
+            "coreRefs": {
+              "steps": [
+                "qa-map"
+              ],
+              "claims": [
+                "qa-map-purpose-claim",
+                "qa-runtime-map-claim",
+                "qa-lifecycle-map-claim"
+              ],
+              "nodes": [
+                "qa-map-purpose-node",
+                "qa-runtime-map-node",
+                "qa-lifecycle-map-node"
+              ],
+              "relations": [
+                "qa-map-relation-1",
+                "qa-map-relation-2"
+              ],
+              "flows": [
+                "qa-map-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "qa-map-purpose",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-map"
+                  ],
+                  "claims": [
+                    "qa-map-purpose-claim"
+                  ],
+                  "nodes": [
+                    "qa-map-purpose-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-map-flow"
+                  ]
+                },
+                "text": "Textus/CNCF reduces the quality controls that must be added separately to each business process by placing them in models, component contracts, and shared execution paths. Using CML models and standard CNCF facilities connects business operations to authorization, update management, asynchronous execution, and observation. The following tables map these combinations to their effects from a development and operations perspective; they do not reproduce a formal quality standard classification."
+              },
+              {
+                "id": "qa-runtime-map",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "qa-map"
+                  ],
+                  "claims": [
+                    "qa-runtime-map-claim"
+                  ],
+                  "nodes": [
+                    "qa-runtime-map-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-map-flow"
+                  ]
+                },
+                "caption": "Runtime qualities and supporting combinations",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Quality attribute"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Textus/CNCF combination"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "Effect"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "qa-runtime-map-row-1",
+                    "cells": [
+                      "Performance / responsiveness",
+                      "Working Sets and Views + direct/Job execution + load control",
+                      "Reduce loading and waiting; distinguish acceptance from completion"
+                    ]
+                  },
+                  {
+                    "id": "qa-runtime-map-row-2",
+                    "cells": [
+                      "Scalability / elasticity",
+                      "Application scaling + Domain capacity + admission control",
+                      "Match capacity and admitted work to changing demand"
+                    ]
+                  },
+                  {
+                    "id": "qa-runtime-map-row-3",
+                    "cells": [
+                      "Availability / resilience",
+                      "Component boundaries + state management + redundancy/failover",
+                      "Limit propagation and sustain service with the selected deployment"
+                    ]
+                  },
+                  {
+                    "id": "qa-runtime-map-row-4",
+                    "cells": [
+                      "Recoverability",
+                      "Durable records + state reconstruction + retry/compensation",
+                      "Retain committed outcomes and identify work to recover"
+                    ]
+                  },
+                  {
+                    "id": "qa-runtime-map-row-5",
+                    "cells": [
+                      "Consistency / correctness",
+                      "Aggregates and state machines + UoW + View maintenance",
+                      "Manage invariants and progression while preserving read-side relationships"
+                    ]
+                  },
+                  {
+                    "id": "qa-runtime-map-row-6",
+                    "cells": [
+                      "Security",
+                      "Shared authenticated context + Operation/Entity authorization + resource control",
+                      "Protect operations and targets consistently across entry points and components"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "qa-lifecycle-map",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "qa-map"
+                  ],
+                  "claims": [
+                    "qa-lifecycle-map-claim"
+                  ],
+                  "nodes": [
+                    "qa-lifecycle-map-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-map-flow"
+                  ]
+                },
+                "caption": "Usage, change, and operational qualities",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Quality attribute"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Textus/CNCF combination"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "Effect"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "qa-lifecycle-map-row-1",
+                    "cells": [
+                      "Observability / auditability",
+                      "Execution context and correlation + Operation/Job/UoW records + audit trails",
+                      "Relate cross-component execution to permission use"
+                    ]
+                  },
+                  {
+                    "id": "qa-lifecycle-map-row-2",
+                    "cells": [
+                      "Maintainability / extensibility",
+                      "CML + typed APIs + CBD + shared execution",
+                      "Separate business changes from runtime controls and localize impact"
+                    ]
+                  },
+                  {
+                    "id": "qa-lifecycle-map-row-3",
+                    "cells": [
+                      "Reusability / interoperability",
+                      "Component/Service/Operation contracts + APIs/SPIs",
+                      "Compose components and providers without depending on internals"
+                    ]
+                  },
+                  {
+                    "id": "qa-lifecycle-map-row-4",
+                    "cells": [
+                      "Portability / multiple UIs",
+                      "View/Display/Operation + Web/Flutter/external UI",
+                      "Share business rules while selecting presentation platforms"
+                    ]
+                  },
+                  {
+                    "id": "qa-lifecycle-map-row-5",
+                    "cells": [
+                      "Usability",
+                      "Presentation/operation models + input/failure semantics + Job progress",
+                      "Present acceptance, completion, and failure consistently"
+                    ]
+                  },
+                  {
+                    "id": "qa-lifecycle-map-row-6",
+                    "cells": [
+                      "Testability",
+                      "Model checks + types/pure computation + common outcomes + execution records",
+                      "Connect local rule checks with system behavior"
+                    ]
+                  },
+                  {
+                    "id": "qa-lifecycle-map-row-7",
+                    "cells": [
+                      "Operability / resource efficiency / cost",
+                      "Defaults + capacity/residency/retention settings + common operations",
+                      "Reduce bespoke setup and allocate resources to required levels"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "qa-common-path-section",
+            "heading": "Connecting Models and Components to Shared Execution",
+            "coreRefs": {
+              "steps": [
+                "qa-common-path"
+              ],
+              "claims": [
+                "qa-models-claim",
+                "qa-contracts-claim",
+                "qa-execution-figure-claim",
+                "qa-programs-claim"
+              ],
+              "nodes": [
+                "qa-models-node",
+                "qa-contracts-node",
+                "qa-execution-figure-node",
+                "qa-programs-node"
+              ],
+              "relations": [
+                "qa-common-path-relation-1",
+                "qa-common-path-relation-2",
+                "qa-common-path-relation-3"
+              ],
+              "flows": [
+                "qa-common-path-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "qa-models",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-common-path"
+                  ],
+                  "claims": [
+                    "qa-models-claim"
+                  ],
+                  "nodes": [
+                    "qa-models-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-common-path-flow"
+                  ]
+                },
+                "text": "CML defines Aggregates and Views based on Entities, Workflows based on state machines, business rules, and public Operations. Textus directly executes executable models, while Cozy generates typed APIs and connecting structures. This reduces repeated implementation of model semantics and constraints in code and screens, connecting business rules to runtime operations."
+              },
+              {
+                "id": "qa-contracts",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-common-path"
+                  ],
+                  "claims": [
+                    "qa-contracts-claim"
+                  ],
+                  "nodes": [
+                    "qa-contracts-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-common-path-flow"
+                  ]
+                },
+                "text": "CBD defines component responsibilities and public contracts. APIs and SPIs define external contacts, while data operations and external effects connect to the UoW path. Independent components thereby run under shared authorization, commit, and resource management. Quality benefits come both from component independence and from reconnecting reused components to the same runtime controls."
+              },
+              {
+                "id": "qa-execution-figure",
+                "kind": "figure",
+                "coreRefs": {
+                  "steps": [
+                    "qa-common-path"
+                  ],
+                  "claims": [
+                    "qa-execution-figure-claim"
+                  ],
+                  "nodes": [
+                    "qa-execution-figure-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-common-path-flow"
+                  ]
+                },
+                "asset": "images/execution-boundaries-en.png",
+                "caption": "Figure 1. Shared execution boundaries for model-connected business operations: authorization, commit, and resource termination.",
+                "alt": "Figure 1. Shared execution boundaries for model-connected business operations: authorization, commit, and resource termination."
+              },
+              {
+                "id": "qa-programs",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-common-path"
+                  ],
+                  "claims": [
+                    "qa-programs-claim"
+                  ],
+                  "nodes": [
+                    "qa-programs-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-common-path-flow"
+                  ]
+                },
+                "text": "Types and pure functional composition make inputs, outputs, and valid connections explicit. Consequence/Conclusion standardize outcomes and failure information, while Free Monad operation descriptions pass to UoW execution. Reducing controls embedded in supplementary code also makes AI-written processing easier to connect to shared runtime management. Type checks and runtime controls address different classes of errors and work together."
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "qa-reactive-section",
+            "heading": "Managing Asynchronous Benefits and Complexity in the Runtime",
+            "coreRefs": {
+              "steps": [
+                "qa-reactive"
+              ],
+              "claims": [
+                "qa-reactive-benefits-claim",
+                "qa-reactive-runtime-claim",
+                "qa-tiers-figure-claim",
+                "qa-reactive-balance-claim"
+              ],
+              "nodes": [
+                "qa-reactive-benefits-node",
+                "qa-reactive-runtime-node",
+                "qa-tiers-figure-node",
+                "qa-reactive-balance-node"
+              ],
+              "relations": [
+                "qa-reactive-relation-1",
+                "qa-reactive-relation-2",
+                "qa-reactive-relation-3"
+              ],
+              "flows": [
+                "qa-reactive-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "qa-reactive-benefits",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-reactive"
+                  ],
+                  "claims": [
+                    "qa-reactive-benefits-claim"
+                  ],
+                  "nodes": [
+                    "qa-reactive-benefits-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-reactive-flow"
+                  ]
+                },
+                "text": "Reactive architecture uses messages to reduce temporal dependencies, combined with load distribution, capacity adjustment, and failure isolation. The Reactive Manifesto organizes this relationship through responsiveness, resilience, elasticity, and message-driven communication. Combining asynchronous processing with load control and recovery supports performance, availability, and flexibility. Reference: The Reactive Manifesto (https://www.reactivemanifesto.org/)."
+              },
+              {
+                "id": "qa-reactive-runtime",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-reactive"
+                  ],
+                  "claims": [
+                    "qa-reactive-runtime-claim"
+                  ],
+                  "nodes": [
+                    "qa-reactive-runtime-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-reactive-flow"
+                  ]
+                },
+                "text": "Asynchronous processing must handle ordering, completion, retries, duplicates, and data freshness. Textus/CNCF connects Jobs/Tasks, state machines, Workflows, UoW, events, and common outcome semantics to provide managed execution paths. Implementations using models and standard facilities run through these paths, reducing the need for application-specific schedulers and progress management. The architecture delegates the technical complexity of reactive execution to the infrastructure."
+              },
+              {
+                "id": "qa-tiers-figure",
+                "kind": "figure",
+                "coreRefs": {
+                  "steps": [
+                    "qa-reactive"
+                  ],
+                  "claims": [
+                    "qa-tiers-figure-claim"
+                  ],
+                  "nodes": [
+                    "qa-tiers-figure-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-reactive-flow"
+                  ]
+                },
+                "asset": "images/tier-lifetimes-en.png",
+                "caption": "Figure 2. Responsibilities for admission, long-running work, business state, and persistence. Acceptance differs from completion, and progression differs from commit.",
+                "alt": "Figure 2. Responsibilities for admission, long-running work, business state, and persistence. Acceptance differs from completion, and progression differs from commit."
+              },
+              {
+                "id": "qa-reactive-balance",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-reactive"
+                  ],
+                  "claims": [
+                    "qa-reactive-balance-claim"
+                  ],
+                  "nodes": [
+                    "qa-reactive-balance-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-reactive-flow"
+                  ]
+                },
+                "text": "Application scaling is coordinated with Domain and DataStore capacity. Working Sets and Views reduce loading, while Aggregates and UoW manage updates. Faster reads still require distinguishing committed updates from View refresh and defining acceptable freshness. Coordinating capacity, latency, and consistency along the same execution path provides a system-level effect beyond isolated optimizations."
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "qa-protection-section",
+            "heading": "Applying Protection, Consistency, and Traceability to the Same Operation",
+            "coreRefs": {
+              "steps": [
+                "qa-protection"
+              ],
+              "claims": [
+                "qa-security-runtime-claim",
+                "qa-audit-consistency-claim",
+                "qa-policy-claim"
+              ],
+              "nodes": [
+                "qa-security-runtime-node",
+                "qa-audit-consistency-node",
+                "qa-policy-node"
+              ],
+              "relations": [
+                "qa-protection-relation-1",
+                "qa-protection-relation-2"
+              ],
+              "flows": [
+                "qa-protection-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "qa-security-runtime",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-protection"
+                  ],
+                  "claims": [
+                    "qa-security-runtime-claim"
+                  ],
+                  "nodes": [
+                    "qa-security-runtime-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-protection-flow"
+                  ]
+                },
+                "text": "The Presentation tier may use Web, Flutter, or an independently built UI and is not a server-side trust assumption. The Application tier coordinates requests and invokes public Domain Operations. Standard execution carries a shared authenticated context and checks Operation authorization as well as access to target Entities and resources. Common SimpleEntity ownership/group information and UNIX-style read/write permissions reduce independent implementations in each component."
+              },
+              {
+                "id": "qa-audit-consistency",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-protection"
+                  ],
+                  "claims": [
+                    "qa-audit-consistency-claim"
+                  ],
+                  "nodes": [
+                    "qa-audit-consistency-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-protection-flow"
+                  ]
+                },
+                "text": "Authorized operations still follow Aggregate invariants, state-machine transition rules, and UoW commit handling. Relating infrastructure-collected execution records and audit trails to the same operation and target shows what was permitted, what committed, and where failure occurred. Keeping protection decisions, update management, and observation on shared paths reduces gaps between authorization and traceable outcomes."
+              },
+              {
+                "id": "qa-policy",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-protection"
+                  ],
+                  "claims": [
+                    "qa-policy-claim"
+                  ],
+                  "nodes": [
+                    "qa-policy-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-protection-flow"
+                  ]
+                },
+                "text": "Ordinary development connects CML definitions and basic settings to standard paths, reducing bespoke protection and recording code. Who may perform which operations and how long audit records are kept remain application requirements. Stronger isolation or functional restrictions combine deployment choices with Capability restrictions. Shared basic mechanisms provide the starting point for additional requirements."
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "qa-evolution-section",
+            "heading": "Expanding Functionality and User Platforms while Preserving Contracts",
+            "coreRefs": {
+              "steps": [
+                "qa-evolution"
+              ],
+              "claims": [
+                "qa-reuse-claim",
+                "qa-ui-claim",
+                "qa-usability-claim"
+              ],
+              "nodes": [
+                "qa-reuse-node",
+                "qa-ui-node",
+                "qa-usability-node"
+              ],
+              "relations": [
+                "qa-evolution-relation-1",
+                "qa-evolution-relation-2"
+              ],
+              "flows": [
+                "qa-evolution-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "qa-reuse",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-evolution"
+                  ],
+                  "claims": [
+                    "qa-reuse-claim"
+                  ],
+                  "nodes": [
+                    "qa-reuse-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-evolution-flow"
+                  ]
+                },
+                "text": "Functional extensibility differs from capacity scalability. Typed APIs derived from CML and Component/Service/Operation contracts support component reuse and contract-guided connecting code. Keeping external services and storage mechanisms behind SPIs limits provider changes reaching business models. Model checks, compilation, CAR inspection, and component review examine contract/implementation mismatches at different stages."
+              },
+              {
+                "id": "qa-ui",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-evolution"
+                  ],
+                  "claims": [
+                    "qa-ui-claim"
+                  ],
+                  "nodes": [
+                    "qa-ui-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-evolution-flow"
+                  ]
+                },
+                "text": "Views preserve read-result semantics, Displays project them for presentation, and updates return through public Operations. Standard Web UI or Textus-connected Flutter applications can use this division to share business rules across phones, tablets, Web, and Desktop. Independently built UIs connected through REST or gRPC follow the same principle of public contracts and server-side protection. Presentation choice can therefore coexist with consistent business operations."
+              },
+              {
+                "id": "qa-usability",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-evolution"
+                  ],
+                  "claims": [
+                    "qa-usability-claim"
+                  ],
+                  "nodes": [
+                    "qa-usability-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-evolution-flow"
+                  ]
+                },
+                "text": "Usability includes understanding whether work was accepted or completed and whether input needs correction. Mapping common input validation, Consequence/Conclusion, and Job progress to the UI provides consistent meanings for state and failure. Screen sizes, input methods, and accessibility are checked in the target UI. Shared models support semantic consistency; practical usability also depends on how those semantics are presented."
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "qa-operation-section",
+            "heading": "Starting with Standard Configuration and Adjusting Required Levels",
+            "coreRefs": {
+              "steps": [
+                "qa-operation"
+              ],
+              "claims": [
+                "qa-responsibilities-claim",
+                "qa-tradeoffs-claim",
+                "qa-responsibility-table-claim",
+                "qa-verification-claim",
+                "qa-scope-claim"
+              ],
+              "nodes": [
+                "qa-responsibilities-node",
+                "qa-tradeoffs-node",
+                "qa-responsibility-table-node",
+                "qa-verification-node",
+                "qa-scope-node"
+              ],
+              "relations": [
+                "qa-operation-relation-1",
+                "qa-operation-relation-2",
+                "qa-operation-relation-3",
+                "qa-operation-relation-4"
+              ],
+              "flows": [
+                "qa-operation-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "qa-responsibilities",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-operation"
+                  ],
+                  "claims": [
+                    "qa-responsibilities-claim"
+                  ],
+                  "nodes": [
+                    "qa-responsibilities-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-operation-flow"
+                  ]
+                },
+                "text": "Using standard models and facilities also selects the paths that apply quality controls. Developers define business meaning, and the runtime executes common controls. Configuration and deployment adjust throughput, availability, and retention, while business-specific compensation and authorization are specified separately. Separating the choice of application conditions from building their enforcement mechanisms simplifies adoption and operation."
+              },
+              {
+                "id": "qa-tradeoffs",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-operation"
+                  ],
+                  "claims": [
+                    "qa-tradeoffs-claim"
+                  ],
+                  "nodes": [
+                    "qa-tradeoffs-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-operation-flow"
+                  ]
+                },
+                "text": "Quality attributes interact. More resident data can reduce retrieval time while affecting memory cost and reconstruction time. Asynchronous read-model updates can improve responsiveness while requiring freshness rules. Redundancy and stronger isolation support availability and protection but add deployment and operating costs. Select combinations for the required levels and reuse standard mechanisms to reduce bespoke implementation and verification."
+              },
+              {
+                "id": "qa-responsibility-table",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "qa-operation"
+                  ],
+                  "claims": [
+                    "qa-responsibility-table-claim"
+                  ],
+                  "nodes": [
+                    "qa-responsibility-table-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-operation-flow"
+                  ]
+                },
+                "caption": "Infrastructure and application responsibilities",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Concern"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Shared infrastructure"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "Development/operations choices"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "qa-responsibility-table-row-1",
+                    "cells": [
+                      "Business data and progression",
+                      "Model operations, transitions, and commit",
+                      "Invariants, allowed transitions, read freshness"
+                    ]
+                  },
+                  {
+                    "id": "qa-responsibility-table-row-2",
+                    "cells": [
+                      "Asynchronous execution",
+                      "Admission/progress/outcome and resource management",
+                      "Direct/Job selection, workload, business retries/compensation"
+                    ]
+                  },
+                  {
+                    "id": "qa-responsibility-table-row-3",
+                    "cells": [
+                      "Protection and audit",
+                      "Authenticated context, operation/data checks, records",
+                      "Authentication method, permissions, retention/access"
+                    ]
+                  },
+                  {
+                    "id": "qa-responsibility-table-row-4",
+                    "cells": [
+                      "Availability and recovery",
+                      "Failover/reconstruction paths in selected configurations",
+                      "Failure assumptions, redundancy scope, recovery time/cost"
+                    ]
+                  },
+                  {
+                    "id": "qa-responsibility-table-row-5",
+                    "cells": [
+                      "Presentation and integration",
+                      "Shared business/presentation contracts and extension points",
+                      "UI platform, external services, usage environments"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "qa-verification",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-operation"
+                  ],
+                  "claims": [
+                    "qa-verification-claim"
+                  ],
+                  "nodes": [
+                    "qa-verification-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-operation-flow"
+                  ]
+                },
+                "text": "Model and type checks detect inconsistent rules and connections. Runtime checks cover responses under representative load, committed state and recovery after failure, and authorization decisions with audit records. Correlating admission, Operation, Job/Task, and UoW records identifies whether gaps arise in waiting, execution, or retries. Feed findings back into models, configuration, and deployment and recheck under the same conditions."
+              },
+              {
+                "id": "qa-scope",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-operation"
+                  ],
+                  "claims": [
+                    "qa-scope-claim"
+                  ],
+                  "nodes": [
+                    "qa-scope-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-operation-flow"
+                  ]
+                },
+                "text": "This guide describes the technology system and its division of responsibilities. Consult the specialist guides for the implementation scope of the selected version. Durable Job resumption, availability profiles and replacement paths, security profiles and operating procedures, and some UI generation paths include work still under design or development. Record infrastructure support separately from performance and availability levels verified in the target environment."
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "qa-conclusion-section",
+            "heading": "Conclusion",
+            "coreRefs": {
+              "steps": [
+                "qa-conclusion"
+              ],
+              "claims": [
+                "qa-conclusion-text-claim"
+              ],
+              "nodes": [
+                "qa-conclusion-text-node"
+              ],
+              "relations": [],
+              "flows": [
+                "qa-conclusion-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "qa-conclusion-text",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-conclusion"
+                  ],
+                  "claims": [
+                    "qa-conclusion-text-claim"
+                  ],
+                  "nodes": [
+                    "qa-conclusion-text-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-conclusion-flow"
+                  ]
+                },
+                "text": "Textus/CNCF combines CML models, component contracts, and shared runtime mechanisms to place quality controls on ordinary development and operating paths. Developers express business conditions in models and configuration and delegate complex execution controls to the infrastructure. Following standard conventions connects applications to multiple quality mechanisms, while application-specific configuration and verification establish the required levels."
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "qa-references-section",
+            "heading": "Related Technical Guides and References",
+            "coreRefs": {
+              "steps": [
+                "qa-references"
+              ],
+              "claims": [
+                "qa-related-claim",
+                "qa-external-claim",
+                "qa-guide-map-claim"
+              ],
+              "nodes": [
+                "qa-related-node",
+                "qa-external-node",
+                "qa-guide-map-node"
+              ],
+              "relations": [
+                "qa-references-relation-1",
+                "qa-references-relation-2"
+              ],
+              "flows": [
+                "qa-references-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "qa-related",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-references"
+                  ],
+                  "claims": [
+                    "qa-related-claim"
+                  ],
+                  "nodes": [
+                    "qa-related-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-references-flow"
+                  ]
+                },
+                "text": "The following guides provide detailed explanations of individual mechanisms. They are related documents in this repository. This guide provides a quality-oriented entry point; model and implementation details belong to the corresponding specialist guides."
+              },
+              {
+                "id": "qa-external",
+                "kind": "paragraph",
+                "coreRefs": {
+                  "steps": [
+                    "qa-references"
+                  ],
+                  "claims": [
+                    "qa-external-claim"
+                  ],
+                  "nodes": [
+                    "qa-external-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-references-flow"
+                  ]
+                },
+                "text": "For quality attribute scenarios, see SEI, Quality Attribute Workshops, Third Edition (https://www.sei.cmu.edu/documents/716/2003_005_001_14249.pdf). For reactive architecture and its four characteristics, see The Reactive Manifesto (https://www.reactivemanifesto.org/). The Textus/CNCF mappings in this guide organize the related technical guides by quality attribute, informed by these general concepts."
+              },
+              {
+                "id": "qa-guide-map",
+                "kind": "table",
+                "coreRefs": {
+                  "steps": [
+                    "qa-references"
+                  ],
+                  "claims": [
+                    "qa-guide-map-claim"
+                  ],
+                  "nodes": [
+                    "qa-guide-map-node"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "qa-references-flow"
+                  ]
+                },
+                "caption": "Related guides",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Guide"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Primary topics"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "qa-guide-map-row-1",
+                    "cells": [
+                      "Textus/CNCF overview",
+                      "Models, components, execution, and UI"
+                    ]
+                  },
+                  {
+                    "id": "qa-guide-map-row-2",
+                    "cells": [
+                      "Reactive architecture",
+                      "Asynchronous execution, load, availability, recovery, and qualities"
+                    ]
+                  },
+                  {
+                    "id": "qa-guide-map-row-3",
+                    "cells": [
+                      "Security architecture",
+                      "Authentication/authorization, boundaries, distribution, audit, and operations"
+                    ]
+                  },
+                  {
+                    "id": "qa-guide-map-row-4",
+                    "cells": [
+                      "UI architecture",
+                      "View/Display, Web, Flutter, and external UI"
+                    ]
+                  },
+                  {
+                    "id": "qa-guide-map-row-5",
+                    "cells": [
+                      "DDD modeling",
+                      "Structure and execution using DDD and PoEAA"
+                    ]
+                  },
+                  {
+                    "id": "qa-guide-map-row-6",
+                    "cells": [
+                      "Modeling and FP",
+                      "Types, Consequence, Free Monad, and UoW"
+                    ]
+                  },
+                  {
+                    "id": "qa-guide-map-row-7",
+                    "cells": [
+                      "CML modeling",
+                      "Describing and checking structure, rules, behavior, and UI"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "textus-cncf-quality-attributes",
+        "text": "Textus/CNCF Non-functional Requirements and Quality Attributes — Technical Guide"
+      },
+      {
+        "stepRef": "qa-requirements",
+        "text": "Expressing Non-functional Requirements through Qualities and Conditions"
+      },
+      {
+        "stepRef": "qa-map",
+        "text": "Mapping Quality Attributes to Textus/CNCF"
+      },
+      {
+        "stepRef": "qa-common-path",
+        "text": "Connecting Models and Components to Shared Execution"
+      },
+      {
+        "stepRef": "qa-reactive",
+        "text": "Managing Asynchronous Benefits and Complexity in the Runtime"
+      },
+      {
+        "stepRef": "qa-protection",
+        "text": "Applying Protection, Consistency, and Traceability to the Same Operation"
+      },
+      {
+        "stepRef": "qa-evolution",
+        "text": "Expanding Functionality and User Platforms while Preserving Contracts"
+      },
+      {
+        "stepRef": "qa-operation",
+        "text": "Starting with Standard Configuration and Adjusting Required Levels"
+      },
+      {
+        "stepRef": "qa-conclusion",
+        "text": "Conclusion"
+      },
+      {
+        "stepRef": "qa-references",
+        "text": "Related Technical Guides and References"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "textus-cncf-quality-attributes-purpose-node",
+        "text": "Connect standard models and facilities to quality controls"
+      },
+      {
+        "nodeRef": "qa-meaning-node",
+        "text": "Organize the conditions for delivering functionality by quality attribute"
+      },
+      {
+        "nodeRef": "qa-scenarios-node",
+        "text": "Select a configuration from explicit conditions and expected responses"
+      },
+      {
+        "nodeRef": "qa-requirement-examples-node",
+        "text": "Connect requirements with verification"
+      },
+      {
+        "nodeRef": "qa-map-purpose-node",
+        "text": "Apply mechanisms in standard paths to multiple qualities"
+      },
+      {
+        "nodeRef": "qa-runtime-map-node",
+        "text": "Support runtime qualities through models and shared mechanisms"
+      },
+      {
+        "nodeRef": "qa-lifecycle-map-node",
+        "text": "Support usage and change through the same contracts and paths"
+      },
+      {
+        "nodeRef": "qa-models-node",
+        "text": "Carry model semantics and constraints into execution"
+      },
+      {
+        "nodeRef": "qa-contracts-node",
+        "text": "Combine component independence with shared control"
+      },
+      {
+        "nodeRef": "qa-execution-figure-node",
+        "text": "Figure 1. Shared execution boundaries for model-connected business operations: authorization, commit, and resource termination."
+      },
+      {
+        "nodeRef": "qa-programs-node",
+        "text": "Combine checks on descriptions with runtime control"
+      },
+      {
+        "nodeRef": "qa-reactive-benefits-node",
+        "text": "Combine asynchronous processing with controls to support reactive qualities"
+      },
+      {
+        "nodeRef": "qa-reactive-runtime-node",
+        "text": "Use common asynchronous execution management through standard implementations"
+      },
+      {
+        "nodeRef": "qa-tiers-figure-node",
+        "text": "Figure 2. Responsibilities for admission, long-running work, business state, and persistence. Acceptance differs from completion, and progression differs from commit."
+      },
+      {
+        "nodeRef": "qa-reactive-balance-node",
+        "text": "Coordinate capacity, latency, and consistency"
+      },
+      {
+        "nodeRef": "qa-security-runtime-node",
+        "text": "Apply shared protection across entry points and components"
+      },
+      {
+        "nodeRef": "qa-audit-consistency-node",
+        "text": "Trace the commit and progress of authorized operations"
+      },
+      {
+        "nodeRef": "qa-policy-node",
+        "text": "Use baseline mechanisms and specify application policies"
+      },
+      {
+        "nodeRef": "qa-reuse-node",
+        "text": "Limit change scope through reuse and connection checks"
+      },
+      {
+        "nodeRef": "qa-ui-node",
+        "text": "Combine presentation choice with consistent business operations"
+      },
+      {
+        "nodeRef": "qa-usability-node",
+        "text": "Present common states and outcomes meaningfully to users"
+      },
+      {
+        "nodeRef": "qa-responsibilities-node",
+        "text": "Separate specifying conditions from implementing mechanisms"
+      },
+      {
+        "nodeRef": "qa-responsibility-table-node",
+        "text": "Map standard mechanisms to application-specific decisions"
+      },
+      {
+        "nodeRef": "qa-tradeoffs-node",
+        "text": "Balance combinations of qualities against required levels and cost"
+      },
+      {
+        "nodeRef": "qa-verification-node",
+        "text": "Feed execution evidence back into configuration decisions"
+      },
+      {
+        "nodeRef": "qa-scope-node",
+        "text": "Distinguish version capabilities from verified quality levels"
+      },
+      {
+        "nodeRef": "qa-conclusion-text-node",
+        "text": "Use multiple quality controls through ordinary development and operation"
+      },
+      {
+        "nodeRef": "qa-related-node",
+        "text": "Connect quality attributes to specialist guides"
+      },
+      {
+        "nodeRef": "qa-guide-map-node",
+        "text": "Distinguish specialist document roles"
+      },
+      {
+        "nodeRef": "qa-external-node",
+        "text": "Distinguish general concepts from Textus/CNCF mappings"
+      }
+    ]
+  }
+}
