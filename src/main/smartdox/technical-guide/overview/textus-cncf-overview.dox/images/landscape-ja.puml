@@ -1,0 +1,35 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 15
+skinparam nodesep 20
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam noteBackgroundColor #FFF8E9
+skinparam dpi 170
+rectangle "SimpleModeling / CML\n業務の意味・規則・契約" as model
+rectangle "Cozy\n型付きAPI・接続・実行定義" as cozy
+rectangle "既存部品 ＋ 補完実装\n業務固有の部分を構成" as code
+rectangle "Textus / CNCF\n業務操作と共通の実行管理" as runtime
+rectangle "Web / Flutter / 外部UI\nView・Display・公開API" as ui
+rectangle "永続状態 / 外部サービス\n確定・資源管理の経路" as data
+model -down-> cozy
+cozy -down-> code : 契約を渡す
+code -right-> runtime : CARとして導入
+ui -down-> runtime : 同じ業務操作を利用
+runtime -down-> data : 共通経路で実行
+note bottom of code
+再利用と補完で
+個別実装を減らす
+end note
+note bottom of runtime
+認可・確定・終了管理を共有する
+end note
+
+@enduml

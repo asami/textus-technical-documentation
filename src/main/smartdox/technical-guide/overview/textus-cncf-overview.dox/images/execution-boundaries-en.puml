@@ -1,0 +1,38 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 15
+skinparam nodesep 20
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam noteBackgroundColor #FFF8E9
+skinparam dpi 170
+actor "User / External system" as user
+participant "Entry / Operation" as op
+participant "Business processing" as business
+participant "UoW / Interpreter" as uow
+database "Persistent state / Provider" as store
+user -> op : Request
+op -> op : Identity, input, Operation authorization
+op -> business : Typed request
+business -> business : Pure calculation / Consequence
+business -> uow : Typed operation program
+uow -> uow : Target and resource authorization
+uow -> store : Permitted operation
+store --> uow : Outcome
+uow -> uow : Commit / abort and finalization
+uow --> business : Execution outcome
+business --> op : Public result
+op --> user : Response
+note over op,store
+Conceptual responsibilities of a standard update
+Calls and commit ownership depend on the execution path
+end note
+
+@enduml

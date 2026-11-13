@@ -1,0 +1,29 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 15
+skinparam nodesep 20
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam noteBackgroundColor #FFF8E9
+skinparam dpi 170
+rectangle "用語集・文芸モデル" as terms
+rectangle "ユースケース\n目的・実例・期待結果" as usecase
+rectangle "アプリケーション\nWorkflow / Operation" as app
+rectangle "ドメイン\nEntity / Value / Aggregate\n状態機械・規則" as domain
+rectangle "View\n意味のある参照結果" as view
+rectangle "Display / UI\n表示・操作の提示" as ui
+terms -right-> usecase : 意味の共有
+usecase -down-> app : 実現の対応・検査
+app -left-> domain : 業務操作
+domain -down-> view : 参照
+view -right-> ui : 投影
+ui -up-> app : 公開操作
+
+@enduml

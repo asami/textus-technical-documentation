@@ -1,0 +1,38 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 15
+skinparam nodesep 20
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam noteBackgroundColor #FFF8E9
+skinparam dpi 170
+actor "利用者 / 外部システム" as user
+participant "入口 / Operation" as op
+participant "業務処理" as business
+participant "UoW / インタープリタ" as uow
+database "永続状態 / Provider" as store
+user -> op : 要求
+op -> op : 認証・入力・Operation認可
+op -> business : 型付きの要求
+business -> business : 純粋計算・Consequence
+business -> uow : 型付き操作プログラム
+uow -> uow : 対象・資源の認可
+uow -> store : 許可された操作
+store --> uow : 結果
+uow -> uow : 確定 / 中止・終了処理
+uow --> business : 実行結果
+business --> op : 公開結果
+op --> user : 応答
+note over op,store
+標準的な更新の責務を示す概念図
+実際の呼出しと確定所有者は実行経路による
+end note
+
+@enduml

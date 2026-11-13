@@ -1,0 +1,30 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 15
+skinparam nodesep 20
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam noteBackgroundColor #FFF8E9
+skinparam dpi 170
+rectangle "モデルから定める\n型付き契約" as contract
+rectangle "既存の部品\n公開Service / Operation" as existing
+rectangle "業務固有の補完\n計算・外部接続" as extension
+rectangle "アプリケーションの構成\n契約に沿って部品を接続" as app
+rectangle "Textus / CNCF\n認可・確定・終了管理・観測" as runtime
+contract -left-> existing : 選択条件
+contract -right-> extension : 実装条件
+existing -down-> app : 再利用
+extension -down-> app : 不足部分を補う
+app -down-> runtime : 共通経路を使う
+note bottom of runtime
+業務機能と実行管理の両方を再利用する
+end note
+
+@enduml

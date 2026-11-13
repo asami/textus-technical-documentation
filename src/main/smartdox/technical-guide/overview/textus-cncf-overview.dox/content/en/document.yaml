@@ -1,0 +1,2266 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-overview-document-en",
+  "core": {
+    "id": "textus-cncf-overview"
+  },
+  "locale": "en",
+  "document": {
+    "title": "Textus/CNCF — Architecture and Technology Overview",
+    "sections": [
+      {
+        "id": "textus-cncf-overview-section",
+        "heading": "Textus/CNCF — Architecture and Technology Overview",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-overview"
+          ],
+          "claims": [
+            "textus-cncf-overview-claim-1"
+          ],
+          "nodes": [
+            "textus-cncf-overview-node-1",
+            "textus-cncf-overview-node-2"
+          ],
+          "relations": [
+            "textus-cncf-overview-relation-1"
+          ],
+          "flows": [
+            "textus-cncf-overview-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "textus-cncf-overview-paragraph-1",
+            "kind": "paragraph",
+            "text": "Textus/CNCF combines business models and reusable components to run applications on shared infrastructure. Developers define business meaning and specific behavior, connecting UI, persistence, authority and load handling to platform mechanisms. This guide follows description, component assembly, execution and operation to explain what these technology combinations provide.",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-overview"
+              ],
+              "claims": [
+                "textus-cncf-overview-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-overview-node-1",
+                "textus-cncf-overview-node-2"
+              ],
+              "relations": [
+                "textus-cncf-overview-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-overview-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "ov-purpose-section",
+            "heading": "Models as a Foundation for Development and Execution",
+            "coreRefs": {
+              "steps": [
+                "ov-purpose"
+              ],
+              "claims": [
+                "ov-purpose-claim-1",
+                "ov-purpose-claim-2"
+              ],
+              "nodes": [
+                "ov-purpose-node-1",
+                "ov-purpose-node-2"
+              ],
+              "relations": [
+                "ov-purpose-relation-1"
+              ],
+              "flows": [
+                "ov-purpose-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-purpose-paragraph-1",
+                "kind": "paragraph",
+                "text": "Business applications combine specific rules with recurring responsibilities such as invocation, persistence, authorization and failure handling. Textus/CNCF expresses business meaning in models and typed contracts, reuses existing components and delegates common responsibilities to the runtime. This focuses application-specific implementation and verification on business-specific behavior.",
+                "coreRefs": {
+                  "steps": [
+                    "ov-purpose"
+                  ],
+                  "claims": [
+                    "ov-purpose-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-purpose-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ov-purpose-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ov-purpose-paragraph-2",
+                "kind": "paragraph",
+                "text": "The SimpleModeling reference architecture expresses this division through models, development tools and runtime infrastructure. Its modeling approach, Cozy and Textus can each be used individually. Together, they share model-defined contracts across generation, component assembly and execution, reducing repeated specification and management code at each stage.",
+                "coreRefs": {
+                  "steps": [
+                    "ov-purpose"
+                  ],
+                  "claims": [
+                    "ov-purpose-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-purpose-node-2"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ov-purpose-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ov-roles-section",
+            "heading": "How SimpleModeling, CML, Cozy, Textus and CNCF Relate",
+            "coreRefs": {
+              "steps": [
+                "ov-roles"
+              ],
+              "claims": [
+                "ov-roles-claim-1",
+                "ov-roles-claim-2"
+              ],
+              "nodes": [
+                "ov-roles-node-1",
+                "ov-roles-node-2"
+              ],
+              "relations": [
+                "ov-roles-relation-1"
+              ],
+              "flows": [
+                "ov-roles-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-roles-paragraph-1",
+                "kind": "paragraph",
+                "text": "CML describes models; Cozy analyzes, projects and generates from them. Textus runs applications assembled from components, while CNCF provides shared execution contracts and mechanisms within the platform. Here, CNCF means Cloud Native Component Framework.",
+                "coreRefs": {
+                  "steps": [
+                    "ov-roles"
+                  ],
+                  "claims": [
+                    "ov-roles-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-roles-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ov-roles-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ov-roles-paragraph-2",
+                "kind": "paragraph",
+                "text": "Development projects models into typed APIs, connection code and executable definitions, combining them with extensions and existing components. Installation resolves the runtime and artifacts used by Textus; execution follows CNCF’s shared paths. The following sections explain how these handoffs support reuse, execution management, UI reach and quality.",
+                "coreRefs": {
+                  "steps": [
+                    "ov-roles"
+                  ],
+                  "claims": [
+                    "ov-roles-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-roles-node-2"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ov-roles-flow"
+                  ]
+                }
+              },
+              {
+                "id": "technology-roles",
+                "kind": "table",
+                "caption": "Roles in description, generation and execution",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Name"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Role"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "Passes to the next stage"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "technology-roles-row-1",
+                    "cells": [
+                      "SimpleModeling",
+                      "Modeling approach and technology system",
+                      "Model meaning, responsibilities and relationships"
+                    ]
+                  },
+                  {
+                    "id": "technology-roles-row-2",
+                    "cells": [
+                      "CML",
+                      "Model description",
+                      "Structure, behavior and contract definitions"
+                    ]
+                  },
+                  {
+                    "id": "technology-roles-row-3",
+                    "cells": [
+                      "Cozy",
+                      "Analysis, projection and generation",
+                      "Typed APIs, connection code and executable definitions"
+                    ]
+                  },
+                  {
+                    "id": "technology-roles-row-4",
+                    "cells": [
+                      "Textus",
+                      "Platform for installing components and running applications",
+                      "Runtime configuration and application capabilities"
+                    ]
+                  },
+                  {
+                    "id": "technology-roles-row-5",
+                    "cells": [
+                      "CNCF",
+                      "Shared execution contracts and mechanisms",
+                      "Operations, execution contexts and UoW"
+                    ]
+                  },
+                  {
+                    "id": "technology-roles-row-6",
+                    "cells": [
+                      "CAR / Component Repository",
+                      "Component distribution and acceptance",
+                      "Versioned artifacts and dependencies"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ov-roles"
+                  ],
+                  "claims": [
+                    "ov-roles-claim-1",
+                    "ov-roles-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-roles-node-1",
+                    "ov-roles-node-2"
+                  ],
+                  "relations": [
+                    "ov-roles-relation-1"
+                  ],
+                  "flows": [
+                    "ov-roles-flow"
+                  ]
+                }
+              },
+              {
+                "id": "landscape",
+                "kind": "figure",
+                "asset": "images/landscape-en.png",
+                "caption": "Responsibilities and effects across models, components and runtime",
+                "alt": "Responsibilities and effects across models, components and runtime",
+                "coreRefs": {
+                  "steps": [
+                    "ov-roles"
+                  ],
+                  "claims": [
+                    "ov-roles-claim-1",
+                    "ov-roles-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-roles-node-1",
+                    "ov-roles-node-2"
+                  ],
+                  "relations": [
+                    "ov-roles-relation-1"
+                  ],
+                  "flows": [
+                    "ov-roles-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ov-models-section",
+            "heading": "Modeling from Business Meaning to User Interaction",
+            "coreRefs": {
+              "steps": [
+                "ov-models"
+              ],
+              "claims": [
+                "ov-models-claim-1"
+              ],
+              "nodes": [
+                "ov-models-node-1",
+                "ov-models-node-2"
+              ],
+              "relations": [
+                "ov-models-relation-1"
+              ],
+              "flows": [
+                "ov-models-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-models-paragraph-1",
+                "kind": "paragraph",
+                "text": "No single model describes every part of an application. Starting with terminology and requirements, models divide responsibility among business structure, goal-directed progression, read results and presentation, with explicit relationships between them. These connections help keep business rules from dispersing into UI and persistence code.",
+                "coreRefs": {
+                  "steps": [
+                    "ov-models"
+                  ],
+                  "claims": [
+                    "ov-models-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-models-node-1",
+                    "ov-models-node-2"
+                  ],
+                  "relations": [
+                    "ov-models-relation-1"
+                  ],
+                  "flows": [
+                    "ov-models-flow"
+                  ]
+                }
+              },
+              {
+                "id": "model-relations",
+                "kind": "figure",
+                "asset": "images/model-relations-en.png",
+                "caption": "Connecting requirements, domain, reading and presentation",
+                "alt": "Connecting requirements, domain, reading and presentation",
+                "coreRefs": {
+                  "steps": [
+                    "ov-models"
+                  ],
+                  "claims": [
+                    "ov-models-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-models-node-1",
+                    "ov-models-node-2"
+                  ],
+                  "relations": [
+                    "ov-models-relation-1"
+                  ],
+                  "flows": [
+                    "ov-models-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ov-domain-application-section",
+                "heading": "Connecting Domain and Application Models",
+                "coreRefs": {
+                  "steps": [
+                    "ov-domain-application"
+                  ],
+                  "claims": [
+                    "ov-domain-application-claim-1",
+                    "ov-domain-application-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-domain-application-node-1",
+                    "ov-domain-application-node-2"
+                  ],
+                  "relations": [
+                    "ov-domain-application-relation-1"
+                  ],
+                  "flows": [
+                    "ov-domain-application-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-domain-application-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "DDD and PoEAA provide reference perspectives for organizing the models and connections needed in development. Domain models center on static structures such as Entities, Values and Aggregates, defining business concepts and update rules. Application models center on Workflows derived from use cases, coordinating domain operations to achieve goals. State machines specify states and permitted transitions; rule models organize decision conditions.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-domain-application"
+                      ],
+                      "claims": [
+                        "ov-domain-application-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-domain-application-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-domain-application-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-domain-application-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Use cases are requirements models describing goals, examples and expected outcomes. They are connected to realizing Workflows, state machines, Operations and Entities rather than executed directly. Examples and model relationships support consistency checks. BoK-managed glossaries and literate models retain the meanings and rationale used across these connections.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-domain-application"
+                      ],
+                      "claims": [
+                        "ov-domain-application-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-domain-application-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-domain-application-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ov-view-display-section",
+                "heading": "Connecting Reading and Presentation to Business Operations",
+                "coreRefs": {
+                  "steps": [
+                    "ov-view-display"
+                  ],
+                  "claims": [
+                    "ov-view-display-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-view-display-node-1",
+                    "ov-view-display-node-2"
+                  ],
+                  "relations": [
+                    "ov-view-display-relation-1"
+                  ],
+                  "flows": [
+                    "ov-view-display-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-view-display-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Views express meaningful read results for particular purposes; Displays sit outside them and express presentation fields and offered actions. This separation supports projection of the same business meaning into Web, Flutter and other UIs. User actions return through public Operations, preserving update rules across screens.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-view-display"
+                      ],
+                      "claims": [
+                        "ov-view-display-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-view-display-node-1",
+                        "ov-view-display-node-2"
+                      ],
+                      "relations": [
+                        "ov-view-display-relation-1"
+                      ],
+                      "flows": [
+                        "ov-view-display-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ov-build-section",
+            "heading": "Reusing Components through Model Contracts",
+            "coreRefs": {
+              "steps": [
+                "ov-build"
+              ],
+              "claims": [
+                "ov-build-claim-1"
+              ],
+              "nodes": [
+                "ov-build-node-1",
+                "ov-build-node-2"
+              ],
+              "relations": [
+                "ov-build-relation-1"
+              ],
+              "flows": [
+                "ov-build-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-build-paragraph-1",
+                "kind": "paragraph",
+                "text": "Model concepts and operations become typed APIs and executable definitions. Applications reuse components conforming to those contracts and supplement missing business behavior. Combining model-driven and component-based development clarifies component selection, connection conditions and the scope of new implementation.",
+                "coreRefs": {
+                  "steps": [
+                    "ov-build"
+                  ],
+                  "claims": [
+                    "ov-build-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-build-node-1",
+                    "ov-build-node-2"
+                  ],
+                  "relations": [
+                    "ov-build-relation-1"
+                  ],
+                  "flows": [
+                    "ov-build-flow"
+                  ]
+                }
+              },
+              {
+                "id": "handoff-contracts",
+                "kind": "table",
+                "caption": "Contracts carried across stages",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Stage"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Contract carried forward"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "Combined effect"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "handoff-contracts-row-1",
+                    "cells": [
+                      "Models → types and definitions",
+                      "Concepts, inputs/outputs, progression and transitions",
+                      "Reduce repeated implementation of modeled behavior"
+                    ]
+                  },
+                  {
+                    "id": "handoff-contracts-row-2",
+                    "cells": [
+                      "Typed contracts → component assembly",
+                      "Public Operations, extension points and dependencies",
+                      "Connect existing components and implement only missing behavior"
+                    ]
+                  },
+                  {
+                    "id": "handoff-contracts-row-3",
+                    "cells": [
+                      "Components → shared execution paths",
+                      "Invocation, persistence and authorization contracts",
+                      "Reuse commit, protection and finalization across applications"
+                    ]
+                  },
+                  {
+                    "id": "handoff-contracts-row-4",
+                    "cells": [
+                      "Views/Displays → multiple UIs",
+                      "Read semantics, presentation and action targets",
+                      "Preserve rules and update paths across presentation platforms"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ov-build"
+                  ],
+                  "claims": [
+                    "ov-build-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-build-node-1",
+                    "ov-build-node-2"
+                  ],
+                  "relations": [
+                    "ov-build-relation-1"
+                  ],
+                  "flows": [
+                    "ov-build-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ov-generation-section",
+                "heading": "Direct Execution, Generation and Supplementary Implementation",
+                "coreRefs": {
+                  "steps": [
+                    "ov-generation"
+                  ],
+                  "claims": [
+                    "ov-generation-claim-1",
+                    "ov-generation-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-generation-node-1",
+                    "ov-generation-node-2"
+                  ],
+                  "relations": [
+                    "ov-generation-relation-1"
+                  ],
+                  "flows": [
+                    "ov-generation-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-generation-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Cozy projects CML definitions into typed APIs and connection code and supplies Workflow and state-machine definitions to Textus/CNCF. The runtime follows these definitions for progression and transitions, reducing repeated procedural implementations of the same behavior. Requirements models such as use cases support correspondence and verification with realizing models.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-generation"
+                      ],
+                      "claims": [
+                        "ov-generation-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-generation-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-generation-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-generation-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Business-specific calculations and external connections follow declared types and extension points. Explicit input and output specifications support reuse of existing operations and creation of glue code between them. AI can also provide supplementation and connections within these contracts.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-generation"
+                      ],
+                      "claims": [
+                        "ov-generation-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-generation-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-generation-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ov-components-section",
+                "heading": "Assembling and Distributing Components with Contracts",
+                "coreRefs": {
+                  "steps": [
+                    "ov-components"
+                  ],
+                  "claims": [
+                    "ov-components-claim-1",
+                    "ov-components-claim-2",
+                    "ov-components-claim-3"
+                  ],
+                  "nodes": [
+                    "ov-components-node-1",
+                    "ov-components-node-2",
+                    "ov-components-node-3"
+                  ],
+                  "relations": [
+                    "ov-components-relation-1",
+                    "ov-components-relation-2"
+                  ],
+                  "flows": [
+                    "ov-components-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-components-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "In component-based development, a Component owns business responsibilities and exposes capabilities through Services and Operations. Consumers connect to public types and operations. Sharing model-derived contracts across generated artifacts, existing components and extensions allows multiple applications to use the same business capability.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-components"
+                      ],
+                      "claims": [
+                        "ov-components-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-components-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-components-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-components-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Reducing direct dependencies on component internals limits the impact of internal changes that preserve public contracts. Components using shared invocation, persistence and authorization paths connect to the same execution management wherever reused. Functional reuse is therefore combined with reuse of common execution responsibilities.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-components"
+                      ],
+                      "claims": [
+                        "ov-components-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-components-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-components-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-components-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "A CAR packages component code, definitions, contracts and dependencies. The Component Repository distribution model associates car lint and CBD Review checks, signatures and publisher verification with the version being accepted. Consumers can use public contracts and review information when installing components. The security guide covers the applicability of checks and signatures.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-components"
+                      ],
+                      "claims": [
+                        "ov-components-claim-3"
+                      ],
+                      "nodes": [
+                        "ov-components-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-components-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "component-combination",
+                    "kind": "figure",
+                    "asset": "images/component-combination-en.png",
+                    "caption": "Combining functional reuse with shared execution management",
+                    "alt": "Combining functional reuse with shared execution management",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-components"
+                      ],
+                      "claims": [
+                        "ov-components-claim-1",
+                        "ov-components-claim-2",
+                        "ov-components-claim-3"
+                      ],
+                      "nodes": [
+                        "ov-components-node-1",
+                        "ov-components-node-2",
+                        "ov-components-node-3"
+                      ],
+                      "relations": [
+                        "ov-components-relation-1",
+                        "ov-components-relation-2"
+                      ],
+                      "flows": [
+                        "ov-components-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ov-runtime-section",
+            "heading": "Running Components in a Shared Execution Architecture",
+            "coreRefs": {
+              "steps": [
+                "ov-runtime"
+              ],
+              "claims": [
+                "ov-runtime-claim-1"
+              ],
+              "nodes": [
+                "ov-runtime-node-1",
+                "ov-runtime-node-2"
+              ],
+              "relations": [
+                "ov-runtime-relation-1"
+              ],
+              "flows": [
+                "ov-runtime-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-runtime-paragraph-1",
+                "kind": "paragraph",
+                "text": "Once components are assembled, the runtime assigns request admission, business rules, commit and response responsibilities. This section first describes Application, Domain and persistent state, then the Operation and UoW paths connecting them. Types and functional programming provide a way to connect business-specific processing to this architecture.",
+                "coreRefs": {
+                  "steps": [
+                    "ov-runtime"
+                  ],
+                  "claims": [
+                    "ov-runtime-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-runtime-node-1",
+                    "ov-runtime-node-2"
+                  ],
+                  "relations": [
+                    "ov-runtime-relation-1"
+                  ],
+                  "flows": [
+                    "ov-runtime-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ov-tiers-section",
+                "heading": "Separating Application, Domain and Persistent State",
+                "coreRefs": {
+                  "steps": [
+                    "ov-tiers"
+                  ],
+                  "claims": [
+                    "ov-tiers-claim-1",
+                    "ov-tiers-claim-2",
+                    "ov-tiers-claim-3"
+                  ],
+                  "nodes": [
+                    "ov-tiers-node-1",
+                    "ov-tiers-node-2",
+                    "ov-tiers-node-3"
+                  ],
+                  "relations": [
+                    "ov-tiers-relation-1",
+                    "ov-tiers-relation-2"
+                  ],
+                  "flows": [
+                    "ov-tiers-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-tiers-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "The Application tier admits requests and routes them to business operations. The Domain tier owns business rules and state operations, with persistent storage as durable authority. This separates scaling external request handling from operating the mechanisms that maintain business-state consistency.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-tiers"
+                      ],
+                      "claims": [
+                        "ov-tiers-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-tiers-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-tiers-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-tiers-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "The Domain tier may retain information in memory according to modeled Entity classifications and explicit policies. Updates are persisted through commit paths, while memory remains reconstructible. This combines efficient information access with durable state retention and recovery.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-tiers"
+                      ],
+                      "claims": [
+                        "ov-tiers-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-tiers-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-tiers-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-tiers-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "Short operations can run directly; long-running work can be accepted as Jobs whose Tasks track progression. Job acceptance is distinct from business completion, and each operation uses its corresponding UoW for commit. Admission versus processing capacity and recovery conditions are designed around these responsibilities.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-tiers"
+                      ],
+                      "claims": [
+                        "ov-tiers-claim-3"
+                      ],
+                      "nodes": [
+                        "ov-tiers-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-tiers-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "tier-lifetimes",
+                    "kind": "figure",
+                    "asset": "images/tier-lifetimes-en.png",
+                    "caption": "Design separating lifetimes, state and admission",
+                    "alt": "Design separating lifetimes, state and admission",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-tiers"
+                      ],
+                      "claims": [
+                        "ov-tiers-claim-1",
+                        "ov-tiers-claim-2",
+                        "ov-tiers-claim-3"
+                      ],
+                      "nodes": [
+                        "ov-tiers-node-1",
+                        "ov-tiers-node-2",
+                        "ov-tiers-node-3"
+                      ],
+                      "relations": [
+                        "ov-tiers-relation-1",
+                        "ov-tiers-relation-2"
+                      ],
+                      "flows": [
+                        "ov-tiers-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ov-operation-path-section",
+                "heading": "Sharing the Path from Operation to Commit",
+                "coreRefs": {
+                  "steps": [
+                    "ov-operation-path"
+                  ],
+                  "claims": [
+                    "ov-operation-path-claim-1",
+                    "ov-operation-path-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-operation-path-node-1",
+                    "ov-operation-path-node-2"
+                  ],
+                  "relations": [
+                    "ov-operation-path-relation-1"
+                  ],
+                  "flows": [
+                    "ov-operation-path-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-operation-path-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Requests from UIs and APIs reach business processing after input, identity and Operation-authorization checks. Access to target Entities or external resources is subject to the corresponding authorization and resource conditions. Routing different entry points through this path reduces repeated construction of execution contexts and protection code.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-operation-path"
+                      ],
+                      "claims": [
+                        "ov-operation-path-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-operation-path-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-operation-path-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-operation-path-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Proposed changes produced by business calculations are passed to UoW commit handling. Because successful calculations can still encounter persistence failures, the caller receives an outcome including commit, while the platform handles abort and resource finalization as required. Separating business calculation from changes to shared state clarifies verification conditions and failure-handling responsibilities.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-operation-path"
+                      ],
+                      "claims": [
+                        "ov-operation-path-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-operation-path-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-operation-path-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "execution-boundaries",
+                    "kind": "figure",
+                    "asset": "images/execution-boundaries-en.png",
+                    "caption": "Request, calculation, effect and commit paths",
+                    "alt": "Request, calculation, effect and commit paths",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-operation-path"
+                      ],
+                      "claims": [
+                        "ov-operation-path-claim-1",
+                        "ov-operation-path-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-operation-path-node-1",
+                        "ov-operation-path-node-2"
+                      ],
+                      "relations": [
+                        "ov-operation-path-relation-1"
+                      ],
+                      "flows": [
+                        "ov-operation-path-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ov-fp-section",
+                "heading": "Connecting Business Calculations to the Runtime through Types and Functions",
+                "coreRefs": {
+                  "steps": [
+                    "ov-fp"
+                  ],
+                  "claims": [
+                    "ov-fp-claim-1",
+                    "ov-fp-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-fp-node-1",
+                    "ov-fp-node-2"
+                  ],
+                  "relations": [
+                    "ov-fp-relation-1"
+                  ],
+                  "flows": [
+                    "ov-fp-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-fp-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Supplementary Scala implementations use types for business values and input/output conditions and compose calculations as pure functions. Separating calculations from acquisition and persistence supports repeatable rule verification, while type mismatches can be detected at compilation. Calculation checks and environment-dependent checks can then be separated.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-fp"
+                      ],
+                      "claims": [
+                        "ov-fp-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-fp-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-fp-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-fp-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Consequence represents success and failure as shared outcomes; Free Monad describes operations such as persistence and communication as programs. Passing their combination through the UoW execution path lets business code describe requested work while the platform applies authorization, commit and finalization. Modeling and FP explains the individual types and composition rules.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-fp"
+                      ],
+                      "claims": [
+                        "ov-fp-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-fp-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-fp-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ov-interfaces-section",
+            "heading": "Connecting UIs and External Systems to Shared Business Contracts",
+            "coreRefs": {
+              "steps": [
+                "ov-interfaces"
+              ],
+              "claims": [
+                "ov-interfaces-claim-1",
+                "ov-interfaces-claim-2"
+              ],
+              "nodes": [
+                "ov-interfaces-node-1",
+                "ov-interfaces-node-2"
+              ],
+              "relations": [
+                "ov-interfaces-relation-1"
+              ],
+              "flows": [
+                "ov-interfaces-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-interfaces-paragraph-1",
+                "kind": "paragraph",
+                "text": "Standard Web UI and the Textus-connected Flutter application framework construct screens from models and configuration. The Flutter path targets iPhone, Android, tablets, Web and desktop, covering different UI platforms as well as screen dimensions. Shared Views, Displays and Operations reduce repeated definition of business meaning across interfaces.",
+                "coreRefs": {
+                  "steps": [
+                    "ov-interfaces"
+                  ],
+                  "claims": [
+                    "ov-interfaces-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-interfaces-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ov-interfaces-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ov-interfaces-paragraph-2",
+                "kind": "paragraph",
+                "text": "An independently developed UI can connect through public REST or gRPC APIs. External-service communication is concentrated in interfaces such as Providers, limiting dependencies of business models on protocols and endpoints. Routing updates back through public Operations, authorization and UoW preserves business behavior as interfaces and connection methods change.",
+                "coreRefs": {
+                  "steps": [
+                    "ov-interfaces"
+                  ],
+                  "claims": [
+                    "ov-interfaces-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-interfaces-node-2"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ov-interfaces-flow"
+                  ]
+                }
+              },
+              {
+                "id": "interface-paths",
+                "kind": "figure",
+                "asset": "images/interface-paths-en.png",
+                "caption": "Connecting different interfaces to shared business contracts",
+                "alt": "Connecting different interfaces to shared business contracts",
+                "coreRefs": {
+                  "steps": [
+                    "ov-interfaces"
+                  ],
+                  "claims": [
+                    "ov-interfaces-claim-1",
+                    "ov-interfaces-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-interfaces-node-1",
+                    "ov-interfaces-node-2"
+                  ],
+                  "relations": [
+                    "ov-interfaces-relation-1"
+                  ],
+                  "flows": [
+                    "ov-interfaces-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ov-knowledge-section",
+            "heading": "Designing from Knowledge and Providing Business Information as Knowledge",
+            "coreRefs": {
+              "steps": [
+                "ov-knowledge"
+              ],
+              "claims": [
+                "ov-knowledge-claim-1",
+                "ov-knowledge-claim-2"
+              ],
+              "nodes": [
+                "ov-knowledge-node-1",
+                "ov-knowledge-node-2"
+              ],
+              "relations": [
+                "ov-knowledge-relation-1"
+              ],
+              "flows": [
+                "ov-knowledge-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-knowledge-paragraph-1",
+                "kind": "paragraph",
+                "text": "During design, a BoK and project knowledge inform literate models and explicit mappings to CML Entities, types, relationships and rules. Cozy projects models into typed code and runtime definitions consumed by Textus/CNCF. Preserving these mappings carries design decisions into implementation.",
+                "coreRefs": {
+                  "steps": [
+                    "ov-knowledge"
+                  ],
+                  "claims": [
+                    "ov-knowledge-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-knowledge-node-1",
+                    "ov-knowledge-node-2"
+                  ],
+                  "relations": [
+                    "ov-knowledge-relation-1"
+                  ],
+                  "flows": [
+                    "ov-knowledge-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ov-knowledge-paragraph-2",
+                "kind": "paragraph",
+                "text": "At runtime, Entity-based business information connects to Information, representations such as RDF, and search or AI delivery. Design knowledge and business records remain distinct while identity, provenance and permissions are preserved. The separate guides Designing Domain Models from a BoK and Using Entities as Knowledge explain these paths. Knowledge retrieval and business mutation use distinct paths.",
+                "coreRefs": {
+                  "steps": [
+                    "ov-knowledge"
+                  ],
+                  "claims": [
+                    "ov-knowledge-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-knowledge-node-1",
+                    "ov-knowledge-node-2"
+                  ],
+                  "relations": [
+                    "ov-knowledge-relation-1"
+                  ],
+                  "flows": [
+                    "ov-knowledge-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ov-quality-section",
+            "heading": "Supporting Quality through the Execution Architecture",
+            "coreRefs": {
+              "steps": [
+                "ov-quality"
+              ],
+              "claims": [
+                "ov-quality-claim-1"
+              ],
+              "nodes": [
+                "ov-quality-node-1",
+                "ov-quality-node-2"
+              ],
+              "relations": [
+                "ov-quality-relation-1"
+              ],
+              "flows": [
+                "ov-quality-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-quality-paragraph-1",
+                "kind": "paragraph",
+                "text": "The execution architecture provides boundaries for quality conditions at admission, business operations, commit and resource use. Responsiveness, recovery and security combine mechanisms along these responsibilities. The following sections explain which boundary each mechanism owns and how combinations reduce implementation burden or inconsistency.",
+                "coreRefs": {
+                  "steps": [
+                    "ov-quality"
+                  ],
+                  "claims": [
+                    "ov-quality-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-quality-node-1",
+                    "ov-quality-node-2"
+                  ],
+                  "relations": [
+                    "ov-quality-relation-1"
+                  ],
+                  "flows": [
+                    "ov-quality-flow"
+                  ]
+                }
+              },
+              {
+                "id": "quality-combinations",
+                "kind": "table",
+                "caption": "Technology combinations and their effects",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Perspective"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Combined mechanisms"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "Effect"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "quality-combinations-row-1",
+                    "cells": [
+                      "Correctness / modifiability",
+                      "Models, types, pure calculations and examples",
+                      "Mechanically detect connection mismatches and verify rules separately from environments"
+                    ]
+                  },
+                  {
+                    "id": "quality-combinations-row-2",
+                    "cells": [
+                      "Responsiveness / scalability",
+                      "Tier separation, Jobs, admission and concurrency control",
+                      "Admit work within capacity and expose long-running progression"
+                    ]
+                  },
+                  {
+                    "id": "quality-combinations-row-3",
+                    "cells": [
+                      "Consistency / recovery",
+                      "Reconstructible memory, persistent state, UoW and progress records",
+                      "Improve access while grounding recovery and resumption in committed state"
+                    ]
+                  },
+                  {
+                    "id": "quality-combinations-row-4",
+                    "cells": [
+                      "Security",
+                      "Public Operations, data authorization, resource limits and artifact checks",
+                      "Reuse protection across entry points and constrain installation and execution"
+                    ]
+                  },
+                  {
+                    "id": "quality-combinations-row-5",
+                    "cells": [
+                      "UI reach",
+                      "Views, Displays, public Operations, Web/Flutter/APIs",
+                      "Use common rules across screens and platforms without reimplementing them"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ov-quality"
+                  ],
+                  "claims": [
+                    "ov-quality-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-quality-node-1",
+                    "ov-quality-node-2"
+                  ],
+                  "relations": [
+                    "ov-quality-relation-1"
+                  ],
+                  "flows": [
+                    "ov-quality-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ov-reactive-section",
+                "heading": "Maintaining Responsiveness by Aligning Admission and Capacity",
+                "coreRefs": {
+                  "steps": [
+                    "ov-reactive"
+                  ],
+                  "claims": [
+                    "ov-reactive-claim-1",
+                    "ov-reactive-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-reactive-node-1",
+                    "ov-reactive-node-2"
+                  ],
+                  "relations": [
+                    "ov-reactive-relation-1"
+                  ],
+                  "flows": [
+                    "ov-reactive-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-reactive-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Aligning Application admission, Job queues and Task concurrency with Domain capacity limits unbounded growth of active work. Long-running operations return acceptance separately from completion, allowing progress to be shown meanwhile. Capacity-aware admission and progression management together support responsiveness.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-reactive"
+                      ],
+                      "claims": [
+                        "ov-reactive-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-reactive-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-reactive-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-reactive-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Typed messages and operation composition expose dependencies, while the runtime handles queues, capacity limits and failure isolation. Scaling the Application side also requires attention to Domain and storage capacity. This combination of processing descriptions and execution control supports the four reactive traits: responsiveness, resilience, elasticity and message-driven interaction.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-reactive"
+                      ],
+                      "claims": [
+                        "ov-reactive-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-reactive-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-reactive-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ov-recovery-section",
+                "heading": "Combining Efficient Memory Use with State Recovery",
+                "coreRefs": {
+                  "steps": [
+                    "ov-recovery"
+                  ],
+                  "claims": [
+                    "ov-recovery-claim-1",
+                    "ov-recovery-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-recovery-node-1",
+                    "ov-recovery-node-2"
+                  ],
+                  "relations": [
+                    "ov-recovery-relation-1"
+                  ],
+                  "flows": [
+                    "ov-recovery-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-recovery-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Memory use governed by Entity classification and retention policy improves access to frequently read information. Durable authority and explicit UoW commit boundaries support reconstruction from committed state after process memory is lost. This requires a clear division between memory-resident information and information that must be persisted.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-recovery"
+                      ],
+                      "claims": [
+                        "ov-recovery-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-recovery-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-recovery-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-recovery-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "For long-running work, durable Job or Task progression, UoW commit outcomes and observation together support decisions about completed work and resumption. Conditions preventing duplicate effects and maintaining consistency with external services are defined at these boundaries. The Reactive guide details retention, release, retry and recovery policies.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-recovery"
+                      ],
+                      "claims": [
+                        "ov-recovery-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-recovery-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-recovery-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ov-security-section",
+                "heading": "Embedding Security Mechanisms in Standard Paths",
+                "coreRefs": {
+                  "steps": [
+                    "ov-security"
+                  ],
+                  "claims": [
+                    "ov-security-claim-1",
+                    "ov-security-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-security-node-1",
+                    "ov-security-node-2"
+                  ],
+                  "relations": [
+                    "ov-security-relation-1"
+                  ],
+                  "flows": [
+                    "ov-security-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-security-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Connecting Web, Flutter and external APIs to the same public Operations allows shared Operation authorization for authenticated subjects and target-Entity authorization during processing. Input constraints and resource restrictions further reduce repeated protection code as entry points multiply.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-security"
+                      ],
+                      "claims": [
+                        "ov-security-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-security-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-security-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-security-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Artifact checks, signatures and publisher verification support installation decisions; runtime authorization and Capabilities limit accessible operations and resources. Proposed Profiles group Capabilities for shared configuration, while stronger-isolation uses can add container separation. Reviewed artifact acceptance is combined with granting only the authority needed at the destination. The Security guide distinguishes availability and applicability of each mechanism.",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-security"
+                      ],
+                      "claims": [
+                        "ov-security-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-security-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-security-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ov-development-section",
+            "heading": "Evolving Applications through Matched Responsibilities and Checks",
+            "coreRefs": {
+              "steps": [
+                "ov-development"
+              ],
+              "claims": [
+                "ov-development-claim-1",
+                "ov-development-claim-2"
+              ],
+              "nodes": [
+                "ov-development-node-1",
+                "ov-development-node-2"
+              ],
+              "relations": [
+                "ov-development-relation-1"
+              ],
+              "flows": [
+                "ov-development-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-development-paragraph-1",
+                "kind": "paragraph",
+                "text": "Changes to business meaning belong in models, specific calculations in supplementary implementations, and capacity or authority adjustments in configuration. Type checks, model/component checks, business examples and runtime observation address their respective conditions. Matching responsibilities to checks reduces repeated examination of the entire implementation and its operational assumptions.",
+                "coreRefs": {
+                  "steps": [
+                    "ov-development"
+                  ],
+                  "claims": [
+                    "ov-development-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-development-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ov-development-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ov-development-paragraph-2",
+                "kind": "paragraph",
+                "text": "Model-driven and component-based development require learning, but reuse of components and runtime mechanisms reduces application-specific implementation and review. AI can supplement and connect typed contracts, using mechanical diagnostics to localize corrections. Constraints from models, types, component contracts and runtime controls act at different stages, providing layered harnesses while supporting improvements in development time and AI usage cost.",
+                "coreRefs": {
+                  "steps": [
+                    "ov-development"
+                  ],
+                  "claims": [
+                    "ov-development-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-development-node-2"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ov-development-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ov-conclusion-section",
+            "heading": "Conclusion",
+            "coreRefs": {
+              "steps": [
+                "ov-conclusion"
+              ],
+              "claims": [
+                "ov-conclusion-claim-1"
+              ],
+              "nodes": [
+                "ov-conclusion-node-1",
+                "ov-conclusion-node-2"
+              ],
+              "relations": [
+                "ov-conclusion-relation-1"
+              ],
+              "flows": [
+                "ov-conclusion-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-conclusion-paragraph-1",
+                "kind": "paragraph",
+                "text": "Textus/CNCF combines business models, typed component contracts and shared execution management. Developers focus on business meaning and specific behavior, reuse existing capabilities, and connect multiple UIs, persistence, authority and load/failure handling to the same architecture. This reduces application-specific implementation and verification while supporting required quality through platform mechanisms and business checks. AI supplementation operates within this structure.",
+                "coreRefs": {
+                  "steps": [
+                    "ov-conclusion"
+                  ],
+                  "claims": [
+                    "ov-conclusion-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-conclusion-node-1",
+                    "ov-conclusion-node-2"
+                  ],
+                  "relations": [
+                    "ov-conclusion-relation-1"
+                  ],
+                  "flows": [
+                    "ov-conclusion-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ov-guides-section",
+            "heading": "Appendix: Routes into Specialized Guides",
+            "coreRefs": {
+              "steps": [
+                "ov-guides"
+              ],
+              "claims": [
+                "ov-guides-claim-1"
+              ],
+              "nodes": [
+                "ov-guides-node-1",
+                "ov-guides-node-2"
+              ],
+              "relations": [
+                "ov-guides-relation-1"
+              ],
+              "flows": [
+                "ov-guides-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-guides-paragraph-1",
+                "kind": "paragraph",
+                "text": "Use the DDD guide for model design and Modeling and FP for projecting models into calculations and effects. UI covers user interaction; Reactive covers execution under load and failure; Security covers authority and protection. These guides explain different perspectives on the shared path introduced here.",
+                "coreRefs": {
+                  "steps": [
+                    "ov-guides"
+                  ],
+                  "claims": [
+                    "ov-guides-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-guides-node-1",
+                    "ov-guides-node-2"
+                  ],
+                  "relations": [
+                    "ov-guides-relation-1"
+                  ],
+                  "flows": [
+                    "ov-guides-flow"
+                  ]
+                }
+              },
+              {
+                "id": "guide-map",
+                "kind": "table",
+                "caption": "Guides and their questions",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Guide"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Main question"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "SmartDox source relative to this project"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "guide-map-row-1",
+                    "cells": [
+                      "DDD",
+                      "How to model business meaning, updates, reads and presentation",
+                      "../../ddd/textus-cncf-ddd-architecture.dox/index.dox"
+                    ]
+                  },
+                  {
+                    "id": "guide-map-row-2",
+                    "cells": [
+                      "Modeling and FP",
+                      "How types, calculations, outcomes and effects connect to execution",
+                      "../../modeling-fp/textus-cncf-modeling-fp.dox/index.dox"
+                    ]
+                  },
+                  {
+                    "id": "guide-map-row-3",
+                    "cells": [
+                      "UI",
+                      "How models project into multiple platforms and external UIs",
+                      "../../ui/textus-cncf-ui-architecture.dox/index.dox"
+                    ]
+                  },
+                  {
+                    "id": "guide-map-row-4",
+                    "cells": [
+                      "リアクティブ / Reactive",
+                      "How load, partial failure, Jobs, memory and recovery combine",
+                      "../../reactive/textus-cncf-reactive-architecture.dox/index.dox"
+                    ]
+                  },
+                  {
+                    "id": "guide-map-row-5",
+                    "cells": [
+                      "セキュリティ / Security",
+                      "Where distribution, identity, authorization and resources are protected",
+                      "../../security/textus-cncf-security-architecture.dox/index.dox"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ov-guides"
+                  ],
+                  "claims": [
+                    "ov-guides-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-guides-node-1",
+                    "ov-guides-node-2"
+                  ],
+                  "relations": [
+                    "ov-guides-relation-1"
+                  ],
+                  "flows": [
+                    "ov-guides-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ov-sources-section",
+            "heading": "Appendix: Sources and Scope",
+            "coreRefs": {
+              "steps": [
+                "ov-sources"
+              ],
+              "claims": [
+                "ov-sources-claim-1"
+              ],
+              "nodes": [
+                "ov-sources-node-1",
+                "ov-sources-node-2"
+              ],
+              "relations": [
+                "ov-sources-relation-1"
+              ],
+              "flows": [
+                "ov-sources-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-sources-paragraph-1",
+                "kind": "paragraph",
+                "text": "This guide organizes responsibilities and connections from the specialized guides and internal design and implementation sources for CNCF, Cozy and Textus. The reference architecture includes implemented mechanisms and future design directions. Version-specific specifications and specialized guides establish availability and installation conditions.",
+                "coreRefs": {
+                  "steps": [
+                    "ov-sources"
+                  ],
+                  "claims": [
+                    "ov-sources-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-sources-node-1",
+                    "ov-sources-node-2"
+                  ],
+                  "relations": [
+                    "ov-sources-relation-1"
+                  ],
+                  "flows": [
+                    "ov-sources-flow"
+                  ]
+                }
+              },
+              {
+                "id": "source-map",
+                "kind": "table",
+                "caption": "Internal sources and their roles",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "Source (repository-relative)"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "Supported explanation"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "source-map-row-1",
+                    "cells": [
+                      "CNCF: README.md",
+                      "CNCF scope and execution contracts"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-2",
+                    "cells": [
+                      "CNCF: docs/design/subsystem-runtime-architecture.md",
+                      "Application, Domain and persistent-state separation (design)"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-3",
+                    "cells": [
+                      "CNCF: kernel.scala / unitofwork under org.goldenport.cncf",
+                      "Free, ConsequenceT and UoW implementation"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-4",
+                    "cells": [
+                      "cozy: docs/notes/cml-semantic-capability-inventory.md",
+                      "Supported model-to-generation mappings"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-5",
+                    "cells": [
+                      "cozy: docs/spec/statemachine-workflow-generated-abi-contract.md",
+                      "Generated behavior definitions and runtime contracts"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-6",
+                    "cells": [
+                      "textus-launcher: README.md",
+                      "Runtime and artifact resolution"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-7",
+                    "cells": [
+                      "textus-flutter-application-framework: README.md",
+                      "UI configuration, generation and extensions"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ov-sources"
+                  ],
+                  "claims": [
+                    "ov-sources-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-sources-node-1",
+                    "ov-sources-node-2"
+                  ],
+                  "relations": [
+                    "ov-sources-relation-1"
+                  ],
+                  "flows": [
+                    "ov-sources-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "ov-purpose",
+        "text": "Models as a Foundation for Development and Execution"
+      },
+      {
+        "stepRef": "ov-roles",
+        "text": "How SimpleModeling, CML, Cozy, Textus and CNCF Relate"
+      },
+      {
+        "stepRef": "ov-domain-application",
+        "text": "Connecting Domain and Application Models"
+      },
+      {
+        "stepRef": "ov-view-display",
+        "text": "Connecting Reading and Presentation to Business Operations"
+      },
+      {
+        "stepRef": "ov-models",
+        "text": "Modeling from Business Meaning to User Interaction"
+      },
+      {
+        "stepRef": "ov-generation",
+        "text": "Direct Execution, Generation and Supplementary Implementation"
+      },
+      {
+        "stepRef": "ov-components",
+        "text": "Assembling and Distributing Components with Contracts"
+      },
+      {
+        "stepRef": "ov-build",
+        "text": "Reusing Components through Model Contracts"
+      },
+      {
+        "stepRef": "ov-tiers",
+        "text": "Separating Application, Domain and Persistent State"
+      },
+      {
+        "stepRef": "ov-operation-path",
+        "text": "Sharing the Path from Operation to Commit"
+      },
+      {
+        "stepRef": "ov-fp",
+        "text": "Connecting Business Calculations to the Runtime through Types and Functions"
+      },
+      {
+        "stepRef": "ov-runtime",
+        "text": "Running Components in a Shared Execution Architecture"
+      },
+      {
+        "stepRef": "ov-interfaces",
+        "text": "Connecting UIs and External Systems to Shared Business Contracts"
+      },
+      {
+        "stepRef": "ov-reactive",
+        "text": "Maintaining Responsiveness by Aligning Admission and Capacity"
+      },
+      {
+        "stepRef": "ov-recovery",
+        "text": "Combining Efficient Memory Use with State Recovery"
+      },
+      {
+        "stepRef": "ov-security",
+        "text": "Embedding Security Mechanisms in Standard Paths"
+      },
+      {
+        "stepRef": "ov-quality",
+        "text": "Supporting Quality through the Execution Architecture"
+      },
+      {
+        "stepRef": "ov-development",
+        "text": "Evolving Applications through Matched Responsibilities and Checks"
+      },
+      {
+        "stepRef": "ov-conclusion",
+        "text": "Conclusion"
+      },
+      {
+        "stepRef": "ov-guides",
+        "text": "Appendix: Routes into Specialized Guides"
+      },
+      {
+        "stepRef": "ov-sources",
+        "text": "Appendix: Sources and Scope"
+      },
+      {
+        "stepRef": "textus-cncf-overview",
+        "text": "Textus/CNCF — Architecture and Technology Overview"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "ov-purpose-node-1",
+        "text": "Separate business-specific and shared responsibilities"
+      },
+      {
+        "nodeRef": "ov-purpose-node-2",
+        "text": "Share contracts to focus implementation and verification"
+      },
+      {
+        "nodeRef": "ov-roles-node-1",
+        "text": "Separate description, generation, installation and execution"
+      },
+      {
+        "nodeRef": "ov-roles-node-2",
+        "text": "Follow the effects of combinations through stage handoffs"
+      },
+      {
+        "nodeRef": "ov-domain-application-node-1",
+        "text": "Separate domain structure from goal-directed progression"
+      },
+      {
+        "nodeRef": "ov-domain-application-node-2",
+        "text": "Check the correspondence between requirements and realizing models"
+      },
+      {
+        "nodeRef": "ov-view-display-node-1",
+        "text": "Project semantic read results into presentation"
+      },
+      {
+        "nodeRef": "ov-view-display-node-2",
+        "text": "Return user actions to shared business paths"
+      },
+      {
+        "nodeRef": "ov-models-node-1",
+        "text": "Divide responsibilities among models"
+      },
+      {
+        "nodeRef": "ov-models-node-2",
+        "text": "Preserve meaning through model relationships"
+      },
+      {
+        "nodeRef": "ov-generation-node-1",
+        "text": "Use runtime definitions to reduce duplicated behavior"
+      },
+      {
+        "nodeRef": "ov-generation-node-2",
+        "text": "Support reuse and extensions through typed interfaces"
+      },
+      {
+        "nodeRef": "ov-components-node-1",
+        "text": "Reuse component capabilities through public contracts"
+      },
+      {
+        "nodeRef": "ov-components-node-2",
+        "text": "Limit internal-change impact and reuse execution management"
+      },
+      {
+        "nodeRef": "ov-components-node-3",
+        "text": "Install artifacts associated with reviewed versions"
+      },
+      {
+        "nodeRef": "ov-build-node-1",
+        "text": "Select existing components through model contracts"
+      },
+      {
+        "nodeRef": "ov-build-node-2",
+        "text": "Assemble the application by supplementing missing business behavior"
+      },
+      {
+        "nodeRef": "ov-tiers-node-1",
+        "text": "Separate admission from business-state management"
+      },
+      {
+        "nodeRef": "ov-tiers-node-2",
+        "text": "Connect memory use with persistence and reconstruction"
+      },
+      {
+        "nodeRef": "ov-tiers-node-3",
+        "text": "Connect direct execution and Job progression to commit boundaries"
+      },
+      {
+        "nodeRef": "ov-operation-path-node-1",
+        "text": "Use the same authorization and business paths across entry points"
+      },
+      {
+        "nodeRef": "ov-operation-path-node-2",
+        "text": "Manage business-calculation and commit outcomes separately"
+      },
+      {
+        "nodeRef": "ov-fp-node-1",
+        "text": "Separate verification concerns through types and pure calculations"
+      },
+      {
+        "nodeRef": "ov-fp-node-2",
+        "text": "Apply shared execution management to operation descriptions"
+      },
+      {
+        "nodeRef": "ov-runtime-node-1",
+        "text": "Assign runtime responsibilities to tiers"
+      },
+      {
+        "nodeRef": "ov-runtime-node-2",
+        "text": "Connect business processing to shared paths"
+      },
+      {
+        "nodeRef": "ov-interfaces-node-1",
+        "text": "Project shared meaning across UI platforms"
+      },
+      {
+        "nodeRef": "ov-interfaces-node-2",
+        "text": "Use contracts to preserve execution paths across integrations"
+      },
+      {
+        "nodeRef": "ov-reactive-node-1",
+        "text": "Align admission, queues and concurrency with processing capacity"
+      },
+      {
+        "nodeRef": "ov-reactive-node-2",
+        "text": "Expose progression and combine descriptions with execution control"
+      },
+      {
+        "nodeRef": "ov-recovery-node-1",
+        "text": "Connect memory policies to persistence and reconstruction"
+      },
+      {
+        "nodeRef": "ov-recovery-node-2",
+        "text": "Determine resumption conditions from progression, commit and observation"
+      },
+      {
+        "nodeRef": "ov-security-node-1",
+        "text": "Apply shared business and data protection across entry points"
+      },
+      {
+        "nodeRef": "ov-security-node-2",
+        "text": "Combine installation checks with destination authority limits"
+      },
+      {
+        "nodeRef": "ov-quality-node-1",
+        "text": "Place quality conditions at runtime boundaries"
+      },
+      {
+        "nodeRef": "ov-quality-node-2",
+        "text": "Explain response, recovery and protection through responsibility boundaries"
+      },
+      {
+        "nodeRef": "ov-development-node-1",
+        "text": "Match changed responsibilities to verification conditions"
+      },
+      {
+        "nodeRef": "ov-development-node-2",
+        "text": "Reduce development and review through reuse and localized supplementation"
+      },
+      {
+        "nodeRef": "ov-conclusion-node-1",
+        "text": "Focus on business meaning and specific behavior"
+      },
+      {
+        "nodeRef": "ov-conclusion-node-2",
+        "text": "Use reuse and shared management to address effort and quality"
+      },
+      {
+        "nodeRef": "ov-guides-node-1",
+        "text": "Select detailed guides according to the question"
+      },
+      {
+        "nodeRef": "ov-guides-node-2",
+        "text": "Read them in relation to the shared execution path"
+      },
+      {
+        "nodeRef": "ov-sources-node-1",
+        "text": "Identify internal design and implementation sources"
+      },
+      {
+        "nodeRef": "ov-sources-node-2",
+        "text": "Refer availability conditions to version-specific sources"
+      },
+      {
+        "nodeRef": "textus-cncf-overview-node-1",
+        "text": "Define business models and reusable components"
+      },
+      {
+        "nodeRef": "textus-cncf-overview-node-2",
+        "text": "Connect to shared execution management to support quality"
+      }
+    ]
+  }
+}

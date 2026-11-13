@@ -1,0 +1,911 @@
+{
+  "schema": "cozy.content-core.logic-tree.v1",
+  "id": "textus-cncf-overview",
+  "root": {
+    "id": "textus-cncf-overview",
+    "semanticRole": "explanation",
+    "claims": [
+      "textus-cncf-overview-claim-1"
+    ],
+    "structure": {
+      "pattern": "sequence",
+      "nodes": [
+        {
+          "id": "textus-cncf-overview-node-1",
+          "role": "step"
+        },
+        {
+          "id": "textus-cncf-overview-node-2",
+          "role": "step"
+        }
+      ],
+      "relations": [
+        {
+          "id": "textus-cncf-overview-relation-1",
+          "relationType": "next",
+          "from": "textus-cncf-overview-node-1",
+          "to": "textus-cncf-overview-node-2"
+        }
+      ]
+    },
+    "flow": {
+      "id": "textus-cncf-overview-flow",
+      "transitions": [
+        {
+          "id": "textus-cncf-overview-transition-1",
+          "relationType": "next",
+          "fromStepId": "ov-purpose",
+          "toStepId": "ov-roles"
+        },
+        {
+          "id": "textus-cncf-overview-transition-2",
+          "relationType": "next",
+          "fromStepId": "ov-roles",
+          "toStepId": "ov-models"
+        },
+        {
+          "id": "textus-cncf-overview-transition-3",
+          "relationType": "next",
+          "fromStepId": "ov-models",
+          "toStepId": "ov-build"
+        },
+        {
+          "id": "textus-cncf-overview-transition-4",
+          "relationType": "next",
+          "fromStepId": "ov-build",
+          "toStepId": "ov-runtime"
+        },
+        {
+          "id": "textus-cncf-overview-transition-5",
+          "relationType": "next",
+          "fromStepId": "ov-runtime",
+          "toStepId": "ov-interfaces"
+        },
+        {
+          "id": "textus-cncf-overview-transition-6",
+          "relationType": "next",
+          "fromStepId": "ov-interfaces",
+          "toStepId": "ov-knowledge"
+        },
+        {
+          "id": "ov-knowledge-transition",
+          "relationType": "next",
+          "fromStepId": "ov-knowledge",
+          "toStepId": "ov-quality"
+        },
+        {
+          "id": "textus-cncf-overview-transition-7",
+          "relationType": "next",
+          "fromStepId": "ov-quality",
+          "toStepId": "ov-development"
+        },
+        {
+          "id": "textus-cncf-overview-transition-8",
+          "relationType": "next",
+          "fromStepId": "ov-development",
+          "toStepId": "ov-conclusion"
+        },
+        {
+          "id": "textus-cncf-overview-transition-9",
+          "relationType": "next",
+          "fromStepId": "ov-conclusion",
+          "toStepId": "ov-guides"
+        },
+        {
+          "id": "textus-cncf-overview-transition-10",
+          "relationType": "next",
+          "fromStepId": "ov-guides",
+          "toStepId": "ov-sources"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "id": "ov-purpose",
+        "semanticRole": "explanation",
+        "claims": [
+          "ov-purpose-claim-1",
+          "ov-purpose-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ov-purpose-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ov-purpose-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ov-purpose-relation-1",
+              "relationType": "next",
+              "from": "ov-purpose-node-1",
+              "to": "ov-purpose-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ov-purpose-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "ov-roles",
+        "semanticRole": "explanation",
+        "claims": [
+          "ov-roles-claim-1",
+          "ov-roles-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ov-roles-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ov-roles-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ov-roles-relation-1",
+              "relationType": "next",
+              "from": "ov-roles-node-1",
+              "to": "ov-roles-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ov-roles-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "ov-models",
+        "semanticRole": "explanation",
+        "claims": [
+          "ov-models-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ov-models-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ov-models-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ov-models-relation-1",
+              "relationType": "next",
+              "from": "ov-models-node-1",
+              "to": "ov-models-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ov-models-flow",
+          "transitions": [
+            {
+              "id": "ov-models-transition-1",
+              "relationType": "next",
+              "fromStepId": "ov-domain-application",
+              "toStepId": "ov-view-display"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ov-domain-application",
+            "semanticRole": "explanation",
+            "claims": [
+              "ov-domain-application-claim-1",
+              "ov-domain-application-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ov-domain-application-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ov-domain-application-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ov-domain-application-relation-1",
+                  "relationType": "next",
+                  "from": "ov-domain-application-node-1",
+                  "to": "ov-domain-application-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ov-domain-application-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ov-view-display",
+            "semanticRole": "explanation",
+            "claims": [
+              "ov-view-display-claim-1"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ov-view-display-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ov-view-display-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ov-view-display-relation-1",
+                  "relationType": "next",
+                  "from": "ov-view-display-node-1",
+                  "to": "ov-view-display-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ov-view-display-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ov-build",
+        "semanticRole": "explanation",
+        "claims": [
+          "ov-build-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ov-build-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ov-build-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ov-build-relation-1",
+              "relationType": "next",
+              "from": "ov-build-node-1",
+              "to": "ov-build-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ov-build-flow",
+          "transitions": [
+            {
+              "id": "ov-build-transition-1",
+              "relationType": "next",
+              "fromStepId": "ov-generation",
+              "toStepId": "ov-components"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ov-generation",
+            "semanticRole": "explanation",
+            "claims": [
+              "ov-generation-claim-1",
+              "ov-generation-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ov-generation-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ov-generation-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ov-generation-relation-1",
+                  "relationType": "next",
+                  "from": "ov-generation-node-1",
+                  "to": "ov-generation-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ov-generation-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ov-components",
+            "semanticRole": "explanation",
+            "claims": [
+              "ov-components-claim-1",
+              "ov-components-claim-2",
+              "ov-components-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ov-components-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ov-components-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "ov-components-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ov-components-relation-1",
+                  "relationType": "next",
+                  "from": "ov-components-node-1",
+                  "to": "ov-components-node-2"
+                },
+                {
+                  "id": "ov-components-relation-2",
+                  "relationType": "next",
+                  "from": "ov-components-node-2",
+                  "to": "ov-components-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ov-components-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ov-runtime",
+        "semanticRole": "explanation",
+        "claims": [
+          "ov-runtime-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ov-runtime-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ov-runtime-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ov-runtime-relation-1",
+              "relationType": "next",
+              "from": "ov-runtime-node-1",
+              "to": "ov-runtime-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ov-runtime-flow",
+          "transitions": [
+            {
+              "id": "ov-runtime-transition-1",
+              "relationType": "next",
+              "fromStepId": "ov-tiers",
+              "toStepId": "ov-operation-path"
+            },
+            {
+              "id": "ov-runtime-transition-2",
+              "relationType": "next",
+              "fromStepId": "ov-operation-path",
+              "toStepId": "ov-fp"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ov-tiers",
+            "semanticRole": "explanation",
+            "claims": [
+              "ov-tiers-claim-1",
+              "ov-tiers-claim-2",
+              "ov-tiers-claim-3"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ov-tiers-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ov-tiers-node-2",
+                  "role": "step"
+                },
+                {
+                  "id": "ov-tiers-node-3",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ov-tiers-relation-1",
+                  "relationType": "next",
+                  "from": "ov-tiers-node-1",
+                  "to": "ov-tiers-node-2"
+                },
+                {
+                  "id": "ov-tiers-relation-2",
+                  "relationType": "next",
+                  "from": "ov-tiers-node-2",
+                  "to": "ov-tiers-node-3"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ov-tiers-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ov-operation-path",
+            "semanticRole": "explanation",
+            "claims": [
+              "ov-operation-path-claim-1",
+              "ov-operation-path-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ov-operation-path-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ov-operation-path-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ov-operation-path-relation-1",
+                  "relationType": "next",
+                  "from": "ov-operation-path-node-1",
+                  "to": "ov-operation-path-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ov-operation-path-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ov-fp",
+            "semanticRole": "explanation",
+            "claims": [
+              "ov-fp-claim-1",
+              "ov-fp-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ov-fp-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ov-fp-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ov-fp-relation-1",
+                  "relationType": "next",
+                  "from": "ov-fp-node-1",
+                  "to": "ov-fp-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ov-fp-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ov-interfaces",
+        "semanticRole": "explanation",
+        "claims": [
+          "ov-interfaces-claim-1",
+          "ov-interfaces-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ov-interfaces-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ov-interfaces-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ov-interfaces-relation-1",
+              "relationType": "next",
+              "from": "ov-interfaces-node-1",
+              "to": "ov-interfaces-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ov-interfaces-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "ov-knowledge",
+        "semanticRole": "explanation",
+        "claims": [
+          "ov-knowledge-claim-1",
+          "ov-knowledge-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ov-knowledge-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ov-knowledge-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ov-knowledge-relation-1",
+              "relationType": "next",
+              "from": "ov-knowledge-node-1",
+              "to": "ov-knowledge-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ov-knowledge-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "ov-quality",
+        "semanticRole": "explanation",
+        "claims": [
+          "ov-quality-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ov-quality-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ov-quality-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ov-quality-relation-1",
+              "relationType": "next",
+              "from": "ov-quality-node-1",
+              "to": "ov-quality-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ov-quality-flow",
+          "transitions": [
+            {
+              "id": "ov-quality-transition-1",
+              "relationType": "next",
+              "fromStepId": "ov-reactive",
+              "toStepId": "ov-recovery"
+            },
+            {
+              "id": "ov-quality-transition-2",
+              "relationType": "next",
+              "fromStepId": "ov-recovery",
+              "toStepId": "ov-security"
+            }
+          ]
+        },
+        "steps": [
+          {
+            "id": "ov-reactive",
+            "semanticRole": "explanation",
+            "claims": [
+              "ov-reactive-claim-1",
+              "ov-reactive-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ov-reactive-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ov-reactive-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ov-reactive-relation-1",
+                  "relationType": "next",
+                  "from": "ov-reactive-node-1",
+                  "to": "ov-reactive-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ov-reactive-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ov-recovery",
+            "semanticRole": "explanation",
+            "claims": [
+              "ov-recovery-claim-1",
+              "ov-recovery-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ov-recovery-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ov-recovery-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ov-recovery-relation-1",
+                  "relationType": "next",
+                  "from": "ov-recovery-node-1",
+                  "to": "ov-recovery-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ov-recovery-flow",
+              "transitions": []
+            },
+            "steps": []
+          },
+          {
+            "id": "ov-security",
+            "semanticRole": "explanation",
+            "claims": [
+              "ov-security-claim-1",
+              "ov-security-claim-2"
+            ],
+            "structure": {
+              "pattern": "sequence",
+              "nodes": [
+                {
+                  "id": "ov-security-node-1",
+                  "role": "step"
+                },
+                {
+                  "id": "ov-security-node-2",
+                  "role": "step"
+                }
+              ],
+              "relations": [
+                {
+                  "id": "ov-security-relation-1",
+                  "relationType": "next",
+                  "from": "ov-security-node-1",
+                  "to": "ov-security-node-2"
+                }
+              ]
+            },
+            "flow": {
+              "id": "ov-security-flow",
+              "transitions": []
+            },
+            "steps": []
+          }
+        ]
+      },
+      {
+        "id": "ov-development",
+        "semanticRole": "explanation",
+        "claims": [
+          "ov-development-claim-1",
+          "ov-development-claim-2"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ov-development-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ov-development-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ov-development-relation-1",
+              "relationType": "next",
+              "from": "ov-development-node-1",
+              "to": "ov-development-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ov-development-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "ov-conclusion",
+        "semanticRole": "explanation",
+        "claims": [
+          "ov-conclusion-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ov-conclusion-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ov-conclusion-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ov-conclusion-relation-1",
+              "relationType": "next",
+              "from": "ov-conclusion-node-1",
+              "to": "ov-conclusion-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ov-conclusion-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "ov-guides",
+        "semanticRole": "explanation",
+        "claims": [
+          "ov-guides-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ov-guides-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ov-guides-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ov-guides-relation-1",
+              "relationType": "next",
+              "from": "ov-guides-node-1",
+              "to": "ov-guides-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ov-guides-flow",
+          "transitions": []
+        },
+        "steps": []
+      },
+      {
+        "id": "ov-sources",
+        "semanticRole": "explanation",
+        "claims": [
+          "ov-sources-claim-1"
+        ],
+        "structure": {
+          "pattern": "sequence",
+          "nodes": [
+            {
+              "id": "ov-sources-node-1",
+              "role": "step"
+            },
+            {
+              "id": "ov-sources-node-2",
+              "role": "step"
+            }
+          ],
+          "relations": [
+            {
+              "id": "ov-sources-relation-1",
+              "relationType": "next",
+              "from": "ov-sources-node-1",
+              "to": "ov-sources-node-2"
+            }
+          ]
+        },
+        "flow": {
+          "id": "ov-sources-flow",
+          "transitions": []
+        },
+        "steps": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 15
+skinparam nodesep 20
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam noteBackgroundColor #FFF8E9
+skinparam dpi 170
+rectangle "UI / API" as entry
+rectangle "Application tier\nAdmission and coordination" as app
+rectangle "Job / Task\nLong-running progression" as job
+rectangle "Domain tier\nBusiness rules and state operations\nReconstructible memory" as domain
+database "Persistent state\nDurable authority" as store
+entry -right-> app
+app -down-> domain : direct execution
+app -right-> job : Job admission
+job -down-> domain : Task execution
+domain -left-> store : commit through UoW
+store -right-> domain : load / reconstruct
+note bottom of domain
+Separate Job acceptance from completion
+Manage commit through UoW
+Rebuild memory from persistent state
+end note
+
+@enduml

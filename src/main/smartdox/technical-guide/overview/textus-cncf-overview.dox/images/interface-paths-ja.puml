@@ -1,0 +1,30 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 15
+skinparam nodesep 20
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam noteBackgroundColor #FFF8E9
+skinparam dpi 170
+rectangle "標準Web UI" as web
+rectangle "Textus Flutter UI\niPhone / Android / Tablet\nWeb / Desktop" as flutter
+rectangle "独自UI / 外部システム" as external
+rectangle "View / Display\n参照・表示" as display
+rectangle "REST / gRPC\n公開API" as api
+rectangle "Operation\n認可・業務規則・UoW" as op
+rectangle "業務部品 / Provider" as component
+web <--> display
+flutter <--> display
+external <--> api
+display --> op : 操作の接続
+api --> op : 操作の呼出し
+op <--> component : 契約に沿う実行
+
+@enduml

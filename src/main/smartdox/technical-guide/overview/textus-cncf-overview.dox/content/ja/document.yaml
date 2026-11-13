@@ -1,0 +1,2266 @@
+{
+  "schema": "cozy.document-description.v2",
+  "id": "textus-cncf-overview-document-ja",
+  "core": {
+    "id": "textus-cncf-overview"
+  },
+  "locale": "ja",
+  "document": {
+    "title": "Textus/CNCF 全体像と技術のつながり",
+    "sections": [
+      {
+        "id": "textus-cncf-overview-section",
+        "heading": "Textus/CNCF 全体像と技術のつながり",
+        "coreRefs": {
+          "steps": [
+            "textus-cncf-overview"
+          ],
+          "claims": [
+            "textus-cncf-overview-claim-1"
+          ],
+          "nodes": [
+            "textus-cncf-overview-node-1",
+            "textus-cncf-overview-node-2"
+          ],
+          "relations": [
+            "textus-cncf-overview-relation-1"
+          ],
+          "flows": [
+            "textus-cncf-overview-flow"
+          ]
+        },
+        "blocks": [
+          {
+            "id": "textus-cncf-overview-paragraph-1",
+            "kind": "paragraph",
+            "text": "Textus/CNCFは、業務モデルと再利用可能な部品を組み合わせ、共通の実行基盤でアプリケーションを動作させる仕組みを提供します。開発者が業務の意味と固有の処理を定め、UI、保存、権限、負荷への対応を基盤の機構へ接続する構成です。本書では、モデルの記述から部品化、実行、運用までを通して、各技術の組合せによって何が得られるかを説明します。",
+            "coreRefs": {
+              "steps": [
+                "textus-cncf-overview"
+              ],
+              "claims": [
+                "textus-cncf-overview-claim-1"
+              ],
+              "nodes": [
+                "textus-cncf-overview-node-1",
+                "textus-cncf-overview-node-2"
+              ],
+              "relations": [
+                "textus-cncf-overview-relation-1"
+              ],
+              "flows": [
+                "textus-cncf-overview-flow"
+              ]
+            }
+          }
+        ],
+        "sections": [
+          {
+            "id": "ov-purpose-section",
+            "heading": "モデルを開発と実行の基盤にする",
+            "coreRefs": {
+              "steps": [
+                "ov-purpose"
+              ],
+              "claims": [
+                "ov-purpose-claim-1",
+                "ov-purpose-claim-2"
+              ],
+              "nodes": [
+                "ov-purpose-node-1",
+                "ov-purpose-node-2"
+              ],
+              "relations": [
+                "ov-purpose-relation-1"
+              ],
+              "flows": [
+                "ov-purpose-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-purpose-paragraph-1",
+                "kind": "paragraph",
+                "text": "業務アプリケーションには、固有の規則を実現する処理と、呼出し、保存、認可、障害対応などに共通する処理があります。Textus/CNCFは、業務の意味をモデルと型付きの契約へ表し、既存の部品を利用しながら、共通する処理を実行基盤へ任せる構成を取ります。これにより、個別に実装・確認する範囲を業務固有の部分へ絞りやすくなります。",
+                "coreRefs": {
+                  "steps": [
+                    "ov-purpose"
+                  ],
+                  "claims": [
+                    "ov-purpose-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-purpose-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ov-purpose-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ov-purpose-paragraph-2",
+                "kind": "paragraph",
+                "text": "SimpleModelingのリファレンス・アーキテクチャは、この分担をモデル、開発ツール、実行基盤の組合せとして提示します。モデリング手法やCozy、Textusはそれぞれ利用できます。組み合わせる場合には、モデルで定めた契約を生成・部品構成・実行で共有し、各段階で別々の仕様や管理処理を作る負担を減らします。",
+                "coreRefs": {
+                  "steps": [
+                    "ov-purpose"
+                  ],
+                  "claims": [
+                    "ov-purpose-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-purpose-node-2"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ov-purpose-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ov-roles-section",
+            "heading": "SimpleModeling・CML・Cozy・Textus・CNCFの関係",
+            "coreRefs": {
+              "steps": [
+                "ov-roles"
+              ],
+              "claims": [
+                "ov-roles-claim-1",
+                "ov-roles-claim-2"
+              ],
+              "nodes": [
+                "ov-roles-node-1",
+                "ov-roles-node-2"
+              ],
+              "relations": [
+                "ov-roles-relation-1"
+              ],
+              "flows": [
+                "ov-roles-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-roles-paragraph-1",
+                "kind": "paragraph",
+                "text": "CMLはモデルの記述言語、Cozyはモデルの解析・具体化・生成を担う開発ツールです。Textusは部品を組み合わせてアプリケーションを動作させる基盤であり、CNCFはその内部で共通の実行契約と機構を提供します。本書のCNCFはCloud Native Component Frameworkを指します。",
+                "coreRefs": {
+                  "steps": [
+                    "ov-roles"
+                  ],
+                  "claims": [
+                    "ov-roles-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-roles-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ov-roles-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ov-roles-paragraph-2",
+                "kind": "paragraph",
+                "text": "開発時にはモデルを型付きAPI、接続コード、実行定義へ具体化し、補完実装と既存部品を組み合わせます。導入時にはTextusが利用するランタイムと配布物を解決し、実行時にはCNCFの共通経路を使います。以下では、この受渡しが再利用、実行管理、UIの展開、品質の確保へどうつながるかを順に説明します。",
+                "coreRefs": {
+                  "steps": [
+                    "ov-roles"
+                  ],
+                  "claims": [
+                    "ov-roles-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-roles-node-2"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ov-roles-flow"
+                  ]
+                }
+              },
+              {
+                "id": "technology-roles",
+                "kind": "table",
+                "caption": "記述・生成・実行を担う役割",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "名前"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "役割"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "次の段階へ渡すもの"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "technology-roles-row-1",
+                    "cells": [
+                      "SimpleModeling",
+                      "モデリング手法と技術体系",
+                      "モデルの意味・責務・対応"
+                    ]
+                  },
+                  {
+                    "id": "technology-roles-row-2",
+                    "cells": [
+                      "CML",
+                      "モデル記述",
+                      "構造・振る舞い・契約の定義"
+                    ]
+                  },
+                  {
+                    "id": "technology-roles-row-3",
+                    "cells": [
+                      "Cozy",
+                      "解析・具体化・生成",
+                      "型付きAPI・接続コード・実行定義"
+                    ]
+                  },
+                  {
+                    "id": "technology-roles-row-4",
+                    "cells": [
+                      "Textus",
+                      "部品を導入してアプリケーションを動作させる基盤",
+                      "実行構成とアプリケーション機能"
+                    ]
+                  },
+                  {
+                    "id": "technology-roles-row-5",
+                    "cells": [
+                      "CNCF",
+                      "共通の実行契約と機構",
+                      "Operation・実行文脈・UoWなどの実行"
+                    ]
+                  },
+                  {
+                    "id": "technology-roles-row-6",
+                    "cells": [
+                      "CAR / Component Repository",
+                      "部品の配布と受入れ",
+                      "版と依存関係を持つ配布物"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ov-roles"
+                  ],
+                  "claims": [
+                    "ov-roles-claim-1",
+                    "ov-roles-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-roles-node-1",
+                    "ov-roles-node-2"
+                  ],
+                  "relations": [
+                    "ov-roles-relation-1"
+                  ],
+                  "flows": [
+                    "ov-roles-flow"
+                  ]
+                }
+              },
+              {
+                "id": "landscape",
+                "kind": "figure",
+                "asset": "images/landscape-ja.png",
+                "caption": "モデル・部品・実行管理の分担と得られる効果",
+                "alt": "モデル・部品・実行管理の分担と得られる効果",
+                "coreRefs": {
+                  "steps": [
+                    "ov-roles"
+                  ],
+                  "claims": [
+                    "ov-roles-claim-1",
+                    "ov-roles-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-roles-node-1",
+                    "ov-roles-node-2"
+                  ],
+                  "relations": [
+                    "ov-roles-relation-1"
+                  ],
+                  "flows": [
+                    "ov-roles-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ov-models-section",
+            "heading": "業務の意味から利用者との接点までをモデル化する",
+            "coreRefs": {
+              "steps": [
+                "ov-models"
+              ],
+              "claims": [
+                "ov-models-claim-1"
+              ],
+              "nodes": [
+                "ov-models-node-1",
+                "ov-models-node-2"
+              ],
+              "relations": [
+                "ov-models-relation-1"
+              ],
+              "flows": [
+                "ov-models-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-models-paragraph-1",
+                "kind": "paragraph",
+                "text": "モデルは一種類でアプリケーションの全てを表すものではありません。用語と要求を起点に、業務の構造、目的を実現する進行、参照結果、表示を分担して記述し、相互の対応を定めます。モデル間の接続を含めて扱うことで、業務規則がUIや保存処理へ分散するのを抑えます。",
+                "coreRefs": {
+                  "steps": [
+                    "ov-models"
+                  ],
+                  "claims": [
+                    "ov-models-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-models-node-1",
+                    "ov-models-node-2"
+                  ],
+                  "relations": [
+                    "ov-models-relation-1"
+                  ],
+                  "flows": [
+                    "ov-models-flow"
+                  ]
+                }
+              },
+              {
+                "id": "model-relations",
+                "kind": "figure",
+                "asset": "images/model-relations-ja.png",
+                "caption": "要求・業務・参照・表示の接続",
+                "alt": "要求・業務・参照・表示の接続",
+                "coreRefs": {
+                  "steps": [
+                    "ov-models"
+                  ],
+                  "claims": [
+                    "ov-models-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-models-node-1",
+                    "ov-models-node-2"
+                  ],
+                  "relations": [
+                    "ov-models-relation-1"
+                  ],
+                  "flows": [
+                    "ov-models-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ov-domain-application-section",
+                "heading": "ドメインとアプリケーションを接続する",
+                "coreRefs": {
+                  "steps": [
+                    "ov-domain-application"
+                  ],
+                  "claims": [
+                    "ov-domain-application-claim-1",
+                    "ov-domain-application-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-domain-application-node-1",
+                    "ov-domain-application-node-2"
+                  ],
+                  "relations": [
+                    "ov-domain-application-relation-1"
+                  ],
+                  "flows": [
+                    "ov-domain-application-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-domain-application-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "DDDとPoEAAを補助線に、開発に必要なモデルとその接続を整理します。ドメイン・モデルはEntity、Value、Aggregateなどの静的構造を中心に、業務概念と更新の規則を定めます。アプリケーション・モデルはユースケースを起点にしたWorkflowを中心に、ドメインの操作を使って目的を実現する進行を定めます。状態機械は状態と許される遷移を明示し、規則のモデルは判断条件を整理します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-domain-application"
+                      ],
+                      "claims": [
+                        "ov-domain-application-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-domain-application-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-domain-application-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-domain-application-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "ユースケースは目的、実例、期待する結果を示す要求モデルです。ユースケースそのものを直接実行するのではなく、実現するWorkflow、状態機械、Operation、Entityとの対応を定め、実例とモデルの整合性を確認します。BoKで管理する用語集と文芸モデルは、その接続に使う概念の意味と設計理由を保持します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-domain-application"
+                      ],
+                      "claims": [
+                        "ov-domain-application-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-domain-application-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-domain-application-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ov-view-display-section",
+                "heading": "参照と表示を業務の操作へ結び付ける",
+                "coreRefs": {
+                  "steps": [
+                    "ov-view-display"
+                  ],
+                  "claims": [
+                    "ov-view-display-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-view-display-node-1",
+                    "ov-view-display-node-2"
+                  ],
+                  "relations": [
+                    "ov-view-display-relation-1"
+                  ],
+                  "flows": [
+                    "ov-view-display-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-view-display-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Viewは用途に応じた意味のある参照結果を、外側のDisplayは表示項目や操作の提示を表します。同じ業務の意味を、WebやFlutterなど異なるUIへ投影するための分担です。利用者の操作は公開Operationへ戻し、更新の規則を画面ごとに作り直さずに適用します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-view-display"
+                      ],
+                      "claims": [
+                        "ov-view-display-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-view-display-node-1",
+                        "ov-view-display-node-2"
+                      ],
+                      "relations": [
+                        "ov-view-display-relation-1"
+                      ],
+                      "flows": [
+                        "ov-view-display-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ov-build-section",
+            "heading": "モデルの契約を使って部品を再利用する",
+            "coreRefs": {
+              "steps": [
+                "ov-build"
+              ],
+              "claims": [
+                "ov-build-claim-1"
+              ],
+              "nodes": [
+                "ov-build-node-1",
+                "ov-build-node-2"
+              ],
+              "relations": [
+                "ov-build-relation-1"
+              ],
+              "flows": [
+                "ov-build-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-build-paragraph-1",
+                "kind": "paragraph",
+                "text": "モデルで定めた概念と操作を、型付きAPIと実行定義へ具体化します。その契約に適合する既存部品を利用し、不足する業務処理を補完して、アプリケーションを構成します。モデル駆動とCBDを組み合わせることで、部品を選び接続する条件と、新しく実装する範囲を明確にできます。",
+                "coreRefs": {
+                  "steps": [
+                    "ov-build"
+                  ],
+                  "claims": [
+                    "ov-build-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-build-node-1",
+                    "ov-build-node-2"
+                  ],
+                  "relations": [
+                    "ov-build-relation-1"
+                  ],
+                  "flows": [
+                    "ov-build-flow"
+                  ]
+                }
+              },
+              {
+                "id": "handoff-contracts",
+                "kind": "table",
+                "caption": "段階をまたいで引き継ぐ契約",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "段階"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "引き継ぐ内容"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "組合せの効果"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "handoff-contracts-row-1",
+                    "cells": [
+                      "モデル → 型・実行定義",
+                      "概念・入出力・進行・遷移",
+                      "モデルで定めた振る舞いを各所へ書き直す負担を減らす"
+                    ]
+                  },
+                  {
+                    "id": "handoff-contracts-row-2",
+                    "cells": [
+                      "型付き契約 → 部品の構成",
+                      "公開Operation・拡張点・依存先",
+                      "既存部品を選んで接続し、不足部分へ実装を絞る"
+                    ]
+                  },
+                  {
+                    "id": "handoff-contracts-row-3",
+                    "cells": [
+                      "部品 → 共通の実行経路",
+                      "呼出し・保存・認可の契約",
+                      "再利用先でも同じ確定・保護・終了管理を使う"
+                    ]
+                  },
+                  {
+                    "id": "handoff-contracts-row-4",
+                    "cells": [
+                      "View・Display → 複数UI",
+                      "参照の意味・表示・操作先",
+                      "表示基盤を変えても業務規則と更新経路を保つ"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ov-build"
+                  ],
+                  "claims": [
+                    "ov-build-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-build-node-1",
+                    "ov-build-node-2"
+                  ],
+                  "relations": [
+                    "ov-build-relation-1"
+                  ],
+                  "flows": [
+                    "ov-build-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ov-generation-section",
+                "heading": "直接実行・生成・補完実装の分担",
+                "coreRefs": {
+                  "steps": [
+                    "ov-generation"
+                  ],
+                  "claims": [
+                    "ov-generation-claim-1",
+                    "ov-generation-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-generation-node-1",
+                    "ov-generation-node-2"
+                  ],
+                  "relations": [
+                    "ov-generation-relation-1"
+                  ],
+                  "flows": [
+                    "ov-generation-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-generation-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "CozyはCMLの定義を型付きAPIや接続コードへ具体化し、Workflowや状態機械の実行定義をTextus/CNCFへ渡します。共通基盤がその定義に従って進行や遷移を扱うため、同じ振る舞いを手続きとして各所へ書き直す負担を減らせます。ユースケースなどの要求モデルは、実現するモデルとの対応と検査に用います。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-generation"
+                      ],
+                      "claims": [
+                        "ov-generation-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-generation-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-generation-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-generation-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "業務固有の計算や外部接続は、定められた型と拡張点に従って補完します。入出力の仕様が明確になるため、既存の操作を再利用し、その間のグルーコードを作成しやすくなります。AIも、この契約に沿った補完と接続を担当できます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-generation"
+                      ],
+                      "claims": [
+                        "ov-generation-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-generation-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-generation-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ov-components-section",
+                "heading": "契約を持つ部品として構成・配布する",
+                "coreRefs": {
+                  "steps": [
+                    "ov-components"
+                  ],
+                  "claims": [
+                    "ov-components-claim-1",
+                    "ov-components-claim-2",
+                    "ov-components-claim-3"
+                  ],
+                  "nodes": [
+                    "ov-components-node-1",
+                    "ov-components-node-2",
+                    "ov-components-node-3"
+                  ],
+                  "relations": [
+                    "ov-components-relation-1",
+                    "ov-components-relation-2"
+                  ],
+                  "flows": [
+                    "ov-components-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-components-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "CBDでは、Componentが業務上の責務を持ち、ServiceとOperationを通じて機能を公開します。利用側は公開された型と操作に接続します。モデルから得た契約を生成物、既存部品、補完コードで共有することで、同じ業務機能を複数のアプリケーションから利用できます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-components"
+                      ],
+                      "claims": [
+                        "ov-components-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-components-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-components-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-components-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "部品の内部を直接参照する箇所を減らすと、公開契約を保った内部変更が利用側へ及ぶ範囲を抑えられます。各部品が共通の呼出し・保存・認可の経路を使うことで、再利用先でも同じ実行管理へ接続できます。機能の再利用と、実行上の共通処理の再利用が組み合わさる構成です。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-components"
+                      ],
+                      "claims": [
+                        "ov-components-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-components-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-components-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-components-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "CARは、その部品のコード、定義、契約、依存関係をまとめる配布単位です。Component Repositoryの配布モデルは、car lintとCBD Reviewによる検査、署名と配布元の確認を、受け入れる版と対応付けます。これにより、利用側は公開契約と検査情報を参照して部品を導入できます。検査と署名の適用条件はセキュリティガイドで扱います。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-components"
+                      ],
+                      "claims": [
+                        "ov-components-claim-3"
+                      ],
+                      "nodes": [
+                        "ov-components-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-components-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "component-combination",
+                    "kind": "figure",
+                    "asset": "images/component-combination-ja.png",
+                    "caption": "機能の再利用と共通の実行管理を接続する",
+                    "alt": "機能の再利用と共通の実行管理を接続する",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-components"
+                      ],
+                      "claims": [
+                        "ov-components-claim-1",
+                        "ov-components-claim-2",
+                        "ov-components-claim-3"
+                      ],
+                      "nodes": [
+                        "ov-components-node-1",
+                        "ov-components-node-2",
+                        "ov-components-node-3"
+                      ],
+                      "relations": [
+                        "ov-components-relation-1",
+                        "ov-components-relation-2"
+                      ],
+                      "flows": [
+                        "ov-components-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ov-runtime-section",
+            "heading": "部品を共通の実行構成で動かす",
+            "coreRefs": {
+              "steps": [
+                "ov-runtime"
+              ],
+              "claims": [
+                "ov-runtime-claim-1"
+              ],
+              "nodes": [
+                "ov-runtime-node-1",
+                "ov-runtime-node-2"
+              ],
+              "relations": [
+                "ov-runtime-relation-1"
+              ],
+              "flows": [
+                "ov-runtime-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-runtime-paragraph-1",
+                "kind": "paragraph",
+                "text": "部品を構成した後は、要求の受入れ、業務規則の適用、更新の確定、結果の返却をどこで担うかを定めます。Application、Domain、永続状態の分担を先に示し、その間をOperationとUoWがつなぐ経路を説明します。型と関数型プログラミングは、この構成に業務固有の処理を接続する方法として位置付けます。",
+                "coreRefs": {
+                  "steps": [
+                    "ov-runtime"
+                  ],
+                  "claims": [
+                    "ov-runtime-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-runtime-node-1",
+                    "ov-runtime-node-2"
+                  ],
+                  "relations": [
+                    "ov-runtime-relation-1"
+                  ],
+                  "flows": [
+                    "ov-runtime-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ov-tiers-section",
+                "heading": "Application・Domain・永続状態を分担する",
+                "coreRefs": {
+                  "steps": [
+                    "ov-tiers"
+                  ],
+                  "claims": [
+                    "ov-tiers-claim-1",
+                    "ov-tiers-claim-2",
+                    "ov-tiers-claim-3"
+                  ],
+                  "nodes": [
+                    "ov-tiers-node-1",
+                    "ov-tiers-node-2",
+                    "ov-tiers-node-3"
+                  ],
+                  "relations": [
+                    "ov-tiers-relation-1",
+                    "ov-tiers-relation-2"
+                  ],
+                  "flows": [
+                    "ov-tiers-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-tiers-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Application tierは要求を受け付け、対象の業務操作へ処理を渡します。Domain tierは業務規則と状態への操作を担い、永続状態を長期的な正本とします。この分担により、外部からの要求を受ける側の増減と、業務状態の整合性を管理する側の運用を分けて設計できます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-tiers"
+                      ],
+                      "claims": [
+                        "ov-tiers-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-tiers-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-tiers-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-tiers-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Domain側は、モデルで指定したEntityの分類と明示的な方針に従って、情報をメモリへ保持できます。更新は確定経路を通して永続化し、メモリを再構成可能な領域として扱います。これにより、情報へのアクセスを効率化する方法と、状態を保持・復旧する方法を組み合わせられます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-tiers"
+                      ],
+                      "claims": [
+                        "ov-tiers-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-tiers-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-tiers-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-tiers-paragraph-3",
+                    "kind": "paragraph",
+                    "text": "短い操作は直接実行し、長い処理はJobとして受け付けてTaskの進行を管理する経路を選べます。Jobの受付と業務処理の完了を分け、各操作の確定は対応するUoWで扱います。受付量と処理能力の関係、障害時の再開条件は、この分担を基に設計します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-tiers"
+                      ],
+                      "claims": [
+                        "ov-tiers-claim-3"
+                      ],
+                      "nodes": [
+                        "ov-tiers-node-3"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-tiers-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "tier-lifetimes",
+                    "kind": "figure",
+                    "asset": "images/tier-lifetimes-ja.png",
+                    "caption": "実行寿命・状態・受付量を分担する設計",
+                    "alt": "実行寿命・状態・受付量を分担する設計",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-tiers"
+                      ],
+                      "claims": [
+                        "ov-tiers-claim-1",
+                        "ov-tiers-claim-2",
+                        "ov-tiers-claim-3"
+                      ],
+                      "nodes": [
+                        "ov-tiers-node-1",
+                        "ov-tiers-node-2",
+                        "ov-tiers-node-3"
+                      ],
+                      "relations": [
+                        "ov-tiers-relation-1",
+                        "ov-tiers-relation-2"
+                      ],
+                      "flows": [
+                        "ov-tiers-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ov-operation-path-section",
+                "heading": "Operationから更新の確定までを共通経路にする",
+                "coreRefs": {
+                  "steps": [
+                    "ov-operation-path"
+                  ],
+                  "claims": [
+                    "ov-operation-path-claim-1",
+                    "ov-operation-path-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-operation-path-node-1",
+                    "ov-operation-path-node-2"
+                  ],
+                  "relations": [
+                    "ov-operation-path-relation-1"
+                  ],
+                  "flows": [
+                    "ov-operation-path-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-operation-path-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "UIやAPIからの要求は、入力と実行主体の確認、Operationの認可を経て業務処理へ渡ります。処理中に対象Entityや外部資源を利用するときも、対応する認可と資源利用の条件を確認します。入口の違いをこの経路へ集めることで、業務処理ごとに実行文脈や保護を組み立てる負担を減らします。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-operation-path"
+                      ],
+                      "claims": [
+                        "ov-operation-path-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-operation-path-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-operation-path-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-operation-path-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "業務計算で得た変更候補は、UoWの確定処理へ渡します。計算が成功しても保存が失敗する場合があるため、確定を含む結果を呼出し元へ返し、必要な中止と資源の終了処理を共通基盤で扱います。業務規則を計算する責務と、その変更を共有状態へ反映する責務を分けることで、検証する条件と失敗を扱う場所が明確になります。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-operation-path"
+                      ],
+                      "claims": [
+                        "ov-operation-path-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-operation-path-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-operation-path-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "execution-boundaries",
+                    "kind": "figure",
+                    "asset": "images/execution-boundaries-ja.png",
+                    "caption": "要求・業務計算・作用・確定の経路",
+                    "alt": "要求・業務計算・作用・確定の経路",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-operation-path"
+                      ],
+                      "claims": [
+                        "ov-operation-path-claim-1",
+                        "ov-operation-path-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-operation-path-node-1",
+                        "ov-operation-path-node-2"
+                      ],
+                      "relations": [
+                        "ov-operation-path-relation-1"
+                      ],
+                      "flows": [
+                        "ov-operation-path-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ov-fp-section",
+                "heading": "業務計算を型と関数で実行基盤へ接続する",
+                "coreRefs": {
+                  "steps": [
+                    "ov-fp"
+                  ],
+                  "claims": [
+                    "ov-fp-claim-1",
+                    "ov-fp-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-fp-node-1",
+                    "ov-fp-node-2"
+                  ],
+                  "relations": [
+                    "ov-fp-relation-1"
+                  ],
+                  "flows": [
+                    "ov-fp-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-fp-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "補完実装にはScalaを用い、型で業務の値と入出力の条件を表し、純粋関数として計算を組み合わせます。データ取得や保存から計算を分けると、同じ入力を使って規則を検証でき、型の不整合はコンパイル時に確認できます。計算の正しさを調べる範囲と、実行環境を含めて調べる範囲を分担できます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-fp"
+                      ],
+                      "claims": [
+                        "ov-fp-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-fp-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-fp-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-fp-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "Consequenceは成功と失敗を共通の結果として扱い、Free Monadは保存や通信などの操作をプログラムとして記述します。その組合せをUoWの実行経路へ渡すことで、業務コードは行う操作を記述し、基盤が認可、確定、終了管理を適用できます。各型と合成規則の詳細はModeling and FPガイドで説明します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-fp"
+                      ],
+                      "claims": [
+                        "ov-fp-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-fp-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-fp-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ov-interfaces-section",
+            "heading": "UIと外部システムを同じ業務契約へ接続する",
+            "coreRefs": {
+              "steps": [
+                "ov-interfaces"
+              ],
+              "claims": [
+                "ov-interfaces-claim-1",
+                "ov-interfaces-claim-2"
+              ],
+              "nodes": [
+                "ov-interfaces-node-1",
+                "ov-interfaces-node-2"
+              ],
+              "relations": [
+                "ov-interfaces-relation-1"
+              ],
+              "flows": [
+                "ov-interfaces-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-interfaces-paragraph-1",
+                "kind": "paragraph",
+                "text": "標準Web UIと、Textusと連動するFlutterアプリケーション・フレームワークは、モデルと設定を利用して画面を構成します。Flutterの経路はiPhone、Android、Tablet、Web、Desktopを対象とし、画面寸法に加えて異なるUI基盤へ対応します。共通のView・Display・Operationを使うことで、画面ごとに業務の意味を再定義する範囲を減らします。",
+                "coreRefs": {
+                  "steps": [
+                    "ov-interfaces"
+                  ],
+                  "claims": [
+                    "ov-interfaces-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-interfaces-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ov-interfaces-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ov-interfaces-paragraph-2",
+                "kind": "paragraph",
+                "text": "外部で独自にUIを作り、RESTまたはgRPCで公開APIへ接続する構成も取れます。外部サービスとの通信はProviderなどの接点へ集め、業務モデルが通信方式や接続先の詳細へ依存する範囲を絞ります。どの入口を使っても、更新は公開Operationと認可・UoWの経路へ戻すことが、UIや接続方式を変更できる条件になります。",
+                "coreRefs": {
+                  "steps": [
+                    "ov-interfaces"
+                  ],
+                  "claims": [
+                    "ov-interfaces-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-interfaces-node-2"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ov-interfaces-flow"
+                  ]
+                }
+              },
+              {
+                "id": "interface-paths",
+                "kind": "figure",
+                "asset": "images/interface-paths-ja.png",
+                "caption": "異なるUIと外部連携を共通の業務契約へ接続する",
+                "alt": "異なるUIと外部連携を共通の業務契約へ接続する",
+                "coreRefs": {
+                  "steps": [
+                    "ov-interfaces"
+                  ],
+                  "claims": [
+                    "ov-interfaces-claim-1",
+                    "ov-interfaces-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-interfaces-node-1",
+                    "ov-interfaces-node-2"
+                  ],
+                  "relations": [
+                    "ov-interfaces-relation-1"
+                  ],
+                  "flows": [
+                    "ov-interfaces-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ov-knowledge-section",
+            "heading": "知識から設計し、業務情報を知識として提供する",
+            "coreRefs": {
+              "steps": [
+                "ov-knowledge"
+              ],
+              "claims": [
+                "ov-knowledge-claim-1",
+                "ov-knowledge-claim-2"
+              ],
+              "nodes": [
+                "ov-knowledge-node-1",
+                "ov-knowledge-node-2"
+              ],
+              "relations": [
+                "ov-knowledge-relation-1"
+              ],
+              "flows": [
+                "ov-knowledge-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-knowledge-paragraph-1",
+                "kind": "paragraph",
+                "text": "設計では、BoKとプロジェクトの業務知識を文芸モデルに整理し、CMLのEntity・型・関係・規則へ対応付けます。Cozyはモデルを型付きコードと実行定義へ具体化し、Textus／CNCFがその契約を利用します。意味と生成物の対応を保つことで、設計判断を実装へ引き継げます。",
+                "coreRefs": {
+                  "steps": [
+                    "ov-knowledge"
+                  ],
+                  "claims": [
+                    "ov-knowledge-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-knowledge-node-1",
+                    "ov-knowledge-node-2"
+                  ],
+                  "relations": [
+                    "ov-knowledge-relation-1"
+                  ],
+                  "flows": [
+                    "ov-knowledge-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ov-knowledge-paragraph-2",
+                "kind": "paragraph",
+                "text": "実行時には、Entityに基づく業務情報をInformation、RDF等の知識表現、検索・AI提供へ接続します。設計知識と業務データを区別し、識別・出典・参照権限を引き継ぎます。この二つの経路は「BoKからドメイン・モデルを設計する」と「Entityを知識として扱う」の別ガイドで説明します。知識の取得と業務状態の変更は別の経路です。",
+                "coreRefs": {
+                  "steps": [
+                    "ov-knowledge"
+                  ],
+                  "claims": [
+                    "ov-knowledge-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-knowledge-node-1",
+                    "ov-knowledge-node-2"
+                  ],
+                  "relations": [
+                    "ov-knowledge-relation-1"
+                  ],
+                  "flows": [
+                    "ov-knowledge-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ov-quality-section",
+            "heading": "実行構成の組合せで品質を支える",
+            "coreRefs": {
+              "steps": [
+                "ov-quality"
+              ],
+              "claims": [
+                "ov-quality-claim-1"
+              ],
+              "nodes": [
+                "ov-quality-node-1",
+                "ov-quality-node-2"
+              ],
+              "relations": [
+                "ov-quality-relation-1"
+              ],
+              "flows": [
+                "ov-quality-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-quality-paragraph-1",
+                "kind": "paragraph",
+                "text": "ここまでの実行構成を使うと、要求の受付、業務操作、更新の確定、資源利用のそれぞれに品質上の条件を配置できます。応答性、復旧、セキュリティは、この責務分担に沿って機構を組み合わせます。各機構がどの境界を担当し、他の機構と組み合わさってどの負担や不整合を減らすかを確認します。",
+                "coreRefs": {
+                  "steps": [
+                    "ov-quality"
+                  ],
+                  "claims": [
+                    "ov-quality-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-quality-node-1",
+                    "ov-quality-node-2"
+                  ],
+                  "relations": [
+                    "ov-quality-relation-1"
+                  ],
+                  "flows": [
+                    "ov-quality-flow"
+                  ]
+                }
+              },
+              {
+                "id": "quality-combinations",
+                "kind": "table",
+                "caption": "技術の組合せと得られる効果",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "観点"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "組み合わせる仕組み"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "得られる効果"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "quality-combinations-row-1",
+                    "cells": [
+                      "正確性・変更容易性",
+                      "モデル・型・純粋計算・実例検証",
+                      "接続の不整合を機械的に検出し、業務規則を環境から分けて検証する"
+                    ]
+                  },
+                  {
+                    "id": "quality-combinations-row-2",
+                    "cells": [
+                      "応答性・拡張性",
+                      "Application/Domain分担・Job・受付と実行数の制御",
+                      "処理能力に合わせて仕事を受け入れ、長い処理の進行を示す"
+                    ]
+                  },
+                  {
+                    "id": "quality-combinations-row-3",
+                    "cells": [
+                      "整合性・復旧",
+                      "再構成可能なメモリ・永続状態・UoW・進行記録",
+                      "情報へのアクセスを効率化し、確定済み状態から復旧・再開を判断する"
+                    ]
+                  },
+                  {
+                    "id": "quality-combinations-row-4",
+                    "cells": [
+                      "セキュリティ",
+                      "公開Operation・データ認可・資源制限・配布検証",
+                      "入口と利用先が増えても共通の保護を使い、導入と実行の両方で制約する"
+                    ]
+                  },
+                  {
+                    "id": "quality-combinations-row-5",
+                    "cells": [
+                      "UIの展開",
+                      "View・Display・公開Operation・Web/Flutter/API",
+                      "業務規則を再実装せず異なる画面・UI基盤から利用する"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ov-quality"
+                  ],
+                  "claims": [
+                    "ov-quality-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-quality-node-1",
+                    "ov-quality-node-2"
+                  ],
+                  "relations": [
+                    "ov-quality-relation-1"
+                  ],
+                  "flows": [
+                    "ov-quality-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": [
+              {
+                "id": "ov-reactive-section",
+                "heading": "受付と処理能力を合わせて応答を保つ",
+                "coreRefs": {
+                  "steps": [
+                    "ov-reactive"
+                  ],
+                  "claims": [
+                    "ov-reactive-claim-1",
+                    "ov-reactive-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-reactive-node-1",
+                    "ov-reactive-node-2"
+                  ],
+                  "relations": [
+                    "ov-reactive-relation-1"
+                  ],
+                  "flows": [
+                    "ov-reactive-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-reactive-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Application側の受付制御、Jobの待ち行列、Taskの同時実行数をDomain側の処理能力に合わせると、受け付けた仕事を無制限に実行中の処理へ増やすことを抑えられます。長い処理は受付結果と完了結果を分けて返すため、その間も利用者に進行を示せます。実行能力に合わせた受付と、進行の管理を組み合わせて応答性を支えます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-reactive"
+                      ],
+                      "claims": [
+                        "ov-reactive-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-reactive-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-reactive-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-reactive-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "型付きのメッセージと操作の合成は、処理間の依存関係を明示し、実行基盤は待ち行列や容量制限、障害の分離を担当します。Application側を増やす場合もDomainや保存先の容量を合わせて扱います。リアクティブの四特性である応答性、耐障害性、弾力性、メッセージ駆動を、このような処理の記述と実行制御の組合せで支えます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-reactive"
+                      ],
+                      "claims": [
+                        "ov-reactive-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-reactive-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-reactive-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ov-recovery-section",
+                "heading": "メモリの利用効率と状態の復旧を両立させる",
+                "coreRefs": {
+                  "steps": [
+                    "ov-recovery"
+                  ],
+                  "claims": [
+                    "ov-recovery-claim-1",
+                    "ov-recovery-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-recovery-node-1",
+                    "ov-recovery-node-2"
+                  ],
+                  "relations": [
+                    "ov-recovery-relation-1"
+                  ],
+                  "flows": [
+                    "ov-recovery-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-recovery-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Entityの分類と保持方針に従うメモリ利用は、頻繁に参照する情報へのアクセスを効率化します。永続状態を正本とし、UoWの確定境界を明確にすることで、実行プロセスのメモリを失っても、確定済みの状態から再構成する設計にできます。メモリに置く情報と、保存しなければならない情報を分担することが、この組合せの条件です。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-recovery"
+                      ],
+                      "claims": [
+                        "ov-recovery-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-recovery-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-recovery-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-recovery-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "長い処理では、永続化するJobやTaskの進行情報と、各UoWの確定結果、観測情報を合わせて、完了した処理と再開すべき処理を判断します。再実行による重複を防ぐ条件や、外部サービスとの整合性もこの境界で定めます。詳細な保持・解放・再試行・復旧の方針はリアクティブガイドへつなぎます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-recovery"
+                      ],
+                      "claims": [
+                        "ov-recovery-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-recovery-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-recovery-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              },
+              {
+                "id": "ov-security-section",
+                "heading": "標準経路へセキュリティ機構を組み込む",
+                "coreRefs": {
+                  "steps": [
+                    "ov-security"
+                  ],
+                  "claims": [
+                    "ov-security-claim-1",
+                    "ov-security-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-security-node-1",
+                    "ov-security-node-2"
+                  ],
+                  "relations": [
+                    "ov-security-relation-1"
+                  ],
+                  "flows": [
+                    "ov-security-flow"
+                  ]
+                },
+                "blocks": [
+                  {
+                    "id": "ov-security-paragraph-1",
+                    "kind": "paragraph",
+                    "text": "Web、Flutter、外部APIの呼出しを同じ公開Operationへ接続すると、認証した主体に対するOperationの認可と、処理中の対象Entityへの認可を共通経路で適用できます。入力制約と資源利用の制限も組み合わせることで、入口が増えても、画面や業務処理ごとに保護を作り直す範囲を抑えられます。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-security"
+                      ],
+                      "claims": [
+                        "ov-security-claim-1"
+                      ],
+                      "nodes": [
+                        "ov-security-node-1"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-security-flow"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "ov-security-paragraph-2",
+                    "kind": "paragraph",
+                    "text": "配布物の検査と署名・配布元の確認は導入時の判断を支え、実行時の認可とCapabilityは利用できる操作や資源を限定します。用途別のCapabilityセットをProfileで管理する構想は設定の共通化を支え、強い隔離が必要な用途ではコンテナによる区画分離を追加します。検査済みの部品を導入することと、利用先で必要な権限だけを与えることを組み合わせます。各機構の提供状況と適用条件はセキュリティガイドで区別します。",
+                    "coreRefs": {
+                      "steps": [
+                        "ov-security"
+                      ],
+                      "claims": [
+                        "ov-security-claim-2"
+                      ],
+                      "nodes": [
+                        "ov-security-node-2"
+                      ],
+                      "relations": [],
+                      "flows": [
+                        "ov-security-flow"
+                      ]
+                    }
+                  }
+                ],
+                "sections": []
+              }
+            ]
+          },
+          {
+            "id": "ov-development-section",
+            "heading": "責務と検査を対応付けて変更を進める",
+            "coreRefs": {
+              "steps": [
+                "ov-development"
+              ],
+              "claims": [
+                "ov-development-claim-1",
+                "ov-development-claim-2"
+              ],
+              "nodes": [
+                "ov-development-node-1",
+                "ov-development-node-2"
+              ],
+              "relations": [
+                "ov-development-relation-1"
+              ],
+              "flows": [
+                "ov-development-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-development-paragraph-1",
+                "kind": "paragraph",
+                "text": "変更時には、業務の意味を変える箇所をモデルへ、固有の計算を補完実装へ、容量や権限の調整を設定へ反映します。型検査、モデル・部品の検査、業務の実例検証、実行時の観測を、それぞれが確認できる条件に使います。責務と検査を対応付けることで、変更のたびに実装全体と運用上の条件を一から読み直す負担を減らせます。",
+                "coreRefs": {
+                  "steps": [
+                    "ov-development"
+                  ],
+                  "claims": [
+                    "ov-development-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-development-node-1"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ov-development-flow"
+                  ]
+                }
+              },
+              {
+                "id": "ov-development-paragraph-2",
+                "kind": "paragraph",
+                "text": "モデル駆動とCBDには学習が必要ですが、既存部品と共通基盤の利用によって、個別に実装・レビューする範囲を減らせます。AIは型付き契約の中で補完と接続を行い、機械的な検査から修正箇所を絞れます。モデル、型、部品契約、実行時制御が異なる段階で制約を働かせるため、開発速度とAI利用コストの改善を図りながら、誤りを抑える多重のハーネスとしても利用できます。",
+                "coreRefs": {
+                  "steps": [
+                    "ov-development"
+                  ],
+                  "claims": [
+                    "ov-development-claim-2"
+                  ],
+                  "nodes": [
+                    "ov-development-node-2"
+                  ],
+                  "relations": [],
+                  "flows": [
+                    "ov-development-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ov-conclusion-section",
+            "heading": "まとめ",
+            "coreRefs": {
+              "steps": [
+                "ov-conclusion"
+              ],
+              "claims": [
+                "ov-conclusion-claim-1"
+              ],
+              "nodes": [
+                "ov-conclusion-node-1",
+                "ov-conclusion-node-2"
+              ],
+              "relations": [
+                "ov-conclusion-relation-1"
+              ],
+              "flows": [
+                "ov-conclusion-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-conclusion-paragraph-1",
+                "kind": "paragraph",
+                "text": "Textus/CNCFは、業務モデル、型付きの部品契約、共通の実行管理を組み合わせます。開発者は業務の意味と固有の処理に集中し、既存機能を再利用しながら、複数のUI、保存、権限、負荷や障害への対応を同じ実行構成へ接続できます。この分担によって個別の実装と確認を減らし、必要な品質を共通基盤の機構と業務の検証で支えます。AIによる補完も、この構成の中で利用できます。",
+                "coreRefs": {
+                  "steps": [
+                    "ov-conclusion"
+                  ],
+                  "claims": [
+                    "ov-conclusion-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-conclusion-node-1",
+                    "ov-conclusion-node-2"
+                  ],
+                  "relations": [
+                    "ov-conclusion-relation-1"
+                  ],
+                  "flows": [
+                    "ov-conclusion-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ov-guides-section",
+            "heading": "付録：個別技術ガイドへの道筋",
+            "coreRefs": {
+              "steps": [
+                "ov-guides"
+              ],
+              "claims": [
+                "ov-guides-claim-1"
+              ],
+              "nodes": [
+                "ov-guides-node-1",
+                "ov-guides-node-2"
+              ],
+              "relations": [
+                "ov-guides-relation-1"
+              ],
+              "flows": [
+                "ov-guides-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-guides-paragraph-1",
+                "kind": "paragraph",
+                "text": "モデルの作り方を確認するときはDDD、モデルを計算と作用へ具体化するときはModeling and FPを参照します。利用者との接点はUI、負荷と障害を含む実行はリアクティブ、権限と保護の適用はセキュリティが詳細を扱います。各文書は別の製品構成を示すものではなく、本書で示した共通経路を異なる観点から説明します。",
+                "coreRefs": {
+                  "steps": [
+                    "ov-guides"
+                  ],
+                  "claims": [
+                    "ov-guides-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-guides-node-1",
+                    "ov-guides-node-2"
+                  ],
+                  "relations": [
+                    "ov-guides-relation-1"
+                  ],
+                  "flows": [
+                    "ov-guides-flow"
+                  ]
+                }
+              },
+              {
+                "id": "guide-map",
+                "kind": "table",
+                "caption": "個別ガイドと扱う問い",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "ガイド"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "主な問い"
+                  },
+                  {
+                    "id": "col-3",
+                    "heading": "SmartDox原稿（本プロジェクトからの相対パス）"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "guide-map-row-1",
+                    "cells": [
+                      "DDD",
+                      "業務の意味・更新・参照・表示をどうモデル化するか",
+                      "../../ddd/textus-cncf-ddd-architecture.dox/index.dox"
+                    ]
+                  },
+                  {
+                    "id": "guide-map-row-2",
+                    "cells": [
+                      "Modeling and FP",
+                      "型・計算・結果・作用をどう実行へつなぐか",
+                      "../../modeling-fp/textus-cncf-modeling-fp.dox/index.dox"
+                    ]
+                  },
+                  {
+                    "id": "guide-map-row-3",
+                    "cells": [
+                      "UI",
+                      "モデルを複数の画面と外部UIへどう投影するか",
+                      "../../ui/textus-cncf-ui-architecture.dox/index.dox"
+                    ]
+                  },
+                  {
+                    "id": "guide-map-row-4",
+                    "cells": [
+                      "リアクティブ / Reactive",
+                      "負荷・部分障害・Job・メモリ・復旧をどう組み合わせるか",
+                      "../../reactive/textus-cncf-reactive-architecture.dox/index.dox"
+                    ]
+                  },
+                  {
+                    "id": "guide-map-row-5",
+                    "cells": [
+                      "セキュリティ / Security",
+                      "配布・認証・認可・資源利用をどこで保護するか",
+                      "../../security/textus-cncf-security-architecture.dox/index.dox"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ov-guides"
+                  ],
+                  "claims": [
+                    "ov-guides-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-guides-node-1",
+                    "ov-guides-node-2"
+                  ],
+                  "relations": [
+                    "ov-guides-relation-1"
+                  ],
+                  "flows": [
+                    "ov-guides-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          },
+          {
+            "id": "ov-sources-section",
+            "heading": "付録：参照資料と記述の範囲",
+            "coreRefs": {
+              "steps": [
+                "ov-sources"
+              ],
+              "claims": [
+                "ov-sources-claim-1"
+              ],
+              "nodes": [
+                "ov-sources-node-1",
+                "ov-sources-node-2"
+              ],
+              "relations": [
+                "ov-sources-relation-1"
+              ],
+              "flows": [
+                "ov-sources-flow"
+              ]
+            },
+            "blocks": [
+              {
+                "id": "ov-sources-paragraph-1",
+                "kind": "paragraph",
+                "text": "本書は、各技術ガイドとCNCF・Cozy・Textusの内部設計資料および実装を基に、全体の責務と接続を整理したものです。リファレンス・アーキテクチャは実装済みの機構と今後の設計方針を含みます。個々の提供状況や導入条件は、対象バージョンの仕様と各ガイドで確認します。",
+                "coreRefs": {
+                  "steps": [
+                    "ov-sources"
+                  ],
+                  "claims": [
+                    "ov-sources-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-sources-node-1",
+                    "ov-sources-node-2"
+                  ],
+                  "relations": [
+                    "ov-sources-relation-1"
+                  ],
+                  "flows": [
+                    "ov-sources-flow"
+                  ]
+                }
+              },
+              {
+                "id": "source-map",
+                "kind": "table",
+                "caption": "内部資料と参照箇所",
+                "columns": [
+                  {
+                    "id": "col-1",
+                    "heading": "資料（リポジトリ相対）"
+                  },
+                  {
+                    "id": "col-2",
+                    "heading": "根拠となる説明"
+                  }
+                ],
+                "rows": [
+                  {
+                    "id": "source-map-row-1",
+                    "cells": [
+                      "CNCF: README.md",
+                      "CNCFの位置付けと実行契約"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-2",
+                    "cells": [
+                      "CNCF: docs/design/subsystem-runtime-architecture.md",
+                      "Application・Domain・永続状態の分担（設計）"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-3",
+                    "cells": [
+                      "CNCF: kernel.scala / unitofwork（org.goldenport.cncf以下）",
+                      "Free・ConsequenceT・UoWの実装"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-4",
+                    "cells": [
+                      "cozy: docs/notes/cml-semantic-capability-inventory.md",
+                      "モデル要素と生成の対応範囲"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-5",
+                    "cells": [
+                      "cozy: docs/spec/statemachine-workflow-generated-abi-contract.md",
+                      "生成した振る舞い定義と実行側の契約"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-6",
+                    "cells": [
+                      "textus-launcher: README.md",
+                      "ランタイムと配布物の解決"
+                    ]
+                  },
+                  {
+                    "id": "source-map-row-7",
+                    "cells": [
+                      "textus-flutter-application-framework: README.md",
+                      "設定・生成・補完によるUI構成"
+                    ]
+                  }
+                ],
+                "coreRefs": {
+                  "steps": [
+                    "ov-sources"
+                  ],
+                  "claims": [
+                    "ov-sources-claim-1"
+                  ],
+                  "nodes": [
+                    "ov-sources-node-1",
+                    "ov-sources-node-2"
+                  ],
+                  "relations": [
+                    "ov-sources-relation-1"
+                  ],
+                  "flows": [
+                    "ov-sources-flow"
+                  ]
+                }
+              }
+            ],
+            "sections": []
+          }
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "steps": [
+      {
+        "stepRef": "ov-purpose",
+        "text": "モデルを開発と実行の基盤にする"
+      },
+      {
+        "stepRef": "ov-roles",
+        "text": "SimpleModeling・CML・Cozy・Textus・CNCFの関係"
+      },
+      {
+        "stepRef": "ov-domain-application",
+        "text": "ドメインとアプリケーションを接続する"
+      },
+      {
+        "stepRef": "ov-view-display",
+        "text": "参照と表示を業務の操作へ結び付ける"
+      },
+      {
+        "stepRef": "ov-models",
+        "text": "業務の意味から利用者との接点までをモデル化する"
+      },
+      {
+        "stepRef": "ov-generation",
+        "text": "直接実行・生成・補完実装の分担"
+      },
+      {
+        "stepRef": "ov-components",
+        "text": "契約を持つ部品として構成・配布する"
+      },
+      {
+        "stepRef": "ov-build",
+        "text": "モデルの契約を使って部品を再利用する"
+      },
+      {
+        "stepRef": "ov-tiers",
+        "text": "Application・Domain・永続状態を分担する"
+      },
+      {
+        "stepRef": "ov-operation-path",
+        "text": "Operationから更新の確定までを共通経路にする"
+      },
+      {
+        "stepRef": "ov-fp",
+        "text": "業務計算を型と関数で実行基盤へ接続する"
+      },
+      {
+        "stepRef": "ov-runtime",
+        "text": "部品を共通の実行構成で動かす"
+      },
+      {
+        "stepRef": "ov-interfaces",
+        "text": "UIと外部システムを同じ業務契約へ接続する"
+      },
+      {
+        "stepRef": "ov-reactive",
+        "text": "受付と処理能力を合わせて応答を保つ"
+      },
+      {
+        "stepRef": "ov-recovery",
+        "text": "メモリの利用効率と状態の復旧を両立させる"
+      },
+      {
+        "stepRef": "ov-security",
+        "text": "標準経路へセキュリティ機構を組み込む"
+      },
+      {
+        "stepRef": "ov-quality",
+        "text": "実行構成の組合せで品質を支える"
+      },
+      {
+        "stepRef": "ov-development",
+        "text": "責務と検査を対応付けて変更を進める"
+      },
+      {
+        "stepRef": "ov-conclusion",
+        "text": "まとめ"
+      },
+      {
+        "stepRef": "ov-guides",
+        "text": "付録：個別技術ガイドへの道筋"
+      },
+      {
+        "stepRef": "ov-sources",
+        "text": "付録：参照資料と記述の範囲"
+      },
+      {
+        "stepRef": "textus-cncf-overview",
+        "text": "Textus/CNCF 全体像と技術のつながり"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeRef": "ov-purpose-node-1",
+        "text": "業務固有の責務と共通の責務を分担する"
+      },
+      {
+        "nodeRef": "ov-purpose-node-2",
+        "text": "契約を共有して実装・確認の範囲を絞る"
+      },
+      {
+        "nodeRef": "ov-roles-node-1",
+        "text": "記述・生成・導入・実行の役割を分ける"
+      },
+      {
+        "nodeRef": "ov-roles-node-2",
+        "text": "各段階の受渡しから組合せの効果を追う"
+      },
+      {
+        "nodeRef": "ov-domain-application-node-1",
+        "text": "業務の構造と目的達成の進行を分担する"
+      },
+      {
+        "nodeRef": "ov-domain-application-node-2",
+        "text": "要求と実現モデルを対応付けて検査する"
+      },
+      {
+        "nodeRef": "ov-view-display-node-1",
+        "text": "意味のある参照結果を表示へ投影する"
+      },
+      {
+        "nodeRef": "ov-view-display-node-2",
+        "text": "利用者の操作を共通の業務経路へ戻す"
+      },
+      {
+        "nodeRef": "ov-models-node-1",
+        "text": "複数のモデルで責務を分ける"
+      },
+      {
+        "nodeRef": "ov-models-node-2",
+        "text": "モデル間の対応で意味を保つ"
+      },
+      {
+        "nodeRef": "ov-generation-node-1",
+        "text": "実行定義を使って振る舞いの重複実装を減らす"
+      },
+      {
+        "nodeRef": "ov-generation-node-2",
+        "text": "型付きの接点で再利用と補完を支える"
+      },
+      {
+        "nodeRef": "ov-components-node-1",
+        "text": "公開契約で部品の機能を再利用する"
+      },
+      {
+        "nodeRef": "ov-components-node-2",
+        "text": "部品の内部変更を限定し共通の実行管理を使う"
+      },
+      {
+        "nodeRef": "ov-components-node-3",
+        "text": "検査した版を配布物へ対応付けて導入する"
+      },
+      {
+        "nodeRef": "ov-build-node-1",
+        "text": "モデルの契約に沿って既存部品を選ぶ"
+      },
+      {
+        "nodeRef": "ov-build-node-2",
+        "text": "不足する業務処理だけを補完して構成する"
+      },
+      {
+        "nodeRef": "ov-tiers-node-1",
+        "text": "要求の受入れと業務状態の管理を分ける"
+      },
+      {
+        "nodeRef": "ov-tiers-node-2",
+        "text": "メモリ利用と永続化・再構成を接続する"
+      },
+      {
+        "nodeRef": "ov-tiers-node-3",
+        "text": "直接実行とJobの進行を確定境界へ結び付ける"
+      },
+      {
+        "nodeRef": "ov-operation-path-node-1",
+        "text": "異なる入口から同じ認可・業務経路を使う"
+      },
+      {
+        "nodeRef": "ov-operation-path-node-2",
+        "text": "業務計算と確定の結果を分けて管理する"
+      },
+      {
+        "nodeRef": "ov-fp-node-1",
+        "text": "型と純粋計算で検証の範囲を分ける"
+      },
+      {
+        "nodeRef": "ov-fp-node-2",
+        "text": "操作の記述へ共通の実行管理を適用する"
+      },
+      {
+        "nodeRef": "ov-runtime-node-1",
+        "text": "実行全体の責務を層に分ける"
+      },
+      {
+        "nodeRef": "ov-runtime-node-2",
+        "text": "共通経路へ業務処理を接続する"
+      },
+      {
+        "nodeRef": "ov-interfaces-node-1",
+        "text": "共通の意味を複数のUI基盤へ投影する"
+      },
+      {
+        "nodeRef": "ov-interfaces-node-2",
+        "text": "外部接続を契約へ集めて実行経路を保つ"
+      },
+      {
+        "nodeRef": "ov-reactive-node-1",
+        "text": "受付・待ち行列・実行数を処理能力へ合わせる"
+      },
+      {
+        "nodeRef": "ov-reactive-node-2",
+        "text": "進行を可視化し記述と実行制御を組み合わせる"
+      },
+      {
+        "nodeRef": "ov-recovery-node-1",
+        "text": "メモリの保持方針を永続化と再構成へ接続する"
+      },
+      {
+        "nodeRef": "ov-recovery-node-2",
+        "text": "進行・確定・観測から再開条件を定める"
+      },
+      {
+        "nodeRef": "ov-security-node-1",
+        "text": "複数の入口へ同じ業務・データ保護を適用する"
+      },
+      {
+        "nodeRef": "ov-security-node-2",
+        "text": "導入時の検査と利用先の権限制限を組み合わせる"
+      },
+      {
+        "nodeRef": "ov-quality-node-1",
+        "text": "実行上の境界へ品質条件を配置する"
+      },
+      {
+        "nodeRef": "ov-quality-node-2",
+        "text": "応答・復旧・保護を責務分担から説明する"
+      },
+      {
+        "nodeRef": "ov-development-node-1",
+        "text": "変更する責務と確認する条件を対応付ける"
+      },
+      {
+        "nodeRef": "ov-development-node-2",
+        "text": "再利用と局所的な補完で開発・レビュー負担を減らす"
+      },
+      {
+        "nodeRef": "ov-conclusion-node-1",
+        "text": "業務の意味と固有の処理に集中できる"
+      },
+      {
+        "nodeRef": "ov-conclusion-node-2",
+        "text": "再利用と共通管理で実装負担と品質を扱う"
+      },
+      {
+        "nodeRef": "ov-guides-node-1",
+        "text": "問いに応じて詳細ガイドを選ぶ"
+      },
+      {
+        "nodeRef": "ov-guides-node-2",
+        "text": "共通経路との対応を保って読む"
+      },
+      {
+        "nodeRef": "ov-sources-node-1",
+        "text": "設計と実装の内部根拠を示す"
+      },
+      {
+        "nodeRef": "ov-sources-node-2",
+        "text": "版ごとの提供条件を詳細資料へつなぐ"
+      },
+      {
+        "nodeRef": "textus-cncf-overview-node-1",
+        "text": "業務モデルと再利用する部品を定める"
+      },
+      {
+        "nodeRef": "textus-cncf-overview-node-2",
+        "text": "共通の実行管理へ接続して品質を支える"
+      }
+    ]
+  }
+}

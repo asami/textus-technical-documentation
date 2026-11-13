@@ -1,0 +1,33 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 15
+skinparam nodesep 20
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam noteBackgroundColor #FFF8E9
+skinparam dpi 170
+rectangle "UI / API" as entry
+rectangle "Application tier\n要求の受入れ・調整" as app
+rectangle "Job / Task\n長い処理の進行" as job
+rectangle "Domain tier\n業務規則・状態操作\n再構成できるメモリ" as domain
+database "永続状態\n長期的な正本" as store
+entry -right-> app
+app -down-> domain : 直接実行
+app -right-> job : Jobとして受付
+job -down-> domain : Taskの実行
+domain -left-> store : UoWによる確定
+store -right-> domain : 読込み・再構成
+note bottom of domain
+Jobで受付と完了を分ける
+UoWで更新の確定を管理する
+永続状態からメモリを再構成する
+end note
+
+@enduml

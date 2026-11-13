@@ -1,0 +1,36 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Hiragino Sans
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam ranksep 15
+skinparam nodesep 20
+skinparam ArrowColor #506776
+skinparam rectangleBorderColor #486477
+skinparam rectangleBackgroundColor #F0F6F8
+skinparam packageBackgroundColor #FFFFFF
+skinparam databaseBackgroundColor #F5F2E9
+skinparam noteBackgroundColor #FFF8E9
+skinparam dpi 170
+rectangle "SimpleModeling / CML\nBusiness meaning, rules, contracts" as model
+rectangle "Cozy\nTyped APIs, connections, definitions" as cozy
+rectangle "Existing components + Extensions\nAssemble business-specific behavior" as code
+rectangle "Textus / CNCF\nBusiness operations and\nshared execution management" as runtime
+rectangle "Web / Flutter / External UI\nViews, Displays, public APIs" as ui
+rectangle "Persistent state / External services\nCommit and resource paths" as data
+model -down-> cozy
+cozy -down-> code : contracts
+code -right-> runtime : CAR installation
+ui -down-> runtime : shared operations
+runtime -down-> data : shared execution paths
+note bottom of code
+Reduce custom code through
+reuse and extensions
+end note
+note bottom of runtime
+Share authorization, commit
+and finalization
+end note
+
+@enduml

@@ -1,0 +1,203 @@
+Textus/CNCF — Architecture and Technology Overview｜Textus/CNCF 全体像と技術のつながり
+================================================================================
+
+# HEAD
+
+status=draft
+published_at=2026-10-27
+document=textus-cncf-overview
+
+## SUMMARY
+
+<span lang="ja">Textus/CNCFは、業務モデルと再利用可能な部品を組み合わせ、共通の実行基盤でアプリケーションを動作させる仕組みを提供します。開発者が業務の意味と固有の処理を定め、UI、保存、権限、負荷への対応を基盤の機構へ接続する構成です。本書では、モデルの記述から部品化、実行、運用までを通して、各技術の組合せによって何が得られるかを説明します。</span><span lang="en">Textus/CNCF combines business models and reusable components to run applications on shared infrastructure. Developers define business meaning and specific behavior, connecting UI, persistence, authority and load handling to platform mechanisms. This guide follows description, component assembly, execution and operation to explain what these technology combinations provide.</span>
+
+# Models as a Foundation for Development and Execution｜モデルを開発と実行の基盤にする
+
+<span lang="ja">業務アプリケーションには、固有の規則を実現する処理と、呼出し、保存、認可、障害対応などに共通する処理があります。Textus/CNCFは、業務の意味をモデルと型付きの契約へ表し、既存の部品を利用しながら、共通する処理を実行基盤へ任せる構成を取ります。これにより、個別に実装・確認する範囲を業務固有の部分へ絞りやすくなります。</span><span lang="en">Business applications combine specific rules with recurring responsibilities such as invocation, persistence, authorization and failure handling. Textus/CNCF expresses business meaning in models and typed contracts, reuses existing components and delegates common responsibilities to the runtime. This focuses application-specific implementation and verification on business-specific behavior.</span>
+
+<span lang="ja">SimpleModelingのリファレンス・アーキテクチャは、この分担をモデル、開発ツール、実行基盤の組合せとして提示します。モデリング手法やCozy、Textusはそれぞれ利用できます。組み合わせる場合には、モデルで定めた契約を生成・部品構成・実行で共有し、各段階で別々の仕様や管理処理を作る負担を減らします。</span><span lang="en">The SimpleModeling reference architecture expresses this division through models, development tools and runtime infrastructure. Its modeling approach, Cozy and Textus can each be used individually. Together, they share model-defined contracts across generation, component assembly and execution, reducing repeated specification and management code at each stage.</span>
+
+# How SimpleModeling, CML, Cozy, Textus and CNCF Relate｜SimpleModeling・CML・Cozy・Textus・CNCFの関係
+
+<span lang="ja">CMLはモデルの記述言語、Cozyはモデルの解析・具体化・生成を担う開発ツールです。Textusは部品を組み合わせてアプリケーションを動作させる基盤であり、CNCFはその内部で共通の実行契約と機構を提供します。本書のCNCFはCloud Native Component Frameworkを指します。</span><span lang="en">CML describes models; Cozy analyzes, projects and generates from them. Textus runs applications assembled from components, while CNCF provides shared execution contracts and mechanisms within the platform. Here, CNCF means Cloud Native Component Framework.</span>
+
+<span lang="ja">開発時にはモデルを型付きAPI、接続コード、実行定義へ具体化し、補完実装と既存部品を組み合わせます。導入時にはTextusが利用するランタイムと配布物を解決し、実行時にはCNCFの共通経路を使います。以下では、この受渡しが再利用、実行管理、UIの展開、品質の確保へどうつながるかを順に説明します。</span><span lang="en">Development projects models into typed APIs, connection code and executable definitions, combining them with extensions and existing components. Installation resolves the runtime and artifacts used by Textus; execution follows CNCF’s shared paths. The following sections explain how these handoffs support reuse, execution management, UI reach and quality.</span>
+
+#+CAPTION: <span lang="ja">記述・生成・実行を担う役割</span><span lang="en">Roles in description, generation and execution</span>
+| <span lang="ja">名前</span><span lang="en">Name</span> | <span lang="ja">役割</span><span lang="en">Role</span> | <span lang="ja">次の段階へ渡すもの</span><span lang="en">Passes to the next stage</span> |
+| --- | --- | --- |
+| <span lang="ja">SimpleModeling</span><span lang="en">SimpleModeling</span> | <span lang="ja">モデリング手法と技術体系</span><span lang="en">Modeling approach and technology system</span> | <span lang="ja">モデルの意味・責務・対応</span><span lang="en">Model meaning, responsibilities and relationships</span> |
+| <span lang="ja">CML</span><span lang="en">CML</span> | <span lang="ja">モデル記述</span><span lang="en">Model description</span> | <span lang="ja">構造・振る舞い・契約の定義</span><span lang="en">Structure, behavior and contract definitions</span> |
+| <span lang="ja">Cozy</span><span lang="en">Cozy</span> | <span lang="ja">解析・具体化・生成</span><span lang="en">Analysis, projection and generation</span> | <span lang="ja">型付きAPI・接続コード・実行定義</span><span lang="en">Typed APIs, connection code and executable definitions</span> |
+| <span lang="ja">Textus</span><span lang="en">Textus</span> | <span lang="ja">部品を導入してアプリケーションを動作させる基盤</span><span lang="en">Platform for installing components and running applications</span> | <span lang="ja">実行構成とアプリケーション機能</span><span lang="en">Runtime configuration and application capabilities</span> |
+| <span lang="ja">CNCF</span><span lang="en">CNCF</span> | <span lang="ja">共通の実行契約と機構</span><span lang="en">Shared execution contracts and mechanisms</span> | <span lang="ja">Operation・実行文脈・UoWなどの実行</span><span lang="en">Operations, execution contexts and UoW</span> |
+| <span lang="ja">CAR / Component Repository</span><span lang="en">CAR / Component Repository</span> | <span lang="ja">部品の配布と受入れ</span><span lang="en">Component distribution and acceptance</span> | <span lang="ja">版と依存関係を持つ配布物</span><span lang="en">Versioned artifacts and dependencies</span> |
+
+<span lang="ja">[[images/landscape-ja.png]]</span><span lang="en">[[images/landscape-en.png]]</span>
+
+<span lang="ja">モデル・部品・実行管理の分担と得られる効果</span><span lang="en">Responsibilities and effects across models, components and runtime</span>
+
+# Modeling from Business Meaning to User Interaction｜業務の意味から利用者との接点までをモデル化する
+
+<span lang="ja">モデルは一種類でアプリケーションの全てを表すものではありません。用語と要求を起点に、業務の構造、目的を実現する進行、参照結果、表示を分担して記述し、相互の対応を定めます。モデル間の接続を含めて扱うことで、業務規則がUIや保存処理へ分散するのを抑えます。</span><span lang="en">No single model describes every part of an application. Starting with terminology and requirements, models divide responsibility among business structure, goal-directed progression, read results and presentation, with explicit relationships between them. These connections help keep business rules from dispersing into UI and persistence code.</span>
+
+<span lang="ja">[[images/model-relations-ja.png]]</span><span lang="en">[[images/model-relations-en.png]]</span>
+
+<span lang="ja">要求・業務・参照・表示の接続</span><span lang="en">Connecting requirements, domain, reading and presentation</span>
+
+## Connecting Domain and Application Models｜ドメインとアプリケーションを接続する
+
+<span lang="ja">DDDとPoEAAを補助線に、開発に必要なモデルとその接続を整理します。ドメイン・モデルはEntity、Value、Aggregateなどの静的構造を中心に、業務概念と更新の規則を定めます。アプリケーション・モデルはユースケースを起点にしたWorkflowを中心に、ドメインの操作を使って目的を実現する進行を定めます。状態機械は状態と許される遷移を明示し、規則のモデルは判断条件を整理します。</span><span lang="en">DDD and PoEAA provide reference perspectives for organizing the models and connections needed in development. Domain models center on static structures such as Entities, Values and Aggregates, defining business concepts and update rules. Application models center on Workflows derived from use cases, coordinating domain operations to achieve goals. State machines specify states and permitted transitions; rule models organize decision conditions.</span>
+
+<span lang="ja">ユースケースは目的、実例、期待する結果を示す要求モデルです。ユースケースそのものを直接実行するのではなく、実現するWorkflow、状態機械、Operation、Entityとの対応を定め、実例とモデルの整合性を確認します。BoKで管理する用語集と文芸モデルは、その接続に使う概念の意味と設計理由を保持します。</span><span lang="en">Use cases are requirements models describing goals, examples and expected outcomes. They are connected to realizing Workflows, state machines, Operations and Entities rather than executed directly. Examples and model relationships support consistency checks. BoK-managed glossaries and literate models retain the meanings and rationale used across these connections.</span>
+
+## Connecting Reading and Presentation to Business Operations｜参照と表示を業務の操作へ結び付ける
+
+<span lang="ja">Viewは用途に応じた意味のある参照結果を、外側のDisplayは表示項目や操作の提示を表します。同じ業務の意味を、WebやFlutterなど異なるUIへ投影するための分担です。利用者の操作は公開Operationへ戻し、更新の規則を画面ごとに作り直さずに適用します。</span><span lang="en">Views express meaningful read results for particular purposes; Displays sit outside them and express presentation fields and offered actions. This separation supports projection of the same business meaning into Web, Flutter and other UIs. User actions return through public Operations, preserving update rules across screens.</span>
+
+# Reusing Components through Model Contracts｜モデルの契約を使って部品を再利用する
+
+<span lang="ja">モデルで定めた概念と操作を、型付きAPIと実行定義へ具体化します。その契約に適合する既存部品を利用し、不足する業務処理を補完して、アプリケーションを構成します。モデル駆動とCBDを組み合わせることで、部品を選び接続する条件と、新しく実装する範囲を明確にできます。</span><span lang="en">Model concepts and operations become typed APIs and executable definitions. Applications reuse components conforming to those contracts and supplement missing business behavior. Combining model-driven and component-based development clarifies component selection, connection conditions and the scope of new implementation.</span>
+
+#+CAPTION: <span lang="ja">段階をまたいで引き継ぐ契約</span><span lang="en">Contracts carried across stages</span>
+| <span lang="ja">段階</span><span lang="en">Stage</span> | <span lang="ja">引き継ぐ内容</span><span lang="en">Contract carried forward</span> | <span lang="ja">組合せの効果</span><span lang="en">Combined effect</span> |
+| --- | --- | --- |
+| <span lang="ja">モデル → 型・実行定義</span><span lang="en">Models → types and definitions</span> | <span lang="ja">概念・入出力・進行・遷移</span><span lang="en">Concepts, inputs/outputs, progression and transitions</span> | <span lang="ja">モデルで定めた振る舞いを各所へ書き直す負担を減らす</span><span lang="en">Reduce repeated implementation of modeled behavior</span> |
+| <span lang="ja">型付き契約 → 部品の構成</span><span lang="en">Typed contracts → component assembly</span> | <span lang="ja">公開Operation・拡張点・依存先</span><span lang="en">Public Operations, extension points and dependencies</span> | <span lang="ja">既存部品を選んで接続し、不足部分へ実装を絞る</span><span lang="en">Connect existing components and implement only missing behavior</span> |
+| <span lang="ja">部品 → 共通の実行経路</span><span lang="en">Components → shared execution paths</span> | <span lang="ja">呼出し・保存・認可の契約</span><span lang="en">Invocation, persistence and authorization contracts</span> | <span lang="ja">再利用先でも同じ確定・保護・終了管理を使う</span><span lang="en">Reuse commit, protection and finalization across applications</span> |
+| <span lang="ja">View・Display → 複数UI</span><span lang="en">Views/Displays → multiple UIs</span> | <span lang="ja">参照の意味・表示・操作先</span><span lang="en">Read semantics, presentation and action targets</span> | <span lang="ja">表示基盤を変えても業務規則と更新経路を保つ</span><span lang="en">Preserve rules and update paths across presentation platforms</span> |
+
+## Direct Execution, Generation and Supplementary Implementation｜直接実行・生成・補完実装の分担
+
+<span lang="ja">CozyはCMLの定義を型付きAPIや接続コードへ具体化し、Workflowや状態機械の実行定義をTextus/CNCFへ渡します。共通基盤がその定義に従って進行や遷移を扱うため、同じ振る舞いを手続きとして各所へ書き直す負担を減らせます。ユースケースなどの要求モデルは、実現するモデルとの対応と検査に用います。</span><span lang="en">Cozy projects CML definitions into typed APIs and connection code and supplies Workflow and state-machine definitions to Textus/CNCF. The runtime follows these definitions for progression and transitions, reducing repeated procedural implementations of the same behavior. Requirements models such as use cases support correspondence and verification with realizing models.</span>
+
+<span lang="ja">業務固有の計算や外部接続は、定められた型と拡張点に従って補完します。入出力の仕様が明確になるため、既存の操作を再利用し、その間のグルーコードを作成しやすくなります。AIも、この契約に沿った補完と接続を担当できます。</span><span lang="en">Business-specific calculations and external connections follow declared types and extension points. Explicit input and output specifications support reuse of existing operations and creation of glue code between them. AI can also provide supplementation and connections within these contracts.</span>
+
+## Assembling and Distributing Components with Contracts｜契約を持つ部品として構成・配布する
+
+<span lang="ja">CBDでは、Componentが業務上の責務を持ち、ServiceとOperationを通じて機能を公開します。利用側は公開された型と操作に接続します。モデルから得た契約を生成物、既存部品、補完コードで共有することで、同じ業務機能を複数のアプリケーションから利用できます。</span><span lang="en">In component-based development, a Component owns business responsibilities and exposes capabilities through Services and Operations. Consumers connect to public types and operations. Sharing model-derived contracts across generated artifacts, existing components and extensions allows multiple applications to use the same business capability.</span>
+
+<span lang="ja">部品の内部を直接参照する箇所を減らすと、公開契約を保った内部変更が利用側へ及ぶ範囲を抑えられます。各部品が共通の呼出し・保存・認可の経路を使うことで、再利用先でも同じ実行管理へ接続できます。機能の再利用と、実行上の共通処理の再利用が組み合わさる構成です。</span><span lang="en">Reducing direct dependencies on component internals limits the impact of internal changes that preserve public contracts. Components using shared invocation, persistence and authorization paths connect to the same execution management wherever reused. Functional reuse is therefore combined with reuse of common execution responsibilities.</span>
+
+<span lang="ja">CARは、その部品のコード、定義、契約、依存関係をまとめる配布単位です。Component Repositoryの配布モデルは、car lintとCBD Reviewによる検査、署名と配布元の確認を、受け入れる版と対応付けます。これにより、利用側は公開契約と検査情報を参照して部品を導入できます。検査と署名の適用条件はセキュリティガイドで扱います。</span><span lang="en">A CAR packages component code, definitions, contracts and dependencies. The Component Repository distribution model associates car lint and CBD Review checks, signatures and publisher verification with the version being accepted. Consumers can use public contracts and review information when installing components. The security guide covers the applicability of checks and signatures.</span>
+
+<span lang="ja">[[images/component-combination-ja.png]]</span><span lang="en">[[images/component-combination-en.png]]</span>
+
+<span lang="ja">機能の再利用と共通の実行管理を接続する</span><span lang="en">Combining functional reuse with shared execution management</span>
+
+# Running Components in a Shared Execution Architecture｜部品を共通の実行構成で動かす
+
+<span lang="ja">部品を構成した後は、要求の受入れ、業務規則の適用、更新の確定、結果の返却をどこで担うかを定めます。Application、Domain、永続状態の分担を先に示し、その間をOperationとUoWがつなぐ経路を説明します。型と関数型プログラミングは、この構成に業務固有の処理を接続する方法として位置付けます。</span><span lang="en">Once components are assembled, the runtime assigns request admission, business rules, commit and response responsibilities. This section first describes Application, Domain and persistent state, then the Operation and UoW paths connecting them. Types and functional programming provide a way to connect business-specific processing to this architecture.</span>
+
+## Separating Application, Domain and Persistent State｜Application・Domain・永続状態を分担する
+
+<span lang="ja">Application tierは要求を受け付け、対象の業務操作へ処理を渡します。Domain tierは業務規則と状態への操作を担い、永続状態を長期的な正本とします。この分担により、外部からの要求を受ける側の増減と、業務状態の整合性を管理する側の運用を分けて設計できます。</span><span lang="en">The Application tier admits requests and routes them to business operations. The Domain tier owns business rules and state operations, with persistent storage as durable authority. This separates scaling external request handling from operating the mechanisms that maintain business-state consistency.</span>
+
+<span lang="ja">Domain側は、モデルで指定したEntityの分類と明示的な方針に従って、情報をメモリへ保持できます。更新は確定経路を通して永続化し、メモリを再構成可能な領域として扱います。これにより、情報へのアクセスを効率化する方法と、状態を保持・復旧する方法を組み合わせられます。</span><span lang="en">The Domain tier may retain information in memory according to modeled Entity classifications and explicit policies. Updates are persisted through commit paths, while memory remains reconstructible. This combines efficient information access with durable state retention and recovery.</span>
+
+<span lang="ja">短い操作は直接実行し、長い処理はJobとして受け付けてTaskの進行を管理する経路を選べます。Jobの受付と業務処理の完了を分け、各操作の確定は対応するUoWで扱います。受付量と処理能力の関係、障害時の再開条件は、この分担を基に設計します。</span><span lang="en">Short operations can run directly; long-running work can be accepted as Jobs whose Tasks track progression. Job acceptance is distinct from business completion, and each operation uses its corresponding UoW for commit. Admission versus processing capacity and recovery conditions are designed around these responsibilities.</span>
+
+<span lang="ja">[[images/tier-lifetimes-ja.png]]</span><span lang="en">[[images/tier-lifetimes-en.png]]</span>
+
+<span lang="ja">実行寿命・状態・受付量を分担する設計</span><span lang="en">Design separating lifetimes, state and admission</span>
+
+## Sharing the Path from Operation to Commit｜Operationから更新の確定までを共通経路にする
+
+<span lang="ja">UIやAPIからの要求は、入力と実行主体の確認、Operationの認可を経て業務処理へ渡ります。処理中に対象Entityや外部資源を利用するときも、対応する認可と資源利用の条件を確認します。入口の違いをこの経路へ集めることで、業務処理ごとに実行文脈や保護を組み立てる負担を減らします。</span><span lang="en">Requests from UIs and APIs reach business processing after input, identity and Operation-authorization checks. Access to target Entities or external resources is subject to the corresponding authorization and resource conditions. Routing different entry points through this path reduces repeated construction of execution contexts and protection code.</span>
+
+<span lang="ja">業務計算で得た変更候補は、UoWの確定処理へ渡します。計算が成功しても保存が失敗する場合があるため、確定を含む結果を呼出し元へ返し、必要な中止と資源の終了処理を共通基盤で扱います。業務規則を計算する責務と、その変更を共有状態へ反映する責務を分けることで、検証する条件と失敗を扱う場所が明確になります。</span><span lang="en">Proposed changes produced by business calculations are passed to UoW commit handling. Because successful calculations can still encounter persistence failures, the caller receives an outcome including commit, while the platform handles abort and resource finalization as required. Separating business calculation from changes to shared state clarifies verification conditions and failure-handling responsibilities.</span>
+
+<span lang="ja">[[images/execution-boundaries-ja.png]]</span><span lang="en">[[images/execution-boundaries-en.png]]</span>
+
+<span lang="ja">要求・業務計算・作用・確定の経路</span><span lang="en">Request, calculation, effect and commit paths</span>
+
+## Connecting Business Calculations to the Runtime through Types and Functions｜業務計算を型と関数で実行基盤へ接続する
+
+<span lang="ja">補完実装にはScalaを用い、型で業務の値と入出力の条件を表し、純粋関数として計算を組み合わせます。データ取得や保存から計算を分けると、同じ入力を使って規則を検証でき、型の不整合はコンパイル時に確認できます。計算の正しさを調べる範囲と、実行環境を含めて調べる範囲を分担できます。</span><span lang="en">Supplementary Scala implementations use types for business values and input/output conditions and compose calculations as pure functions. Separating calculations from acquisition and persistence supports repeatable rule verification, while type mismatches can be detected at compilation. Calculation checks and environment-dependent checks can then be separated.</span>
+
+<span lang="ja">Consequenceは成功と失敗を共通の結果として扱い、Free Monadは保存や通信などの操作をプログラムとして記述します。その組合せをUoWの実行経路へ渡すことで、業務コードは行う操作を記述し、基盤が認可、確定、終了管理を適用できます。各型と合成規則の詳細はModeling and FPガイドで説明します。</span><span lang="en">Consequence represents success and failure as shared outcomes; Free Monad describes operations such as persistence and communication as programs. Passing their combination through the UoW execution path lets business code describe requested work while the platform applies authorization, commit and finalization. Modeling and FP explains the individual types and composition rules.</span>
+
+# Connecting UIs and External Systems to Shared Business Contracts｜UIと外部システムを同じ業務契約へ接続する
+
+<span lang="ja">標準Web UIと、Textusと連動するFlutterアプリケーション・フレームワークは、モデルと設定を利用して画面を構成します。Flutterの経路はiPhone、Android、Tablet、Web、Desktopを対象とし、画面寸法に加えて異なるUI基盤へ対応します。共通のView・Display・Operationを使うことで、画面ごとに業務の意味を再定義する範囲を減らします。</span><span lang="en">Standard Web UI and the Textus-connected Flutter application framework construct screens from models and configuration. The Flutter path targets iPhone, Android, tablets, Web and desktop, covering different UI platforms as well as screen dimensions. Shared Views, Displays and Operations reduce repeated definition of business meaning across interfaces.</span>
+
+<span lang="ja">外部で独自にUIを作り、RESTまたはgRPCで公開APIへ接続する構成も取れます。外部サービスとの通信はProviderなどの接点へ集め、業務モデルが通信方式や接続先の詳細へ依存する範囲を絞ります。どの入口を使っても、更新は公開Operationと認可・UoWの経路へ戻すことが、UIや接続方式を変更できる条件になります。</span><span lang="en">An independently developed UI can connect through public REST or gRPC APIs. External-service communication is concentrated in interfaces such as Providers, limiting dependencies of business models on protocols and endpoints. Routing updates back through public Operations, authorization and UoW preserves business behavior as interfaces and connection methods change.</span>
+
+<span lang="ja">[[images/interface-paths-ja.png]]</span><span lang="en">[[images/interface-paths-en.png]]</span>
+
+<span lang="ja">異なるUIと外部連携を共通の業務契約へ接続する</span><span lang="en">Connecting different interfaces to shared business contracts</span>
+
+# Designing from Knowledge and Providing Business Information as Knowledge｜知識から設計し、業務情報を知識として提供する
+
+<span lang="ja">設計では、BoKとプロジェクトの業務知識を文芸モデルに整理し、CMLのEntity・型・関係・規則へ対応付けます。Cozyはモデルを型付きコードと実行定義へ具体化し、Textus／CNCFがその契約を利用します。意味と生成物の対応を保つことで、設計判断を実装へ引き継げます。</span><span lang="en">During design, a BoK and project knowledge inform literate models and explicit mappings to CML Entities, types, relationships and rules. Cozy projects models into typed code and runtime definitions consumed by Textus/CNCF. Preserving these mappings carries design decisions into implementation.</span>
+
+<span lang="ja">実行時には、Entityに基づく業務情報をInformation、RDF等の知識表現、検索・AI提供へ接続します。設計知識と業務データを区別し、識別・出典・参照権限を引き継ぎます。この二つの経路は「BoKからドメイン・モデルを設計する」と「Entityを知識として扱う」の別ガイドで説明します。知識の取得と業務状態の変更は別の経路です。</span><span lang="en">At runtime, Entity-based business information connects to Information, representations such as RDF, and search or AI delivery. Design knowledge and business records remain distinct while identity, provenance and permissions are preserved. The separate guides Designing Domain Models from a BoK and Using Entities as Knowledge explain these paths. Knowledge retrieval and business mutation use distinct paths.</span>
+
+# Supporting Quality through the Execution Architecture｜実行構成の組合せで品質を支える
+
+<span lang="ja">ここまでの実行構成を使うと、要求の受付、業務操作、更新の確定、資源利用のそれぞれに品質上の条件を配置できます。応答性、復旧、セキュリティは、この責務分担に沿って機構を組み合わせます。各機構がどの境界を担当し、他の機構と組み合わさってどの負担や不整合を減らすかを確認します。</span><span lang="en">The execution architecture provides boundaries for quality conditions at admission, business operations, commit and resource use. Responsiveness, recovery and security combine mechanisms along these responsibilities. The following sections explain which boundary each mechanism owns and how combinations reduce implementation burden or inconsistency.</span>
+
+#+CAPTION: <span lang="ja">技術の組合せと得られる効果</span><span lang="en">Technology combinations and their effects</span>
+| <span lang="ja">観点</span><span lang="en">Perspective</span> | <span lang="ja">組み合わせる仕組み</span><span lang="en">Combined mechanisms</span> | <span lang="ja">得られる効果</span><span lang="en">Effect</span> |
+| --- | --- | --- |
+| <span lang="ja">正確性・変更容易性</span><span lang="en">Correctness / modifiability</span> | <span lang="ja">モデル・型・純粋計算・実例検証</span><span lang="en">Models, types, pure calculations and examples</span> | <span lang="ja">接続の不整合を機械的に検出し、業務規則を環境から分けて検証する</span><span lang="en">Mechanically detect connection mismatches and verify rules separately from environments</span> |
+| <span lang="ja">応答性・拡張性</span><span lang="en">Responsiveness / scalability</span> | <span lang="ja">Application/Domain分担・Job・受付と実行数の制御</span><span lang="en">Tier separation, Jobs, admission and concurrency control</span> | <span lang="ja">処理能力に合わせて仕事を受け入れ、長い処理の進行を示す</span><span lang="en">Admit work within capacity and expose long-running progression</span> |
+| <span lang="ja">整合性・復旧</span><span lang="en">Consistency / recovery</span> | <span lang="ja">再構成可能なメモリ・永続状態・UoW・進行記録</span><span lang="en">Reconstructible memory, persistent state, UoW and progress records</span> | <span lang="ja">情報へのアクセスを効率化し、確定済み状態から復旧・再開を判断する</span><span lang="en">Improve access while grounding recovery and resumption in committed state</span> |
+| <span lang="ja">セキュリティ</span><span lang="en">Security</span> | <span lang="ja">公開Operation・データ認可・資源制限・配布検証</span><span lang="en">Public Operations, data authorization, resource limits and artifact checks</span> | <span lang="ja">入口と利用先が増えても共通の保護を使い、導入と実行の両方で制約する</span><span lang="en">Reuse protection across entry points and constrain installation and execution</span> |
+| <span lang="ja">UIの展開</span><span lang="en">UI reach</span> | <span lang="ja">View・Display・公開Operation・Web/Flutter/API</span><span lang="en">Views, Displays, public Operations, Web/Flutter/APIs</span> | <span lang="ja">業務規則を再実装せず異なる画面・UI基盤から利用する</span><span lang="en">Use common rules across screens and platforms without reimplementing them</span> |
+
+## Maintaining Responsiveness by Aligning Admission and Capacity｜受付と処理能力を合わせて応答を保つ
+
+<span lang="ja">Application側の受付制御、Jobの待ち行列、Taskの同時実行数をDomain側の処理能力に合わせると、受け付けた仕事を無制限に実行中の処理へ増やすことを抑えられます。長い処理は受付結果と完了結果を分けて返すため、その間も利用者に進行を示せます。実行能力に合わせた受付と、進行の管理を組み合わせて応答性を支えます。</span><span lang="en">Aligning Application admission, Job queues and Task concurrency with Domain capacity limits unbounded growth of active work. Long-running operations return acceptance separately from completion, allowing progress to be shown meanwhile. Capacity-aware admission and progression management together support responsiveness.</span>
+
+<span lang="ja">型付きのメッセージと操作の合成は、処理間の依存関係を明示し、実行基盤は待ち行列や容量制限、障害の分離を担当します。Application側を増やす場合もDomainや保存先の容量を合わせて扱います。リアクティブの四特性である応答性、耐障害性、弾力性、メッセージ駆動を、このような処理の記述と実行制御の組合せで支えます。</span><span lang="en">Typed messages and operation composition expose dependencies, while the runtime handles queues, capacity limits and failure isolation. Scaling the Application side also requires attention to Domain and storage capacity. This combination of processing descriptions and execution control supports the four reactive traits: responsiveness, resilience, elasticity and message-driven interaction.</span>
+
+## Combining Efficient Memory Use with State Recovery｜メモリの利用効率と状態の復旧を両立させる
+
+<span lang="ja">Entityの分類と保持方針に従うメモリ利用は、頻繁に参照する情報へのアクセスを効率化します。永続状態を正本とし、UoWの確定境界を明確にすることで、実行プロセスのメモリを失っても、確定済みの状態から再構成する設計にできます。メモリに置く情報と、保存しなければならない情報を分担することが、この組合せの条件です。</span><span lang="en">Memory use governed by Entity classification and retention policy improves access to frequently read information. Durable authority and explicit UoW commit boundaries support reconstruction from committed state after process memory is lost. This requires a clear division between memory-resident information and information that must be persisted.</span>
+
+<span lang="ja">長い処理では、永続化するJobやTaskの進行情報と、各UoWの確定結果、観測情報を合わせて、完了した処理と再開すべき処理を判断します。再実行による重複を防ぐ条件や、外部サービスとの整合性もこの境界で定めます。詳細な保持・解放・再試行・復旧の方針はリアクティブガイドへつなぎます。</span><span lang="en">For long-running work, durable Job or Task progression, UoW commit outcomes and observation together support decisions about completed work and resumption. Conditions preventing duplicate effects and maintaining consistency with external services are defined at these boundaries. The Reactive guide details retention, release, retry and recovery policies.</span>
+
+## Embedding Security Mechanisms in Standard Paths｜標準経路へセキュリティ機構を組み込む
+
+<span lang="ja">Web、Flutter、外部APIの呼出しを同じ公開Operationへ接続すると、認証した主体に対するOperationの認可と、処理中の対象Entityへの認可を共通経路で適用できます。入力制約と資源利用の制限も組み合わせることで、入口が増えても、画面や業務処理ごとに保護を作り直す範囲を抑えられます。</span><span lang="en">Connecting Web, Flutter and external APIs to the same public Operations allows shared Operation authorization for authenticated subjects and target-Entity authorization during processing. Input constraints and resource restrictions further reduce repeated protection code as entry points multiply.</span>
+
+<span lang="ja">配布物の検査と署名・配布元の確認は導入時の判断を支え、実行時の認可とCapabilityは利用できる操作や資源を限定します。用途別のCapabilityセットをProfileで管理する構想は設定の共通化を支え、強い隔離が必要な用途ではコンテナによる区画分離を追加します。検査済みの部品を導入することと、利用先で必要な権限だけを与えることを組み合わせます。各機構の提供状況と適用条件はセキュリティガイドで区別します。</span><span lang="en">Artifact checks, signatures and publisher verification support installation decisions; runtime authorization and Capabilities limit accessible operations and resources. Proposed Profiles group Capabilities for shared configuration, while stronger-isolation uses can add container separation. Reviewed artifact acceptance is combined with granting only the authority needed at the destination. The Security guide distinguishes availability and applicability of each mechanism.</span>
+
+# Evolving Applications through Matched Responsibilities and Checks｜責務と検査を対応付けて変更を進める
+
+<span lang="ja">変更時には、業務の意味を変える箇所をモデルへ、固有の計算を補完実装へ、容量や権限の調整を設定へ反映します。型検査、モデル・部品の検査、業務の実例検証、実行時の観測を、それぞれが確認できる条件に使います。責務と検査を対応付けることで、変更のたびに実装全体と運用上の条件を一から読み直す負担を減らせます。</span><span lang="en">Changes to business meaning belong in models, specific calculations in supplementary implementations, and capacity or authority adjustments in configuration. Type checks, model/component checks, business examples and runtime observation address their respective conditions. Matching responsibilities to checks reduces repeated examination of the entire implementation and its operational assumptions.</span>
+
+<span lang="ja">モデル駆動とCBDには学習が必要ですが、既存部品と共通基盤の利用によって、個別に実装・レビューする範囲を減らせます。AIは型付き契約の中で補完と接続を行い、機械的な検査から修正箇所を絞れます。モデル、型、部品契約、実行時制御が異なる段階で制約を働かせるため、開発速度とAI利用コストの改善を図りながら、誤りを抑える多重のハーネスとしても利用できます。</span><span lang="en">Model-driven and component-based development require learning, but reuse of components and runtime mechanisms reduces application-specific implementation and review. AI can supplement and connect typed contracts, using mechanical diagnostics to localize corrections. Constraints from models, types, component contracts and runtime controls act at different stages, providing layered harnesses while supporting improvements in development time and AI usage cost.</span>
+
+# Conclusion｜まとめ
+
+<span lang="ja">Textus/CNCFは、業務モデル、型付きの部品契約、共通の実行管理を組み合わせます。開発者は業務の意味と固有の処理に集中し、既存機能を再利用しながら、複数のUI、保存、権限、負荷や障害への対応を同じ実行構成へ接続できます。この分担によって個別の実装と確認を減らし、必要な品質を共通基盤の機構と業務の検証で支えます。AIによる補完も、この構成の中で利用できます。</span><span lang="en">Textus/CNCF combines business models, typed component contracts and shared execution management. Developers focus on business meaning and specific behavior, reuse existing capabilities, and connect multiple UIs, persistence, authority and load/failure handling to the same architecture. This reduces application-specific implementation and verification while supporting required quality through platform mechanisms and business checks. AI supplementation operates within this structure.</span>
+
+# Appendix: Routes into Specialized Guides｜付録：個別技術ガイドへの道筋
+
+<span lang="ja">モデルの作り方を確認するときはDDD、モデルを計算と作用へ具体化するときはModeling and FPを参照します。利用者との接点はUI、負荷と障害を含む実行はリアクティブ、権限と保護の適用はセキュリティが詳細を扱います。各文書は別の製品構成を示すものではなく、本書で示した共通経路を異なる観点から説明します。</span><span lang="en">Use the DDD guide for model design and Modeling and FP for projecting models into calculations and effects. UI covers user interaction; Reactive covers execution under load and failure; Security covers authority and protection. These guides explain different perspectives on the shared path introduced here.</span>
+
+#+CAPTION: <span lang="ja">個別ガイドと扱う問い</span><span lang="en">Guides and their questions</span>
+| <span lang="ja">ガイド</span><span lang="en">Guide</span> | <span lang="ja">主な問い</span><span lang="en">Main question</span> | <span lang="ja">SmartDox原稿（本プロジェクトからの相対パス）</span><span lang="en">SmartDox source relative to this project</span> |
+| --- | --- | --- |
+| <span lang="ja">DDD</span><span lang="en">DDD</span> | <span lang="ja">業務の意味・更新・参照・表示をどうモデル化するか</span><span lang="en">How to model business meaning, updates, reads and presentation</span> | <span lang="ja">../../ddd/textus-cncf-ddd-architecture.dox/index.dox</span><span lang="en">../../ddd/textus-cncf-ddd-architecture.dox/index.dox</span> |
+| <span lang="ja">Modeling and FP</span><span lang="en">Modeling and FP</span> | <span lang="ja">型・計算・結果・作用をどう実行へつなぐか</span><span lang="en">How types, calculations, outcomes and effects connect to execution</span> | <span lang="ja">../../modeling-fp/textus-cncf-modeling-fp.dox/index.dox</span><span lang="en">../../modeling-fp/textus-cncf-modeling-fp.dox/index.dox</span> |
+| <span lang="ja">UI</span><span lang="en">UI</span> | <span lang="ja">モデルを複数の画面と外部UIへどう投影するか</span><span lang="en">How models project into multiple platforms and external UIs</span> | <span lang="ja">../../ui/textus-cncf-ui-architecture.dox/index.dox</span><span lang="en">../../ui/textus-cncf-ui-architecture.dox/index.dox</span> |
+| <span lang="ja">リアクティブ / Reactive</span><span lang="en">リアクティブ / Reactive</span> | <span lang="ja">負荷・部分障害・Job・メモリ・復旧をどう組み合わせるか</span><span lang="en">How load, partial failure, Jobs, memory and recovery combine</span> | <span lang="ja">../../reactive/textus-cncf-reactive-architecture.dox/index.dox</span><span lang="en">../../reactive/textus-cncf-reactive-architecture.dox/index.dox</span> |
+| <span lang="ja">セキュリティ / Security</span><span lang="en">セキュリティ / Security</span> | <span lang="ja">配布・認証・認可・資源利用をどこで保護するか</span><span lang="en">Where distribution, identity, authorization and resources are protected</span> | <span lang="ja">../../security/textus-cncf-security-architecture.dox/index.dox</span><span lang="en">../../security/textus-cncf-security-architecture.dox/index.dox</span> |
+
+# Appendix: Sources and Scope｜付録：参照資料と記述の範囲
+
+<span lang="ja">本書は、各技術ガイドとCNCF・Cozy・Textusの内部設計資料および実装を基に、全体の責務と接続を整理したものです。リファレンス・アーキテクチャは実装済みの機構と今後の設計方針を含みます。個々の提供状況や導入条件は、対象バージョンの仕様と各ガイドで確認します。</span><span lang="en">This guide organizes responsibilities and connections from the specialized guides and internal design and implementation sources for CNCF, Cozy and Textus. The reference architecture includes implemented mechanisms and future design directions. Version-specific specifications and specialized guides establish availability and installation conditions.</span>
+
+#+CAPTION: <span lang="ja">内部資料と参照箇所</span><span lang="en">Internal sources and their roles</span>
+| <span lang="ja">資料（リポジトリ相対）</span><span lang="en">Source (repository-relative)</span> | <span lang="ja">根拠となる説明</span><span lang="en">Supported explanation</span> |
+| --- | --- |
+| <span lang="ja">CNCF: README.md</span><span lang="en">CNCF: README.md</span> | <span lang="ja">CNCFの位置付けと実行契約</span><span lang="en">CNCF scope and execution contracts</span> |
+| <span lang="ja">CNCF: docs/design/subsystem-runtime-architecture.md</span><span lang="en">CNCF: docs/design/subsystem-runtime-architecture.md</span> | <span lang="ja">Application・Domain・永続状態の分担（設計）</span><span lang="en">Application, Domain and persistent-state separation (design)</span> |
+| <span lang="ja">CNCF: kernel.scala / unitofwork（org.goldenport.cncf以下）</span><span lang="en">CNCF: kernel.scala / unitofwork under org.goldenport.cncf</span> | <span lang="ja">Free・ConsequenceT・UoWの実装</span><span lang="en">Free, ConsequenceT and UoW implementation</span> |
+| <span lang="ja">cozy: docs/notes/cml-semantic-capability-inventory.md</span><span lang="en">cozy: docs/notes/cml-semantic-capability-inventory.md</span> | <span lang="ja">モデル要素と生成の対応範囲</span><span lang="en">Supported model-to-generation mappings</span> |
+| <span lang="ja">cozy: docs/spec/statemachine-workflow-generated-abi-contract.md</span><span lang="en">cozy: docs/spec/statemachine-workflow-generated-abi-contract.md</span> | <span lang="ja">生成した振る舞い定義と実行側の契約</span><span lang="en">Generated behavior definitions and runtime contracts</span> |
+| <span lang="ja">textus-launcher: README.md</span><span lang="en">textus-launcher: README.md</span> | <span lang="ja">ランタイムと配布物の解決</span><span lang="en">Runtime and artifact resolution</span> |
+| <span lang="ja">textus-flutter-application-framework: README.md</span><span lang="en">textus-flutter-application-framework: README.md</span> | <span lang="ja">設定・生成・補完によるUI構成</span><span lang="en">UI configuration, generation and extensions</span> |
